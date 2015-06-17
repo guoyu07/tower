@@ -28,7 +28,7 @@
 	+ 配置文件格式支持
 		+ xml
 		+ properties
-	+ 支持动态加载机制
+	+ 支持动态加载机制［上面1，2项配置支持动态加载］
 	+ 相关设计模式：代理设计模式
 	+ 相关配置文件：从框架级别进行解耦
 		+ 资源类型：支持多组机制
@@ -43,7 +43,6 @@
 			+ weblayer.xml
 			+ rpc.xml
 			+ job.xml
-		
 ###### tower－mq
 + 负责消息中间件通信的模块
 
@@ -86,17 +85,18 @@
 		+ ./gen_web.sh hello company 生成web框架
 	+ 数据访问层代码生成器
 		+ import hello-dao as maven 项目
-		+ 在src/test/java中找到com.kjt.service.hello.dao.DaoGen
+		+ 在src/test/java中找到com.[company].service.hello.dao.DaoGen
 		+ 按照提示修改DaoGen.java内容
 		+ 运行DaoGen
-	+ exception管理工具
-	+ 代码发布脚步工具
-		+ 生成版本号
-			+ sh publish.sh hello 
-		+ 发布代码到服务器
-			+ sh rsyc.sh hello yyyy-MM-dd_xxx targetIp userId
 	+ 测试框架代码生成器插件
 		+ 默认是关闭的,可以通过-Dsoafw.tester.gen=true的方式开启
++ 代码发布脚步工具 publish目录下
+	+ 生成版本号
+		+ sh publish.sh hello 
+	+ 发布代码到服务器
+		+ sh rsyc.sh hello yyyy-MM-dd_xxx targetIp userId
+
++ exception管理工具
 + checkstyle
 
 ##### 相关标准
