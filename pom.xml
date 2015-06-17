@@ -60,6 +60,7 @@
 		<module>tower-service-impl</module>
 		<module>tower-job</module>
 		<module>tower-web</module>
+		<module>tower-tools</module>
 		<module>tower-exception-manager</module>
 		<module>tower-config-maven-plugin</module>
 		<module>tower-test-maven-plugin</module>
