@@ -2,13 +2,13 @@ package ${package}.dao.ibatis.mapper;
 
 <#if tab.pkFieldNum==1>
 	<#if tab.pkFieldType.javaType="Integer">	
-import com.tower.service.common.dao.ibatis.IIMapper;
+import com.tower.service.dao.ibatis.IIMapper;
 	<#elseif tab.pkFieldType.javaType="java.math.BigInteger">
-import com.tower.service.common.dao.ibatis.IBigIMapper;
+import com.tower.service.dao.ibatis.IBigIMapper;
 	<#elseif tab.pkFieldType.javaType="String">
-import com.tower.service.common.dao.ibatis.ISMapper;
+import com.tower.service.dao.ibatis.ISMapper;
 	<#else>
-import com.tower.service.common.dao.ibatis.ILMapper;
+import com.tower.service.dao.ibatis.ILMapper;
 	</#if>
 </#if>
 

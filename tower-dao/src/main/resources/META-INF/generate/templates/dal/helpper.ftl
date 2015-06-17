@@ -3,15 +3,15 @@ package ${package}.dao.model;
 import java.util.List;
 
 import ${package}.dao.model.${name}Helpper.Criteria;
-import com.tower.service.common.dao.ibatis.AbsHelpper;
-import com.tower.service.common.dao.ibatis.GeneratedCriteria;
+import com.tower.service.dao.ibatis.AbsHelpper;
+import com.tower.service.dao.ibatis.GeneratedCriteria;
 
 public class ${name}Helpper extends AbsHelpper<Criteria> {
 
     /*
      * (non-Javadoc)
      * 
-     * @see com.tower.service.common.dao.IHelpper#createCriteriaInternal()
+     * @see com.tower.service.dao.IHelpper#createCriteriaInternal()
      */
     public Criteria createCriteriaInternal() {
         return new Criteria();

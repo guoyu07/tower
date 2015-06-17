@@ -7,27 +7,27 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 <#if tab.pkFieldNum==1>
 	<#if tab.pkFieldType.javaType="Integer">	
-import com.tower.service.common.dao.ibatis.AbsIntIDIBatisDAOImpl;
-import com.tower.service.common.dao.ibatis.IIMapper;
+import com.tower.service.dao.ibatis.AbsIntIDIBatisDAOImpl;
+import com.tower.service.dao.ibatis.IIMapper;
 	<#elseif tab.pkFieldType.javaType="java.math.BigInteger">
-import com.tower.service.common.dao.ibatis.AbsBigIIDIBatisDAOImpl;
-import com.tower.service.common.dao.ibatis.IBigIMapper;	
+import com.tower.service.dao.ibatis.AbsBigIIDIBatisDAOImpl;
+import com.tower.service.dao.ibatis.IBigIMapper;	
 	<#elseif tab.pkFieldType.javaType="String">
-import com.tower.service.common.dao.ibatis.AbsStrIDIBatisDAOImpl;
-import com.tower.service.common.dao.ibatis.ISMapper;
+import com.tower.service.dao.ibatis.AbsStrIDIBatisDAOImpl;
+import com.tower.service.dao.ibatis.ISMapper;
 	<#else>
-import com.tower.service.common.dao.ibatis.AbsLongIDIBatisDAOImpl;
-import com.tower.service.common.dao.ibatis.ILMapper;
+import com.tower.service.dao.ibatis.AbsLongIDIBatisDAOImpl;
+import com.tower.service.dao.ibatis.ILMapper;
 	</#if>
 </#if>
 
-import com.tower.service.common.dao.ibatis.IBatisDAOException;
+import com.tower.service.dao.ibatis.IBatisDAOException;
 
 import ${package}.dao.I${name}DAO;
 import ${package}.dao.ibatis.mapper.${name}Mapper;
 import ${package}.dao.model.${name};
-import com.tower.service.common.dao.ibatis.SqlmapUtils;
-import com.tower.service.common.exception.DataAccessException;
+import com.tower.service.dao.ibatis.SqlmapUtils;
+import com.tower.service.exception.DataAccessException;
 
 @Repository("${name}")
 <#if tab.pkFieldNum==1>

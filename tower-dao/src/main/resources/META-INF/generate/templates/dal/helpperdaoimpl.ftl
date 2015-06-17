@@ -8,16 +8,16 @@ import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
-import com.tower.service.common.dao.ibatis.IBatisDAOException;
+import com.tower.service.dao.ibatis.IBatisDAOException;
 
 import ${package}.dao.I${name}HelpperDAO;
 import ${package}.dao.ibatis.mapper.${name}HelpperMapper;
 import ${package}.dao.model.${name};
 import ${package}.dao.model.${name}Helpper;
-import com.tower.service.common.dao.ibatis.AbsHelpperIBatisDAOImpl;
-import com.tower.service.common.dao.ibatis.IBatisDAOException;
-import com.tower.service.common.dao.ibatis.SqlmapUtils;
-import com.tower.service.common.exception.DataAccessException;
+import com.tower.service.dao.ibatis.AbsHelpperIBatisDAOImpl;
+import com.tower.service.dao.ibatis.IBatisDAOException;
+import com.tower.service.dao.ibatis.SqlmapUtils;
+import com.tower.service.exception.DataAccessException;
 
 
 @Repository("${name}Helpper")

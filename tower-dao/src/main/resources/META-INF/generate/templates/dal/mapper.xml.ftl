@@ -238,7 +238,7 @@
 	</select>
 	
 	<#if db.type="sqlserver">
-	<select id="pageQuery" parameterType="com.tower.service.common.dao.Page" resultMap="BaseResultMap"  fetchSize="100">
+	<select id="pageQuery" parameterType="com.tower.service.dao.Page" resultMap="BaseResultMap"  fetchSize="100">
 		SELECT
 			TOP (${r"${pageSize}"})
 			<include refid="Column_List_Base_Gen" />
@@ -268,7 +268,7 @@
 		<if test="orders !=  null"> order by ${r"${orders}"} </if>
 	</select>
 	<#else>
-	<select id="pageQuery" parameterType="com.tower.service.common.dao.Page" resultMap="BaseResultMap"  fetchSize="100">
+	<select id="pageQuery" parameterType="com.tower.service.dao.Page" resultMap="BaseResultMap"  fetchSize="100">
 		SELECT
 			<include refid="Column_List_Base_Gen" />
 		FROM

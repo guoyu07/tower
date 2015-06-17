@@ -1,16 +1,16 @@
 package ${package}.dao;
 
-import com.tower.service.common.dao.IDAO;
-import com.tower.service.common.dao.IFKDAO;
+import com.tower.service.dao.IDAO;
+import com.tower.service.dao.IFKDAO;
 <#if tab.pkFieldNum==1>
 	<#if tab.pkFieldType.javaType="Integer">	
-import com.tower.service.common.dao.IIDAO;
+import com.tower.service.dao.IIDAO;
 	<#elseif tab.pkFieldType.javaType="java.math.BigInteger">
-import com.tower.service.common.dao.IBIDAO;
+import com.tower.service.dao.IBIDAO;
 	<#elseif tab.pkFieldType.javaType="String">
-import com.tower.service.common.dao.ISDAO;
+import com.tower.service.dao.ISDAO;
 	<#else>
-import com.tower.service.common.dao.ILDAO;
+import com.tower.service.dao.ILDAO;
 	</#if>
 </#if>
 
