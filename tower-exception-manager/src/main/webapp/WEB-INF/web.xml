@@ -7,7 +7,7 @@
 
 	<filter>
 		<filter-name>encodingFilter</filter-name>
-		<filter-class>com.tower.soafw.exception.manager.service.CharsetFilter</filter-class>
+		<filter-class>com.tower.service.web.filter.CharsetFilter</filter-class>
 	</filter>
 
 	<filter-mapping>

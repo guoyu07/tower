@@ -1,1 +1,1 @@
-serviceFilter=com.kjt.service.common.filter.ServiceFilter
+serviceFilter=com.tower.service.filter.ServiceFilter

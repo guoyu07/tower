@@ -85,7 +85,7 @@
 
 	</select>
 
-	<select id="pageQuery" parameterType="com.tower.soafw.dao.Page"
+	<select id="pageQuery" parameterType="com.tower.service.dao.Page"
 		resultMap="CacheVersionRslMap" fetchSize="15">
 		SELECT
 		obj_name,
