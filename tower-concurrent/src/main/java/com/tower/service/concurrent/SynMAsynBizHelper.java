@@ -2,10 +2,10 @@ package com.tower.service.concurrent;
 
 import java.util.Map;
 
+import com.tower.service.exception.basic.BasicException;
 import com.tower.service.log.LogUtils;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
-import com.tower.service.util.exception.basic.BasicException;
 
 /**
  * 和SynMAsynBizExecutor配套使用，主要是解决让多个同步操作【变成异步同时操作】；提过系统性能；

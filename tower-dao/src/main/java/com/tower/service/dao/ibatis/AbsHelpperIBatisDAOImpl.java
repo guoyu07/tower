@@ -15,9 +15,9 @@ import com.tower.service.config.DynamicConfig;
 import com.tower.service.config.dict.ConfigFileDict;
 import com.tower.service.dao.IHelpper;
 import com.tower.service.dao.IModel;
+import com.tower.service.exception.DataAccessException;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
-import com.tower.service.util.exception.DataAccessException;
 
 public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBatisHelpperDAO<T> {
 

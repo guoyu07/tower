@@ -16,8 +16,8 @@ import com.tower.service.job.IJob;
 import com.tower.service.job.JobException;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
-import com.tower.service.util.reflection.MetaObject;
-import com.tower.service.util.reflection.factory.DefaultObjectFactory;
+import com.tower.service.reflection.MetaObject;
+import com.tower.service.reflection.factory.DefaultObjectFactory;
 
 public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigChangeListener{
     

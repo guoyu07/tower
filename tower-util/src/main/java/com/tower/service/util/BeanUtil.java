@@ -5,9 +5,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.tower.service.util.annotation.JField;
-import com.tower.service.util.reflection.MetaObject;
-import com.tower.service.util.reflection.factory.DefaultObjectFactory;
+import com.tower.service.annotation.JField;
+import com.tower.service.reflection.MetaObject;
+import com.tower.service.reflection.factory.DefaultObjectFactory;
 
 public class BeanUtil {
     

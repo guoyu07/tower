@@ -1,6 +1,6 @@
 package com.tower.service.dao.ibatis;
 
-import com.tower.service.util.exception.basic.IExceptionBody;
+import com.tower.service.exception.basic.IExceptionBody;
 
 /**
  * 异常代码定义枚举类

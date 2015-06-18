@@ -11,7 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
 import com.tower.service.cache.annotation.CacheOpParams;
 import com.tower.service.dao.IFKDAO;
 import com.tower.service.dao.IModel;
-import com.tower.service.util.exception.DataAccessException;
+import com.tower.service.exception.DataAccessException;
 
 /**
  * 外键缓存(fk缓存策略)<br>

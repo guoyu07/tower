@@ -34,8 +34,8 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 
+import com.tower.service.annotation.SoaFwTest;
 import com.tower.service.util.MD5Util;
-import com.tower.service.util.annotation.SoaFwTest;
 
 /**
  * Goal which gen a timestamp file.

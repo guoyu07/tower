@@ -11,7 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
 
 import com.tower.service.dao.ILBatchDAO;
 import com.tower.service.dao.IModel;
-import com.tower.service.util.exception.DataAccessException;
+import com.tower.service.exception.DataAccessException;
 
 /**
  * 主键缓存(pk)<br>

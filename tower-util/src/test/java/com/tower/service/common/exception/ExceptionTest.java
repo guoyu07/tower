@@ -1,8 +1,8 @@
 package com.tower.service.common.exception;
 
-import com.tower.service.util.exception.ServiceException;
-import com.tower.service.util.exception.basic.BasicException;
-import com.tower.service.util.exception.basic.IExceptionBody;
+import com.tower.service.exception.ServiceException;
+import com.tower.service.exception.basic.BasicException;
+import com.tower.service.exception.basic.IExceptionBody;
 
 import junit.framework.TestCase;
 

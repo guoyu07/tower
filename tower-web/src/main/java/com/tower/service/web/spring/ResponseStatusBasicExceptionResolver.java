@@ -8,7 +8,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver;
 
-import com.tower.service.util.exception.basic.BasicException;
+import com.tower.service.exception.basic.BasicException;
 
 public class ResponseStatusBasicExceptionResolver extends AbstractHandlerExceptionResolver {
 

@@ -18,7 +18,7 @@ import com.tower.service.dao.ibatis.AbsStrIDIBatisDAOImpl;
 import com.tower.service.dao.ibatis.IBatisDAOException;
 import com.tower.service.dao.ibatis.ISMapper;
 import com.tower.service.dao.ibatis.SqlmapUtils;
-import com.tower.service.util.exception.DataAccessException;
+import com.tower.service.exception.DataAccessException;
 
 @Repository("CacheVersion")
 public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersion> implements

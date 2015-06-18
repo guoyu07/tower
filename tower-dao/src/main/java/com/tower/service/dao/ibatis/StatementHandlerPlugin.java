@@ -16,10 +16,10 @@ import org.apache.ibatis.session.Configuration;
 
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
+import com.tower.service.reflection.MetaObject;
+import com.tower.service.reflection.factory.DefaultObjectFactory;
 import com.tower.service.util.RequestID;
 import com.tower.service.util.SPUtil;
-import com.tower.service.util.reflection.MetaObject;
-import com.tower.service.util.reflection.factory.DefaultObjectFactory;
 
 @Intercepts({ @Signature(method = "prepare", type = StatementHandler.class, args = { Connection.class }) })
 public class StatementHandlerPlugin implements Interceptor {

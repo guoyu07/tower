@@ -1,7 +1,7 @@
 package com.tower.service.exception.manager.model;
 
-import com.tower.service.util.exception.basic.ExceptionLevel;
-import com.tower.service.util.exception.basic.ExceptionType;
+import com.tower.service.exception.basic.ExceptionLevel;
+import com.tower.service.exception.basic.ExceptionType;
 
 /**
  * Created by kevin on 15/1/6.

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import com.tower.service.util.exception.ExceptionSupport;
+import com.tower.service.exception.ExceptionSupport;
 
 public class SPUtil {
 	static {
