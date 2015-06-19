@@ -1,13 +1,11 @@
 package com.#{company}.service.#{artifactId}.job;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.tower.service.TowerServiceContainer;
 
 public class Startup {
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context =
-                new ClassPathXmlApplicationContext(
-                        new String[] {"classpath*:/META-INF/config/spring/spring-job.xml"});
-        context.start();
+    	TowerServiceContainer container = new TowerServiceContainer("classpath*:META-INF/config/spring/spring-service.xml");
+    	container.start();
         while (true) {
             try {
                 Thread.sleep(1000);
