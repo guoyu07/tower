@@ -1,5 +1,8 @@
 package com.tower.service.filter;
 
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+
 import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.common.URL;
 import com.alibaba.dubbo.common.extension.Activate;
@@ -18,11 +21,14 @@ import com.tower.service.util.RequestID;
 @Activate(group = { Constants.PROVIDER, Constants.CONSUMER })
 public class ServiceFilter implements Filter {
 
+	private BlockingQueue<URL> messages = new ArrayBlockingQueue<URL>(100);
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	private String reqidKey = "ReqId";
 	private IMonitorService monitor;
+
 	public ServiceFilter() {
 		logger.info("ServiceFilter created");
+		new Publisher();
 	}
 
 	@Override
@@ -44,11 +50,43 @@ public class ServiceFilter implements Filter {
 			logger.info(reqidKey + " to service@" + remoteIp);
 		}
 		URL url = invoker.getUrl();
+		String interfaceStr = url.getParameter("interface");
+		long start = System.currentTimeMillis();
 		Result result = invoker.invoke(invocation);
-		if(monitor!=null){
-			System.out.println("publish...");
+		long timeused = (System.currentTimeMillis() - start);
+		if (monitor != null
+				&& !interfaceStr.contains(IMonitorService.class.getName())) {
+			url = url.addParameter("timeused", timeused);
+			try {
+				messages.put(url);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		return result;
+	}
+
+	private class Publisher extends Thread {
+		public Publisher() {
+			this.start();
+		}
+
+		public void run() {
+			while (true) {
+				try {
+					if (monitor != null) {
+						URL url = messages.take();
+						monitor.publish(url);
+						Thread.sleep(10);
+					} else {
+						Thread.sleep(1000);
+						continue;
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 }
