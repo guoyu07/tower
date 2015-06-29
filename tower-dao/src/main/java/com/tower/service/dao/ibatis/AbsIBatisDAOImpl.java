@@ -541,7 +541,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
   protected String convert(Class model, String orders) {
 
     if (orders == null || orders.trim().isEmpty()) {
-      return "";
+      return null;
     }
 
     String[] order = orders.trim().split(",");
