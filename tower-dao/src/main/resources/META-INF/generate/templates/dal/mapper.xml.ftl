@@ -159,7 +159,7 @@
 	</sql>
 	<sql id="Where_Clause_Batch_Gen">
 		<foreach collection="list" item="item" index="index">
-			<if test="index == 1">
+			<if test="index == 0">
 				<#if tab.pkFieldNum==1>
 				<#list colMaps as col>
 				<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
@@ -354,7 +354,7 @@
 			${r"${tKjtTabName}"}  
 			( 
 		<foreach collection="list" item="item" index="index">
-			<if test="index == 1">
+			<if test="index == 0">
 			<trim suffix="" suffixOverrides=",">
 				<#list colMaps as col>
 				<#if col.isPK="no">

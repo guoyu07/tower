@@ -1,6 +1,5 @@
 package com.tower.service.dao.ibatis;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -180,7 +179,7 @@ public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
   }
   
   @Override
-  public String[] batchInsert(List<Map<String,Object>> datas, String tabNameSuffix) {
+  public Integer batchInsert(List<Map<String,Object>> datas, String tabNameSuffix) {
 
     validate(datas);
 
@@ -196,11 +195,7 @@ public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
       if (eft > 0) {
         this.incrTabVersion(tabNameSuffix);
       }
-      String[] rets = new String[eft];
-      for(int i=0;i<eft;i++){
-        rets[i]= (String)datas.get(i).get("id");
-      }
-      return rets;
+      return eft;
     } catch (Exception t) {
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {

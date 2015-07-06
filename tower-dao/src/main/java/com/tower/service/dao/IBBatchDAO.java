@@ -20,6 +20,6 @@ public interface IBBatchDAO<T> extends IBatchDAO<T>{
    *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
    * @return
    */
-  public BigInteger[] batchInsert(List<Map<String,Object>> datas, String tabNameSuffix);
+  public Integer batchInsert(List<Map<String,Object>> datas, String tabNameSuffix);
   
 }

@@ -189,7 +189,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
   }
   
   @Override
-  public int[] batchInsert(List<Map<String,Object>> datas, String tabNameSuffix) {
+  public Integer batchInsert(List<Map<String,Object>> datas, String tabNameSuffix) {
 
     validate(datas);
 
@@ -205,11 +205,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBati
       if (eft > 0) {
         this.incrTabVersion(tabNameSuffix);
       }
-      int[] rets = new int[eft];
-      for(int i=0;i<eft;i++){
-        rets[i]= (Integer)datas.get(i).get("id");
-      }
-      return rets;
+      return eft;
     } catch (Exception t) {
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {

@@ -721,7 +721,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
     Map<String, Object> params = new HashMap<String, Object>();
 
     params.put("list", datas);
-    params.put("updNewMap", new_);
+    params.put("newObj", new_);
     params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
     SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
