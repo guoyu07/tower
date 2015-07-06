@@ -403,7 +403,7 @@
 		</where>
 	</update>
 	
-	<delete id="batchDelete"  parameterType="java.util.List">
+	<delete id="batchDelete"  parameterType="java.util.Map">
 		delete 
 		from
 			${r"${tKjtTabName}"}
@@ -412,7 +412,7 @@
 		</where>
 	</delete>
 	
-	<select id="batchQuery"  parameterType="java.util.List" resultMap="BaseResultMap" fetchSize="100">
+	<select id="batchQuery"  parameterType="java.util.Map" resultMap="BaseResultMap" fetchSize="100">
 		select 
 			<include refid="Column_List_Base_Gen" />
 		from
