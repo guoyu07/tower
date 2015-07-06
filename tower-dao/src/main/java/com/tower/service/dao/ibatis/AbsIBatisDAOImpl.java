@@ -685,7 +685,33 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends AbsCacheableImp
     }
     model.validate();
   }
+  
+  @Override
+  public Integer batchInsert(List<Map<String,Object>> datas, String tabNameSuffix) {
 
+    validate(datas);
+
+    Map<String,Object> params = new HashMap<String,Object>();
+    
+    params.put("list", datas);
+    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+
+    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    try {
+      IBatchMapper<T> mapper = session.getMapper(getMapperClass());
+      Integer eft = mapper.batchInsert(params);
+      if (eft > 0) {
+        this.incrTabVersion(tabNameSuffix);
+      }
+      return eft;
+    } catch (Exception t) {
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+    } finally {
+      session.commit();
+      session.close();
+    }
+  }
+  
   @Override
   public List<T> batchQuery(List<Map<String, Object>> datas, String tabNameSuffix) {
     validate(datas);
