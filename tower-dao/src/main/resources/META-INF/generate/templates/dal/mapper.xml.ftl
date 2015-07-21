@@ -366,13 +366,13 @@
 			<#list colMaps as col>
 				<#if col.isPK="no">
 			<if test='"${col.fieldName}" == batchInsertProp'>
-				${r"#{item."}${col.fieldName}${r"}"}<#if col_has_next>,</#if>
+				${r"#{item."}${col.fieldName}${r"}"},
 				<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
 			<if test='"id" == batchInsertProp'>
-				${r"#{item.id}"}<#if col_has_next>,</#if>
+				${r"#{item.id}"},
 				<#else>
 			<if test='"${col.fieldName}" == batchInsertProp'>
-				${r"#{item."}${col.fieldName}${r"}"}<#if col_has_next>,</#if>
+				${r"#{item."}${col.fieldName}${r"}"},
 				</#if>			
 			</if>
 				</#list>
@@ -388,13 +388,13 @@
 			<#list colMaps as col>
 				<#if col.isPK="no">
 			<if test='"${col.fieldName}" == batchInsertProp'>
-				${r"#{item."}${col.fieldName}${r"}"}<#if col_has_next>,</#if>
+				${r"#{item."}${col.fieldName}${r"}"},
 				<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
 			<if test='"id" == batchInsertProp'>
-				${r"#{item.id}"}<#if col_has_next>,</#if>
+				${r"#{item.id}"},
 				<#else>
 			<if test='"${col.fieldName}" == batchInsertProp'>
-				${r"#{item."}${col.fieldName}${r"}"}<#if col_has_next>,</#if>
+				${r"#{item."}${col.fieldName}${r"}"},
 				</#if>			
 			</if>
 				</#list>
