@@ -11,14 +11,24 @@ import java.util.Map;
  * @param <T>
  */
 public interface IIBatchDAO<T> extends IBatchDAO<T>{
-  /**
-   * 批量插入
-   * 
-   * @param datas
-   * @param tabNameSuffix
-   *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
-   * @return
-   */
-  public Integer batchInsert(List<Map<String,Object>> datas, String tabNameSuffix);
+	/**
+	   * @deprecated replace by @see
+	   * public Integer batchInsert(List<String> cols,List<Map<String,Object>> datas, String tabNameSuffix);
+	   * 批量插入
+	   * 
+	   * @param datas
+	   * @param tabNameSuffix
+	   *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
+	   * @return
+	   */
+	  public Integer batchInsert(List<Map<String, Object>> datas, String tabNameSuffix);
+	  /**
+	   * 
+	   * @param cols model属性集合
+	   * @param datas 数据集合
+	   * @param tabNameSuffix 表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
+	   * @return
+	   */
+	  public Integer batchInsert(List<String> cols,List<Map<String,Object>> datas, String tabNameSuffix);
 
 }

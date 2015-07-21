@@ -349,47 +349,60 @@
 		</where>
 	</delete>
 	
-	<insert id="batchInsert">
+	<insert id="batchInsert" parameterType="java.util.Map">
 		insert into 
 			${r"${tKjtTabName}"}  
 			( 
-		<foreach collection="list" item="item" index="index">
-			<if test="index == 0">
+		<foreach collection="batchInsertCols" item="batchInsertCol" index="index" separator=",">
 			<trim suffix="" suffixOverrides=",">
-				<#list colMaps as col>
-				<#if col.isPK="no">
-			<if test="item.${col.fieldName} !=null">
-				<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
-			<if test="item.id !=null">
-				<#else>
-			<if test="item.${col.fieldName} !=null">
-				</#if>
-				${col.name}<#if col_has_next>,</#if>
-			</if>
-			</#list>
+				${r"${batchInsertCol}"}
 			</trim>
-			</if>
 		</foreach>
-		)  values 
-		<foreach collection="list" item="item" index="index" separator=","> 
-		(
+		)  
+		<#if db.type="sqlserver">
+		<foreach collection="list" item="item" index="index" separator="UNION ALL SELECT"> 
 		<trim suffix="" suffixOverrides=",">
-				<#list colMaps as col>
+		<foreach collection="batchInsertProps" item="batchInsertProp" index="index">
+			<#list colMaps as col>
 				<#if col.isPK="no">
-			<if test="item.${col.fieldName} !=null">
+			<if test='"${col.fieldName}" == batchInsertProp'>
 				${r"#{item."}${col.fieldName}${r"}"}<#if col_has_next>,</#if>
 				<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
-			<if test="item.id !=null">
+			<if test='"id" == batchInsertProp'>
 				${r"#{item.id}"}<#if col_has_next>,</#if>
 				<#else>
-			<if test="item.${col.fieldName} !=null">
+			<if test='"${col.fieldName}" == batchInsertProp'>
 				${r"#{item."}${col.fieldName}${r"}"}<#if col_has_next>,</#if>
 				</#if>			
 			</if>
 				</#list>
+		</foreach>
+		</trim>
+		</foreach>
+		<#else>
+		values 
+		<foreach collection="list" item="item" index="index" separator=","> 
+		(
+		<trim suffix="" suffixOverrides=",">
+			<foreach collection="batchInsertProps" item="batchInsertProp" index="index">
+			<#list colMaps as col>
+				<#if col.isPK="no">
+			<if test='"${col.fieldName}" == batchInsertProp'>
+				${r"#{item."}${col.fieldName}${r"}"}<#if col_has_next>,</#if>
+				<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
+			<if test='"id" == batchInsertProp'>
+				${r"#{item.id}"}<#if col_has_next>,</#if>
+				<#else>
+			<if test='"${col.fieldName}" == batchInsertProp'>
+				${r"#{item."}${col.fieldName}${r"}"}<#if col_has_next>,</#if>
+				</#if>			
+			</if>
+				</#list>
+			</foreach>
 		</trim>
 		)
 		</foreach>
+		</#if>
 	</insert>
 	
 	<update id="batchUpdate" parameterType="java.util.Map">

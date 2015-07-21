@@ -132,12 +132,15 @@ public class ExcelUtil {
                 break;
             }
         }
-        for(int k=0;k<customInfoHeader.length; k++){
-            sheet.autoSizeColumn((short)k);
-        }
+        autoSizeColumn(sheet,customInfoHeader.length);
         return wb;
     }
      
+    protected void autoSizeColumn(HSSFSheet sheet,int colNum){
+    	for(int k=0;k<colNum; k++){
+            sheet.autoSizeColumn((short)k,true);
+        }
+    }
     
     /***
      * 公共信息导出  导出多个sheet
@@ -186,9 +189,8 @@ public class ExcelUtil {
             }
         }
         
-        for(int k=0;k<customInfoHeader.length; k++){
-            sheet.autoSizeColumn((short)k);
-        }
+        autoSizeColumn(sheet,customInfoHeader.length);
+        
         return wb;
     }
 

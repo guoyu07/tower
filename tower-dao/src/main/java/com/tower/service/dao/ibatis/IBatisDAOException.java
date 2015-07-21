@@ -128,7 +128,8 @@ public enum IBatisDAOException implements IExceptionBody {
    * code:1{spid}00011
    * </p>
    */
-  MSG_1_0011("11", "操作条件不能含有主键&外键", 1, "0");
+  MSG_1_0011("11", "操作条件不能含有主键&外键", 1, "0"),
+  MSG_1_0012("12", "批量插入", 1, "0");
 
   String code;
   String message;
