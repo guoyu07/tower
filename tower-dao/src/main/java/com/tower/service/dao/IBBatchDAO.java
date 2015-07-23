@@ -1,5 +1,6 @@
 package com.tower.service.dao;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public interface IBBatchDAO<T> extends IBatchDAO<T>{
 	   *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
 	   * @return
 	   */
-	  public Integer batchInsert(List<Map<String, Object>> datas, String tabNameSuffix);
+	  public BigInteger[] batchInsert(List<Map<String, Object>> datas, String tabNameSuffix);
 	  /**
 	   * 
 	   * @param cols model属性集合
@@ -29,6 +30,6 @@ public interface IBBatchDAO<T> extends IBatchDAO<T>{
 	   * @param tabNameSuffix 表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
 	   * @return
 	   */
-	  public Integer batchInsert(List<String> cols,List<Map<String,Object>> datas, String tabNameSuffix);
+	  public BigInteger[] batchInsert(List<String> cols,List<Map<String,Object>> datas, String tabNameSuffix);
   
 }

@@ -349,7 +349,7 @@
 		</where>
 	</delete>
 	
-	<insert id="batchInsert" parameterType="java.util.Map">
+	<insert id="batchInsert" parameterType="java.util.Map" <#if tab.pkFieldType.javaType != "String">useGeneratedKeys="true" keyProperty="id"</#if>>
 		insert into 
 			${r"${tKjtTabName}"}  
 			( 
@@ -361,47 +361,69 @@
 		)  
 		<#if db.type="sqlserver">
 		<foreach collection="list" item="item" index="index" separator="UNION ALL SELECT"> 
-		<trim suffix="" suffixOverrides=",">
-		<foreach collection="batchInsertProps" item="batchInsertProp" index="index">
-			<#list colMaps as col>
-				<#if col.isPK="no">
-			<if test='"${col.fieldName}" == batchInsertProp'>
-				${r"#{item."}${col.fieldName}${r"}"},
-				<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
-			<if test='"id" == batchInsertProp'>
-				${r"#{item.id}"},
-				<#else>
-			<if test='"${col.fieldName}" == batchInsertProp'>
-				${r"#{item."}${col.fieldName}${r"}"},
-				</#if>			
-			</if>
-				</#list>
+			<trim suffix="" suffixOverrides=",">
+				<foreach collection="batchInsertProps" item="batchInsertProp" index="index">
+					<#list colMaps as col>
+						<#if col.isPK="no">
+					<if test='"${col.fieldName}" == batchInsertProp'>
+						${r"#{item."}${col.fieldName}${r"}"},
+						<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
+					<if test='"id" == batchInsertProp'>
+						${r"#{item.id}"},
+						<#else>
+					<if test='"${col.fieldName}" == batchInsertProp'>
+						${r"#{item."}${col.fieldName}${r"}"},
+						</#if>			
+					</if>
+						</#list>
+				</foreach>	
+			</trim>
 		</foreach>
-		</trim>
-		</foreach>
+		<#if tab.pkFieldType.javaType != "String">
+			<#if tab.pkFieldType.javaType="Integer">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			<#elseif tab.pkFieldType.javaType="java.math.BigInteger">
+		<selectKey resultType="java.math.BigInteger" order="AFTER" keyProperty="id">
+			<#else>
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+			</#if>
+		</#if>
+		       select @@identity as id  
+		</selectKey>
 		<#else>
 		values 
 		<foreach collection="list" item="item" index="index" separator=","> 
 		(
-		<trim suffix="" suffixOverrides=",">
-			<foreach collection="batchInsertProps" item="batchInsertProp" index="index">
-			<#list colMaps as col>
-				<#if col.isPK="no">
-			<if test='"${col.fieldName}" == batchInsertProp'>
-				${r"#{item."}${col.fieldName}${r"}"},
-				<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
-			<if test='"id" == batchInsertProp'>
-				${r"#{item.id}"},
-				<#else>
-			<if test='"${col.fieldName}" == batchInsertProp'>
-				${r"#{item."}${col.fieldName}${r"}"},
-				</#if>			
-			</if>
-				</#list>
-			</foreach>
-		</trim>
+			<trim suffix="" suffixOverrides=",">
+				<foreach collection="batchInsertProps" item="batchInsertProp" index="index">
+					<#list colMaps as col>
+						<#if col.isPK="no">
+					<if test='"${col.fieldName}" == batchInsertProp'>
+						${r"#{item."}${col.fieldName}${r"}"},
+						<#elseif col.isPK="yes" && tab.pkFieldNum==1  &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
+					<if test='"id" == batchInsertProp'>
+						${r"#{item.id}"},
+						<#else>
+					<if test='"${col.fieldName}" == batchInsertProp'>
+						${r"#{item."}${col.fieldName}${r"}"},
+						</#if>			
+					</if>
+						</#list>
+				</foreach>
+			</trim>
 		)
 		</foreach>
+		<#if tab.pkFieldType.javaType != "String">
+			<#if tab.pkFieldType.javaType="Integer">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			<#elseif tab.pkFieldType.javaType="java.math.BigInteger">
+		<selectKey resultType="java.math.BigInteger" order="AFTER" keyProperty="id">
+			<#else>
+		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+			</#if>
+		</#if>
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
 		</#if>
 	</insert>
 	

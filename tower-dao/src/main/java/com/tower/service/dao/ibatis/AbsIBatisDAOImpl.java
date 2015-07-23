@@ -713,43 +713,6 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		model.validate();
 	}
 
-	@Override
-	public Integer batchInsert(List<Map<String, Object>> datas,
-			String tabNameSuffix) {
-		return batchInsert(null, datas, tabNameSuffix);
-	}
-
-	@Override
-	public Integer batchInsert(List<String> cols,
-			List<Map<String, Object>> datas, String tabNameSuffix) {
-		validate(datas);
-		Map<String, Object> params = new HashMap<String, Object>();
-		if (cols == null || cols.size() == 0) {
-			Map<String, Object> firstData = datas.get(0);
-			cols = new ArrayList<String>(firstData.keySet());
-		}
-		validateCols(cols);
-		params.put("batchInsertProps", cols);
-		params.put("batchInsertCols", convert(cols));
-		params.put("list", datas);
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
-
-		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
-		try {
-			IBatchMapper<T> mapper = session.getMapper(getMapperClass());
-			Integer eft = mapper.batchInsert(params);
-			if (eft > 0) {
-				this.incrTabVersion(tabNameSuffix);
-			}
-			return eft;
-		} catch (Exception t) {
-			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-		} finally {
-			session.commit();
-			session.close();
-		}
-	}
-
 	protected void validateCols(List<String> cols) {
 		if (cols == null) {
 			throw new DataAccessException(IBatisDAOException.MSG_1_0012);
@@ -776,7 +739,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		}
 	}
 
-	private List<String> convert(List<String> properties) {
+	protected List<String> convert(List<String> properties) {
 		List<String> cols = new ArrayList<String>();
 		for (int i = 0; i < properties.size(); i++) {
 			cols.add(BeanUtil.getJField(this.getModelClass(),
@@ -879,7 +842,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		}
 
 	}
-
+	
 	@Override
 	public String getTableName() {
 		throw new RuntimeException(this.getClass().getSimpleName()

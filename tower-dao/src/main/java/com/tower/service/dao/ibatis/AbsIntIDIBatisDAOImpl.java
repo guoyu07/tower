@@ -1,6 +1,7 @@
 package com.tower.service.dao.ibatis;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,187 +31,199 @@ import com.tower.service.exception.DataAccessException;
  *
  * @param <T>
  */
-public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends AbsFKIBatisDAOImpl<T>
-    implements IIBatisDAO<T>,IIBatchDAO<T> {
+public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends
+		AbsFKIBatisDAOImpl<T> implements IIBatisDAO<T>, IIBatchDAO<T> {
 
-  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.pkCacheable()")
-  @Override
-  public T queryById(Integer id, String tabNameSuffix) {
-    if (logger.isDebugEnabled()) {
-      logger.debug("queryById(Integer id={}, String tabNameSuffix={}) - start", id, tabNameSuffix); //$NON-NLS-1$
-    }
-    T returnT = queryById(id, false, tabNameSuffix);
-    if (logger.isDebugEnabled()) {
-      logger
-          .debug(
-              "queryById(Integer id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, returnT); //$NON-NLS-1$
-    }
-    return returnT;
-  }
+	@Override
+	public Integer[] batchInsert(List<Map<String, Object>> datas,
+			String tabNameSuffix) {
+		return batchInsert(null, datas, tabNameSuffix);
+	}
 
-  @Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.pkCacheable()")
-  @Override
-  public T queryById(Integer id, Boolean master, String tabNameSuffix) {
-    if (logger.isDebugEnabled()) {
-      logger
-          .debug(
-              "queryById(Integer id={}, Boolean master={}, String tabNameSuffix={}) - start", id, master, tabNameSuffix); //$NON-NLS-1$
-    }
+	@Override
+	public Integer[] batchInsert(List<String> cols,
+			List<Map<String, Object>> datas, String tabNameSuffix) {
+		validate(datas);
+		Map<String, Object> params = new HashMap<String, Object>();
+		if (cols == null || cols.size() == 0) {
+			Map<String, Object> firstData = datas.get(0);
+			cols = new ArrayList<String>(firstData.keySet());
+		}
+		validateCols(cols);
+		params.put("batchInsertProps", cols);
+		params.put("batchInsertCols", convert(cols));
+		params.put("list", datas);
+		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+		try {
+			IBatchMapper<T> mapper = session.getMapper(getMapperClass());
+			Integer eft = mapper.batchInsert(params);
+			if (eft > 0) {
+				Integer lastId = (Integer) params.get("id");
+				this.incrTabVersion(tabNameSuffix);
+				Integer[] ids = new Integer[eft];
+				for (int i = 0; i < eft; i++) {
+					ids[i] = lastId - eft + 1 + i;
+				}
+				return ids;
+			}
+			return null;
+		} catch (Exception t) {
+			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+		} finally {
+			session.commit();
+			session.close();
+		}
+	}
 
-    validate(id);
-    Map<String, Object> params = new HashMap<String, Object>();
-    params.put("id", id);
-    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+	@Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.pkCacheable()")
+	@Override
+	public T queryById(Integer id, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug(
+					"queryById(Integer id={}, String tabNameSuffix={}) - start", id, tabNameSuffix); //$NON-NLS-1$
+		}
+		T returnT = queryById(id, false, tabNameSuffix);
+		if (logger.isDebugEnabled()) {
+			logger.debug(
+					"queryById(Integer id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, returnT); //$NON-NLS-1$
+		}
+		return returnT;
+	}
 
-    SqlSession session = SqlmapUtils.openSession(master ? this.getMasterDataSource()
-        : getSlaveDataSource());
-    try {
-      IIMapper<T> mapper = session.getMapper(getMapperClass());
-      long start = System.currentTimeMillis();
-      List<T> objs = mapper.queryByMap(params);
-      if (objs == null || objs.isEmpty()) {
-        if (logger.isDebugEnabled()) {
-          logger
-              .debug(
-                  "queryById(Integer id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, null); //$NON-NLS-1$
-        }
-        return null;
-      }
-      T returnT = objs.get(0);
+	@Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.pkCacheable()")
+	@Override
+	public T queryById(Integer id, Boolean master, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug(
+					"queryById(Integer id={}, Boolean master={}, String tabNameSuffix={}) - start", id, master, tabNameSuffix); //$NON-NLS-1$
+		}
 
-      if (logger.isDebugEnabled()) {
-        logger
-            .debug(
-                "queryById(Integer id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, returnT); //$NON-NLS-1$
-      }
-      return returnT;
-    } catch (Exception t) {
-      logger.error("queryById(Integer, Boolean, String)", t); //$NON-NLS-1$
-      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-    } finally {
-      session.commit();
-      session.close();
-    }
-  }
+		validate(id);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", condition = "#root.target.pkCacheable()")
-  @Override
-  public Integer deleteById(Integer id, String tabNameSuffix) {
-    if (logger.isDebugEnabled()) {
-      logger.debug("deleteById(Integer id={}, String tabNameSuffix={}) - start", id, tabNameSuffix); //$NON-NLS-1$
-    }
+		SqlSession session = SqlmapUtils.openSession(master ? this
+				.getMasterDataSource() : getSlaveDataSource());
+		try {
+			IIMapper<T> mapper = session.getMapper(getMapperClass());
+			long start = System.currentTimeMillis();
+			List<T> objs = mapper.queryByMap(params);
+			if (objs == null || objs.isEmpty()) {
+				if (logger.isDebugEnabled()) {
+					logger.debug(
+							"queryById(Integer id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, null); //$NON-NLS-1$
+				}
+				return null;
+			}
+			T returnT = objs.get(0);
 
-    validate(id);
+			if (logger.isDebugEnabled()) {
+				logger.debug(
+						"queryById(Integer id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, returnT); //$NON-NLS-1$
+			}
+			return returnT;
+		} catch (Exception t) {
+			logger.error("queryById(Integer, Boolean, String)", t); //$NON-NLS-1$
+			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+		} finally {
+			session.commit();
+			session.close();
+		}
+	}
 
-    Map<String, Object> params = new HashMap<String, Object>();
-    params.put("id", id);
-    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+	@CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", condition = "#root.target.pkCacheable()")
+	@Override
+	public Integer deleteById(Integer id, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug(
+					"deleteById(Integer id={}, String tabNameSuffix={}) - start", id, tabNameSuffix); //$NON-NLS-1$
+		}
 
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
-    try {
-      IMapper<T> mapper = session.getMapper(getMapperClass());
-      Integer eft = mapper.deleteByMap(params);
-      if (eft > 0) {
-        this.incrTabVersion(tabNameSuffix);
-      }
+		validate(id);
 
-      if (logger.isDebugEnabled()) {
-        logger
-            .debug(
-                "deleteById(Integer id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, eft); //$NON-NLS-1$
-      }
-      return eft;
-    } catch (Exception t) {
-      logger.error("deleteById(Integer, String)", t); //$NON-NLS-1$
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-    } finally {
-      session.commit();
-      session.close();
-    }
-  }
+		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+		try {
+			IMapper<T> mapper = session.getMapper(getMapperClass());
+			Integer eft = mapper.deleteByMap(params);
+			if (eft > 0) {
+				this.incrTabVersion(tabNameSuffix);
+			}
 
-  @CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", condition = "#root.target.pkCacheable()")
-  @Override
-  public Integer updateById(Integer id, Map<String, Object> newValue, String tabNameSuffix) {
-    if (logger.isDebugEnabled()) {
-      logger
-          .debug(
-              "updateById(Integer id={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - start", id, newValue, tabNameSuffix); //$NON-NLS-1$
-    }
+			if (logger.isDebugEnabled()) {
+				logger.debug(
+						"deleteById(Integer id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, eft); //$NON-NLS-1$
+			}
+			return eft;
+		} catch (Exception t) {
+			logger.error("deleteById(Integer, String)", t); //$NON-NLS-1$
 
-    validate(id);
+			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+		} finally {
+			session.commit();
+			session.close();
+		}
+	}
 
-    if (newValue == null || newValue.isEmpty()) {
-      throw new DataAccessException(IBatisDAOException.MSG_1_0007);
-    }
-    newValue.put("id", id);
-    newValue.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+	@CacheEvict(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", condition = "#root.target.pkCacheable()")
+	@Override
+	public Integer updateById(Integer id, Map<String, Object> newValue,
+			String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug(
+					"updateById(Integer id={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - start", id, newValue, tabNameSuffix); //$NON-NLS-1$
+		}
 
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
-    try {
-      IMapper<T> mapper = session.getMapper(getMapperClass());
-      Integer eft = mapper.updateById(newValue);
-      if (eft > 0) {
-        this.incrTabVersion(tabNameSuffix);
-      }
+		validate(id);
 
-      if (logger.isDebugEnabled()) {
-        logger
-            .debug(
-                "updateById(Integer id={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - end - return value={}", id, newValue, tabNameSuffix, eft); //$NON-NLS-1$
-      }
-      return eft;
-    } catch (Exception t) {
-      logger.error("updateById(Integer, Map<String,Object>, String)", t); //$NON-NLS-1$
+		if (newValue == null || newValue.isEmpty()) {
+			throw new DataAccessException(IBatisDAOException.MSG_1_0007);
+		}
+		newValue.put("id", id);
+		newValue.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-    } finally {
-      session.commit();
-      session.close();
-    }
-  }
+		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+		try {
+			IMapper<T> mapper = session.getMapper(getMapperClass());
+			Integer eft = mapper.updateById(newValue);
+			if (eft > 0) {
+				this.incrTabVersion(tabNameSuffix);
+			}
 
-  protected void validate(Integer id) {
-    if (logger.isDebugEnabled()) {
-      logger.debug("validate(Integer id={}) - start", id); //$NON-NLS-1$
-    }
+			if (logger.isDebugEnabled()) {
+				logger.debug(
+						"updateById(Integer id={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - end - return value={}", id, newValue, tabNameSuffix, eft); //$NON-NLS-1$
+			}
+			return eft;
+		} catch (Exception t) {
+			logger.error("updateById(Integer, Map<String,Object>, String)", t); //$NON-NLS-1$
 
-    if (id == null) {
-      throw new DataAccessException(IBatisDAOException.MSG_1_0005);
-    }
-    if (id.intValue() <= 0) {
-      throw new DataAccessException(IBatisDAOException.MSG_1_0006);
-    }
+			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+		} finally {
+			session.commit();
+			session.close();
+		}
+	}
 
-    if (logger.isDebugEnabled()) {
-      logger.debug("validate(Integer id={}) - end", id); //$NON-NLS-1$
-    }
-  }
-  
-  @Override
-  public Integer batchInsert(List<Map<String,Object>> datas, String tabNameSuffix) {
+	protected void validate(Integer id) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("validate(Integer id={}) - start", id); //$NON-NLS-1$
+		}
 
-    validate(datas);
+		if (id == null) {
+			throw new DataAccessException(IBatisDAOException.MSG_1_0005);
+		}
+		if (id.intValue() <= 0) {
+			throw new DataAccessException(IBatisDAOException.MSG_1_0006);
+		}
 
-    Map<String,Object> params = new HashMap<String,Object>();
-    
-    params.put("list", datas);
-    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
-
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
-    try {
-      IIMapper<T> mapper = session.getMapper(getMapperClass());
-      Integer eft = mapper.batchInsert(params);
-      if (eft > 0) {
-        this.incrTabVersion(tabNameSuffix);
-      }
-      return eft;
-    } catch (Exception t) {
-      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-    } finally {
-      session.commit();
-      session.close();
-    }
-  }
+		if (logger.isDebugEnabled()) {
+			logger.debug("validate(Integer id={}) - end", id); //$NON-NLS-1$
+		}
+	}
 }
