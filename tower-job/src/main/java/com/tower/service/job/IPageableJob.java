@@ -32,4 +32,8 @@ public interface IPageableJob<T> extends IJob<T>{
      */
     public List<T> pageLoad();
 
+    /**
+     * 一页数据处理完成之后，后续业务扩展方法
+     */
+    public void pageAfter();
 }
