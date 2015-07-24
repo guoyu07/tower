@@ -137,6 +137,7 @@ public abstract class AbsPageableJob<T> extends JobBase<T> implements IPageableJ
                     this.onError(new DataProcessException(ex));
                 }
             }
+            pageAfter();
         } catch (DataProcessException ex) {
             throw ex;
         } finally {
@@ -144,5 +145,12 @@ public abstract class AbsPageableJob<T> extends JobBase<T> implements IPageableJ
                 LogUtils.timeused(logger, "pageDataProcess", start);
             }
         }
+    }
+    
+    /**
+     * 一页数据处理完成之后，后续业务扩展方法
+     */
+    public void pageAfter(){
+    	
     }
 }
