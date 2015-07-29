@@ -65,8 +65,6 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 				BigInteger[] ids = new BigInteger[eft];
 				for (int i = 0; i < eft; i++) {
 					ids[i] = lastId
-							.subtract(new BigInteger(String.valueOf(eft)))
-							.add(new BigInteger("1"))
 							.add(new BigInteger(String.valueOf(i)));
 				}
 				return ids;

@@ -63,7 +63,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 				this.incrTabVersion(tabNameSuffix);
 				Long[] ids = new Long[eft];
 				for (int i = 0; i < eft; i++) {
-					ids[i] = lastId - eft + 1 + i;
+					ids[i] = lastId + i;
 				}
 				return ids;
 			}

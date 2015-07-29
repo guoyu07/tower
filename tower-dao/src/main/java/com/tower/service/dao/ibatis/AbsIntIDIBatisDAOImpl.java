@@ -63,7 +63,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends
 				this.incrTabVersion(tabNameSuffix);
 				Integer[] ids = new Integer[eft];
 				for (int i = 0; i < eft; i++) {
-					ids[i] = lastId - eft + 1 + i;
+					ids[i] = lastId + i;
 				}
 				return ids;
 			}
