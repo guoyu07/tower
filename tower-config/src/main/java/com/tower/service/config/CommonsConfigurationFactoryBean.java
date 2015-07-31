@@ -67,7 +67,7 @@ public class CommonsConfigurationFactoryBean implements InitializingBean, Factor
                     _configuration.addConfiguration(props);
                 } catch (Exception e) {
                     if (_logger.isInfoEnabled()) {
-                        _logger.info("Skip config '%s', %s", _locations[i], e.getMessage());
+                        _logger.info("Skip config '{}', {}", _locations[i], e.getMessage());
                     }
                 }
             }

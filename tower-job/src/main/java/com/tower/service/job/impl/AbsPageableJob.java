@@ -82,7 +82,7 @@ public abstract class AbsPageableJob<T> extends JobBase<T> implements IPageableJ
                 LogUtils.timeused(logger, "start", start);
             }
             logger.info(
-                    "start() - end totalPage=%d,pageProcessed=%d,totalProcessed=%d,successProcessed=%d,failedProcessed=%d",
+                    "start() - end totalPage={},pageProcessed={},totalProcessed={},successProcessed={},failedProcessed={}",
                     pages, pageIdx-1, (this.getSuccessed() + this.getFailed()),
                     this.getSuccessed(), this.getFailed());
         }

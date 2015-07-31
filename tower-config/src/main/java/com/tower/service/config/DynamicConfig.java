@@ -204,12 +204,12 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
 
                 compositeConfiguration.addConfiguration(config);
                 if (logger.isInfoEnabled() && !files.containsKey(location)) {
-                    logger.info("load config '%s'", location);
+                    logger.info("load config '{}'", location);
                     files.put(location, 0);
                 }
             } catch (Exception e) {
                 if (logger.isInfoEnabled() && !files.containsKey(location)) {
-                    logger.info("Skip config %s", e.getMessage());
+                    logger.info("Skip config '{}'", e.getMessage());
                     files.put(location, 0);
                 }
             }

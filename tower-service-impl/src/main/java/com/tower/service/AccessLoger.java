@@ -48,7 +48,7 @@ public class AccessLoger {
         }
         finally {
             time = System.currentTimeMillis() - time;
-            _logger.info("%s %,dms", ip+svcDef.get("className")+"."+svcDef.get("methodName")+svcDef.get("detail"),time);
+            _logger.info("ip={} {}{}{}{} {} ms", ip,svcDef.get("className"),".",svcDef.get("methodName"),svcDef.get("detail"),time);
             _logger.info("end process");
             RequestID.unset();
         }
@@ -128,7 +128,7 @@ public class AccessLoger {
                 if(id!=null){
                     svc_ = id+" "+svc_;
                 }
-                _logger.info("%s %s code=%d %s %s timeused=%,dms",ip,svc_,code,resourceid,logInfo,time);
+                _logger.info("{} {} code={} {} {} timeused={} ms",ip,svc_,code,resourceid,logInfo,time);
             };
         };
         return _response;
