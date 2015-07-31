@@ -33,16 +33,31 @@ import com.tower.service.exception.DataAccessException;
 
 public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 		AbsFKIBatisDAOImpl<T> implements ILBatisDAO<T>, ILBatchDAO<T> {
+	/**
+	 * Logger for this class
+	 */
 
 	@Override
 	public Long[] batchInsert(List<Map<String, Object>> datas,
 			String tabNameSuffix) {
-		return batchInsert(null, datas, tabNameSuffix);
+		if (logger.isDebugEnabled()) {
+			logger.debug("batchInsert(List<Map<String,Object>>, String) - start"); //$NON-NLS-1$
+		}
+
+		Long[] returnLongArray = batchInsert(null, datas, tabNameSuffix);
+		if (logger.isDebugEnabled()) {
+			logger.debug("batchInsert(List<Map<String,Object>>, String) - end"); //$NON-NLS-1$
+		}
+		return returnLongArray;
 	}
 
 	@Override
 	public Long[] batchInsert(List<String> cols,
 			List<Map<String, Object>> datas, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("batchInsert(List<String>, List<Map<String,Object>>, String) - start"); //$NON-NLS-1$
+		}
+
 		validate(datas);
 		Map<String, Object> params = new HashMap<String, Object>();
 		if (cols == null || cols.size() == 0) {
@@ -65,10 +80,20 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 				for (int i = 0; i < eft; i++) {
 					ids[i] = lastId + i;
 				}
+
+				if (logger.isDebugEnabled()) {
+					logger.debug("batchInsert(List<String>, List<Map<String,Object>>, String) - end"); //$NON-NLS-1$
+				}
 				return ids;
+			}
+
+			if (logger.isDebugEnabled()) {
+				logger.debug("batchInsert(List<String>, List<Map<String,Object>>, String) - end"); //$NON-NLS-1$
 			}
 			return null;
 		} catch (Exception t) {
+			logger.error("batchInsert(List<String>, List<Map<String,Object>>, String)", t); //$NON-NLS-1$
+
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
 			session.commit();

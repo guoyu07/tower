@@ -34,16 +34,31 @@ import com.tower.service.exception.DataAccessException;
 
 public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 		AbsFKIBatisDAOImpl<T> implements IBigIBatisDAO<T>, IBBatchDAO<T> {
+	/**
+	 * Logger for this class
+	 */
 
 	@Override
 	public BigInteger[] batchInsert(List<Map<String, Object>> datas,
 			String tabNameSuffix) {
-		return batchInsert(null, datas, tabNameSuffix);
+		if (logger.isDebugEnabled()) {
+			logger.debug("batchInsert(List<Map<String,Object>>, String) - start"); //$NON-NLS-1$
+		}
+
+		BigInteger[] returnBigIntegerArray = batchInsert(null, datas, tabNameSuffix);
+		if (logger.isDebugEnabled()) {
+			logger.debug("batchInsert(List<Map<String,Object>>, String) - end"); //$NON-NLS-1$
+		}
+		return returnBigIntegerArray;
 	}
 
 	@Override
 	public BigInteger[] batchInsert(List<String> cols,
 			List<Map<String, Object>> datas, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("batchInsert(List<String>, List<Map<String,Object>>, String) - start"); //$NON-NLS-1$
+		}
+
 		validate(datas);
 		Map<String, Object> params = new HashMap<String, Object>();
 		if (cols == null || cols.size() == 0) {
@@ -65,12 +80,22 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 				BigInteger[] ids = new BigInteger[eft];
 				for (int i = 0; i < eft; i++) {
 					ids[i] = lastId
-							.add(new BigInteger(String.valueOf(i)));
+							.add(new BigInteger(String.valueOf(i )));
+				}
+
+				if (logger.isDebugEnabled()) {
+					logger.debug("batchInsert(List<String>, List<Map<String,Object>>, String) - end"); //$NON-NLS-1$
 				}
 				return ids;
 			}
+
+			if (logger.isDebugEnabled()) {
+				logger.debug("batchInsert(List<String>, List<Map<String,Object>>, String) - end"); //$NON-NLS-1$
+			}
 			return null;
 		} catch (Exception t) {
+			logger.error("batchInsert(List<String>, List<Map<String,Object>>, String)", t); //$NON-NLS-1$
+
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
 			session.commit();

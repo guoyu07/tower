@@ -33,7 +33,7 @@ public class Slf4jLogger implements Logger, Serializable {
 
     @Override
     public void trace(String format, Object... args) {
-        _impl.trace(RequestID.get() + String.format(format, args));
+        _impl.trace(RequestID.get()+format, args);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class Slf4jLogger implements Logger, Serializable {
 
     @Override
     public void debug(String format, Object... args) {
-        _impl.debug(RequestID.get() + String.format(format, args));
+        _impl.debug(RequestID.get()+format, args);
     }
     
     @Override
@@ -63,7 +63,7 @@ public class Slf4jLogger implements Logger, Serializable {
 
     @Override
     public void info(String format, Object... args) {
-        _impl.info(RequestID.get() + String.format(format, args));
+        _impl.info(RequestID.get()+format, args);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class Slf4jLogger implements Logger, Serializable {
 
     @Override
     public void warn(String format, Object... args) {
-        _impl.warn(RequestID.get() + String.format(format, args));
+        _impl.warn(RequestID.get()+format, args);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class Slf4jLogger implements Logger, Serializable {
 
     @Override
     public void error(String format, Object... args) {
-        _impl.error(RequestID.get() + String.format(format, args));
+        _impl.error(RequestID.get()+format, args);
     }
     
     @Override

@@ -63,6 +63,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	/**
 	 * Logger for this class
 	 */
+
+	/**
+	 * Logger for this class
+	 */
 	@Resource(name = ConfigComponent.AccConfig)
 	private DynamicConfig accConfig;
 
@@ -77,16 +81,28 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 	@PostConstruct
 	public void init() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("init() - start"); //$NON-NLS-1$
+		}
+
 		SqlmapUtils.addMapper(getMapperClass(), getMasterDataSource());
 		SqlmapUtils.addMapper(getMapperClass(), getSlaveDataSource());
 		SqlmapUtils.addMapper(getMapperClass(), getMapQueryDataSource());
 		super.init();
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("init() - end"); //$NON-NLS-1$
+		}
 	}
 
 	@CacheEvict(value = "defaultCache", key = TabCacheKeyPrefixExpress
 			+ ".concat('@').concat(#params)", condition = "#root.target.cacheable()")
 	@Override
 	public Integer deleteByMap(Map<String, Object> params, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("deleteByMap(Map<String,Object>, String) - start"); //$NON-NLS-1$
+		}
+
 		validate(params);
 
 		nonePK$FKCheck(params);
@@ -100,8 +116,14 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			if (eft > 0) {
 				this.synCache(tabNameSuffix);
 			}
+
+			if (logger.isDebugEnabled()) {
+				logger.debug("deleteByMap(Map<String,Object>, String) - end"); //$NON-NLS-1$
+			}
 			return eft;
 		} catch (Exception t) {
+			logger.error("deleteByMap(Map<String,Object>, String)", t); //$NON-NLS-1$
+
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
 			session.commit();
@@ -114,6 +136,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	@Override
 	public Integer updateByMap(Map<String, Object> newValue,
 			Map<String, Object> cond, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("updateByMap(Map<String,Object>, Map<String,Object>, String) - start"); //$NON-NLS-1$
+		}
+
 		validate(cond);
 
 		if (newValue == null || newValue.isEmpty()) {
@@ -140,8 +166,14 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			if (eft > 0) {
 				this.synCache(tabNameSuffix);
 			}
+
+			if (logger.isDebugEnabled()) {
+				logger.debug("updateByMap(Map<String,Object>, Map<String,Object>, String) - end"); //$NON-NLS-1$
+			}
 			return eft;
 		} catch (Exception t) {
+			logger.error("updateByMap(Map<String,Object>, Map<String,Object>, String)", t); //$NON-NLS-1$
+
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
 			session.commit();
@@ -154,6 +186,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			+ ".concat('@').concat(#params)", unless = "#result == null", condition = "#root.target.tabCacheable()")
 	@Override
 	public List<T> queryByMap(Map<String, Object> params, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("queryByMap(Map<String,Object>, String) - start"); //$NON-NLS-1$
+		}
+
 		validate(params);
 
 		nonePK$FKCheck(params);
@@ -165,8 +201,14 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			IMapper<T> mapper = (IMapper<T>) session
 					.getMapper(getMapperClass());
 			List<T> returnList = mapper.queryByMap(params);
+
+			if (logger.isDebugEnabled()) {
+				logger.debug("queryByMap(Map<String,Object>, String) - end"); //$NON-NLS-1$
+			}
 			return returnList;
 		} catch (Exception t) {
+			logger.error("queryByMap(Map<String,Object>, String)", t); //$NON-NLS-1$
+
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
 		} finally {
 			session.commit();
@@ -180,6 +222,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	@Override
 	public List<T> queryByMap(Map<String, Object> params, String orders,
 			String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("queryByMap(Map<String,Object>, String, String) - start"); //$NON-NLS-1$
+		}
+
 		validate(params);
 
 		nonePK$FKCheck(params);
@@ -193,8 +239,14 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			IMapper<T> mapper = (IMapper<T>) session
 					.getMapper(getMapperClass());
 			List<T> returnList = mapper.queryByMap(params);
+
+			if (logger.isDebugEnabled()) {
+				logger.debug("queryByMap(Map<String,Object>, String, String) - end"); //$NON-NLS-1$
+			}
 			return returnList;
 		} catch (Exception t) {
+			logger.error("queryByMap(Map<String,Object>, String, String)", t); //$NON-NLS-1$
+
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
 		} finally {
 			session.commit();
@@ -208,6 +260,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	@Override
 	public List<String> queryIdsByMap(Map<String, Object> params,
 			String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("queryIdsByMap(Map<String,Object>, String) - start"); //$NON-NLS-1$
+		}
+
 		validate(params);
 
 		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
@@ -217,8 +273,14 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			IMapper<T> mapper = (IMapper<T>) session
 					.getMapper(getMapperClass());
 			List<String> returnList = mapper.queryIdsByMap(params);
+
+			if (logger.isDebugEnabled()) {
+				logger.debug("queryIdsByMap(Map<String,Object>, String) - end"); //$NON-NLS-1$
+			}
 			return returnList;
 		} catch (Exception t) {
+			logger.error("queryIdsByMap(Map<String,Object>, String)", t); //$NON-NLS-1$
+
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
 		} finally {
 			session.commit();
@@ -232,6 +294,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	@Override
 	public List<String> queryIdsByMap(Map<String, Object> params,
 			String orders, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("queryIdsByMap(Map<String,Object>, String, String) - start"); //$NON-NLS-1$
+		}
+
 		validate(params);
 
 		params.put("orders", this.convert(this.getModelClass(), orders));
@@ -243,8 +309,14 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			IMapper<T> mapper = (IMapper<T>) session
 					.getMapper(getMapperClass());
 			List<String> returnList = mapper.queryIdsByMap(params);
+
+			if (logger.isDebugEnabled()) {
+				logger.debug("queryIdsByMap(Map<String,Object>, String, String) - end"); //$NON-NLS-1$
+			}
 			return returnList;
 		} catch (Exception t) {
+			logger.error("queryIdsByMap(Map<String,Object>, String, String)", t); //$NON-NLS-1$
+
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
 		} finally {
 			session.commit();
@@ -258,6 +330,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	@Override
 	public List queryIdsByMap(Map<String, Object> params, Boolean master,
 			String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("queryIdsByMap(Map<String,Object>, Boolean, String) - start"); //$NON-NLS-1$
+		}
+
 		validate(params);
 
 		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
@@ -269,8 +345,14 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			IMapper<T> mapper = (IMapper<T>) session
 					.getMapper(getMapperClass());
 			List returnList = mapper.queryByMap(params);
+
+			if (logger.isDebugEnabled()) {
+				logger.debug("queryIdsByMap(Map<String,Object>, Boolean, String) - end"); //$NON-NLS-1$
+			}
 			return returnList;
 		} catch (Exception t) {
+			logger.error("queryIdsByMap(Map<String,Object>, Boolean, String)", t); //$NON-NLS-1$
+
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
 		} finally {
 			session.commit();
@@ -284,6 +366,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	@Override
 	public List queryIdsByMap(Map<String, Object> params, String orders,
 			Boolean master, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("queryIdsByMap(Map<String,Object>, String, Boolean, String) - start"); //$NON-NLS-1$
+		}
+
 		validate(params);
 
 		params.put("orders", this.convert(this.getModelClass(), orders));
@@ -297,8 +383,14 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			IMapper<T> mapper = (IMapper<T>) session
 					.getMapper(getMapperClass());
 			List returnList = mapper.queryByMap(params);
+
+			if (logger.isDebugEnabled()) {
+				logger.debug("queryIdsByMap(Map<String,Object>, String, Boolean, String) - end"); //$NON-NLS-1$
+			}
 			return returnList;
 		} catch (Exception t) {
+			logger.error("queryIdsByMap(Map<String,Object>, String, Boolean, String)", t); //$NON-NLS-1$
+
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
 		} finally {
 			session.commit();
@@ -312,6 +404,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	@Override
 	public List<T> queryByMap(Map<String, Object> params, Boolean master,
 			String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("queryByMap(Map<String,Object>, Boolean, String) - start"); //$NON-NLS-1$
+		}
+
 		validate(params);
 
 		nonePK$FKCheck(params);
@@ -325,8 +421,14 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			IMapper<T> mapper = (IMapper<T>) session
 					.getMapper(getMapperClass());
 			List<T> returnList = mapper.queryByMap(params);
+
+			if (logger.isDebugEnabled()) {
+				logger.debug("queryByMap(Map<String,Object>, Boolean, String) - end"); //$NON-NLS-1$
+			}
 			return returnList;
 		} catch (Exception t) {
+			logger.error("queryByMap(Map<String,Object>, Boolean, String)", t); //$NON-NLS-1$
+
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
 		} finally {
 			session.commit();
@@ -340,6 +442,9 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	@Override
 	public List<T> queryByMap(Map<String, Object> params, String orders,
 			Boolean master, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("queryByMap(Map<String,Object>, String, Boolean, String) - start"); //$NON-NLS-1$
+		}
 
 		validate(params);
 
@@ -356,8 +461,14 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			IMapper<T> mapper = (IMapper<T>) session
 					.getMapper(getMapperClass());
 			List<T> returnList = mapper.queryByMap(params);
+
+			if (logger.isDebugEnabled()) {
+				logger.debug("queryByMap(Map<String,Object>, String, Boolean, String) - end"); //$NON-NLS-1$
+			}
 			return returnList;
 		} catch (Exception t) {
+			logger.error("queryByMap(Map<String,Object>, String, Boolean, String)", t); //$NON-NLS-1$
+
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
 		} finally {
 			session.commit();
@@ -370,6 +481,9 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			+ ".concat('@').concat('cnt:').concat(#params)", unless = "#result == null", condition = "#root.target.tabCacheable()")
 	@Override
 	public Integer countByMap(Map<String, Object> params, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("countByMap(Map<String,Object>, String) - start"); //$NON-NLS-1$
+		}
 
 		validate(params);
 
@@ -382,8 +496,12 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			IMapper<T> mapper = session.getMapper(getMapperClass());
 			Integer returnInteger = mapper.countByMap(params);
 
+			if (logger.isDebugEnabled()) {
+				logger.debug("countByMap(Map<String,Object>, String) - end"); //$NON-NLS-1$
+			}
 			return returnInteger;
 		} catch (Exception t) {
+			logger.error("countByMap(Map<String,Object>, String)", t); //$NON-NLS-1$
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
@@ -398,6 +516,9 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	@Override
 	public Integer countByMap(Map<String, Object> params, Boolean master,
 			String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("countByMap(Map<String,Object>, Boolean, String) - start"); //$NON-NLS-1$
+		}
 
 		validate(params);
 
@@ -412,8 +533,12 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			IMapper<T> mapper = session.getMapper(getMapperClass());
 			Integer returnInteger = mapper.countByMap(params);
 
+			if (logger.isDebugEnabled()) {
+				logger.debug("countByMap(Map<String,Object>, Boolean, String) - end"); //$NON-NLS-1$
+			}
 			return returnInteger;
 		} catch (Exception t) {
+			logger.error("countByMap(Map<String,Object>, Boolean, String)", t); //$NON-NLS-1$
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
@@ -428,6 +553,9 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	@Override
 	public List<T> pageQuery(Map<String, Object> params, int page, int size,
 			String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("pageQuery(Map<String,Object>, int, int, String) - start"); //$NON-NLS-1$
+		}
 
 		validate(params);
 
@@ -445,8 +573,12 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			List<T> returnList = mapper.pageQuery(cmd);
 
+			if (logger.isDebugEnabled()) {
+				logger.debug("pageQuery(Map<String,Object>, int, int, String) - end"); //$NON-NLS-1$
+			}
 			return returnList;
 		} catch (Exception t) {
+			logger.error("pageQuery(Map<String,Object>, int, int, String)", t); //$NON-NLS-1$
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
@@ -460,6 +592,9 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			+ ".concat('@').concat('page:').concat(#params).concat('@').concat(#page).concat('@').concat(#size)", unless = "#result == null", condition = "!#master and #root.target.tabCacheable()")
 	public List<T> pageQuery(Map<String, Object> params, int page, int size,
 			Boolean master, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("pageQuery(Map<String,Object>, int, int, Boolean, String) - start"); //$NON-NLS-1$
+		}
 
 		validate(params);
 
@@ -477,8 +612,12 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			cmd.setParams(params);
 			List<T> returnList = mapper.pageQuery(cmd);
 
+			if (logger.isDebugEnabled()) {
+				logger.debug("pageQuery(Map<String,Object>, int, int, Boolean, String) - end"); //$NON-NLS-1$
+			}
 			return returnList;
 		} catch (Exception t) {
+			logger.error("pageQuery(Map<String,Object>, int, int, Boolean, String)", t); //$NON-NLS-1$
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
@@ -493,6 +632,9 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	@Override
 	public List<T> pageQuery(Map<String, Object> params, int page, int size,
 			String orders, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("pageQuery(Map<String,Object>, int, int, String, String) - start"); //$NON-NLS-1$
+		}
 
 		validate(params);
 
@@ -510,8 +652,12 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			cmd.setOrders(this.convert(this.getModelClass(), orders));
 			List<T> returnList = mapper.pageQuery(cmd);
 
+			if (logger.isDebugEnabled()) {
+				logger.debug("pageQuery(Map<String,Object>, int, int, String, String) - end"); //$NON-NLS-1$
+			}
 			return returnList;
 		} catch (Exception t) {
+			logger.error("pageQuery(Map<String,Object>, int, int, String, String)", t); //$NON-NLS-1$
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
@@ -526,6 +672,9 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	@Override
 	public List<T> pageQuery(Map<String, Object> params, int page, int size,
 			String orders, Boolean master, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("pageQuery(Map<String,Object>, int, int, String, Boolean, String) - start"); //$NON-NLS-1$
+		}
 
 		validate(params);
 
@@ -544,8 +693,12 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			cmd.setOrders(this.convert(this.getModelClass(), orders));
 			List<T> returnList = mapper.pageQuery(cmd);
 
+			if (logger.isDebugEnabled()) {
+				logger.debug("pageQuery(Map<String,Object>, int, int, String, Boolean, String) - end"); //$NON-NLS-1$
+			}
 			return returnList;
 		} catch (Exception t) {
+			logger.error("pageQuery(Map<String,Object>, int, int, String, Boolean, String)", t); //$NON-NLS-1$
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
@@ -562,8 +715,14 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	 * @return
 	 */
 	protected String convert(Class model, String orders) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("convert(Class, String) - start"); //$NON-NLS-1$
+		}
 
 		if (orders == null || orders.trim().isEmpty()) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("convert(Class, String) - end"); //$NON-NLS-1$
+			}
 			return null;
 		}
 
@@ -589,42 +748,77 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		String returnString = orders_.toString();
 
 		if (returnString.trim().length() == 0) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("convert(Class, String) - end"); //$NON-NLS-1$
+			}
 			return null;
 		}
 
+		if (logger.isDebugEnabled()) {
+			logger.debug("convert(Class, String) - end"); //$NON-NLS-1$
+		}
 		return returnString;
 	}
 
 	public void preInsert(T model) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("preInsert(T) - start"); //$NON-NLS-1$
+		}
 
 		model.validate();
 
+		if (logger.isDebugEnabled()) {
+			logger.debug("preInsert(T) - end"); //$NON-NLS-1$
+		}
 	}
 
 	protected int getPageIndex(int page) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("getPageIndex(int) - start"); //$NON-NLS-1$
+		}
+
 		int pageIndex = page;
 		if (pageIndex < 1) {
 			page = 1;
+		}
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("getPageIndex(int) - end"); //$NON-NLS-1$
 		}
 		return pageIndex;
 	}
 
 	protected int getPageStart(int page, int size) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("getPageStart(int, int) - start"); //$NON-NLS-1$
+		}
 
 		if (page < 1) {
 			page = 1;
 		}
 		int returnint = (page - 1) * size;
 
+		if (logger.isDebugEnabled()) {
+			logger.debug("getPageStart(int, int) - end"); //$NON-NLS-1$
+		}
 		return returnint;
 	}
 
 	protected int getPageEnd(int page, int size) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("getPageEnd(int, int) - start"); //$NON-NLS-1$
+		}
 
+		if (logger.isDebugEnabled()) {
+			logger.debug("getPageEnd(int, int) - end"); //$NON-NLS-1$
+		}
 		return size;
 	}
 
 	private void nonePK$FKCheck(Map<String, Object> params) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("nonePK$FKCheck(Map<String,Object>) - start"); //$NON-NLS-1$
+		}
 
 		if (params.containsKey("id")) {
 			throw new DataAccessException(IBatisDAOException.MSG_1_0011);
@@ -638,6 +832,9 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			}
 		}
 
+		if (logger.isDebugEnabled()) {
+			logger.debug("nonePK$FKCheck(Map<String,Object>) - end"); //$NON-NLS-1$
+		}
 	}
 
 	/**
@@ -646,11 +843,17 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	 * @param params
 	 */
 	protected void validate(Map<String, Object> params) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("validate(Map<String,Object>) - start"); //$NON-NLS-1$
+		}
 
 		if (params == null || params.isEmpty()) {
 			throw new DataAccessException(IBatisDAOException.MSG_1_0004);
 		}
 
+		if (logger.isDebugEnabled()) {
+			logger.debug("validate(Map<String,Object>) - end"); //$NON-NLS-1$
+		}
 	}
 
 	// ##################################################################################################
@@ -659,11 +862,17 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	 * 缓存总开关
 	 */
 	public boolean cacheable() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("cacheable() - start"); //$NON-NLS-1$
+		}
 
 		String cacheable = System.getProperty(CACHE_FLG, "false");// 缓存总开关
 
 		boolean returnboolean = Boolean.valueOf(cacheable);
 
+		if (logger.isDebugEnabled()) {
+			logger.debug("cacheable() - end"); //$NON-NLS-1$
+		}
 		return returnboolean; // 缓存开关
 	}
 
@@ -671,11 +880,17 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	 * 主键缓存开关
 	 */
 	public boolean pkCacheable() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("pkCacheable() - start"); //$NON-NLS-1$
+		}
 
 		boolean returnboolean = cacheable() // 缓存开关
 				&& Boolean.valueOf(System.getProperty(PK_CACHE_FLG,
 						String.valueOf(cacheable())));// 主键缓存开关
 
+		if (logger.isDebugEnabled()) {
+			logger.debug("pkCacheable() - end"); //$NON-NLS-1$
+		}
 		return returnboolean; // 主键缓存
 	}
 
@@ -683,9 +898,17 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	 * 外键缓存开关
 	 */
 	public boolean fkCacheable() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("fkCacheable() - start"); //$NON-NLS-1$
+		}
+
 		boolean returnboolean = pkCacheable() // 主键缓存
 				&& Boolean.valueOf(System.getProperty(FK_CACHE_FLG,
 						String.valueOf(pkCacheable())));// 外键缓存开关
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("fkCacheable() - end"); //$NON-NLS-1$
+		}
 		return returnboolean;// 表级缓存
 	}
 
@@ -693,27 +916,55 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	 * 表级缓存开关 缓存开关必须开启，主键缓存、外键缓存必须开启
 	 */
 	public boolean tabCacheable() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("tabCacheable() - start"); //$NON-NLS-1$
+		}
+
 		boolean returnboolean = fkCacheable() // 外键缓存开关
 				&& Boolean.valueOf(System.getProperty(TB_CACHE_FLG,
 						String.valueOf(fkCacheable()))); // 表级缓存
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("tabCacheable() - end"); //$NON-NLS-1$
+		}
 		return returnboolean;// 表级缓存
 	}
 
 	@Override
 	public Integer getThresholds() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("getThresholds() - start"); //$NON-NLS-1$
+		}
+
 		Integer returnInteger = getConfig().getInteger(
 				"threshold_for_delete_pk_by_where", 100);
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("getThresholds() - end"); //$NON-NLS-1$
+		}
 		return returnInteger;
 	}
 
 	public void validate(IModel model) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("validate(IModel) - start"); //$NON-NLS-1$
+		}
+
 		if (model == null) {
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007);
 		}
 		model.validate();
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("validate(IModel) - end"); //$NON-NLS-1$
+		}
 	}
 
 	protected void validateCols(List<String> cols) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("validateCols(List<String>) - start"); //$NON-NLS-1$
+		}
+
 		if (cols == null) {
 			throw new DataAccessException(IBatisDAOException.MSG_1_0012);
 		}
@@ -737,13 +988,25 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 				throw new DataAccessException(IBatisDAOException.MSG_1_0012);
 			}
 		}
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("validateCols(List<String>) - end"); //$NON-NLS-1$
+		}
 	}
 
 	protected List<String> convert(List<String> properties) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("convert(List<String>) - start"); //$NON-NLS-1$
+		}
+
 		List<String> cols = new ArrayList<String>();
 		for (int i = 0; i < properties.size(); i++) {
 			cols.add(BeanUtil.getJField(this.getModelClass(),
 					properties.get(i), JField.class));
+		}
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("convert(List<String>) - end"); //$NON-NLS-1$
 		}
 		return cols;
 	}
@@ -751,6 +1014,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	@Override
 	public List<T> batchQuery(List<Map<String, Object>> datas,
 			String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("batchQuery(List<Map<String,Object>>, String) - start"); //$NON-NLS-1$
+		}
+
 		validate(datas);
 
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -761,8 +1028,14 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
 		try {
 			IBatchMapper<T> mapper = session.getMapper(getMapperClass());
-			return mapper.batchQuery(params);
+			List<T> returnList = mapper.batchQuery(params);
+			if (logger.isDebugEnabled()) {
+				logger.debug("batchQuery(List<Map<String,Object>>, String) - end"); //$NON-NLS-1$
+			}
+			return returnList;
 		} catch (Exception t) {
+			logger.error("batchQuery(List<Map<String,Object>>, String)", t); //$NON-NLS-1$
+
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
 			session.commit();
@@ -779,6 +1052,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	@Override
 	public Integer batchUpdate(Map<String, Object> new_,
 			List<Map<String, Object>> datas, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("batchUpdate(Map<String,Object>, List<Map<String,Object>>, String) - start"); //$NON-NLS-1$
+		}
+
 		validate(datas);
 
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -794,8 +1071,14 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			if (eft > 0) {
 				this.synCache(tabNameSuffix);
 			}
+
+			if (logger.isDebugEnabled()) {
+				logger.debug("batchUpdate(Map<String,Object>, List<Map<String,Object>>, String) - end"); //$NON-NLS-1$
+			}
 			return eft;
 		} catch (Exception t) {
+			logger.error("batchUpdate(Map<String,Object>, List<Map<String,Object>>, String)", t); //$NON-NLS-1$
+
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
 			session.commit();
@@ -812,6 +1095,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	@Override
 	public Integer batchDelete(List<Map<String, Object>> datas,
 			String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("batchDelete(List<Map<String,Object>>, String) - start"); //$NON-NLS-1$
+		}
+
 		validate(datas);
 
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -826,8 +1113,14 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			if (eft > 0) {
 				this.synCache(tabNameSuffix);
 			}
+
+			if (logger.isDebugEnabled()) {
+				logger.debug("batchDelete(List<Map<String,Object>>, String) - end"); //$NON-NLS-1$
+			}
 			return eft;
 		} catch (Exception t) {
+			logger.error("batchDelete(List<Map<String,Object>>, String)", t); //$NON-NLS-1$
+
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
 			session.commit();
@@ -836,28 +1129,46 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	}
 
 	protected void validate(List<Map<String, Object>> datas) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("validate(List<Map<String,Object>>) - start"); //$NON-NLS-1$
+		}
 
 		if (datas == null) {
 			throw new DataAccessException(IBatisDAOException.MSG_1_0005);
 		}
 
+		if (logger.isDebugEnabled()) {
+			logger.debug("validate(List<Map<String,Object>>) - end"); //$NON-NLS-1$
+		}
 	}
 	
 	@Override
 	public String getTableName() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("getTableName() - start"); //$NON-NLS-1$
+		}
+
 		throw new RuntimeException(this.getClass().getSimpleName()
 				+ ".getTableName（）必须实现");
 	}
 
 	@Override
 	public String get$TKjtTabName(String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("get$TKjtTabName(String) - start"); //$NON-NLS-1$
+		}
+
 		suffixValidate(tabNameSuffix);
 		StringBuilder tableName = new StringBuilder(this.getTableName());
 		if (tabNameSuffix != null && tabNameSuffix.trim().length() > 0) {
 			tableName.append("_");
 			tableName.append(tabNameSuffix.trim());
 		}
-		return tableName.toString();
+		String returnString = tableName.toString();
+		if (logger.isDebugEnabled()) {
+			logger.debug("get$TKjtTabName(String) - end"); //$NON-NLS-1$
+		}
+		return returnString;
 	}
 
 	@Override

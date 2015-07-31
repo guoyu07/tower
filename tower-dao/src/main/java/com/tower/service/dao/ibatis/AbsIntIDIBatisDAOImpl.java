@@ -1,6 +1,5 @@
 package com.tower.service.dao.ibatis;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,16 +32,31 @@ import com.tower.service.exception.DataAccessException;
  */
 public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends
 		AbsFKIBatisDAOImpl<T> implements IIBatisDAO<T>, IIBatchDAO<T> {
+	/**
+	 * Logger for this class
+	 */
 
 	@Override
 	public Integer[] batchInsert(List<Map<String, Object>> datas,
 			String tabNameSuffix) {
-		return batchInsert(null, datas, tabNameSuffix);
+		if (logger.isDebugEnabled()) {
+			logger.debug("batchInsert(List<Map<String,Object>>, String) - start"); //$NON-NLS-1$
+		}
+
+		Integer[] returnIntegerArray = batchInsert(null, datas, tabNameSuffix);
+		if (logger.isDebugEnabled()) {
+			logger.debug("batchInsert(List<Map<String,Object>>, String) - end"); //$NON-NLS-1$
+		}
+		return returnIntegerArray;
 	}
 
 	@Override
 	public Integer[] batchInsert(List<String> cols,
 			List<Map<String, Object>> datas, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("batchInsert(List<String>, List<Map<String,Object>>, String) - start"); //$NON-NLS-1$
+		}
+
 		validate(datas);
 		Map<String, Object> params = new HashMap<String, Object>();
 		if (cols == null || cols.size() == 0) {
@@ -65,10 +79,20 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends
 				for (int i = 0; i < eft; i++) {
 					ids[i] = lastId + i;
 				}
+
+				if (logger.isDebugEnabled()) {
+					logger.debug("batchInsert(List<String>, List<Map<String,Object>>, String) - end"); //$NON-NLS-1$
+				}
 				return ids;
+			}
+
+			if (logger.isDebugEnabled()) {
+				logger.debug("batchInsert(List<String>, List<Map<String,Object>>, String) - end"); //$NON-NLS-1$
 			}
 			return null;
 		} catch (Exception t) {
+			logger.error("batchInsert(List<String>, List<Map<String,Object>>, String)", t); //$NON-NLS-1$
+
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
 			session.commit();

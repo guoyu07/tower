@@ -33,16 +33,31 @@ import com.tower.service.exception.DataAccessException;
 
 public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends
 		AbsFKIBatisDAOImpl<T> implements ISBatisDAO<T>, ISBatchDAO<T> {
+	/**
+	 * Logger for this class
+	 */
 
 	@Override
 	public Integer batchInsert(List<Map<String, Object>> datas,
 			String tabNameSuffix) {
-		return batchInsert(null, datas, tabNameSuffix);
+		if (logger.isDebugEnabled()) {
+			logger.debug("batchInsert(List<Map<String,Object>>, String) - start"); //$NON-NLS-1$
+		}
+
+		Integer returnInteger = batchInsert(null, datas, tabNameSuffix);
+		if (logger.isDebugEnabled()) {
+			logger.debug("batchInsert(List<Map<String,Object>>, String) - end"); //$NON-NLS-1$
+		}
+		return returnInteger;
 	}
 
 	@Override
 	public Integer batchInsert(List<String> cols,
 			List<Map<String, Object>> datas, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("batchInsert(List<String>, List<Map<String,Object>>, String) - start"); //$NON-NLS-1$
+		}
+
 		validate(datas);
 		Map<String, Object> params = new HashMap<String, Object>();
 		if (cols == null || cols.size() == 0) {
@@ -61,8 +76,14 @@ public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends
 			if (eft > 0) {
 				this.incrTabVersion(tabNameSuffix);
 			}
+
+			if (logger.isDebugEnabled()) {
+				logger.debug("batchInsert(List<String>, List<Map<String,Object>>, String) - end"); //$NON-NLS-1$
+			}
 			return eft;
 		} catch (Exception t) {
+			logger.error("batchInsert(List<String>, List<Map<String,Object>>, String)", t); //$NON-NLS-1$
+
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
 			session.commit();
