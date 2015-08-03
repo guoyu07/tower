@@ -126,8 +126,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -176,8 +175,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -211,8 +209,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -249,8 +246,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -283,8 +279,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -319,8 +314,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -355,8 +349,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -393,8 +386,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -431,8 +423,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -471,8 +462,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -505,8 +495,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -542,8 +531,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -582,8 +570,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -621,8 +608,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -661,8 +647,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -702,8 +687,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -1038,8 +1022,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -1081,8 +1064,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -1123,8 +1105,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 

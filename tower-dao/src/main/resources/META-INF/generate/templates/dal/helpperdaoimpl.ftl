@@ -76,8 +76,7 @@ public class ${name}HelpperIbatisDAOImpl extends AbsHelpperIBatisDAOImpl<${name}
             t.printStackTrace();
             throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
         } finally {
-            session.commit();
-            session.close();
+            SqlmapUtils.release(session);
         }
     }
 	

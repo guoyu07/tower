@@ -95,8 +95,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -152,8 +151,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends
 			logger.error("queryById(Integer, Boolean, String)", t); //$NON-NLS-1$
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -189,8 +187,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 
@@ -229,8 +226,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
-			session.commit();
-			session.close();
+			SqlmapUtils.release(session);
 		}
 	}
 

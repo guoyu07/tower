@@ -153,8 +153,7 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
       		logger.error("insert(T, String)", t); //$NON-NLS-1$
       		throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     	} finally {
-     		session.commit();
-     		session.close();
+     		SqlmapUtils.release(session);
     	}
   	}
 	</#if>

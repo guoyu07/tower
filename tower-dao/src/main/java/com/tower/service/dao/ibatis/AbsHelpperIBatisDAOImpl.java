@@ -83,8 +83,7 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
     } catch (Exception t) {
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-      session.commit();
-      session.close();
+    	SqlmapUtils.release(session);
     }
   }
 
@@ -103,8 +102,7 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
     } catch (Exception t) {
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-      session.commit();
-      session.close();
+    	SqlmapUtils.release(session);
     }
   }
 
@@ -128,8 +126,7 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
     } catch (Exception t) {
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-      session.commit();
-      session.close();
+    	SqlmapUtils.release(session);
     }
   }
 
@@ -152,8 +149,7 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
     } catch (Exception t) {
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-      session.commit();
-      session.close();
+    	SqlmapUtils.release(session);
     }
   }
 
