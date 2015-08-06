@@ -180,7 +180,7 @@
 				<executions>
 					<execution>
 						<id>start-jetty</id>
-						<phase>pre-integration-test</phase>
+						<phase>deploy</phase>
 						<goals>
 							<goal>run</goal>
 						</goals>
@@ -191,7 +191,7 @@
 					</execution>
 					<execution>
 						<id>stop-jetty</id>
-						<phase>post-integration-test</phase>
+						<phase>deploy</phase>
 						<goals>
 							<goal>stop</goal>
 						</goals>
