@@ -78,7 +78,7 @@ public class StatementHandlerPlugin implements Interceptor {
       sb.append(" ");
       sb.append(db);
       sb.append("*/");
-      sql = sb.toString().replaceAll("\n", " ").replace("\t", " ").replace("[\\s]+", " ");
+      sql = sb.toString().replaceAll("\n", " ").replaceAll("\t", " ").replaceAll("[\\s]+", " ");
 
       return sql;
     }
@@ -90,4 +90,5 @@ public class StatementHandlerPlugin implements Interceptor {
 
   public void setProperties(Properties properties) {
   }
+  
 }
