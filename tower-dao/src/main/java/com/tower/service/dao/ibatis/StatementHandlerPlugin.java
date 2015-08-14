@@ -3,6 +3,7 @@ package com.tower.service.dao.ibatis;
 import java.lang.management.ManagementFactory;
 import java.sql.Connection;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
@@ -69,6 +70,11 @@ public class StatementHandlerPlugin implements Interceptor {
       if (env != null) {
         db = env.getId();
       }
+      /**
+       * 删除sql \/*...*\/的多行注释，和以 -- 开始的单行注释
+       */
+      Pattern p = Pattern.compile("(?ms)('(?:''|[^'])*')|--.*?$|/\\*.*?\\*/");  
+      sql = p.matcher(sql).replaceAll("$1");
       StringBuilder sb = new StringBuilder(sql);
       sb.append(" /*from_api:");
       sb.append(RequestID.get());
