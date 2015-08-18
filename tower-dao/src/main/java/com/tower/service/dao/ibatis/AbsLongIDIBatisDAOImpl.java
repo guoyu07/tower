@@ -210,8 +210,11 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 		if (newValue == null || newValue.isEmpty()) {
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007);
 		}
-		newValue.put("id", id);
-		newValue.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+
+	    Map<String,Object> params = new HashMap<String,Object>();
+	    params.putAll(newValue);
+	    params.put("id", id);
+	    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
 		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
 		try {
