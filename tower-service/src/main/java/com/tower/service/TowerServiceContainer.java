@@ -3,10 +3,13 @@ package com.tower.service;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.alibaba.dubbo.container.spring.SpringContainer;
+import com.tower.service.log.Logger;
+import com.tower.service.log.LoggerFactory;
 
 public class TowerServiceContainer {
 	private SpringContainer container = null;
 	static ClassPathXmlApplicationContext context;
+	Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * classpath*:META-INF/config/spring/spring-service.xml
@@ -22,8 +25,13 @@ public class TowerServiceContainer {
 	}
 
 	public void start() {
-		container.start();
-		context = SpringContainer.getContext();
+		try{
+			container.start();
+			context = SpringContainer.getContext();
+		}
+		catch(Exception ex){
+			logger.error("初始化出错", ex);
+		}
 	}
 
 	public static <T> T getBean(Class<T> requiredType) {
