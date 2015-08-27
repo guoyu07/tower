@@ -28,6 +28,10 @@ public abstract class AbsJob<T> extends JobBase<T> implements INormalJob<T> {
         super(id);
     }
 
+    @Override
+    public void before() {
+    	
+    }
 
     synchronized final public void start() {
         if (logger.isInfoEnabled()) {
@@ -40,6 +44,7 @@ public abstract class AbsJob<T> extends JobBase<T> implements INormalJob<T> {
         int total = 0;
         try {
             RequestID.set(null);
+            before();
             datas = execute();
             if (logger.isInfoEnabled()) {
                 LogUtils.timeused(logger, "execute", tmpStart);
@@ -62,7 +67,7 @@ public abstract class AbsJob<T> extends JobBase<T> implements INormalJob<T> {
                 }
             }
             this.onSuccessed();
-
+            after();
         } catch (DataProcessException ex) {
             throw ex;
         } catch (Exception ex) {
@@ -79,5 +84,9 @@ public abstract class AbsJob<T> extends JobBase<T> implements INormalJob<T> {
                 logger.info("start() - end"); //$NON-NLS-1$
             }
         }
+    }
+    @Override
+    public void after(){
+    	
     }
 }

@@ -9,6 +9,10 @@ package com.tower.service.job;
  * 
  */
 public interface IJob<T> {
+	/**
+	 * job执行前调用
+	 */
+	public void before();
 
     /**
      * 获取job的名称，必须唯一
@@ -38,5 +42,10 @@ public interface IJob<T> {
      * 当成功处理完时，调用
      */
     public void onSuccessed();
+    
+    /**
+     * job执行后调用
+     */
+    public void after();
 
 }

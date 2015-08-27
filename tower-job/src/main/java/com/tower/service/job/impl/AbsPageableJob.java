@@ -45,6 +45,11 @@ public abstract class AbsPageableJob<T> extends JobBase<T> implements IPageableJ
         return pageSize;
     }
     
+    @Override
+    public void before() {
+    	
+    }
+    
     synchronized final public void start() {
         
         RequestID.set(null);
@@ -52,7 +57,7 @@ public abstract class AbsPageableJob<T> extends JobBase<T> implements IPageableJ
         if (logger.isInfoEnabled()) {
             logger.info("start() - start"); //$NON-NLS-1$
         }
-
+        before();
         pageIdx = 1;
         this.failedReset();
         this.successedReset();
@@ -70,6 +75,7 @@ public abstract class AbsPageableJob<T> extends JobBase<T> implements IPageableJ
                 pageIdx++;
             }
             this.onSuccessed();
+            after();
         } catch (PageLoadException ex) {
             throw ex;
         } catch (DataProcessException ex) {
@@ -151,6 +157,11 @@ public abstract class AbsPageableJob<T> extends JobBase<T> implements IPageableJ
      * 一页数据处理完成之后，后续业务扩展方法
      */
     public void pageAfter(){
+    	
+    }
+    
+    @Override
+    public void after() {
     	
     }
 }
