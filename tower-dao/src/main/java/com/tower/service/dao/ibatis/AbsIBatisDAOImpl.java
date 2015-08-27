@@ -171,7 +171,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			}
 			return eft;
 		} catch (Exception t) {
-			logger.error("updateByMap(Map<String,Object>, Map<String,Object>, String)", t); //$NON-NLS-1$
+			logger.error(
+					"updateByMap(Map<String,Object>, Map<String,Object>, String)", t); //$NON-NLS-1$
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
@@ -345,7 +346,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			}
 			return returnList;
 		} catch (Exception t) {
-			logger.error("queryIdsByMap(Map<String,Object>, Boolean, String)", t); //$NON-NLS-1$
+			logger.error(
+					"queryIdsByMap(Map<String,Object>, Boolean, String)", t); //$NON-NLS-1$
 
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
 		} finally {
@@ -382,7 +384,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			}
 			return returnList;
 		} catch (Exception t) {
-			logger.error("queryIdsByMap(Map<String,Object>, String, Boolean, String)", t); //$NON-NLS-1$
+			logger.error(
+					"queryIdsByMap(Map<String,Object>, String, Boolean, String)", t); //$NON-NLS-1$
 
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
 		} finally {
@@ -458,7 +461,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			}
 			return returnList;
 		} catch (Exception t) {
-			logger.error("queryByMap(Map<String,Object>, String, Boolean, String)", t); //$NON-NLS-1$
+			logger.error(
+					"queryByMap(Map<String,Object>, String, Boolean, String)", t); //$NON-NLS-1$
 
 			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
 		} finally {
@@ -604,7 +608,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			}
 			return returnList;
 		} catch (Exception t) {
-			logger.error("pageQuery(Map<String,Object>, int, int, Boolean, String)", t); //$NON-NLS-1$
+			logger.error(
+					"pageQuery(Map<String,Object>, int, int, Boolean, String)", t); //$NON-NLS-1$
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
@@ -643,7 +648,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			}
 			return returnList;
 		} catch (Exception t) {
-			logger.error("pageQuery(Map<String,Object>, int, int, String, String)", t); //$NON-NLS-1$
+			logger.error(
+					"pageQuery(Map<String,Object>, int, int, String, String)", t); //$NON-NLS-1$
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
@@ -683,7 +689,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			}
 			return returnList;
 		} catch (Exception t) {
-			logger.error("pageQuery(Map<String,Object>, int, int, String, Boolean, String)", t); //$NON-NLS-1$
+			logger.error(
+					"pageQuery(Map<String,Object>, int, int, String, Boolean, String)", t); //$NON-NLS-1$
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
@@ -801,24 +808,36 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 	private void nonePK$FKCheck(Map<String, Object> params) {
 		if (logger.isDebugEnabled()) {
-			logger.debug("nonePK$FKCheck(Map<String,Object>) - start"); //$NON-NLS-1$
-		}
+	      logger.debug("nonePK$FKCheck(Map<String,Object>) - start"); //$NON-NLS-1$
+	    }
+	    boolean pk = false;// 包含主键字段
+	    boolean fk = false;// 包含外键字段
+	    int fkCnt = 0;
+	    boolean nofk = false;// 包含非主外键之外的字段
+	    Iterator<String> keys = params.keySet().iterator();
+	    while (keys.hasNext()) {
+	      String key = keys.next();
+	      if ("id".equals(key)) {
+	        pk = true;
+	      } else {
+	        boolean tmp = isFk(key);
+	        if (tmp) {
+	          fkCnt++;
+	        } else {
+	          nofk = true;
+	        }
+	      }
+	    }
 
-		if (params.containsKey("id")) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0011);
-		}
+	    if (!nofk && pk && fkCnt == 0) {// 只含有主键
+	      throw new DataAccessException(IBatisDAOException.MSG_1_0011);
+	    } else if (!nofk && !pk && fkCnt == 1) {// 只含有单外键
+	      throw new DataAccessException(IBatisDAOException.MSG_1_0011);
+	    }
 
-		Iterator<String> keys = params.keySet().iterator();
-		while (keys.hasNext()) {
-			String key = keys.next();
-			if (isFk(key)) {
-				throw new DataAccessException(IBatisDAOException.MSG_1_0011);
-			}
-		}
-
-		if (logger.isDebugEnabled()) {
-			logger.debug("nonePK$FKCheck(Map<String,Object>) - end"); //$NON-NLS-1$
-		}
+	    if (logger.isDebugEnabled()) {
+	      logger.debug("nonePK$FKCheck(Map<String,Object>) - end"); //$NON-NLS-1$
+	    }
 	}
 
 	/**
@@ -1060,7 +1079,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			}
 			return eft;
 		} catch (Exception t) {
-			logger.error("batchUpdate(Map<String,Object>, List<Map<String,Object>>, String)", t); //$NON-NLS-1$
+			logger.error(
+					"batchUpdate(Map<String,Object>, List<Map<String,Object>>, String)", t); //$NON-NLS-1$
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
@@ -1122,7 +1142,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			logger.debug("validate(List<Map<String,Object>>) - end"); //$NON-NLS-1$
 		}
 	}
-	
+
 	@Override
 	public String getTableName() {
 		if (logger.isDebugEnabled()) {
