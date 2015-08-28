@@ -244,7 +244,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     } catch (Exception t) {
       logger.error("queryByFK(String, Integer, String)", t); //$NON-NLS-1$
 
-      throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
     	SqlmapUtils.release(session);
     }
@@ -287,7 +287,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     } catch (Exception t) {
       logger.error("queryByFK(String, Integer, Map<String,Object>, String)", t); //$NON-NLS-1$
 
-      throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
     	SqlmapUtils.release(session);
     }
@@ -325,7 +325,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     } catch (Exception t) {
       logger.error("queryByFK(String, Integer, Boolean, String)", t); //$NON-NLS-1$
 
-      throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
     	SqlmapUtils.release(session);
     }
@@ -366,7 +366,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     } catch (Exception t) {
       logger.error("queryByFK(String, Integer, Map<String,Object>, Boolean, String)", t); //$NON-NLS-1$
 
-      throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
     	SqlmapUtils.release(session);
     }
@@ -403,7 +403,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     } catch (Exception t) {
       logger.error("queryByFK(String, Long, String)", t); //$NON-NLS-1$
 
-      throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
     	SqlmapUtils.release(session);
     }
@@ -443,7 +443,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     } catch (Exception t) {
       logger.error("queryByFK(String, Long, Map<String,Object>, String)", t); //$NON-NLS-1$
 
-      throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
     	SqlmapUtils.release(session);
     }
@@ -481,7 +481,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     } catch (Exception t) {
       logger.error("queryByFK(String, Long, Boolean, String)", t); //$NON-NLS-1$
 
-      throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
     	SqlmapUtils.release(session);
     }
@@ -522,7 +522,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     } catch (Exception t) {
       logger.error("queryByFK(String, Long, Map<String,Object>, Boolean, String)", t); //$NON-NLS-1$
 
-      throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+      throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
     	SqlmapUtils.release(session);
     }

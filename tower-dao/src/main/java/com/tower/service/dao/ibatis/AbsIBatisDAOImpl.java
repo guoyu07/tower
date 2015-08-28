@@ -208,7 +208,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		} catch (Exception t) {
 			logger.error("queryByMap(Map<String,Object>, String)", t); //$NON-NLS-1$
 
-			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
 			SqlmapUtils.release(session);
 		}
@@ -245,7 +245,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		} catch (Exception t) {
 			logger.error("queryByMap(Map<String,Object>, String, String)", t); //$NON-NLS-1$
 
-			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
 			SqlmapUtils.release(session);
 		}
@@ -278,7 +278,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		} catch (Exception t) {
 			logger.error("queryIdsByMap(Map<String,Object>, String)", t); //$NON-NLS-1$
 
-			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
 			SqlmapUtils.release(session);
 		}
@@ -313,7 +313,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		} catch (Exception t) {
 			logger.error("queryIdsByMap(Map<String,Object>, String, String)", t); //$NON-NLS-1$
 
-			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
 			SqlmapUtils.release(session);
 		}
@@ -349,7 +349,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			logger.error(
 					"queryIdsByMap(Map<String,Object>, Boolean, String)", t); //$NON-NLS-1$
 
-			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
 			SqlmapUtils.release(session);
 		}
@@ -387,7 +387,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			logger.error(
 					"queryIdsByMap(Map<String,Object>, String, Boolean, String)", t); //$NON-NLS-1$
 
-			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
 			SqlmapUtils.release(session);
 		}
@@ -424,7 +424,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		} catch (Exception t) {
 			logger.error("queryByMap(Map<String,Object>, Boolean, String)", t); //$NON-NLS-1$
 
-			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
 			SqlmapUtils.release(session);
 		}
@@ -464,7 +464,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			logger.error(
 					"queryByMap(Map<String,Object>, String, Boolean, String)", t); //$NON-NLS-1$
 
-			throw new DataAccessException(IBatisDAOException.MSG_1_0007, t);
+			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
 			SqlmapUtils.release(session);
 		}
@@ -954,7 +954,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		}
 
 		if (model == null) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0007);
+			throw new DataAccessException(IBatisDAOException.MSG_1_0004);
 		}
 		model.validate();
 
