@@ -171,10 +171,10 @@ public interface ICacheable<T> {
    */
   Integer getThresholds();
   /**
-   * 以只有字母或者数字开头的，以_或者-为连接符同时以字母或者数字结束的字符串
+   * 以只有字母或者数字开头的，以_为连接符同时以字母或者数字结束的字符串
    * 主要防止表名sql注入
    */
-  public final String TAB_SUFFIX_PATTERN = "[0-9a-zA-Z]+(_|-[0-9a-zA-Z]+)*";
+  public final String TAB_SUFFIX_PATTERN = "[0-9a-zA-Z]+(_|[0-9a-zA-Z]+)*";
   
   public final String CacheKeyPrefixExpress = "#root.target.get$TKjtTabName(#tabNameSuffix).concat('@').concat('id').concat('=').concat(#id)";
   

@@ -584,7 +584,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     }
     Pattern p = Pattern.compile(TAB_SUFFIX_PATTERN);
     Matcher m = p.matcher(tabNameSuffix.trim());
-    if (m.matches()) {
+    if (!m.matches()) {
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, "'" + tabNameSuffix + "'后缀不符合规范");
     }
   }
