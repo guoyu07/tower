@@ -269,6 +269,21 @@ public class PrefixPriorityConfig extends DynamicConfig {
             return super.getString(key, defaultValue);
         }
     }
+    
+    public String getString(String root,String key, String defaultValue) {
+        if (!StringUtil.isEmpty(root)&&super.containsKey(root+"."+this.getPrefix() + key)) {
+            return super.getString(root+"."+this.getPrefix() + key);
+        } 
+        else if (super.containsKey(this.getPrefix() + key)) {
+            return super.getString(this.getPrefix() + key);
+        } 
+        else if (!StringUtil.isEmpty(root)&&super.containsKey(root+"."+ key)) {
+        	return super.getString(root+"."+ key);
+        }
+        else {
+        	return super.getString(key, defaultValue);
+        }
+    }
 
     public String[] getStringArray(String key) {
         if (super.containsKey(this.getPrefix() + key)) {

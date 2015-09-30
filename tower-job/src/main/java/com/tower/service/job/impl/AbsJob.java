@@ -6,7 +6,6 @@ import com.tower.service.job.DataProcessException;
 import com.tower.service.job.INormalJob;
 import com.tower.service.job.JobExecuteException;
 import com.tower.service.log.LogUtils;
-import com.tower.service.util.RequestID;
 
 /**
  * 所有除分页job之外的job必须实现该类<br>
@@ -27,66 +26,45 @@ public abstract class AbsJob<T> extends JobBase<T> implements INormalJob<T> {
     public AbsJob(String id) {
         super(id);
     }
+    
+    synchronized final public void doProcess() {
 
-    @Override
-    public void before() {
-    	
+    	int processed = 0;
+		long start = System.currentTimeMillis();
+		try {
+			while (true) {
+				List<T> datas = execute();
+				int size = datas == null ? 0 : datas.size();
+				if (size == 0) {
+					break;
+				}
+				for (int i = 0; i < size; i++) {
+					T data = datas.get(i);
+					try {
+						long tmpStart = System.currentTimeMillis();
+						this.doProcess(data);
+						LogUtils.timeused(logger, "doProcess", tmpStart);
+						this.increaseSuccessNum();
+					} catch (Exception ex) {
+						logger.error("doProcess()", ex); //$NON-NLS-1$
+						this.increaseErrorNum();
+						this.logger.error("error process: " + data.toString());
+						this.onError(new DataProcessException(ex));
+					}
+				}
+				batch();
+			}
+		} catch (DataProcessException ex) {
+			throw ex;
+		} catch (Exception ex) {
+			this.onError(new JobExecuteException(ex));
+		} finally {
+			logger.info("start() - end total={},success={},failed={} timeused={}",
+					processed, processed, this.getFailed(),System.currentTimeMillis()-start);
+		}
     }
-
-    synchronized final public void start() {
-        if (logger.isInfoEnabled()) {
-            logger.info("start() - start"); //$NON-NLS-1$
-        }
-
-        List<T> datas = null;
-        long start = System.currentTimeMillis();
-        long tmpStart = start;
-        int total = 0;
-        try {
-            RequestID.set(null);
-            before();
-            datas = execute();
-            if (logger.isInfoEnabled()) {
-                LogUtils.timeused(logger, "execute", tmpStart);
-            }
-            total = datas == null ? 0 : datas.size();
-            for (int i = 0; i < total; i++) {
-                T data = datas.get(i);
-                try {
-                    tmpStart = System.currentTimeMillis();
-                    this.doProcess(data);
-                    if (logger.isInfoEnabled()) {
-                        LogUtils.timeused(logger, "doProcess", tmpStart);
-                    }
-                    this.increaseSuccessNum();
-                } catch (Exception ex) {
-                    logger.error("start()", ex); //$NON-NLS-1$
-                    this.increaseErrorNum();
-                    this.logger.error("error process: " + data.toString());
-                    this.onError(new DataProcessException(ex));
-                }
-            }
-            this.onSuccessed();
-            after();
-        } catch (DataProcessException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            logger.error("start()", ex); //$NON-NLS-1$
-
-            this.onError(new JobExecuteException(ex));
-        } finally {
-            if (logger.isInfoEnabled()) {
-                LogUtils.timeused(logger, "doProcess", start);
-            }
-            logger.info("start() - end total={},success={},failed={}", total, this.getSuccessed(),
-                    this.getFailed());
-            if (logger.isInfoEnabled()) {
-                logger.info("start() - end"); //$NON-NLS-1$
-            }
-        }
-    }
-    @Override
-    public void after(){
+    
+    public void batch(){
     	
     }
 }

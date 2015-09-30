@@ -7,7 +7,6 @@ import com.tower.service.job.GetPageException;
 import com.tower.service.job.IPageableJob;
 import com.tower.service.job.PageLoadException;
 import com.tower.service.log.LogUtils;
-import com.tower.service.util.RequestID;
 
 /**
  * 所有分页处理job必须实现该类<br>
@@ -45,19 +44,8 @@ public abstract class AbsPageableJob<T> extends JobBase<T> implements IPageableJ
         return pageSize;
     }
     
-    @Override
-    public void before() {
-    	
-    }
-    
-    synchronized final public void start() {
+    synchronized final public void doProcess() {
         
-        RequestID.set(null);
-        
-        if (logger.isInfoEnabled()) {
-            logger.info("start() - start"); //$NON-NLS-1$
-        }
-        before();
         pageIdx = 1;
         this.failedReset();
         this.successedReset();
@@ -68,14 +56,13 @@ public abstract class AbsPageableJob<T> extends JobBase<T> implements IPageableJ
         try {
             pages = this.getPages();
             if (logger.isInfoEnabled()) {
-                LogUtils.timeused(logger, "execute", tmpStart);
+                LogUtils.timeused(logger, "getPages()", tmpStart);
             }
             for (int i = 0; i < pages; i++) {
                 pageProcess();
                 pageIdx++;
             }
             this.onSuccessed();
-            after();
         } catch (PageLoadException ex) {
             throw ex;
         } catch (DataProcessException ex) {
@@ -84,13 +71,10 @@ public abstract class AbsPageableJob<T> extends JobBase<T> implements IPageableJ
             LogUtils.error(logger, ex);
             this.onError(new GetPageException(ex));
         } finally {
-            if (logger.isInfoEnabled()) {
-                LogUtils.timeused(logger, "start", start);
-            }
             logger.info(
-                    "start() - end totalPage={},pageProcessed={},totalProcessed={},successProcessed={},failedProcessed={}",
+                    "start() - end totalPage={},pageProcessed={},totalProcessed={},successProcessed={},failedProcessed={} timeused={}",
                     pages, pageIdx-1, (this.getSuccessed() + this.getFailed()),
-                    this.getSuccessed(), this.getFailed());
+                    this.getSuccessed(), this.getFailed(),System.currentTimeMillis()-start);
         }
     }
 
@@ -143,7 +127,7 @@ public abstract class AbsPageableJob<T> extends JobBase<T> implements IPageableJ
                     this.onError(new DataProcessException(ex));
                 }
             }
-            pageAfter();
+            batch();
         } catch (DataProcessException ex) {
             throw ex;
         } finally {
@@ -152,16 +136,9 @@ public abstract class AbsPageableJob<T> extends JobBase<T> implements IPageableJ
             }
         }
     }
-    
     /**
      * 一页数据处理完成之后，后续业务扩展方法
      */
-    public void pageAfter(){
-    	
-    }
-    
-    @Override
-    public void after() {
-    	
+    public void batch(){
     }
 }

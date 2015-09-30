@@ -350,7 +350,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
     protected void build(Configuration config) {}
     
     private List<IConfigChangeListener> listeners = new ArrayList<IConfigChangeListener>();
-    public synchronized void addChangeListenre(IConfigChangeListener listener){
+    public synchronized void addChangeListener(IConfigChangeListener listener){
         if(!listeners.contains(listener)){
             listeners.add(listener);
         }

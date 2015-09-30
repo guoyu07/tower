@@ -13,6 +13,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
+import org.mybatis.spring.transaction.SpringManagedTransactionFactory;
 
 import com.tower.service.datasource.TxHolder;
 
@@ -166,15 +167,26 @@ public final class SqlmapUtils {
 		if (factory != null) {
 			return factory;
 		}
-
-		TransactionFactory transactionFactory = new JdbcTransactionFactory();
-		Environment environment = new Environment("Default",
-				transactionFactory, dataSource);
-		Configuration configuration = new Configuration(environment);
-		configuration.setDefaultExecutorType(ExecutorType.SIMPLE);
-		configuration.addInterceptor(new StatementHandlerPlugin());
-		factory = new SqlSessionFactoryBuilder().build(configuration);
-		_factories.put(dataSource, factory);
+		if(TxHolder.isSingleTx()){
+			TransactionFactory transactionFactory = new JdbcTransactionFactory();
+			Environment environment = new Environment("Default",
+					transactionFactory, dataSource);
+			Configuration configuration = new Configuration(environment);
+			configuration.setDefaultExecutorType(ExecutorType.SIMPLE);
+			configuration.addInterceptor(new StatementHandlerPlugin());
+			factory = new SqlSessionFactoryBuilder().build(configuration);
+			_factories.put(dataSource, factory);
+		}
+		else{
+			SpringManagedTransactionFactory transactionFactory = new SpringManagedTransactionFactory();
+			Environment environment = new Environment(dataSource.toString(), transactionFactory, dataSource);
+			Configuration configuration = new Configuration(environment);
+		    configuration.setEnvironment(environment);
+		    configuration.setDefaultExecutorType(ExecutorType.SIMPLE);
+			configuration.addInterceptor(new StatementHandlerPlugin());
+			factory = new SqlSessionFactoryBuilder().build(configuration);
+			_factories.put(dataSource, factory);
+		}
 
 		return factory;
 	}

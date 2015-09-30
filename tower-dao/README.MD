@@ -102,6 +102,17 @@ transactions-api
 transactions
 atomikos-utils
 
+<dependency>  
+    <groupId>com.atomikos</groupId>  
+    <artifactId>transactions-jdbc</artifactId>  
+    <version>3.7.0</version>  
+</dependency>  
+<dependency>  
+    <groupId>javax.transaction</groupId>  
+    <artifactId>jta</artifactId>  
+    <version>1.1</version>  
+</dependency>
+
 官方下载地址在 http://www.atomikos.com/Main/InstallingTransactionsEssentials
 还需要一个jta.jar包，我使用的是1.1版本
 为了方便大家
@@ -177,3 +188,38 @@ oracle可以使用
     <!-- Mapper接口所在包名，Spring会自动查找其下的Mapper -->
     <property name="basePackage" value="com.loftor.mapper.main"/>
 </bean>
+
+4.事务管理器配置
+
+<!-- 分布式事务 -->
+<bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">
+    <property name="forceShutdown" value="true"/>
+</bean>
+
+<bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp">
+    <property name="transactionTimeout" value="300"/>
+</bean>
+
+
+<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+    <property name="transactionManager" ref="atomikosTransactionManager"/>
+    <property name="userTransaction" ref="atomikosUserTransaction"/>
+</bean>
+
+<tx:annotation-driven transaction-manager="transactionManager"/>
+
+
+这步是关键，<tx:annotation-driven transaction-manager="transactionManager"/> 也可以写为<tx:annotation-driven/> 不需要配置transaction-manager 因为spring默认取的就是transactionManager。
+
+到这里应该已经可以使用了。大功告成了。但是如果要对atomikos配置的话，只要增加一个jta.properties放在和log4j.properties同样的目录就行，配置的内容可以在官方文档找到，如：
+
+com.atomikos.icatch.service=com.atomikos.icatch.standalone.UserTransactionServiceFactory
+com.atomikos.icatch.log_base_name = jdbc
+com.atomikos.icatch.tm_unique_name = com.atomikos.spring.jdbc.tm
+com.atomikos.icatch.serializable_logging=false
+
+参考资料
+
+http://loftor.com/archives/spring-mybatis-tomcat-jta.html
+
+http://zxlaiye.iteye.com/blog/1441299

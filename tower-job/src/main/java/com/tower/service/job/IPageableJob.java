@@ -35,5 +35,5 @@ public interface IPageableJob<T> extends IJob<T>{
     /**
      * 一页数据处理完成之后，后续业务扩展方法
      */
-    public void pageAfter();
+    public void batch();
 }

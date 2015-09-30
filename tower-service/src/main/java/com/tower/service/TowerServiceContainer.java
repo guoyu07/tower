@@ -8,6 +8,7 @@ import com.tower.service.log.LoggerFactory;
 
 public class TowerServiceContainer {
 	private SpringContainer container = null;
+	public static String SERVICE_ID;
 	static ClassPathXmlApplicationContext context;
 	Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -17,6 +18,15 @@ public class TowerServiceContainer {
 	 * @param location
 	 */
 	public TowerServiceContainer(String location) {
+		System.setProperty(
+				"dubbo.spring.config",
+				location == null ? "classpath*:META-INF/config/spring/spring-service.xml"
+						: location);
+		container = new SpringContainer();
+	}
+	
+	public TowerServiceContainer(String id,String location) {
+		SERVICE_ID = id;
 		System.setProperty(
 				"dubbo.spring.config",
 				location == null ? "classpath*:META-INF/config/spring/spring-service.xml"
@@ -35,7 +45,13 @@ public class TowerServiceContainer {
 	}
 
 	public static <T> T getBean(Class<T> requiredType) {
-		return context.getBean(requiredType);
+		T bean = null;
+		try{
+			bean = context.getBean(requiredType);
+		}
+		catch(Exception ex){
+		}
+		return bean;
 	}
 
 	public ClassPathXmlApplicationContext getContext() {

@@ -1,6 +1,8 @@
 package com.tower.service.job.impl;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -11,16 +13,22 @@ import org.quartz.Scheduler;
 import org.quartz.TriggerKey;
 import org.quartz.impl.triggers.CronTriggerImpl;
 
+import com.tower.service.TowerServiceContainer;
 import com.tower.service.config.IConfigChangeListener;
 import com.tower.service.job.IJob;
+import com.tower.service.job.IListener;
 import com.tower.service.job.JobException;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 import com.tower.service.reflection.MetaObject;
 import com.tower.service.reflection.factory.DefaultObjectFactory;
+import com.tower.service.util.RequestID;
 
 public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigChangeListener{
     
+	private static Thread monitor = null;
+	protected static int runningCnt = 0;
+	
     /**
      * Logger for this class
      */
@@ -43,9 +51,120 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
     @PostConstruct
     public void init(){
         this.setPrefix(id);
-        addChangeListenre(this);
+        addChangeListener(this);
         super.init();
+        if(monitor==null){
+        	monitor = new Thread() {
+        		Logger logger = LoggerFactory.getLogger("monitor");
+				@Override
+				public void run() {
+					while(true){
+						long time=1000;
+						synchronized ("job-control"){
+							String status = getStatus();
+							if(isPaused()){
+								if(runningCnt!=0){
+									time=2000;
+								}
+							}
+							if(isStoped()){
+								if(runningCnt==0){
+									logger.info(TowerServiceContainer.SERVICE_ID+" has exited...");
+									System.exit(1);
+								}
+							}
+							
+							logger.info("status:{},runningCnt:{}",status,runningCnt);
+						}
+						try {
+							sleep(time);
+						} catch (InterruptedException e) {
+						}
+					}
+				}
+			};
+			monitor.start();
+        }
     }
+    
+    protected synchronized boolean increaseRunning(){
+    	boolean paused = this.isPaused();
+    	if(paused){
+    		return false;
+    	}
+    	runningCnt++;
+    	return true;
+    }
+    
+    protected synchronized void decreaseRunning(){
+    	runningCnt--;
+    }
+    
+    protected synchronized boolean running(){
+    	return runningCnt>0;
+    }
+    
+    protected synchronized boolean isStarted(){
+        return "start".equalsIgnoreCase(getStatus());
+    }
+    protected synchronized boolean isPaused(){
+        return "pause".equalsIgnoreCase(getStatus());
+    }
+    protected synchronized boolean isStoped(){
+        return "stop".equalsIgnoreCase(getStatus());
+    }
+    /**
+     * status:start/pause/stop
+     * @return
+     */
+    protected String getStatus(){
+    	return this.getString(TowerServiceContainer.SERVICE_ID,"status",defStatus);//优先job
+    }
+    
+    protected String defStatus = "start";
+    
+    @Override
+    public void before() {
+    	
+    }
+    
+    private boolean newStart = false;
+    
+    public boolean isNewStart() {
+		return newStart;
+	}
+
+	public void setNewStart(boolean newStart) {
+		this.newStart = newStart;
+	}
+
+	public synchronized final void start() {
+        
+    	RequestID.set(null);
+    	this.setNewStart(true);
+    	logger.info("start() - start"); //$NON-NLS-1$
+    	
+        if(!increaseRunning()){
+        	logger.info(this.getClass().getSimpleName()+" has paused");
+        	return;
+        }
+        
+        try {
+        	before();
+        	doProcess();
+        	after();
+        }
+        catch(Exception ex){
+        	logger.error(ex);
+        }
+        finally{
+            notifyFinished();
+            decreaseRunning();
+            logger.info("finshed");
+        }
+    }
+    
+    abstract public void doProcess();
     
     @Override
     public String getId() {
@@ -53,9 +172,7 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
     }
 
     public void onError(JobException ex) {
-        if (logger.isInfoEnabled()) {
-            logger.info("onError(Exception ex={}) - start", ex); //$NON-NLS-1$
-        }
+    	logger.info("onError(Exception ex={}) - start", ex); //$NON-NLS-1$
         throw ex;
     }
 
@@ -108,29 +225,34 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
     }
 
     public void configChanged() {
-        String cronExpression = trigger.getCronExpression();
-        String currentCronExpression = getString("CronExpression");
-        if (currentCronExpression != null && currentCronExpression.trim().length() > 0
-                && !currentCronExpression.equalsIgnoreCase(cronExpression)) {
-            boolean settingNull = false;
-            if(jobDetail == null){
-                logger.info("jobDetail is null");
-                settingNull = true;
+    	if(trigger!=null){
+    		String cronExpression = trigger.getCronExpression();
+            String currentCronExpression = getString("CronExpression");
+            if (currentCronExpression != null && currentCronExpression.trim().length() > 0
+                    && !currentCronExpression.equalsIgnoreCase(cronExpression)) {
+                boolean settingNull = false;
+                if(jobDetail == null){
+                    logger.info("jobDetail is null");
+                    settingNull = true;
+                }
+                if(trigger == null){
+                    logger.info("trigger is null");
+                    settingNull = true;
+                }
+                if(scheduler == null){
+                    logger.info("scheduler is null");
+                    settingNull = true;
+                }
+                if(settingNull){
+                    logger.info("updateCronTriggerExp 被忽略");
+                    return;
+                }
+                this.updateCronTriggerExp(currentCronExpression);
             }
-            if(trigger == null){
-                logger.info("trigger is null");
-                settingNull = true;
-            }
-            if(scheduler == null){
-                logger.info("scheduler is null");
-                settingNull = true;
-            }
-            if(settingNull){
-                logger.info("updateCronTriggerExp 被忽略");
-                return;
-            }
-            this.updateCronTriggerExp(currentCronExpression);
-        }
+    	}
+    	else{
+    		logger.info("job {} 没有遵从job开发框架,{}",this.getClass().getSimpleName(),"updateCronTriggerExp 被忽略");
+    	}
     }
 
     protected void updateCronTriggerExp(String expression) {
@@ -211,4 +333,23 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
          * 
          */
     }
+    
+    /**
+     * 整个job执行完成后，后续业务扩展
+     */
+    @Override
+    public void after(){
+    	
+    }
+    protected void notifyFinished(){
+    	int size = listeners==null?0:listeners.size();
+    	for(int i=0;i<size;i++){
+    		listeners.get(i).finished();
+    	}
+    }
+    private List<IListener> listeners = new ArrayList<IListener>();
+
+	public void setListeners(List<IListener> listeners) {
+		this.listeners = listeners;
+	}
 }
