@@ -12,25 +12,10 @@ public class TowerServiceContainer {
 	static ClassPathXmlApplicationContext context;
 	Logger logger = LoggerFactory.getLogger(getClass());
 
-	/**
-	 * classpath*:META-INF/config/spring/spring-service.xml
-	 * 
-	 * @param location
-	 */
-	public TowerServiceContainer(String location) {
-		System.setProperty(
-				"dubbo.spring.config",
-				location == null ? "classpath*:META-INF/config/spring/spring-service.xml"
-						: location);
-		container = new SpringContainer();
-	}
-	
 	public TowerServiceContainer(String id,String location) {
 		SERVICE_ID = id;
-		System.setProperty(
-				"dubbo.spring.config",
-				location == null ? "classpath*:META-INF/config/spring/spring-service.xml"
-						: location);
+		String tmpLocation = (location == null ? "classpath*:META-INF/config/spring/spring-service.xml": location);
+		System.setProperty("dubbo.spring.config",tmpLocation);
 		container = new SpringContainer();
 	}
 

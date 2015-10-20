@@ -4,8 +4,11 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<bean id="towerContext"
 		class="com.tower.service.web.spring.TowerApplicationContextFactoryBean">
-		<constructor-arg>
-			<value>classpath*:META-INF/config/spring/spring-service.xml</value>
+		<constructor-arg index="0">
+		    <value>#{artifactId}-web</value>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<value>classpath*:META-INF/config/spring/spring-dubbo.xml</value>
 		</constructor-arg>
 	</bean>
 </beans>

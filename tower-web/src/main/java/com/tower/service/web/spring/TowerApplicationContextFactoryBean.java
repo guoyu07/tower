@@ -14,8 +14,8 @@ public class TowerApplicationContextFactoryBean implements InitializingBean,
 
 	private TowerServiceContainer container = null;
 
-	public TowerApplicationContextFactoryBean(String location) {
-		container = new TowerServiceContainer(location);
+	public TowerApplicationContextFactoryBean(String id,String location) {
+		container = new TowerServiceContainer(id,location);
 		container.start();
 		classPathXmlApplicationContext = container.getContext();
 	}
