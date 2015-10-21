@@ -5,6 +5,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.alibaba.dubbo.container.spring.SpringContainer;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
+import com.tower.service.monitor.IMonitorService;
 
 public class TowerServiceContainer {
 	private SpringContainer container = null;
@@ -23,6 +24,21 @@ public class TowerServiceContainer {
 		try{
 			container.start();
 			context = SpringContainer.getContext();
+			final IMonitorService monitorService = (IMonitorService)context.getBean("monitorService");
+			if(monitorService!=null){
+				monitorService.enroll(SERVICE_ID);
+				new Thread(){
+					public void run() {
+						while(true){
+							try {
+								monitorService.heartbeat(SERVICE_ID);
+								sleep(1000*60);
+							} catch (InterruptedException e) {
+							}
+						}
+					};
+				}.start();
+			}
 		}
 		catch(Exception ex){
 			logger.error("初始化出错", ex);

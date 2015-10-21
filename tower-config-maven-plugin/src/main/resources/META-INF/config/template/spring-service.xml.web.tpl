@@ -54,6 +54,10 @@
     <!-- 使用监控中心 -->
     <dubbo:monitor protocol="registry"/>
     
+    <dubbo:registry id="monitorRegistry" protocol="zookeeper" address="${monitor.service.registry.address}" />
+    
+   	<dubbo:reference id="monitorService" interface="com.tower.service.monitor.IMonitorService" check="false" registry="monitorRegistry"/>
+   	
     <!--服务查询定义信息请在该备注以下添加-->
 	<context:component-scan base-package="com.#{company}.service.#{artifactId}" />
 	

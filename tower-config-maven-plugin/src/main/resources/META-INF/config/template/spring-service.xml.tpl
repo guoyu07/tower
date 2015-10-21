@@ -59,6 +59,10 @@
     <!-- 使用监控中心 -->
     <dubbo:monitor protocol="registry"/>
     
+    <dubbo:registry id="monitorRegistry" protocol="zookeeper" address="${monitor.service.registry.address}" />
+    
+   	<dubbo:reference id="monitorService" interface="com.tower.service.monitor.IMonitorService" check="false" registry="monitorRegistry"/>
+   	
     <!--服务注册信息请在该备注以下添加-->
     
     <!-- 声明需要暴露的服务接口 -->

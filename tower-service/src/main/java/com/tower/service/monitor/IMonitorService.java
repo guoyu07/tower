@@ -1,13 +1,17 @@
 package com.tower.service.monitor;
 
-import com.alibaba.dubbo.common.URL;
 
 public interface IMonitorService {
+	/**
+	 * 注册服务
+	 * @param id
+	 */
+	public void enroll(String id);
     /**
-     * 发布监控信息
+     * 发布心跳信息
      * @param monitors
      * @return
      */
-    public void publish(URL url);
+    public void heartbeat(String id);
     
 }
