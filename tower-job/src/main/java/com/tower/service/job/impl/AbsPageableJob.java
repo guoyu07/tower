@@ -59,6 +59,9 @@ public abstract class AbsPageableJob<T> extends JobBase<T> implements IPageableJ
                 LogUtils.timeused(logger, "getPages()", tmpStart);
             }
             for (int i = 0; i < pages; i++) {
+            	while("pause".equalsIgnoreCase(this.getStatus())){
+            		Thread.currentThread().sleep(1000);
+            	}
                 pageProcess();
                 pageIdx++;
             }

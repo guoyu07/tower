@@ -33,6 +33,9 @@ public abstract class AbsJob<T> extends JobBase<T> implements INormalJob<T> {
 		long start = System.currentTimeMillis();
 		try {
 			while (true) {
+				while("pause".equalsIgnoreCase(this.getStatus())){
+            		Thread.currentThread().sleep(1000);
+            	}
 				List<T> datas = execute();
 				int size = datas == null ? 0 : datas.size();
 				if (size == 0) {
