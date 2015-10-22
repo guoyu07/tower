@@ -44,7 +44,7 @@ public abstract class AbsPageableJob<T> extends JobBase<T> implements IPageableJ
         return pageSize;
     }
     
-    synchronized final public void doProcess() {
+    final public void doProcess() {
         
         pageIdx = 1;
         this.failedReset();

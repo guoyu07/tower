@@ -21,27 +21,35 @@ public class TowerServiceContainer {
 	}
 
 	public void start() {
-		try{
+		try {
 			container.start();
 			context = SpringContainer.getContext();
-			final IMonitorService monitorService = (IMonitorService)context.getBean("monitorService");
-			if(monitorService!=null){
+			initMonitor();
+		} catch (Exception ex) {
+			logger.error("初始化出错", ex);
+		}
+	}
+
+	private void initMonitor() {
+		try {
+			final IMonitorService monitorService = (IMonitorService) context
+					.getBean("monitorService");
+			if (monitorService != null) {
 				monitorService.enroll(SERVICE_ID);
-				new Thread(){
+				new Thread() {
 					public void run() {
-						while(true){
+						while (true) {
 							try {
 								monitorService.heartbeat(SERVICE_ID);
-								sleep(1000*60);
+								sleep(1000 * 60);
 							} catch (InterruptedException e) {
 							}
 						}
 					};
 				}.start();
 			}
-		}
-		catch(Exception ex){
-			logger.error("初始化出错", ex);
+		} catch (Exception ex) {
+			logger.info(ex.getMessage());
 		}
 	}
 

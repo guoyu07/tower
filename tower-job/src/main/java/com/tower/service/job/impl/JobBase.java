@@ -138,7 +138,7 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
 		this.newStart = newStart;
 	}
 
-	public synchronized final void start() {
+	public final void start() {
         
     	RequestID.set(null);
     	this.setNewStart(true);
@@ -224,7 +224,7 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
         this.scheduler = scheduler;
     }
 
-    public void configChanged() {
+    public synchronized void configChanged() {
     	if(trigger!=null){
     		String cronExpression = trigger.getCronExpression();
             String currentCronExpression = getString("CronExpression");

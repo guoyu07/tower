@@ -27,7 +27,7 @@ public abstract class AbsJob<T> extends JobBase<T> implements INormalJob<T> {
         super(id);
     }
     
-    synchronized final public void doProcess() {
+    final public void doProcess() {
 
     	int processed = 0;
 		long start = System.currentTimeMillis();
