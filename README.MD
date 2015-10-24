@@ -1,11 +1,18 @@
-## 框架
+## 框架使用说明
+
+#### 安装git
+#### 搭建本地私服库（nexus）
++ 备注：个别java包可能需要在互联网上单独下载，公共的私服服务上可能没有；
+#### 安装Jenkins（构件）
+
+## 框架介绍
 
 #### soa服务框架包图
 
 ![soa服务框架包图](doc/soafw-package.png)
 
 ##### tower-soa－framwork
-+ 跨境通统一的java框架
++ 统一的java框架
 + j2ee、spring、mybaties、springmvc、freemarker、memchecache、redis、mysql等
 
 ###### tower－util
@@ -17,6 +24,8 @@
 
 ###### tower－log
 + 日志处理相关类
++ 每条日志信息都会自动输出当前请求ID(当当前请求没有请求ID时，框架会自动产生，并且一直跟着到最后：追加到sql语句的备注部分)
++ 当是一个web请求时，web框架中会根据其调用端传入参数［X-Request-ID］情况来获取或者产生请求id（X-Request-ID为空时自动产生）
 
 ###### tower－config
 + 具体模块配置文件，通过java 属性机制进行改变-Dxxx=yyy
@@ -47,7 +56,7 @@
 + 负责消息中间件通信的模块
 
 ###### tower－rpc
-+ rpc通信模块
++ rpc通信模块（第三方通信）
 	+ http
 	+ rmi
 	+ hessian
@@ -64,17 +73,27 @@
 
 ###### tower－model
 + 业务模型对象模块
-	+ DTO
-	+ BO
-
-###### tower－job
-+ job框架模块
-+ job监控信息采集
+	+ DTO 建议其子类实现toString()方法
+	+ BO 建议其子类实现toString()方法
 
 ###### tower－service
 + service框架模块
 + service服务监控信息采集
 
+###### tower－job
++ job框架模块
++ job监控信息采集
++ 可以动态调整job调度策略
++ 可以动态暂停job的执行（可以控制所有、一组及单独的某一个job）
+
+###### tower－web
++ web框架模块
++ web监控信息采集
+
++ 插件
+	+ 项目框架生成插件（tower-config-maven-plugin）
+	+ 测试框架代码生成器插件(tower-test-maven-plugin)
+		+ 默认是关闭的,可以通过-Dsoafw.tester.gen=true的方式开启
 ##### 相关工具
 + 服务项目框架生成器
 	+ 项目生成工具
@@ -84,17 +103,17 @@
 		+ ./gen_service.sh hello company 生成服务框架
 		+ ./gen_web.sh hello company 生成web框架
 	+ 数据访问层代码生成器
+		+ 支持mysql、sql server
+		+ 支持事务（单数据库的两阶段提交分布式事务）
 		+ import hello-dao as maven 项目
 		+ 在src/test/java中找到com.[company].service.hello.dao.DaoGen
 		+ 按照提示修改DaoGen.java内容
 		+ 运行DaoGen
-	+ 测试框架代码生成器插件
-		+ 默认是关闭的,可以通过-Dsoafw.tester.gen=true的方式开启
-+ 代码发布脚步工具 publish目录下
-	+ 生成版本号
-		+ sh publish.sh hello 
-	+ 发布代码到服务器
-		+ sh rsyc.sh hello yyyy-MM-dd_xxx targetIp userId
+	+ 代码发布脚步工具 publish目录下
+		+ 生成版本号
+			+ sh publish.sh hello 
+		+ 发布代码到服务器
+			+ sh rsyc.sh hello yyyy-MM-dd_xxx targetIp userId
 
 + exception管理工具
 + checkstyle
@@ -107,4 +126,6 @@
 
 ##### deploy
 + mvn deploy
+
+## 
 

@@ -16,7 +16,7 @@ public class RequestIDInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-		String rid = request.getHeader("X-AJK-Request-ID");
+		String rid = request.getHeader("X-Request-ID");
 		LOGGER.debug("rid: {}", rid);
 		RequestID.set(rid);
 		LOGGER.debug("preHandle");
