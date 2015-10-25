@@ -3,6 +3,7 @@ package com.tower.service.job.impl;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.PostConstruct;
 
@@ -27,7 +28,7 @@ import com.tower.service.util.RequestID;
 public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigChangeListener{
     
 	private static Thread monitor = null;
-	protected static int runningCnt = 0;
+	private static AtomicInteger runningCnt = new AtomicInteger(0);
 	
     /**
      * Logger for this class
@@ -60,22 +61,19 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
 				public void run() {
 					while(true){
 						long time=1000;
-						synchronized ("job-control"){
-							String status = getStatus();
-							if(isPaused()){
-								if(runningCnt!=0){
-									time=2000;
-								}
-							}
-							if(isStoped()){
-								if(runningCnt==0){
-									logger.info(TowerServiceContainer.SERVICE_ID+" has exited...");
-									System.exit(1);
-								}
-							}
-							
-							logger.info("status:{},runningCnt:{}",status,runningCnt);
+						String status = getStatus();
+						if(isPaused()){
+							time=5000;
 						}
+						if(isStoped()){
+							if(runningCnt.get()==0){
+								logger.info(TowerServiceContainer.SERVICE_ID+" has exited...");
+								System.exit(1);
+							}
+						}
+						
+						logger.info("status:{},runningCnt:{}",status,runningCnt);
+						
 						try {
 							sleep(time);
 						} catch (InterruptedException e) {
@@ -92,25 +90,25 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
     	if(paused){
     		return false;
     	}
-    	runningCnt++;
+    	runningCnt.incrementAndGet();
     	return true;
     }
     
-    protected synchronized void decreaseRunning(){
-    	runningCnt--;
+    protected void decreaseRunning(){
+    	runningCnt.decrementAndGet();
     }
     
-    protected synchronized boolean running(){
-    	return runningCnt>0;
+    protected  boolean running(){
+    	return runningCnt.get()>0;
     }
     
-    protected synchronized boolean isStarted(){
+    protected  boolean isStarted(){
         return "start".equalsIgnoreCase(getStatus());
     }
-    protected synchronized boolean isPaused(){
+    protected  boolean isPaused(){
         return "pause".equalsIgnoreCase(getStatus());
     }
-    protected synchronized boolean isStoped(){
+    protected  boolean isStoped(){
         return "stop".equalsIgnoreCase(getStatus());
     }
     /**
