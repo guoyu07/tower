@@ -72,7 +72,7 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
 							}
 						}
 						
-						logger.info("status:{},runningCnt:{}",status,runningCnt);
+						logger.info("status:{},runningCnt:{}",status,runningCnt.get());
 						
 						try {
 							sleep(time);
@@ -85,13 +85,8 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
         }
     }
     
-    protected synchronized boolean increaseRunning(){
-    	boolean paused = this.isPaused();
-    	if(paused){
-    		return false;
-    	}
+    protected void increaseRunning(){
     	runningCnt.incrementAndGet();
-    	return true;
     }
     
     protected void decreaseRunning(){
@@ -140,12 +135,10 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
         
     	RequestID.set(null);
     	this.setNewStart(true);
-    	logger.info("start() - start"); //$NON-NLS-1$
     	
-        if(!increaseRunning()){
-        	logger.info(this.getClass().getSimpleName()+" has paused");
-        	return;
-        }
+    	pausedCheck("starting");
+    	
+    	this.increaseRunning();
         
         try {
         	before();
@@ -162,6 +155,16 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
         }
     }
     
+	protected void pausedCheck(String status){
+    	while("pause".equalsIgnoreCase(this.getStatus())){
+    		try {
+				Thread.currentThread().sleep(1000);
+			} catch (InterruptedException e) {
+			}
+    		logger.info("{} has paused",status);
+    	}
+    }
+	
     abstract public void doProcess();
     
     @Override
