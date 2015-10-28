@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.tower.soafw</groupId>
 		<artifactId>tower</artifactId>
-		<version>1.0</version>
+		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>tower-service-impl</artifactId>
 	<name>tower-service-impl</name>
