@@ -22,7 +22,7 @@
 	<cache:annotation-driven cache-manager="cacheManager" />
 
 	<bean name="cacheManager"
-		class="com.#{company}.service.cache.spring.DynamicMemcacheManager">
+		class="com.tower.service.cache.spring.DynamicMemcacheManager">
 		<property name="caches">
 			<list>
 				<ref bean="defaultCache" />
