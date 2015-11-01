@@ -99,7 +99,7 @@
 	+ 项目生成工具
 		+ tower-tools
 		+ ./gen_all.sh hello company 生成项目的所有模块
-		+ ./gen_job.sh hello company xxx 生成特地的job
+		+ ./gen_job.sh hello company xxx 生成特定的job
 		+ ./gen_service.sh hello company 生成服务框架
 		+ ./gen_web.sh hello company 生成web框架
 	+ 数据访问层代码生成器

@@ -20,6 +20,10 @@ CREATE TABLE `cache_version` (
 ### 
 ### 
 
+### 备注：本dao只使用单事务，如果需要支持分布式事务机制，必须改造SqlmapUtils内部实现，让其内部调用SqlSessionUtils相关方法，同时结合org.mybatis.spring.SqlSessionFactoryBean机制;
+
+http://blog.csdn.net/m13321169565/article/details/7729422
+
 Spring+Mybatis+Tomcat下多数据源与 atomikos 分布式事务配置
 
 配置两个数据源
@@ -218,6 +222,160 @@ com.atomikos.icatch.log_base_name = jdbc
 com.atomikos.icatch.tm_unique_name = com.atomikos.spring.jdbc.tm
 com.atomikos.icatch.serializable_logging=false
 
+
+1、采用数据映射器（MapperFactoryBean）的方式，不用写mybatis映射文件，采用注解方式提供相应的sql语句和输入参数。
+  （1）Spring配置文件：
+
+   <!-- 引入jdbc配置文件 -->      
+
+ <context:property-placeholder location="jdbc.properties"/>          
+
+ <!--创建jdbc数据源 -->        
+
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">         
+
+ <property name="driverClassName" value="${driver}"/>        
+
+  <property name="url" value="${url}"/>         
+
+ <property name="username" value="${username}"/>         
+
+ <property name="password" value="${password}"/>          
+
+<property name="initialSize" value="${initialSize}"/>          
+
+<property name="maxActive" value="${maxActive}"/>       
+
+   <property name="maxIdle" value="${maxIdle}"/>          
+
+<property name="minIdle" value="${minIdle}"/>       
+
+ </bean>        
+
+  <!-- 创建SqlSessionFactory，同时指定数据源-->       
+
+ <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">        
+
+ <property name="dataSource" ref="dataSource" />         
+
+</bean>         
+
+  <!--创建数据映射器，数据映射器必须为接口-->  
+
+      <bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">        
+
+ <property name="mapperInterface" value="com.xxt.ibatis.dbcp.dao.UserMapper" />       
+
+  <property name="sqlSessionFactory" ref="sqlSessionFactory" />        
+
+ </bean>         
+
+ <bean id="userDaoImpl2" class="com.xxt.ibatis.dbcp.dao.impl.UserDaoImpl2">       
+
+ <property name="userMapper" ref="userMapper"/>  
+
+ </bean>  
+
+ 
+
+数据映射器UserMapper,代码如下:
+
+public interface UserMapper {     
+    @Select("SELECT * FROM user WHERE id = #{userId}")        
+  User getUser(@Param("userId") long id);   
+ }  
+ 
+ 
+dao接口类UserDao，代码如下：
+Java代码
+public interface UserDao {   
+    public User getUserById(User user);  
+ }  
+ 
+dao实现类UserDaoImpl2,，代码如下:
+Java代码
+public class UserDaoImpl2 implements UserDao {   
+     private UserMapper userMapper;      
+     public void setUserMapper(UserMapper userMapper) {       
+      this.userMapper = userMapper;      
+   }         
+   public User getUserById(User user) {      
+     return userMapper.getUser(user.getId());      
+   }  
+  }  
+ 
+ 
+2、采用接口org.apache.ibatis.session.SqlSession的实现类org.mybatis.spring.SqlSessionTemplate。
+    mybatis中, sessionFactory可由SqlSessionFactoryBuilder.来创建。
+MyBatis-Spring 中，使用了SqlSessionFactoryBean来替代。
+SqlSessionFactoryBean有一个必须属性dataSource，
+另外其还有一个通用属性configLocation（用来指定mybatis的xml配置文件路径）。
+   （1）Spring配置文件：
+<!-- 创建SqlSessionFactory，同时指定数据源-->  
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">     
+ <property name="dataSource" ref="dataSource" />     
+ <!-- 指定sqlMapConfig总配置文件，订制的environment在spring容器中不在生效-->   
+ <property  name="configLocation"  value="classpath:sqlMapConfig.xml"/>   
+ <!--指定实体类映射文件，可以指定同时指定某一包以及子包下面的所有配置文件，mapperLocations和configLocation有一个即可，当需要为实体类指定别名时，可指定configLocation属性，再在mybatis总配置文件中采用mapper引入实体类映射文件 -->  
+  <!- - <property  name="mapperLocations"  value="classpath*:com/xxt/ibatis/dbcp/**/*.xml"/>  -->
+ <bean>
+  (2)mybatis总配置文件sqlMapConfig.xml：
+<configuration>    
+ <typeAliases>     
+  <typeAlias type="com.xxt.ibatis.dbcp.domain.User" alias="User" />   
+ </typeAliases>     
+<mappers>      
+  <mapper resource="com/xxt/ibatis/dbcp/domain/user.map.xml" />      
+ </mappers>  
+ </configuration> 
+(3)实体类映射文件user.map.xml:
+<mapper namespace="com.xxt.ibatis.dbcp.domain.User">       
+ <resultMap type="User" id="userMap">         
+  <id property="id" column="id" />        
+   <result property="name" column="name" />        
+   <result property="password" column="password" />      
+     <result property="createTime" column="createtime" />     
+   </resultMap>     
+   <select id="getUser" parameterType="User" resultMap="userMap">     
+     select * from user where id = #{id}        
+</select>  
+ <mapper/> 
+ (4)dao层接口实现类UserDaoImpl：
+Java代码
+public class UserDaoImpl implements  UserDao  {  
+    public SqlSessionTemplate sqlSession;    
+      public User getUserById(User user) {     
+     return (User)sqlSession.selectOne("com.xxt.ibatis.dbcp.domain.User.getUser", user); 
+     }  
+    public void setSqlSession(SqlSessionTemplate sqlSession) {       
+    this.sqlSession = sqlSession;      }  
+  }  
+3、采用抽象类org.mybatis.spring.support.SqlSessionDaoSupport提供SqlSession。
+   (1)spring配置文件:
+Java代码
+<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">      
+ <property name="dataSource" ref="dataSource" />     
+ <property  name="configLocation"  value="classpath:sqlMapConfig.xml"/>     
+ <!-- <property  name="mapperLocations"  value="classpath*:com/xxt/ibatis/dbcp/domain/user.map.xml"/   >  -->   
+</bean>    
+  <bean id="sqlSession"     class="org.mybatis.spring.SqlSessionTemplate">         
+ <constructor-arg index="0" ref="sqlSessionFactory" />   
+ </bean>    
+ <bean id="userDaoImpl3" class="com.xxt.ibatis.dbcp.dao.impl.UserDaoImpl3">     
+ <!--注入SqlSessionTemplate实例 -->      
+<property name="sqlSessionTemplate" ref="sqlSession" />     
+  <!--也可直接注入SqlSessionFactory实例，二者都指定时，SqlSessionFactory失效 -->     
+ <!-- <property name="sqlSessionFactory" ref="sqlSessionFactory" />    -->  
+ </bean>  
+ 
+ (2) dao层接口实现类UserDaoImpl3：
+   
+Java代码
+public class UserDaoImpl3 extends SqlSessionDaoSupport implements UserDao {  
+   public User getUserById(User user) {     
+   return (User) getSqlSession().selectOne("com.xxt.ibatis.dbcp.domain.User.getUser", user);     
+} 
+  }  
 参考资料
 
 http://loftor.com/archives/spring-mybatis-tomcat-jta.html

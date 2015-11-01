@@ -39,14 +39,13 @@ public class ServiceFilter implements Filter {
 			String reqId = RequestID.get();
 			invocation.getAttachments().put(reqidKey, reqId);
 		}
-		if(!"com.alibaba.dubbo.monitor.MonitorService".equalsIgnoreCase(interfaceStr)){
-			logger.info("{} {} interface={}.{}",provider?"from client":"to service",remoteIp,interfaceStr,invocation.getMethodName());
-		}
 		long start = System.currentTimeMillis();
-		Result result = invoker.invoke(invocation);
-		long timeused = (System.currentTimeMillis() - start);
-		if(!"com.alibaba.dubbo.monitor.MonitorService".equalsIgnoreCase(interfaceStr)){
-			logger.info("timeused={}",timeused);
+		Result result =null;
+		try{
+			result = invoker.invoke(invocation);
+		}finally{
+			long timeused = (System.currentTimeMillis() - start);
+			logger.info("{} {} interface={}.{} timeused={}",provider?"from client":"to service",remoteIp,interfaceStr,invocation.getMethodName(),timeused);
 		}
 		return result; 
 	}

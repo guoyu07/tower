@@ -4,9 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.tower.soafw</groupId>
 	<artifactId>tower</artifactId>
-	<version>1.0</version>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
-
+	
 	<issueManagement>
 		<url>https://github.com/kevinsawicki/github-maven-example/issues</url>
 		<system>GitHub Issues</system>
@@ -23,9 +23,8 @@
 		<connection>scm:git:git@github.com:archlevel/tower.git</connection>
 		<developerConnection>scm:git:git@github.com:archlevel/tower.git</developerConnection>
 		<url>git@github.com:archlevel/tower.git</url>
-		<tag>1.0</tag>
 	</scm>
-
+	
 	<developers>
 		<developer>
 			<name>朱拱平</name>

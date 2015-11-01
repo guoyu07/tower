@@ -13,6 +13,8 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.mybatis.spring.transaction.SpringManagedTransactionFactory;
 
 import com.tower.service.datasource.TxHolder;
@@ -167,6 +169,8 @@ public final class SqlmapUtils {
 		if (factory != null) {
 			return factory;
 		}
+		//SqlSessionFactoryBean bean;
+		//MapperFactoryBean mapper;
 		if(TxHolder.isSingleTx()){
 			TransactionFactory transactionFactory = new JdbcTransactionFactory();
 			Environment environment = new Environment("Default",
