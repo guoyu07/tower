@@ -7,7 +7,35 @@
 	<artifactId>#{artifactId}</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	
+	<issueManagement>
+		<url>http://gitlab.corp.#{company}.com/_code_java/#{artifactId}/issues</url>
+		<system>GitHub Issues</system>
+	</issueManagement>
 
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>scm:git@gitlab.corp.#{company}.com:_code_java/#{artifactId}.git</connection>
+		<developerConnection>scm:git@gitlab.corp.#{company}.com:_code_java/#{artifactId}.git</developerConnection>
+		<url>git@gitlab.corp.#{company}.com:_code_java/#{artifactId}.git</url>
+	  	<tag>HEAD</tag>
+  	</scm>
+	
+	<developers>
+		<developer>
+			<name>朱拱平</name>
+			<email>arch_level@126.com</email>
+			<organization>Sonatype</organization>
+			<organizationUrl>http://www.sonatype.com</organizationUrl>
+		</developer>
+	</developers>
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
@@ -478,6 +506,14 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.5.3</version>
+					<configuration>
+						<tagNameFormat>v@{project.version}</tagNameFormat>
+					</configuration>
+				</plugin>
 				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>

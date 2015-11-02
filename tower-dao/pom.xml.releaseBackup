@@ -4,21 +4,17 @@
 	<parent>
 		<groupId>com.tower.soafw</groupId>
 		<artifactId>tower</artifactId>
-		<version>1.2-SNAPSHOT</version>
+		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>tower-service-impl</artifactId>
-	<name>tower-service-impl</name>
+	<artifactId>tower-dao</artifactId>
+	<name>tower-dao</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<exception.enum.class>com.tower.soafw.dao.ibatis.IBatisDAOException</exception.enum.class>
 	</properties>
+
 	<dependencies>
-
-		<dependency>
-			<groupId>com.tower.soafw</groupId>
-			<artifactId>tower-dao</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>com.tower.soafw</groupId>
 			<artifactId>tower-concurrent</artifactId>
@@ -26,19 +22,14 @@
 
 		<dependency>
 			<groupId>com.tower.soafw</groupId>
-			<artifactId>tower-mq</artifactId>
+			<artifactId>tower-config</artifactId>
 		</dependency>
 
 		<dependency>
 			<groupId>com.tower.soafw</groupId>
-			<artifactId>tower-rpc</artifactId>
+			<artifactId>tower-cache</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.tower.soafw</groupId>
-			<artifactId>tower-service</artifactId>
-		</dependency>
-		
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
@@ -52,14 +43,58 @@
 			<artifactId>aopalliance</artifactId>
 			<version>1.0</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.16</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -120,4 +155,5 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	
 </project>

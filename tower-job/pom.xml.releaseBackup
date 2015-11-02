@@ -3,33 +3,28 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.tower.soafw</groupId>
-		<version>1.2-SNAPSHOT</version>
 		<artifactId>tower</artifactId>
+		<version>1.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>tower-config</artifactId>
-	<name>tower-config</name>
+	<artifactId>tower-job</artifactId>
+	<name>tower-job</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
 		<dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-plugin-api</artifactId>
-            <version>2.0</version>
-        </dependency>
+			<groupId>com.tower.soafw</groupId>
+			<artifactId>tower-config</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.tower.soafw</groupId>
-			<artifactId>tower-log</artifactId>
+			<artifactId>tower-service</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.thoughtworks.xstream</groupId>
-			<artifactId>xstream</artifactId>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
 		</dependency>
-		<dependency>
-				<groupId>ognl</groupId>
-				<artifactId>ognl</artifactId>
-			</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
