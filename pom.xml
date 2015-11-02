@@ -8,7 +8,7 @@
 	<packaging>pom</packaging>
 	
 	<issueManagement>
-		<url>https://github.com/kevinsawicki/github-maven-example/issues</url>
+		<url>https://github.com/archlevel/tower/issues</url>
 		<system>GitHub Issues</system>
 	</issueManagement>
 
