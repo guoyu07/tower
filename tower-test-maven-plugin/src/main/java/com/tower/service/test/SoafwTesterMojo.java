@@ -567,7 +567,7 @@ public class SoafwTesterMojo extends AbstractMojo {
         jHeadBuf.append("import org.junit.runner.RunWith;\n");
         jHeadBuf.append("import org.springframework.test.context.ContextConfiguration;\n");
         jHeadBuf.append("import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;\n\n");
-        jHeadBuf.append("import com.kjt.service.common.annotation.SoaFwTest;\n");
+        jHeadBuf.append("import com.tower.service.annotation.SoaFwTest;\n");
         jHeadBuf.append("@RunWith(SpringJUnit4ClassRunner.class)\n");
         String name = project.getName();
         String suffix = "dao";
@@ -597,101 +597,5 @@ public class SoafwTesterMojo extends AbstractMojo {
 
         jHeadBuf.append("public class " + cls.getSimpleName() + "Test {\n");
         return jHeadBuf;
-    }
-
-    public static void main(String[] args) {
-        String[] path =
-                {
-                        "/Users/alexzhu/soa/projects/tsl/tsl-service-impl/target/classes",
-                        "/Users/alexzhu/.m2/repository/com/kjt/service/common/soafw-common-service-impl/1.0-SNAPSHOT/soafw-common-service-impl-1.0-SNAPSHOT.jar",
-                        "/Users/alexzhu/.m2/repository/com/kjt/service/common/soafw-common-dao/1.0-SNAPSHOT/soafw-common-dao-1.0-SNAPSHOT.jar",
-                        "/Users/alexzhu/.m2/repository/com/kjt/service/common/soafw-common-config/1.0-SNAPSHOT/soafw-common-config-1.0-SNAPSHOT.jar",
-                        "/Users/alexzhu/.m2/repository/org/apache/maven/maven-plugin-api/2.0/maven-plugin-api-2.0.jar",
-                        "/Users/alexzhu/.m2/repository/com/kjt/service/common/soafw-common-log/1.0-SNAPSHOT/soafw-common-log-1.0-SNAPSHOT.jar",
-                        "/Users/alexzhu/.m2/repository/ch/qos/logback/logback-classic/1.1.2/logback-classic-1.1.2.jar",
-                        "/Users/alexzhu/.m2/repository/ch/qos/logback/logback-core/1.1.2/logback-core-1.1.2.jar",
-                        "/Users/alexzhu/.m2/repository/com/kjt/service/common/soafw-common-cache/1.0-SNAPSHOT/soafw-common-cache-1.0-SNAPSHOT.jar",
-                        "/Users/alexzhu/.m2/repository/com/danga/memcached/2.0.1/memcached-2.0.1.jar",
-                        "/Users/alexzhu/.m2/repository/redis/clients/jedis/2.6.2/jedis-2.6.2.jar",
-                        "/Users/alexzhu/.m2/repository/org/apache/commons/commons-pool2/2.0/commons-pool2-2.0.jar",
-                        "/Users/alexzhu/.m2/repository/org/aspectj/aspectjrt/1.8.4/aspectjrt-1.8.4.jar",
-                        "/Users/alexzhu/.m2/repository/org/aspectj/aspectjweaver/1.8.4/aspectjweaver-1.8.4.jar",
-                        "/Users/alexzhu/.m2/repository/aopalliance/aopalliance/1.0/aopalliance-1.0.jar",
-                        "/Users/alexzhu/.m2/repository/org/mybatis/mybatis/3.2.8/mybatis-3.2.8.jar",
-                        "/Users/alexzhu/.m2/repository/commons-pool/commons-pool/1.5.4/commons-pool-1.5.4.jar",
-                        "/Users/alexzhu/.m2/repository/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4.jar",
-                        "/Users/alexzhu/.m2/repository/org/mybatis/mybatis-spring/1.2.2/mybatis-spring-1.2.2.jar",
-                        "/Users/alexzhu/.m2/repository/org/freemarker/freemarker/2.3.16/freemarker-2.3.16.jar",
-                        "/Users/alexzhu/.m2/repository/org/springframework/spring-core/4.0.7.RELEASE/spring-core-4.0.7.RELEASE.jar",
-                        "/Users/alexzhu/.m2/repository/commons-logging/commons-logging/1.1.3/commons-logging-1.1.3.jar",
-                        "/Users/alexzhu/.m2/repository/org/springframework/spring-context/4.0.7.RELEASE/spring-context-4.0.7.RELEASE.jar",
-                        "/Users/alexzhu/.m2/repository/org/springframework/spring-aop/4.0.7.RELEASE/spring-aop-4.0.7.RELEASE.jar",
-                        "/Users/alexzhu/.m2/repository/org/springframework/spring-beans/4.0.7.RELEASE/spring-beans-4.0.7.RELEASE.jar",
-                        "/Users/alexzhu/.m2/repository/org/springframework/spring-expression/4.0.7.RELEASE/spring-expression-4.0.7.RELEASE.jar",
-                        "/Users/alexzhu/.m2/repository/org/springframework/spring-test/4.0.7.RELEASE/spring-test-4.0.7.RELEASE.jar",
-                        "/Users/alexzhu/.m2/repository/org/springframework/spring-jdbc/4.0.7.RELEASE/spring-jdbc-4.0.7.RELEASE.jar",
-                        "/Users/alexzhu/.m2/repository/org/springframework/spring-tx/4.0.7.RELEASE/spring-tx-4.0.7.RELEASE.jar",
-                        "/Users/alexzhu/.m2/repository/com/kjt/service/common/soafw-common-concurrent/1.0-SNAPSHOT/soafw-common-concurrent-1.0-SNAPSHOT.jar",
-                        "/Users/alexzhu/.m2/repository/com/kjt/service/common/soafw-common-mq/1.0-SNAPSHOT/soafw-common-mq-1.0-SNAPSHOT.jar",
-                        "/Users/alexzhu/.m2/repository/com/rabbitmq/amqp-client/3.5.0/amqp-client-3.5.0.jar",
-                        "/Users/alexzhu/.m2/repository/org/springframework/amqp/spring-amqp/1.4.3.RELEASE/spring-amqp-1.4.3.RELEASE.jar",
-                        "/Users/alexzhu/.m2/repository/org/springframework/amqp/spring-rabbit/1.4.3.RELEASE/spring-rabbit-1.4.3.RELEASE.jar",
-                        "/Users/alexzhu/.m2/repository/org/springframework/spring-messaging/4.1.3.RELEASE/spring-messaging-4.1.3.RELEASE.jar",
-                        "/Users/alexzhu/.m2/repository/org/springframework/retry/spring-retry/1.1.2.RELEASE/spring-retry-1.1.2.RELEASE.jar",
-                        "/Users/alexzhu/.m2/repository/com/kjt/service/common/soafw-common-rpc/1.0-SNAPSHOT/soafw-common-rpc-1.0-SNAPSHOT.jar",
-                        "/Users/alexzhu/.m2/repository/com/kjt/service/common/soafw-common-service/1.0-SNAPSHOT/soafw-common-service-1.0-SNAPSHOT.jar",
-                        "/Users/alexzhu/.m2/repository/com/kjt/service/common/soafw-common-domain/1.0-SNAPSHOT/soafw-common-domain-1.0-SNAPSHOT.jar",
-                        "/Users/alexzhu/.m2/repository/com/kjt/service/common/soafw-common-util/1.0-SNAPSHOT/soafw-common-util-1.0-SNAPSHOT.jar",
-                        "/Users/alexzhu/.m2/repository/commons-lang/commons-lang/2.5/commons-lang-2.5.jar",
-                        "/Users/alexzhu/.m2/repository/commons-configuration/commons-configuration/1.6/commons-configuration-1.6.jar",
-                        "/Users/alexzhu/.m2/repository/commons-collections/commons-collections/3.2.1/commons-collections-3.2.1.jar",
-                        "/Users/alexzhu/.m2/repository/commons-digester/commons-digester/1.8/commons-digester-1.8.jar",
-                        "/Users/alexzhu/.m2/repository/commons-beanutils/commons-beanutils/1.7.0/commons-beanutils-1.7.0.jar",
-                        "/Users/alexzhu/.m2/repository/commons-beanutils/commons-beanutils-core/1.8.0/commons-beanutils-core-1.8.0.jar",
-                        "/Users/alexzhu/.m2/repository/javax/mail/mail/1.4.1/mail-1.4.1.jar",
-                        "/Users/alexzhu/.m2/repository/javax/activation/activation/1.1/activation-1.1.jar",
-                        "/Users/alexzhu/.m2/repository/org/springframework/spring-context-support/4.0.7.RELEASE/spring-context-support-4.0.7.RELEASE.jar",
-                        "/Users/alexzhu/.m2/repository/org/apache/curator/curator-framework/2.4.0/curator-framework-2.4.0.jar",
-                        "/Users/alexzhu/.m2/repository/org/apache/curator/curator-client/2.4.0/curator-client-2.4.0.jar",
-                        "/Users/alexzhu/.m2/repository/com/google/guava/guava/18.0/guava-18.0.jar",
-                        "/Users/alexzhu/.m2/repository/org/apache/curator/curator-recipes/2.4.0/curator-recipes-2.4.0.jar",
-                        "/Users/alexzhu/.m2/repository/javax/validation/validation-api/1.1.0.Final/validation-api-1.1.0.Final.jar",
-                        "/Users/alexzhu/.m2/repository/com/kjt/service/tsl/tsl-service/1.0-SNAPSHOT/tsl-service-1.0-SNAPSHOT.jar",
-                        "/Users/alexzhu/.m2/repository/com/kjt/service/tsl/tsl-domain/1.0-SNAPSHOT/tsl-domain-1.0-SNAPSHOT.jar",
-                        "/Users/alexzhu/.m2/repository/com/kjt/service/tsl/tsl-dao/1.0-SNAPSHOT/tsl-dao-1.0-SNAPSHOT.jar",
-                        "/Users/alexzhu/.m2/repository/com/kjt/service/tsl/tsl-cache/1.0-SNAPSHOT/tsl-cache-1.0-SNAPSHOT.jar",
-                        "/Users/alexzhu/.m2/repository/com/kjt/service/tsl/tsl-rpc/1.0-SNAPSHOT/tsl-rpc-1.0-SNAPSHOT.jar",
-                        "/Users/alexzhu/.m2/repository/com/kjt/service/tsl/tsl-config/1.0-SNAPSHOT/tsl-config-1.0-SNAPSHOT.jar",
-                        "/Users/alexzhu/.m2/repository/com/kjt/service/tsl/tsl-common/1.0-SNAPSHOT/tsl-common-1.0-SNAPSHOT.jar",
-                        "/Users/alexzhu/.m2/repository/com/kjt/service/tsl/tsl-mq/1.0-SNAPSHOT/tsl-mq-1.0-SNAPSHOT.jar",
-                        "/Users/alexzhu/.m2/repository/com/alibaba/dubbo/2.5.3/dubbo-2.5.3.jar",
-                        "/Users/alexzhu/.m2/repository/org/javassist/javassist/3.15.0-GA/javassist-3.15.0-GA.jar",
-                        "/Users/alexzhu/.m2/repository/org/jboss/netty/netty/3.2.5.Final/netty-3.2.5.Final.jar",
-                        "/Users/alexzhu/.m2/repository/org/apache/zookeeper/zookeeper/3.4.6/zookeeper-3.4.6.jar",
-                        "/Users/alexzhu/.m2/repository/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5.jar",
-                        "/Users/alexzhu/.m2/repository/jline/jline/0.9.94/jline-0.9.94.jar",
-                        "/Users/alexzhu/.m2/repository/io/netty/netty/3.7.0.Final/netty-3.7.0.Final.jar",
-                        "/Users/alexzhu/.m2/repository/com/101tec/zkclient/0.4/zkclient-0.4.jar",
-                        "/Users/alexzhu/.m2/repository/log4j/log4j/1.2.14/log4j-1.2.14.jar",
-                        "/Users/alexzhu/.m2/repository/commons-net/commons-net/3.3/commons-net-3.3.jar"};
-        String basedPath = "/Users/alexzhu/soa/projects/tsl/tsl-service-impl";
-        
-        URL[] runtimeUrls = new URL[path.length + 1];
-        try {
-        for(int i=0;i<path.length;i++){
-                runtimeUrls[i] = new File(path[i]).toURI().toURL();
-                // 单元测试用例classpath
-        }
-        
-        runtimeUrls[path.length] =
-                new File(basedPath + File.separator + "target" + File.separator
-                        + "test-classes").toURI().toURL();
-        SoafwTesterMojo mojo = new SoafwTesterMojo();
-        
-        mojo.cl =
-                new URLClassLoader(runtimeUrls, Thread.currentThread().getContextClassLoader());
-        mojo.appendTest("com.kjt.service.tsl.CfOrderInfoServiceImpl");
-        } catch (Exception e2) {}
-        
     }
 }

@@ -10,7 +10,7 @@ public abstract class AbsHelpper<T> implements IHelpper<T> {
   private String tKjtTabName;
   /*
    * (non-Javadoc)
-   * @see com.kjt.service.common.dao.ibatis.IHelpper#getTKjtTabName()
+   * @see com.tower.service.dao.ibatis.IHelpper#getTKjtTabName()
    */
   @Override
   public String getTKjtTabName() {
@@ -18,7 +18,7 @@ public abstract class AbsHelpper<T> implements IHelpper<T> {
   }
   /*
    * (non-Javadoc)
-   * @see com.kjt.service.common.dao.ibatis.IHelpper#setTKjtTabName(java.lang.String)
+   * @see com.tower.service.dao.ibatis.IHelpper#setTKjtTabName(java.lang.String)
    */
   @Override
   public void setTKjtTabName(String tKjtTabName) {
@@ -35,7 +35,7 @@ public abstract class AbsHelpper<T> implements IHelpper<T> {
 
   /*
    * (non-Javadoc)
-   * @see com.kjt.service.common.dao.ibatis.IHelpper#setOrderByClause(java.lang.String)
+   * @see com.tower.service.dao.ibatis.IHelpper#setOrderByClause(java.lang.String)
    */
   @Override
   public void setOrderByClause(String orderByClause) {
@@ -44,7 +44,7 @@ public abstract class AbsHelpper<T> implements IHelpper<T> {
 
   /*
    * (non-Javadoc)
-   * @see com.kjt.service.common.dao.ibatis.IHelpper#getOrderByClause()
+   * @see com.tower.service.dao.ibatis.IHelpper#getOrderByClause()
    */
   @Override
   public String getOrderByClause() {
@@ -55,7 +55,7 @@ public abstract class AbsHelpper<T> implements IHelpper<T> {
 
   /*
    * (non-Javadoc)
-   * @see com.kjt.service.common.dao.ibatis.IHelpper#setDistinct(boolean)
+   * @see com.tower.service.dao.ibatis.IHelpper#setDistinct(boolean)
    */
   @Override
   public void setDistinct(boolean distinct) {
@@ -64,7 +64,7 @@ public abstract class AbsHelpper<T> implements IHelpper<T> {
 
   /*
    * (non-Javadoc)
-   * @see com.kjt.service.common.dao.ibatis.IHelpper#isDistinct()
+   * @see com.tower.service.dao.ibatis.IHelpper#isDistinct()
    */
   @Override
   public boolean isDistinct() {
@@ -73,7 +73,7 @@ public abstract class AbsHelpper<T> implements IHelpper<T> {
 
   /*
    * (non-Javadoc)
-   * @see com.kjt.service.common.dao.ibatis.IHelpper#getOredCriteria()
+   * @see com.tower.service.dao.ibatis.IHelpper#getOredCriteria()
    */
   @Override
   public List<T> getOredCriteria() {
@@ -82,7 +82,7 @@ public abstract class AbsHelpper<T> implements IHelpper<T> {
   
   /*
    * (non-Javadoc)
-   * @see com.kjt.service.common.dao.ibatis.IHelpper#or(java.lang.Object)
+   * @see com.tower.service.dao.ibatis.IHelpper#or(java.lang.Object)
    */
   public void or(T criteria) {
     oredCriteria.add(criteria);
@@ -90,7 +90,7 @@ public abstract class AbsHelpper<T> implements IHelpper<T> {
 
   /*
    * (non-Javadoc)
-   * @see com.kjt.service.common.dao.ibatis.IHelpper#or()
+   * @see com.tower.service.dao.ibatis.IHelpper#or()
    */
   public T or() {
       T criteria = createCriteriaInternal();
@@ -100,7 +100,7 @@ public abstract class AbsHelpper<T> implements IHelpper<T> {
 
   /*
    * (non-Javadoc)
-   * @see com.kjt.service.common.dao.ibatis.IHelpper#createCriteria()
+   * @see com.tower.service.dao.ibatis.IHelpper#createCriteria()
    */
   public T createCriteria() {
       T criteria = createCriteriaInternal();
@@ -112,7 +112,7 @@ public abstract class AbsHelpper<T> implements IHelpper<T> {
 
   /*
    * (non-Javadoc)
-   * @see com.kjt.service.common.dao.ibatis.IHelpper#clear()
+   * @see com.tower.service.dao.ibatis.IHelpper#clear()
    */
   @Override
   public void clear() {

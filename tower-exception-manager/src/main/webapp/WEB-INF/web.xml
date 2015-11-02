@@ -7,7 +7,7 @@
 
 	<filter>
 		<filter-name>encodingFilter</filter-name>
-		<filter-class>com.tower.service.web.filter.CharsetFilter</filter-class>
+		<filter-class>com.tower.service.exception.manager.service.CharsetFilter</filter-class>
 	</filter>
 
 	<filter-mapping>
@@ -17,11 +17,11 @@
 	
 	<servlet>
 		<servlet-name>Add</servlet-name>
-		<servlet-class>com.tower.soafw.exception.manager.servlet.AddKjtExceptionServlet</servlet-class>
+		<servlet-class>com.tower.service.exception.manager.servlet.AddKjtExceptionServlet</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>List</servlet-name>
-		<servlet-class>com.tower.soafw.exception.manager.servlet.ListKjtExceptionServlet</servlet-class>
+		<servlet-class>com.tower.service.exception.manager.servlet.ListKjtExceptionServlet</servlet-class>
 	</servlet>
 
 	<!-- ... -->

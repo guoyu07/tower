@@ -1048,7 +1048,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.kjt.service.common.dao.IBatchDAO#batchUpdate(java.util.Map,
+	 * @see com.tower.service.dao.IBatchDAO#batchUpdate(java.util.Map,
 	 * java.util.List, java.lang.String)
 	 */
 	@Override
@@ -1091,7 +1091,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.kjt.service.common.dao.IBatchDAO#batchDelete(java.util.List,
+	 * @see com.tower.service.dao.IBatchDAO#batchDelete(java.util.List,
 	 * java.lang.String)
 	 */
 	@Override

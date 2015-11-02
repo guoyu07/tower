@@ -16,7 +16,7 @@ public class LogAspect {
      * name-pattern:指定方法名,*代表所以,set*,代表以set开头的所有方法.<br>
      * parameters pattern:指定方法参数(声明的类型),(..)代表所有参数,(*)代表一个参数,(*,String)代表第一个参数为任何值 ,第二个为String类型.<br>
      */
-    @Around("execution(@com.kjt.service.common.aop.LoggerPoint * * (..))")
+    @Around("execution(@com.tower.service.aop.LoggerPoint * * (..))")
     public Object processAround(ProceedingJoinPoint pjp) throws Throwable {
       return AccessLoger.process(pjp);
     }
