@@ -32,6 +32,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.project.MavenProject;
 
 /**
  * Goal which touches a timestamp file.
@@ -54,6 +55,7 @@ public class SoafwConfigMojo extends AbstractMojo {
     private String module;
     private String moduleSuffix = "";
     private String company="tower";
+    private MavenProject project = null;
 
     public void execute() throws MojoExecutionException {
         groupId = System.getProperty("groupId");
@@ -65,6 +67,9 @@ public class SoafwConfigMojo extends AbstractMojo {
         module = System.getProperty("genModule", "all");
         moduleSuffix = System.getProperty("moduleSuffix", "").trim();
         company = System.getProperty("company", "tower");
+        
+        project = (MavenProject) getPluginContext().get("project");
+        
         getServiceInfo();
 
         this.getLog().info(
@@ -76,13 +81,7 @@ public class SoafwConfigMojo extends AbstractMojo {
              * read template
              */
             String tpl = getTemplate(template + ".tpl");
-            tpl = format(tpl,"company",company);
-            tpl = format(tpl, "groupId", groupId);
-            tpl = format(tpl, "artifactId", artifactId);
-            tpl = format(tpl, "startPort", startPort);
-            tpl = format(tpl, "stopPort", stopPort);
-            tpl = format(tpl, "servicePort", servicePort);
-            tpl = format(tpl, "serviceId", serviceId);
+            tpl = doFillIn(tpl);
             this.getLog().info(tpl);
             /**
              * write to dest
@@ -169,6 +168,19 @@ public class SoafwConfigMojo extends AbstractMojo {
         return MessageFormat
                 .format("config: flag={0},groupId={1},artifactId={2},startPort={3},stopPort={4},toDest={5},template={6}",
                         args);
+    }
+    
+    private String doFillIn(String tpl){
+    	tpl = format(tpl,"company",company);
+        tpl = format(tpl, "groupId", groupId);
+        tpl = format(tpl, "artifactId", artifactId);
+        tpl = format(tpl, "moduleSuffix", moduleSuffix);
+        tpl = format(tpl, "startPort", startPort);
+        tpl = format(tpl, "stopPort", stopPort);
+        tpl = format(tpl, "servicePort", servicePort);
+        tpl = format(tpl, "serviceId", serviceId);
+        tpl = format(tpl, "tower.version", project.getVersion());
+        return tpl;
     }
 
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
@@ -265,15 +277,7 @@ public class SoafwConfigMojo extends AbstractMojo {
                 if ("SPID.tpl".equals(templateFile)) {
                     this.getLog().info("start template: " + templateFile);
                 }
-                tpl = format(tpl,"company",company);
-                tpl = format(tpl, "groupId", groupId);
-                tpl = format(tpl, "artifactId", artifactId);
-                tpl = format(tpl, "startPort", startPort);
-                tpl = format(tpl, "stopPort", stopPort);
-                tpl = format(tpl, "moduleSuffix", moduleSuffix);
-                tpl = format(tpl, "servicePort", servicePort);
-                tpl = format(tpl, "serviceId", serviceId);
-
+                tpl = doFillIn(tpl);
                 this.getLog().info(tpl);
 
                 storeDir = format(storeDir, "artifactId", artifactId);
