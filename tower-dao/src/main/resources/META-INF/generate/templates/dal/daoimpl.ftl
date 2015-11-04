@@ -43,13 +43,13 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
 </#if>
 
 	@Resource(name = "${masterSessionFactory}")
-	private SqlSessionFactoryBean masterSessionFactory;
+	private SqlSessionFactory masterSessionFactory;
 	
 	@Resource(name = "${slaveSessionFactory}")
-	private SqlSessionFactoryBean slaveSessionFactory;
+	private SqlSessionFactory slaveSessionFactory;
 	
 	@Resource(name = "${mapQuerySessionFactory}")
-	private SqlSessionFactoryBean mapQuerySessionFactory;
+	private SqlSessionFactory mapQuerySessionFactory;
 	
 	@Override
 	public int getVersion(){
@@ -81,7 +81,7 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
   
 	@Override
 	public SqlSessionFactory getMasterSessionFactory(){
-		return getObject(masterSessionFactory);
+		return masterSessionFactory;
 	}
 	
 	
@@ -90,7 +90,7 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
 		if (slaveSessionFactory == null) {
  			return getMasterSessionFactory();
  		}
- 		return getObject(slaveSessionFactory);
+ 		return slaveSessionFactory;
 	}
 	
 	@Override
@@ -98,7 +98,7 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
 		if (mapQuerySessionFactory == null) {
  			return getSlaveSessionFactory();
  		}
- 		return getObject(mapQuerySessionFactory);
+ 		return mapQuerySessionFactory;
 	}
 	
 	<#if tab.pkFieldNum != 1>

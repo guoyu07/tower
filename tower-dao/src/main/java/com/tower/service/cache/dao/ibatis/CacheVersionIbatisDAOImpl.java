@@ -4,7 +4,6 @@ import javax.annotation.Resource;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
@@ -22,14 +21,14 @@ import com.tower.service.exception.DataAccessException;
 public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersion> implements
     ICacheVersionDAO<CacheVersion> {
 
-  @Resource(name = "cache_dbMasterSessionFactory")
-  private SqlSessionFactoryBean masterSessionFactory;
+  @Resource(name = "cacheSessionFactory")
+  private SqlSessionFactory masterSessionFactory;
 
-  @Resource(name = "cache_db_SlaveSessionFactory")
-  private SqlSessionFactoryBean slaveSessionFactory;
+  @Resource(name = "cacheSlaveSessionFactory")
+  private SqlSessionFactory slaveSessionFactory;
 
-  @Resource(name = "cache_db_MapQuerySessionFactory")
-  private SqlSessionFactoryBean mapQuerySessionFactory;
+  @Resource(name = "cacheMapQuerySessionFactory")
+  private SqlSessionFactory mapQuerySessionFactory;
 
   public CacheVersionIbatisDAOImpl() {
   }
@@ -58,7 +57,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
 
   @Override
 	public SqlSessionFactory getMasterSessionFactory(){
-		return getObject(masterSessionFactory);
+		return masterSessionFactory;
 	}
 	
 	
@@ -67,7 +66,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
 		if (slaveSessionFactory == null) {
 			return getMasterSessionFactory();
 		}
-		return getObject(slaveSessionFactory);
+		return slaveSessionFactory;
 	}
 	
 	@Override
@@ -75,7 +74,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
 		if (mapQuerySessionFactory == null) {
 			return getSlaveSessionFactory();
 		}
-		return getObject(mapQuerySessionFactory);
+		return mapQuerySessionFactory;
 	}
 
   public String insert(CacheVersion model, String tabNameSuffix) {

@@ -13,7 +13,7 @@
 	
 	<!--框架配置：该scan设置请不要轻易改变-->
 	<context:component-scan base-package="com.tower.service.dao.ibatis" />
-	<context:component-scan base-package="com.tower.cache.dao.ibatis" />
+	<context:component-scan base-package="com.tower.service.cache.dao.ibatis" />
 	<context:component-scan base-package="com.#{company}.service.#{artifactId}.dao.ibatis" />
 	
 	<!--框架配置：该import设置请不要轻易改变-->
@@ -24,15 +24,24 @@
 		init-method="init">
 		<property name="prefix" value="cache_db" />
 	</bean>
+	<bean id="cacheSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">     
+ 		<property name="dataSource" ref="cache_db" />
+ 	</bean>
 	<bean id="cache_db_slave" class="com.tower.service.datasource.DynamicDataSource"
 		init-method="init">
 		<property name="prefix" value="cache_db_slave" />
 	</bean>
+	<bean id="cacheSlaveSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">     
+ 		<property name="dataSource" ref="cache_db_slave" />
+ 	</bean>
 	<bean id="cache_db_map_query" class="com.tower.service.datasource.DynamicDataSource"
 		init-method="init">
 		<property name="prefix" value="cache_db_map_query" />
 	</bean>
-	
+	<bean id="cacheMapQuerySessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">     
+ 		<property name="dataSource" ref="cache_db_map_query" />
+ 	</bean>
+ 	
 	<!--自定义信息请在该备注以下添加-->
 	<!--新增数据库是需要添加 master、slave、map_query三个-->
 	<bean id="#{artifactId}_db" class="com.tower.service.datasource.DynamicDataSource"

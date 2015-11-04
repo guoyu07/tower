@@ -1,4 +1,4 @@
-package com.tower.service.aop;
+package com.#{company}.service.#{artifactId}.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

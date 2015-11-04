@@ -80,14 +80,6 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	protected Configuration getConfig() {
 		return accConfig;
 	}
-	
-	protected SqlSessionFactory getObject(SqlSessionFactoryBean sqlSessionFactoryBean ){
-		try {
-			return sqlSessionFactoryBean.getObject();
-		} catch (Exception e) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0013,e);
-		}
-	}
 
 	@PostConstruct
 	public void init() {

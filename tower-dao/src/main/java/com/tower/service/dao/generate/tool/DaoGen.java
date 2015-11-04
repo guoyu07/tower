@@ -52,10 +52,12 @@ public abstract class DaoGen extends AbsGen {
       String name = format(tabs.get(i).getName());
       modelNames.add(name);
       String dbName = DBSetting.getName();
+      int index = dbName.indexOf("_");
+      String app = dbName.substring(0,index);
       
-      root.put("masterSessionFactory", dbName+"MasterSessionFactory");
-      root.put("slaveSessionFactory", dbName+"SlaveSessionFactory");
-      root.put("mapQuerySessionFactory", dbName+"MapQuerySessionFactory");
+      root.put("masterSessionFactory", app+"SessionFactory");
+      root.put("slaveSessionFactory", app+"SlaveSessionFactory");
+      root.put("mapQuerySessionFactory", app+"MapQuerySessionFactory");
       
       root.put("masterDataSource", masterDataSourceBean);
       
