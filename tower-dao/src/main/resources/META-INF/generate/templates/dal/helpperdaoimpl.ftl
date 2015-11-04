@@ -3,9 +3,10 @@ package ${package}.dao.ibatis;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.sql.DataSource;
+import javax.sql.SessionFactory;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.stereotype.Repository;
 
 import com.tower.service.dao.ibatis.IBatisDAOException;
@@ -23,11 +24,11 @@ import com.tower.service.exception.DataAccessException;
 @Repository("${name}Helpper")
 public class ${name}HelpperIbatisDAOImpl extends AbsHelpperIBatisDAOImpl<${name}Helpper> implements I${name}HelpperDAO<${name}Helpper> {
 
-	@Resource(name = "${masterDataSource}")
-	private DataSource masterDataSource;
+	@Resource(name = "${masterSessionFactory}")
+	private SqlSessionFactory masterSessionFactory;
 	
-	@Resource(name = "${mapQueryDataSource}")
-	private DataSource mapQueryDataSource;
+	@Resource(name = "${mapQuerySessionFactory}")
+	private SqlSessionFactory mapQuerySessionFactory;
 	
 	@Override
 	public Class<${name}HelpperMapper> getMapperClass() {
@@ -47,17 +48,18 @@ public class ${name}HelpperIbatisDAOImpl extends AbsHelpperIBatisDAOImpl<${name}
     }
   
 	@Override
-	public DataSource getMasterDataSource(){
-		return masterDataSource;
+	public SqlSessionFactory getMasterSessionFactory(){
+		return masterSessionFactory;
 	}
 	
 	@Override
-	public DataSource getMapQueryDataSource(){
-		if (mapQueryDataSource == null) {
- 			return getMasterDataSource();
+	public SqlSessionFactory getMapQuerySessionFactory(){
+		if (mapQuerySessionFactory == null) {
+ 			return getMasterSessionFactory();
  		}
- 		return mapQueryDataSource;
+ 		return mapQuerySessionFactory;
 	}
+	
 	
 	@Override
     public List<${name}> queryByHelpper(${name}Helpper helpper, String tabNameSuffix) {
@@ -65,7 +67,7 @@ public class ${name}HelpperIbatisDAOImpl extends AbsHelpperIBatisDAOImpl<${name}
 
         helpper.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
-        SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
+        SqlSession session = SqlmapUtils.openSession(getMapQuerySessionFactory());
         try {
 
             ${name}HelpperMapper mapper = session.getMapper(getMapperClass());
@@ -73,7 +75,6 @@ public class ${name}HelpperIbatisDAOImpl extends AbsHelpperIBatisDAOImpl<${name}
             return mapper.queryByHelpper(helpper);
 
         } catch (Exception t) {
-            t.printStackTrace();
             throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
         } finally {
             SqlmapUtils.release(session);

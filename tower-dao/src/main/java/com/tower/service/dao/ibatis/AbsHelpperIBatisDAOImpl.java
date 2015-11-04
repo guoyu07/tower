@@ -45,8 +45,8 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
       logger.debug("init() - start"); //$NON-NLS-1$
     }
 
-    SqlmapUtils.addMapper(getMapperClass(), getMasterDataSource());
-    SqlmapUtils.addMapper(getMapperClass(), getMapQueryDataSource());
+    SqlmapUtils.addMapper(getMapperClass(), getMasterSessionFactory());
+    SqlmapUtils.addMapper(getMapperClass(), getMapQuerySessionFactory());
 
     // defaultCache = (DynamicMemCache) this.getCacheManager().getCache(
     // DynamicMemCache.DEFAULT_CACHE_NAME);
@@ -73,7 +73,7 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
 
     helpper.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(this.getMapQueryDataSource());
+    SqlSession session = SqlmapUtils.openSession(this.getMapQuerySessionFactory());
     try {
       IHelpperMapper<T> mapper = session.getMapper(getMapperClass());
 
@@ -92,7 +92,7 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
 
     helpper.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
     try {
       IHelpperMapper<T> mapper = session.getMapper(getMapperClass());
 
@@ -116,7 +116,7 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
 
     helpper.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
     try {
       IHelpperMapper<T> mapper = session.getMapper(getMapperClass());
 
@@ -138,7 +138,7 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
 
     helpper.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
     try {
 
       IHelpperMapper<T> mapper = session.getMapper(getMapperClass());

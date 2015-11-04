@@ -1,6 +1,6 @@
 package com.tower.service.dao.ibatis;
 
-import javax.sql.DataSource;
+import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.tower.service.dao.IHelpperDAO;
 
@@ -15,9 +15,9 @@ public interface IBatisHelpperDAO<T> extends IHelpperDAO<T> {
 
   public Class<? extends IHelpperMapper<T>> getMapperClass();
 
-  public DataSource getMasterDataSource();
+  public SqlSessionFactory getMasterSessionFactory();
 
-  public DataSource getMapQueryDataSource();
+  public SqlSessionFactory getMapQuerySessionFactory();
 
   public void validate(T model);
 

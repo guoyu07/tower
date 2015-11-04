@@ -17,21 +17,12 @@ public class TxUtil {
         TxHolder.set();
       }
       Object ret = pjp.proceed();
-      if (!started) {
-        SqlmapUtils.commit();
-        logger.info("end commit");
-      }
       return ret;
     } catch (Exception ex) {
-      if (!started) {
-        SqlmapUtils.rollback();
-        logger.info("end rollback");
-      }
       throw ex;
     } finally {
       if (!started) {
         TxHolder.unset();
-        SqlmapUtils.close();
         logger.info("end tx");
       }
     }
