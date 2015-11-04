@@ -321,11 +321,12 @@ public class SoafwConfigMojo extends AbstractMojo {
                         "META-INF/config/template/template.properties");
         SoafwConfigMojo mojo = new SoafwConfigMojo();
         try {
-            mojo.module = "web";
-            mojo.moduleSuffix = "aa";
-            mojo.artifactId = "hello";
+            mojo.module = "util";
+            //mojo.moduleSuffix = "aa";
+            mojo.artifactId = "s2s";
+            mojo.company="oimboi";
             mojo.getServiceInfo();
-            mojo.doConfig("/Users/alexzhu/soa/projects", "hello");
+            mojo.doConfig("/Users/alexzhu/soa/projects", "s2s");
         } catch (MojoExecutionException e) {
             throw new RuntimeException(e);
         }
