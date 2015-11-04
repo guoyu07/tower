@@ -4,7 +4,7 @@
     <parent>
 		<artifactId>tower</artifactId>
 		<groupId>com.tower.soafw</groupId>
-		<version>1.2-SNAPSHOT</version>
+		<version>2.0</version>
 	</parent>
 	
     <artifactId>tower-exception-manager</artifactId>
