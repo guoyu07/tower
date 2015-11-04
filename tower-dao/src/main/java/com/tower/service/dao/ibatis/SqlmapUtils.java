@@ -14,10 +14,11 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.transaction.TransactionFactory;
 import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.mapper.MapperFactoryBean;
+import org.mybatis.spring.SqlSessionUtils;
 import org.mybatis.spring.transaction.SpringManagedTransactionFactory;
 
 import com.tower.service.datasource.TxHolder;
+import com.tower.service.exception.DataAccessException;
 
 /**
  * Sqlmap工具.
@@ -26,14 +27,26 @@ import com.tower.service.datasource.TxHolder;
  */
 public final class SqlmapUtils {
 
+	public static void addMapper(Class<?> mapperType,
+			SqlSessionFactory factory) {
+		Configuration configuration = factory.getConfiguration();
+		if (!configuration.hasMapper(mapperType)) {
+			configuration.addMapper(mapperType);
+		}
+	}
+
+	public static SqlSession openSession(SqlSessionFactory sessionFactory) {
+		return SqlSessionUtils.getSqlSession(sessionFactory);
+	}
+
 	/**
 	 * Add mapper to defined SqlSessionFactory.
 	 *
 	 * @param mapperType
 	 * @param definition
+	 * @deprecated
 	 */
 	public static void addMapper(Class<?> mapperType, DataSource dataSource) {
-
 		SqlSessionFactory factory = getFactory(dataSource);
 		Configuration configuration = factory.getConfiguration();
 		if (!configuration.hasMapper(mapperType)) {
@@ -46,6 +59,7 @@ public final class SqlmapUtils {
 	 *
 	 * @param mapperType
 	 * @param definitions
+	 * @deprecated
 	 */
 	public static void addMapper(Class<?> mapperType, DataSource[] dataSources) {
 		if (dataSources == null || dataSources.length <= 0) {
@@ -61,6 +75,7 @@ public final class SqlmapUtils {
 	 *
 	 * @param definition
 	 * @return
+	 * @deprecated
 	 */
 	public static SqlSession openSession(DataSource dataSource) {
 		SqlSessionFactory factory = getFactory(dataSource);
@@ -80,6 +95,9 @@ public final class SqlmapUtils {
 		return session;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public static void commit() {
 		Map<SqlSessionKey, SqlSession> map = getMap(false);
 		if (map == null) {
@@ -93,6 +111,9 @@ public final class SqlmapUtils {
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public static void rollback() {
 		Map<SqlSessionKey, SqlSession> map = getMap(false);
 		if (map == null) {
@@ -106,6 +127,9 @@ public final class SqlmapUtils {
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	public static void close() {
 		Map<SqlSessionKey, SqlSession> map = getMap(false);
 		if (map == null) {
@@ -169,9 +193,9 @@ public final class SqlmapUtils {
 		if (factory != null) {
 			return factory;
 		}
-		//SqlSessionFactoryBean bean;
-		//MapperFactoryBean mapper;
-		if(TxHolder.isSingleTx()){
+		// SqlSessionFactoryBean bean;
+		// MapperFactoryBean mapper;
+		if (TxHolder.isSingleTx()) {
 			TransactionFactory transactionFactory = new JdbcTransactionFactory();
 			Environment environment = new Environment("Default",
 					transactionFactory, dataSource);
@@ -180,13 +204,13 @@ public final class SqlmapUtils {
 			configuration.addInterceptor(new StatementHandlerPlugin());
 			factory = new SqlSessionFactoryBuilder().build(configuration);
 			_factories.put(dataSource, factory);
-		}
-		else{
+		} else {
 			SpringManagedTransactionFactory transactionFactory = new SpringManagedTransactionFactory();
-			Environment environment = new Environment(dataSource.toString(), transactionFactory, dataSource);
+			Environment environment = new Environment(dataSource.toString(),
+					transactionFactory, dataSource);
 			Configuration configuration = new Configuration(environment);
-		    configuration.setEnvironment(environment);
-		    configuration.setDefaultExecutorType(ExecutorType.SIMPLE);
+			configuration.setEnvironment(environment);
+			configuration.setDefaultExecutorType(ExecutorType.SIMPLE);
 			configuration.addInterceptor(new StatementHandlerPlugin());
 			factory = new SqlSessionFactoryBuilder().build(configuration);
 			_factories.put(dataSource, factory);

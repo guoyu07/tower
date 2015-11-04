@@ -45,7 +45,9 @@ public class ServiceFilter implements Filter {
 			result = invoker.invoke(invocation);
 		}finally{
 			long timeused = (System.currentTimeMillis() - start);
-			logger.info("{} {} interface={}.{} timeused={}",provider?"from client":"to service",remoteIp,interfaceStr,invocation.getMethodName(),timeused);
+			if(!"com.alibaba.dubbo.monitor.MonitorService".equalsIgnoreCase(interfaceStr)){
+				logger.info("{} {} interface={}.{} timeused={}",provider?"from client":"to service",remoteIp,interfaceStr,invocation.getMethodName(),timeused);
+			}
 		}
 		return result; 
 	}

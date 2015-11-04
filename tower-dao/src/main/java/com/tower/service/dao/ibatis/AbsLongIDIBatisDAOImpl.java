@@ -69,7 +69,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 		params.put("batchInsertCols", convert(cols));
 		params.put("list", datas);
 		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
-		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+		SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
 		try {
 			IBatchMapper<T> mapper = session.getMapper(getMapperClass());
 			Integer eft = mapper.batchInsert(params);
@@ -133,7 +133,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
 		SqlSession session = SqlmapUtils.openSession(master ? this
-				.getMasterDataSource() : getSlaveDataSource());
+				.getMasterSessionFactory() : getSlaveSessionFactory());
 		try {
 			ILMapper<T> mapper = session.getMapper(getMapperClass());
 			List<T> objs = mapper.queryByMap(params);
@@ -174,7 +174,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 		params.put("id", id);
 		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+		SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
 		try {
 			IMapper<T> mapper = session.getMapper(getMapperClass());
 			Integer eft = mapper.deleteByMap(params);
@@ -216,7 +216,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 	    params.put("id", id);
 	    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-		SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+		SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
 		try {
 			IMapper<T> mapper = session.getMapper(getMapperClass());
 			Integer eft = mapper.updateById(params);

@@ -63,7 +63,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.put(property, fkValue);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
     try {
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.deleteByMap(cond);
@@ -106,7 +106,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.putAll(attchParams);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
     try {
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.deleteByMap(cond);
@@ -146,7 +146,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
     try {
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.deleteByMap(cond);
@@ -190,7 +190,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
     try {
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.deleteByMap(cond);
@@ -229,7 +229,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.put(property, fkValue);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
+    SqlSession session = SqlmapUtils.openSession(getMapQuerySessionFactory());
     try {
       IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
       List<T> result = mapper.queryByMap(cond);
@@ -272,7 +272,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.putAll(attchParams);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
+    SqlSession session = SqlmapUtils.openSession(getMapQuerySessionFactory());
     try {
       IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
       List<T> result = mapper.queryByMap(cond);
@@ -309,8 +309,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.put(property, fkValue);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(master ? this.getMasterDataSource()
-        : getMapQueryDataSource());
+    SqlSession session = SqlmapUtils.openSession(master ? this.getMasterSessionFactory()
+        : getMapQuerySessionFactory());
     try {
       IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
       List<T> result = mapper.queryByMap(cond);
@@ -350,8 +350,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.putAll(attchParams);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(master ? this.getMasterDataSource()
-        : getMapQueryDataSource());
+    SqlSession session = SqlmapUtils.openSession(master ? this.getMasterSessionFactory()
+        : getMapQuerySessionFactory());
     try {
       IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
       List<T> result = mapper.queryByMap(cond);
@@ -388,7 +388,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.put(property, fkValue);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
+    SqlSession session = SqlmapUtils.openSession(getMapQuerySessionFactory());
     try {
       IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
       List<T> result = mapper.queryByMap(cond);
@@ -428,7 +428,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.putAll(attchParams);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
+    SqlSession session = SqlmapUtils.openSession(getMapQuerySessionFactory());
     try {
       IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
       List<T> result = mapper.queryByMap(cond);
@@ -465,8 +465,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.put(property, fkValue);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(master ? this.getMasterDataSource()
-        : getMapQueryDataSource());
+    SqlSession session = SqlmapUtils.openSession(master ? this.getMasterSessionFactory()
+        : getMapQuerySessionFactory());
     try {
       IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
       List<T> result = mapper.queryByMap(cond);
@@ -506,8 +506,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.putAll(attchParams);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(master ? this.getMasterDataSource()
-        : getMapQueryDataSource());
+    SqlSession session = SqlmapUtils.openSession(master ? this.getMasterSessionFactory()
+        : getMapQuerySessionFactory());
     try {
       IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
       List<T> result = mapper.queryByMap(cond);
@@ -559,7 +559,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     }
     params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
     try {
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.cmplxUpdate(params);
@@ -617,7 +617,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     }
     params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
     try {
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.cmplxUpdate(params);
@@ -672,7 +672,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     }
     params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
     try {
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.cmplxUpdate(params);
@@ -729,7 +729,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     }
     params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
     try {
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.cmplxUpdate(params);

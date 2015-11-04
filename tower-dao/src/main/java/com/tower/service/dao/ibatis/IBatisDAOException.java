@@ -129,7 +129,9 @@ public enum IBatisDAOException implements IExceptionBody {
    * </p>
    */
   MSG_1_0011("11", "操作条件不能含有主键&外键", 1, "0"),
-  MSG_1_0012("12", "批量插入", 1, "0");
+  MSG_1_0012("12", "批量插入", 1, "0"),
+  MSG_1_0013("13", "sql map注册失败", 1, "0"),
+  ;
 
   String code;
   String message;

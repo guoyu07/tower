@@ -1,9 +1,9 @@
 package ${package}.dao.ibatis;
 
 import javax.annotation.Resource;
-import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.stereotype.Repository;
 <#if tab.pkFieldNum==1>
 	<#if tab.pkFieldType.javaType="Integer">	
@@ -42,14 +42,14 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
 	</#if>
 </#if>
 
-	@Resource(name = "${masterDataSource}")
-	private DataSource masterDataSource;
+	@Resource(name = "${masterSessionFactory}")
+	private SqlSessionFactoryBean masterSessionFactory;
 	
-	@Resource(name = "${slaveDataSource}")
-	private DataSource slaveDataSource;
+	@Resource(name = "${slaveSessionFactory}")
+	private SqlSessionFactoryBean slaveSessionFactory;
 	
-	@Resource(name = "${mapQueryDataSource}")
-	private DataSource mapQueryDataSource;
+	@Resource(name = "${mapQuerySessionFactory}")
+	private SqlSessionFactoryBean mapQuerySessionFactory;
 	
 	@Override
 	public int getVersion(){
@@ -80,25 +80,25 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
   	}
   
 	@Override
-	public DataSource getMasterDataSource(){
-		return masterDataSource;
+	public SqlSessionFactory getMasterSessionFactory(){
+		return getObject(masterSessionFactory);
 	}
 	
 	
 	@Override
-	public DataSource getSlaveDataSource(){
-		if (slaveDataSource == null) {
- 			return masterDataSource;
+	public SqlSessionFactory getSlaveSessionFactory(){
+		if (slaveSessionFactory == null) {
+ 			return getMasterSessionFactory();
  		}
- 		return slaveDataSource;
+ 		return getObject(slaveSessionFactory);
 	}
 	
 	@Override
-	public DataSource getMapQueryDataSource(){
-		if (mapQueryDataSource == null) {
- 			return getSlaveDataSource();
+	public SqlSessionFactory getMapQuerySessionFactory(){
+		if (mapQuerySessionFactory == null) {
+ 			return getSlaveSessionFactory();
  		}
- 		return mapQueryDataSource;
+ 		return getObject(mapQuerySessionFactory);
 	}
 	
 	<#if tab.pkFieldNum != 1>
@@ -129,7 +129,7 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
     	
     	model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
     
-    	SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    	SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
     	try {
     		<#if tab.pkFieldType.javaType="Integer">
       		IIMapper<${name}> mapper = session.getMapper(getMapperClass());

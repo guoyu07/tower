@@ -94,6 +94,7 @@ public class DaoGenFromDB extends DaoGen {
   
   private static void commonGen(String dbName, String[] tableName, String springXml,
       String packageName, String targetJava, String resources) throws Exception{
+	DBSetting.setName(dbName);
     int size = tableName==null?0:tableName.length;
     TemplateFactoryBean templateFactoryBean = new TemplateFactoryBean();
     templateFactoryBean.setPath("classpath:/META-INF/generate/templates/dal");

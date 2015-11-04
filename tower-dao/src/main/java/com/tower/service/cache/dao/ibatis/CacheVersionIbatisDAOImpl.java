@@ -1,12 +1,10 @@
 package com.tower.service.cache.dao.ibatis;
 
-import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Resource;
-import javax.sql.DataSource;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
@@ -24,14 +22,14 @@ import com.tower.service.exception.DataAccessException;
 public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersion> implements
     ICacheVersionDAO<CacheVersion> {
 
-  @Resource(name = "cache_db")
-  private DataSource masterDataSource;
+  @Resource(name = "cache_dbMasterSessionFactory")
+  private SqlSessionFactoryBean masterSessionFactory;
 
-  @Resource(name = "cache_db_slave")
-  private DataSource slaveDataSource;
+  @Resource(name = "cache_db_SlaveSessionFactory")
+  private SqlSessionFactoryBean slaveSessionFactory;
 
-  @Resource(name = "cache_db_map_query")
-  private DataSource mapQueryDataSource;
+  @Resource(name = "cache_db_MapQuerySessionFactory")
+  private SqlSessionFactoryBean mapQuerySessionFactory;
 
   public CacheVersionIbatisDAOImpl() {
   }
@@ -59,25 +57,26 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
   }
 
   @Override
-  public DataSource getMasterDataSource() {
-    return masterDataSource;
-  }
-
-  @Override
-  public DataSource getSlaveDataSource() {
-    if (slaveDataSource == null) {
-      return masterDataSource;
-    }
-    return slaveDataSource;
-  }
-
-  @Override
-  public DataSource getMapQueryDataSource() {
-    if (mapQueryDataSource == null) {
-      return getSlaveDataSource();
-    }
-    return mapQueryDataSource;
-  }
+	public SqlSessionFactory getMasterSessionFactory(){
+		return getObject(masterSessionFactory);
+	}
+	
+	
+	@Override
+	public SqlSessionFactory getSlaveSessionFactory(){
+		if (slaveSessionFactory == null) {
+			return getMasterSessionFactory();
+		}
+		return getObject(slaveSessionFactory);
+	}
+	
+	@Override
+	public SqlSessionFactory getMapQuerySessionFactory(){
+		if (mapQuerySessionFactory == null) {
+			return getSlaveSessionFactory();
+		}
+		return getObject(mapQuerySessionFactory);
+	}
 
   public String insert(CacheVersion model, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
@@ -88,7 +87,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
 
     model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
     try {
       ISMapper<CacheVersion> mapper = session.getMapper(getMapperClass());
 
@@ -129,7 +128,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
     CacheVersion model = new CacheVersion();
     model.setId(id);
     model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
     try {
       CacheVersionMapper mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.incrVersion(model);
@@ -150,7 +149,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
     model.setId(id);
     model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
     try {
       CacheVersionMapper mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.incrRecVersion(model);
@@ -171,7 +170,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
     model.setId(id);
     model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterDataSource());
+    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
     try {
       CacheVersionMapper mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.incrTabVersion(model);

@@ -1,6 +1,6 @@
 package com.tower.service.dao.ibatis;
 
-import javax.sql.DataSource;
+import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.tower.service.dao.IBatchDAO;
 import com.tower.service.dao.IDAO;
@@ -19,11 +19,11 @@ public interface IBatisDAO<T> extends IDAO<T>,IBatchDAO<T> {
 
   public Class<? extends IModel> getModelClass();
 
-  public DataSource getMasterDataSource();
+  public SqlSessionFactory getMasterSessionFactory();
 
-  public DataSource getSlaveDataSource();
+  public SqlSessionFactory getSlaveSessionFactory();
 
-  public DataSource getMapQueryDataSource();
+  public SqlSessionFactory getMapQuerySessionFactory();
   
   public void validate(IModel model);
   /**
