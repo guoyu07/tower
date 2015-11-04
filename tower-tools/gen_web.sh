@@ -36,8 +36,8 @@ if [ -n "$3" ]; then
 	suffix="-"$3
 fi
 
-if [ ! -d "$app_home_dir/$1/$1-common" ]; then
-	projectcommon=$projectid-common
+if [ ! -d "$app_home_dir/$1/$1-util" ]; then
+	projectcommon=$projectid-util
 	mvn -B archetype:generate -DarchetypeCatalog=locale -DgroupId=com.$company.service.$projectid -DartifactId=$projectcommon -Dcompany=$company
 	echo $projectcommon build success
 fi

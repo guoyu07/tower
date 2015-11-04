@@ -23,8 +23,8 @@ sed -i "" "s/<packaging>jar<\/packaging>/<packaging>pom<\/packaging>/g" pom.xml
 #linux
 #sed -i  "s/<packaging>jar<\/packaging>/<packaging>pom<\/packaging>/g" pom.xml 
 
-if [ ! -d "$app_home_dir/$1/$1-common" ]; then
-	projectcommon=$projectid-common
+if [ ! -d "$app_home_dir/$1/$1-util" ]; then
+	projectcommon=$projectid-util
 	mvn -B archetype:generate -DarchetypeCatalog=locale -DgroupId=com.$company.service.$projectid -DartifactId=$projectcommon -Dcompany=$company
 	echo $projectcommon build success
 fi

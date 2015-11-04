@@ -23,7 +23,7 @@ sed -i "" "s/<packaging>jar<\/packaging>/<packaging>pom<\/packaging>/g" pom.xml
 #linux
 #sed -i  "s/<packaging>jar<\/packaging>/<packaging>pom<\/packaging>/g" pom.xml 
 
-projectcommon=$projectid-common
+projectcommon=$projectid-util
 mvn -B archetype:generate -DarchetypeCatalog=locale -DgroupId=com.$company.service.$projectid -DartifactId=$projectcommon -Dcompany=$company
 echo $projectcommon build success
 
