@@ -32,6 +32,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.maven.project.MavenProject;
 
 /**
@@ -55,7 +56,7 @@ public class SoafwConfigMojo extends AbstractMojo {
     private String module;
     private String moduleSuffix = "";
     private String company="tower";
-    private MavenProject project = null;
+    private PluginDescriptor desc = null;
 
     public void execute() throws MojoExecutionException {
         groupId = System.getProperty("groupId");
@@ -68,7 +69,7 @@ public class SoafwConfigMojo extends AbstractMojo {
         moduleSuffix = System.getProperty("moduleSuffix", "").trim();
         company = System.getProperty("company", "tower");
         
-        project = (MavenProject) getPluginContext().get("project");
+        PluginDescriptor desc = (PluginDescriptor)this.getPluginContext().get("pluginDescriptor");
         
         getServiceInfo();
 
@@ -179,7 +180,7 @@ public class SoafwConfigMojo extends AbstractMojo {
         tpl = format(tpl, "stopPort", stopPort);
         tpl = format(tpl, "servicePort", servicePort);
         tpl = format(tpl, "serviceId", serviceId);
-        tpl = format(tpl, "tower.version", project.getVersion());
+        tpl = format(tpl, "tower.version", desc.getVersion());
         return tpl;
     }
 

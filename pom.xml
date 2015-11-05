@@ -162,6 +162,12 @@
 				<artifactId>tower-web</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>com.tower.soafw</groupId>
+				<artifactId>tower-exception-gen-maven-plugin</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<!-- -->
 
 			<dependency>

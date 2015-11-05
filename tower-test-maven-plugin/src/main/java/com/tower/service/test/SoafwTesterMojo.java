@@ -32,6 +32,7 @@ import javassist.NotFoundException;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.maven.project.MavenProject;
 
 import com.tower.service.annotation.SoaFwTest;
@@ -74,7 +75,7 @@ public class SoafwTesterMojo extends AbstractMojo {
     private String basedPath = null;
 
     public void execute() throws MojoExecutionException {
-        
+    	
         String flg = System.getProperty("soafw.tester.gen", "false");
         
         if("false".equalsIgnoreCase(flg)){
