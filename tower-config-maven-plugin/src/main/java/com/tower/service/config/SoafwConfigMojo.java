@@ -69,7 +69,7 @@ public class SoafwConfigMojo extends AbstractMojo {
         moduleSuffix = System.getProperty("moduleSuffix", "").trim();
         company = System.getProperty("company", "tower");
         
-        PluginDescriptor desc = (PluginDescriptor)this.getPluginContext().get("pluginDescriptor");
+        desc = (PluginDescriptor)this.getPluginContext().get("pluginDescriptor");
         
         getServiceInfo();
 
