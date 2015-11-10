@@ -21,8 +21,8 @@
 	</licenses>
 
 	<scm>
-		<connection>scm:git@gitlab.corp.#{company}.com:_code_java/#{artifactId}.git</connection>
-		<developerConnection>scm:git@gitlab.corp.#{company}.com:_code_java/#{artifactId}.git</developerConnection>
+		<connection>scm:git:git@gitlab.corp.#{company}.com:_code_java/#{artifactId}.git</connection>
+		<developerConnection>scm:git:git@gitlab.corp.#{company}.com:_code_java/#{artifactId}.git</developerConnection>
 		<url>git@gitlab.corp.#{company}.com:_code_java/#{artifactId}.git</url>
 	  	<tag>HEAD</tag>
   	</scm>
