@@ -50,21 +50,21 @@
 		init-method="init">
 		<property name="prefix" value="#{artifactId}_db" />
 	</bean>
-	<bean id="#{artifactId}SqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">     
+	<bean id="#{artifactId}SessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">     
  		<property name="dataSource" ref="#{artifactId}_db" />
  	</bean>
 	<bean id="#{artifactId}_db_slave" class="com.tower.service.datasource.DynamicDataSource"
 		init-method="init">
 		<property name="prefix" value="#{artifactId}_db_slave" />
 	</bean>
-	<bean id="#{artifactId}SlaveSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">     
+	<bean id="#{artifactId}SlaveSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">     
  		<property name="dataSource" ref="#{artifactId}_db_slave" />
  	</bean>
 	<bean id="#{artifactId}_db_map_query" class="com.tower.service.datasource.DynamicDataSource"
 		init-method="init">
 		<property name="prefix" value="#{artifactId}_db_map_query" />
 	</bean>
-	<bean id="#{artifactId}MapQuerySqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">     
+	<bean id="#{artifactId}MapQuerySessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">     
  		<property name="dataSource" ref="#{artifactId}_db_map_query" />
  	</bean>
  	<!-- enable the configuration of transactional behavior based on annotations -->
