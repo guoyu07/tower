@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -69,7 +70,8 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 		params.put("batchInsertCols", convert(cols));
 		params.put("list", datas);
 		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
-		SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
+		SqlSessionFactory sessionFactory = this.getMasterSessionFactory();
+	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
 		try {
 			IBatchMapper<T> mapper = session.getMapper(getMapperClass());
 			Integer eft = mapper.batchInsert(params);
@@ -96,7 +98,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
-			SqlmapUtils.release(session);
+			SqlmapUtils.release(session,sessionFactory);
 		}
 	}
 
@@ -132,8 +134,9 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 
 		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-		SqlSession session = SqlmapUtils.openSession(master ? this
-				.getMasterSessionFactory() : getSlaveSessionFactory());
+		SqlSessionFactory sessionFactory = master ? this
+				.getMasterSessionFactory() : getSlaveSessionFactory();
+	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
 		try {
 			ILMapper<T> mapper = session.getMapper(getMapperClass());
 			List<T> objs = mapper.queryByMap(params);
@@ -156,7 +159,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
-			SqlmapUtils.release(session);
+			SqlmapUtils.release(session,sessionFactory);
 		}
 	}
 
@@ -174,7 +177,8 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 		params.put("id", id);
 		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-		SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
+		SqlSessionFactory sessionFactory = this.getMasterSessionFactory();
+	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
 		try {
 			IMapper<T> mapper = session.getMapper(getMapperClass());
 			Integer eft = mapper.deleteByMap(params);
@@ -192,7 +196,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
-			SqlmapUtils.release(session);
+			SqlmapUtils.release(session,sessionFactory);
 		}
 	}
 
@@ -216,7 +220,8 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 	    params.put("id", id);
 	    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-		SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
+	    SqlSessionFactory sessionFactory = this.getMasterSessionFactory();
+	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
 		try {
 			IMapper<T> mapper = session.getMapper(getMapperClass());
 			Integer eft = mapper.updateById(params);
@@ -234,7 +239,7 @@ public abstract class AbsLongIDIBatisDAOImpl<T extends IModel> extends
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
-			SqlmapUtils.release(session);
+			SqlmapUtils.release(session,sessionFactory);
 		}
 	}
 

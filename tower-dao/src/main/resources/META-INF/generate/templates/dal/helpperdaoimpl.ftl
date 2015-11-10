@@ -67,7 +67,8 @@ public class ${name}HelpperIbatisDAOImpl extends AbsHelpperIBatisDAOImpl<${name}
 
         helpper.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
-        SqlSession session = SqlmapUtils.openSession(getMapQuerySessionFactory());
+        SqlSessionFactory sessionFactory = this.getMapQuerySessionFactory();
+	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
         try {
 
             ${name}HelpperMapper mapper = session.getMapper(getMapperClass());
@@ -77,7 +78,7 @@ public class ${name}HelpperIbatisDAOImpl extends AbsHelpperIBatisDAOImpl<${name}
         } catch (Exception t) {
             throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
         } finally {
-            SqlmapUtils.release(session);
+            SqlmapUtils.release(session,sessionFactory);
         }
     }
 	

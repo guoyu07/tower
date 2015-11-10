@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.tower.service.cache.mem.impl.DynamicMemCache;
 import com.tower.service.cache.redis.impl.DynamicRedisCache;
@@ -73,7 +74,8 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
 
     helpper.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(this.getMapQuerySessionFactory());
+    SqlSessionFactory sessionFactory = getMapQuerySessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       IHelpperMapper<T> mapper = session.getMapper(getMapperClass());
 
@@ -83,7 +85,7 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
     } catch (Exception t) {
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -92,7 +94,8 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
 
     helpper.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
+    SqlSessionFactory sessionFactory = this.getMasterSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       IHelpperMapper<T> mapper = session.getMapper(getMapperClass());
 
@@ -102,7 +105,7 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
     } catch (Exception t) {
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -116,7 +119,8 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
 
     helpper.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
+    SqlSessionFactory sessionFactory = this.getMasterSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       IHelpperMapper<T> mapper = session.getMapper(getMapperClass());
 
@@ -126,7 +130,7 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
     } catch (Exception t) {
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -138,7 +142,8 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
 
     helpper.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
+    SqlSessionFactory sessionFactory = this.getMasterSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
 
       IHelpperMapper<T> mapper = session.getMapper(getMapperClass());
@@ -149,7 +154,7 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
     } catch (Exception t) {
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 

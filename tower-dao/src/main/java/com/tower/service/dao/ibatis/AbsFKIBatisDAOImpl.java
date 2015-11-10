@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -63,7 +64,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.put(property, fkValue);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
+    SqlSessionFactory sessionFactory = getMasterSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.deleteByMap(cond);
@@ -82,7 +84,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -106,7 +108,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.putAll(attchParams);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
+    SqlSessionFactory sessionFactory = getMasterSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.deleteByMap(cond);
@@ -125,7 +128,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -146,7 +149,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
+    SqlSessionFactory sessionFactory = getMasterSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.deleteByMap(cond);
@@ -165,7 +169,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -190,7 +194,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
+    SqlSessionFactory sessionFactory = getMasterSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.deleteByMap(cond);
@@ -209,7 +214,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -228,8 +233,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     Map<String, Object> cond = new HashMap<String, Object>();
     cond.put(property, fkValue);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
-
-    SqlSession session = SqlmapUtils.openSession(getMapQuerySessionFactory());
+    SqlSessionFactory sessionFactory = getSlaveSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
       List<T> result = mapper.queryByMap(cond);
@@ -246,7 +251,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
 
   }
@@ -271,8 +276,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.put(property, fkValue);
     cond.putAll(attchParams);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
-
-    SqlSession session = SqlmapUtils.openSession(getMapQuerySessionFactory());
+    SqlSessionFactory sessionFactory = getSlaveSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
       List<T> result = mapper.queryByMap(cond);
@@ -289,7 +294,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -308,9 +313,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     Map<String, Object> cond = new HashMap<String, Object>();
     cond.put(property, fkValue);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
-
-    SqlSession session = SqlmapUtils.openSession(master ? this.getMasterSessionFactory()
-        : getMapQuerySessionFactory());
+    SqlSessionFactory sessionFactory = master ? this.getMasterSessionFactory()
+            : getSlaveSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
       List<T> result = mapper.queryByMap(cond);
@@ -327,7 +332,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -349,9 +354,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.put(property, fkValue);
     cond.putAll(attchParams);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
-
-    SqlSession session = SqlmapUtils.openSession(master ? this.getMasterSessionFactory()
-        : getMapQuerySessionFactory());
+    SqlSessionFactory sessionFactory = master ? this.getMasterSessionFactory()
+            : getSlaveSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
       List<T> result = mapper.queryByMap(cond);
@@ -368,7 +373,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -388,7 +393,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.put(property, fkValue);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMapQuerySessionFactory());
+    SqlSessionFactory sessionFactory = getSlaveSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
       List<T> result = mapper.queryByMap(cond);
@@ -405,7 +411,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -428,7 +434,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.putAll(attchParams);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMapQuerySessionFactory());
+    SqlSessionFactory sessionFactory = getSlaveSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
       List<T> result = mapper.queryByMap(cond);
@@ -445,7 +452,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -464,9 +471,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     Map<String, Object> cond = new HashMap<String, Object>();
     cond.put(property, fkValue);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
-
-    SqlSession session = SqlmapUtils.openSession(master ? this.getMasterSessionFactory()
-        : getMapQuerySessionFactory());
+    SqlSessionFactory sessionFactory = master ? this.getMasterSessionFactory()
+            : getSlaveSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
       List<T> result = mapper.queryByMap(cond);
@@ -483,7 +490,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -506,8 +513,9 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.putAll(attchParams);
     cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(master ? this.getMasterSessionFactory()
-        : getMapQuerySessionFactory());
+    SqlSessionFactory sessionFactory = master ? this.getMasterSessionFactory()
+            : getSlaveSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       IMapper<T> mapper = (IMapper<T>) session.getMapper(getMapperClass());
       List<T> result = mapper.queryByMap(cond);
@@ -524,7 +532,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -559,7 +567,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     }
     params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
+    SqlSessionFactory sessionFactory = getMasterSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.cmplxUpdate(params);
@@ -578,7 +587,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -617,7 +626,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     }
     params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
+    SqlSessionFactory sessionFactory = getMasterSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.cmplxUpdate(params);
@@ -637,7 +647,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -672,7 +682,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     }
     params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
+    SqlSessionFactory sessionFactory = getMasterSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.cmplxUpdate(params);
@@ -691,7 +702,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -729,7 +740,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     }
     params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
+    SqlSessionFactory sessionFactory = getMasterSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.cmplxUpdate(params);
@@ -748,7 +760,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 

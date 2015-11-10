@@ -129,7 +129,8 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
     	
     	model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
     
-    	SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
+    	SqlSessionFactory sessionFactory = this.getMasterSessionFactory();
+	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     	try {
     		<#if tab.pkFieldType.javaType="Integer">
       		IIMapper<${name}> mapper = session.getMapper(getMapperClass());
@@ -153,7 +154,7 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
       		logger.error("insert(T, String)", t); //$NON-NLS-1$
       		throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     	} finally {
-     		SqlmapUtils.release(session);
+     		SqlmapUtils.release(session,sessionFactory);
     	}
   	}
 	</#if>

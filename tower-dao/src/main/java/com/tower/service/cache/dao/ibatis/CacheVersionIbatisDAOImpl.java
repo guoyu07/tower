@@ -86,7 +86,8 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
 
     model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
+    SqlSessionFactory sessionFactory = this.getMasterSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       ISMapper<CacheVersion> mapper = session.getMapper(getMapperClass());
 
@@ -105,7 +106,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
       logger.error("insert(T, String)", t); //$NON-NLS-1$
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -127,7 +128,8 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
     CacheVersion model = new CacheVersion();
     model.setId(id);
     model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
-    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
+    SqlSessionFactory sessionFactory = this.getMasterSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       CacheVersionMapper mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.incrVersion(model);
@@ -136,7 +138,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
     } catch (Exception t) {
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -148,7 +150,8 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
     model.setId(id);
     model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
+    SqlSessionFactory sessionFactory = this.getMasterSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       CacheVersionMapper mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.incrRecVersion(model);
@@ -157,7 +160,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
     } catch (Exception t) {
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
@@ -169,7 +172,8 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
     model.setId(id);
     model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
 
-    SqlSession session = SqlmapUtils.openSession(getMasterSessionFactory());
+    SqlSessionFactory sessionFactory = this.getMasterSessionFactory();
+    SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
       CacheVersionMapper mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.incrTabVersion(model);
@@ -178,7 +182,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
     } catch (Exception t) {
       throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
     } finally {
-    	SqlmapUtils.release(session);
+    	SqlmapUtils.release(session,sessionFactory);
     }
   }
 
