@@ -6,6 +6,8 @@
 	xmlns:cache="http://www.springframework.org/schema/cache"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx.xsd
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
     http://www.springframework.org/schema/context
@@ -65,5 +67,13 @@
 	<bean id="#{artifactId}MapQuerySqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">     
  		<property name="dataSource" ref="#{artifactId}_db_map_query" />
  	</bean>
+ 	<!-- enable the configuration of transactional behavior based on annotations -->
+ 	<!--
+ 	<tx:annotation-driven transaction-manager="txManager"/><!-- a PlatformTransactionManager is still required -->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!-- (this dependency is defined somewhere else) -->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+ 	-->
 	
 </beans>
