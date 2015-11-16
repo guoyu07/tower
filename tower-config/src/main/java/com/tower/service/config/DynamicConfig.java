@@ -322,7 +322,8 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
         fireConfigChanged();
 
         if (logger.isInfoEnabled()) {
-            logger.info("onUpdate(String old={}, Integer new={}) - end", oldStr, newStr); //$NON-NLS-1$
+        	logger.info("String old={}", oldStr); //$NON-NLS-1$
+            logger.info("String new={}",newStr);
         }
     }
 
