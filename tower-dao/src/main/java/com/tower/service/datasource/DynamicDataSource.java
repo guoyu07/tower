@@ -13,13 +13,6 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.apache.commons.configuration.Configuration;
-import org.apache.ibatis.mapping.Environment;
-import org.apache.ibatis.session.ExecutorType;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.apache.ibatis.transaction.TransactionFactory;
-import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
 import com.tower.service.concurrent.AsynBizExecutor;
 import com.tower.service.config.IConfigListener;
@@ -165,21 +158,20 @@ public class DynamicDataSource extends PrefixPriorityConfig implements
 
 	private void verify(String prefix_, IDataSource basicDataSource_) {
 		long start = System.currentTimeMillis();
-		TransactionFactory transactionFactory = new JdbcTransactionFactory();
-		Environment environment = new Environment(prefix_, transactionFactory,
-				basicDataSource_);
-		org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration(
-				environment);
-		configuration.setCacheEnabled(true);
-		configuration.setLazyLoadingEnabled(false);
-		configuration.setDefaultExecutorType(ExecutorType.SIMPLE);
-		configuration.setUseGeneratedKeys(false);
-		SqlSessionFactory factory = new SqlSessionFactoryBuilder()
-				.build(configuration);
-		SqlSession session = factory.openSession();
-		if (session != null) {
-			session.close();
+		Connection conn = null;
+		try {
+			conn = basicDataSource_.getConnection();
+		} catch (Exception ex) {
+			throw new RuntimeException(ex);
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+				}
+			}
 		}
+
 		LogUtils.timeused(logger, prefix_ + "verify", start);
 	}
 

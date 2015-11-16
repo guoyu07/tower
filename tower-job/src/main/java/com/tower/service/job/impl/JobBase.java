@@ -149,7 +149,10 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
         	logger.error(ex);
         }
         finally{
-            notifyFinished();
+        	try{
+        		notifyFinished();
+        	}
+        	catch(Exception ex){}
             decreaseRunning();
             logger.info("finshed");
         }
