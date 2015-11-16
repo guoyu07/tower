@@ -2,8 +2,11 @@ package com.tower.service.config;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+
+import org.apache.commons.configuration.Configuration;
 
 import com.tower.service.util.StringUtil;
 
@@ -307,5 +310,24 @@ public class PrefixPriorityConfig extends DynamicConfig {
         } else {
             return super.getList(key, defaultValue);
         }
+    }
+    
+    protected String configToString(Configuration config) {
+        if (config == null) {
+            return "";
+        }
+        String prefix = this.getPrefix();
+        Iterator<String> it = config.getKeys();
+        if (it == null) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        while (it.hasNext()) {
+            String key = it.next();
+            if(key.startsWith(prefix)){
+            	sb.append(key + "=" + config.getString(key) + "\n");
+            }
+        }
+        return sb.toString();
     }
 }

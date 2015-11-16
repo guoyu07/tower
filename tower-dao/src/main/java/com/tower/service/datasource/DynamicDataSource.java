@@ -44,10 +44,10 @@ import com.tower.service.util.StringUtil;
 public class DynamicDataSource extends PrefixPriorityConfig implements
 		IDataSource, IConfigListener {
 
-	private DataSource delegate;
+	private IDataSource delegate;
 	private String hostName;
 
-	private String datasourceImpl="com.tower.service.datasource.DBCPDataSource";
+	private String datasourceImpl = "com.tower.service.datasource.DBCPDataSource";
 
 	public String getDatasourceImpl() {
 		return datasourceImpl;
@@ -221,11 +221,11 @@ public class DynamicDataSource extends PrefixPriorityConfig implements
 	}
 
 	public boolean getTestWhileIdle() {
-		return ((IDataSource) this.delegate).getTestWhileIdle();
+		return this.delegate.getTestWhileIdle();
 	}
 
 	public void setTestWhileIdle(boolean testWhileIdle) {
-		((IDataSource) this.delegate).setTestWhileIdle(testWhileIdle);
+		this.delegate.setTestWhileIdle(testWhileIdle);
 	}
 
 	private String dbReloadEventReceiver;
@@ -235,35 +235,35 @@ public class DynamicDataSource extends PrefixPriorityConfig implements
 	}
 
 	public String getDriverClassName() {
-		return ((IDataSource) this.delegate).getDriverClassName();
+		return this.delegate.getDriverClassName();
 	}
 
 	public void setDriverClassName(String driverClassName) {
-		((IDataSource) this.delegate).setDriverClassName(driverClassName);
+		this.delegate.setDriverClassName(driverClassName);
 	}
 
 	public String getUrl() {
-		return ((IDataSource) this.delegate).getUrl();
+		return this.delegate.getUrl();
 	}
 
 	public void setUrl(String url) {
-		((IDataSource) this.delegate).setUrl(url);
+		this.delegate.setUrl(url);
 	}
 
 	public String getUsername() {
-		return ((IDataSource) this.delegate).getUsername();
+		return this.delegate.getUsername();
 	}
 
 	public void setUsername(String username) {
-		((IDataSource) this.delegate).setUsername(username);
+		this.delegate.setUsername(username);
 	}
 
 	public String getPassword() {
-		return ((IDataSource) this.delegate).getPassword();
+		return this.delegate.getPassword();
 	}
 
 	public void setPassword(String password) {
-		((IDataSource) this.delegate).setPassword(password);
+		this.delegate.setPassword(password);
 	}
 
 	/**
@@ -272,11 +272,11 @@ public class DynamicDataSource extends PrefixPriorityConfig implements
 	 * @return
 	 */
 	public int getInitialSize() {
-		return ((IDataSource) this.delegate).getInitialSize();
+		return this.delegate.getInitialSize();
 	}
 
 	public void setInitialSize(int initialSize) {
-		((IDataSource) this.delegate).setInitialSize(initialSize);
+		this.delegate.setInitialSize(initialSize);
 	}
 
 	/**
@@ -285,11 +285,11 @@ public class DynamicDataSource extends PrefixPriorityConfig implements
 	 * @return
 	 */
 	public int getMaxActive() {
-		return ((IDataSource) this.delegate).getMaxActive();
+		return this.delegate.getMaxActive();
 	}
 
 	public void setMaxActive(int maxActive) {
-		((IDataSource) this.delegate).setMaxActive(maxActive);
+		this.delegate.setMaxActive(maxActive);
 	}
 
 	/**
@@ -298,11 +298,11 @@ public class DynamicDataSource extends PrefixPriorityConfig implements
 	 * @return
 	 */
 	public int getMaxIdle() {
-		return ((IDataSource) this.delegate).getMaxIdle();
+		return this.delegate.getMaxIdle();
 	}
 
 	public void setMaxIdle(int maxIdle) {
-		((IDataSource) this.delegate).setMaxIdle(maxIdle);
+		this.delegate.setMaxIdle(maxIdle);
 	}
 
 	/**
@@ -311,11 +311,11 @@ public class DynamicDataSource extends PrefixPriorityConfig implements
 	 * @return
 	 */
 	public int getMinIdle() {
-		return ((IDataSource) this.delegate).getMinIdle();
+		return this.delegate.getMinIdle();
 	}
 
 	public void setMinIdle(int minIdle) {
-		((IDataSource) this.delegate).setMinIdle(minIdle);
+		this.delegate.setMinIdle(minIdle);
 	}
 
 	/**
@@ -324,11 +324,11 @@ public class DynamicDataSource extends PrefixPriorityConfig implements
 	 * @return
 	 */
 	public long getMaxWait() {
-		return ((IDataSource) this.delegate).getMaxWait();
+		return this.delegate.getMaxWait();
 	}
 
 	public void setMaxWait(long maxWait) {
-		((IDataSource) this.delegate).setMaxWait(maxWait);
+		this.delegate.setMaxWait(maxWait);
 	}
 
 	/**
@@ -337,12 +337,11 @@ public class DynamicDataSource extends PrefixPriorityConfig implements
 	 * @return
 	 */
 	public boolean isPoolPreparedStatements() {
-		return ((IDataSource) this.delegate).isPoolPreparedStatements();
+		return this.delegate.isPoolPreparedStatements();
 	}
 
 	public void setPoolPreparedStatements(boolean poolPreparedStatements) {
-		((IDataSource) this.delegate)
-				.setPoolPreparedStatements(poolPreparedStatements);
+		this.delegate.setPoolPreparedStatements(poolPreparedStatements);
 	}
 
 	/**
@@ -351,7 +350,7 @@ public class DynamicDataSource extends PrefixPriorityConfig implements
 	 * @return
 	 */
 	public boolean getDefaultReadOnly() {
-		return ((IDataSource) this.delegate).getDefaultReadOnly();
+		return this.delegate.getDefaultReadOnly();
 	}
 
 	/**
@@ -360,16 +359,15 @@ public class DynamicDataSource extends PrefixPriorityConfig implements
 	 * @return
 	 */
 	public int getRemoveAbandonedTimeout() {
-		return ((IDataSource) this.delegate).getRemoveAbandonedTimeout();
+		return this.delegate.getRemoveAbandonedTimeout();
 	}
 
 	public void setRemoveAbandonedTimeout(int removeAbandonedTimeout) {
-		((IDataSource) this.delegate)
-				.setRemoveAbandonedTimeout(removeAbandonedTimeout);
+		this.delegate.setRemoveAbandonedTimeout(removeAbandonedTimeout);
 	}
 
 	public void setDefaultReadOnly(boolean defaultReadOnly) {
-		((IDataSource) this.delegate).setDefaultReadOnly(defaultReadOnly);
+		this.delegate.setDefaultReadOnly(defaultReadOnly);
 	}
 
 	/**
@@ -378,11 +376,11 @@ public class DynamicDataSource extends PrefixPriorityConfig implements
 	 * @return
 	 */
 	public boolean getLogAbandoned() {
-		return ((IDataSource) this.delegate).getLogAbandoned();
+		return this.delegate.getLogAbandoned();
 	}
 
 	public void setLogAbandoned(boolean logAbandoned) {
-		((IDataSource) this.delegate).setLogAbandoned(logAbandoned);
+		this.delegate.setLogAbandoned(logAbandoned);
 	}
 
 	/**
@@ -391,11 +389,11 @@ public class DynamicDataSource extends PrefixPriorityConfig implements
 	 * @return
 	 */
 	public boolean getRemoveAbandoned() {
-		return ((IDataSource) this.delegate).getRemoveAbandoned();
+		return this.delegate.getRemoveAbandoned();
 	}
 
 	public void setRemoveAbandoned(boolean removeAbandoned) {
-		((IDataSource) this.delegate).setRemoveAbandoned(removeAbandoned);
+		this.delegate.setRemoveAbandoned(removeAbandoned);
 	}
 
 	/**
@@ -404,11 +402,11 @@ public class DynamicDataSource extends PrefixPriorityConfig implements
 	 * @return
 	 */
 	public boolean getTestOnBorrow() {
-		return ((IDataSource) this.delegate).getTestOnBorrow();
+		return this.delegate.getTestOnBorrow();
 	}
 
 	public void setTestOnBorrow(boolean testOnBorrow) {
-		((IDataSource) this.delegate).setTestOnBorrow(testOnBorrow);
+		this.delegate.setTestOnBorrow(testOnBorrow);
 	}
 
 	/**
@@ -417,11 +415,11 @@ public class DynamicDataSource extends PrefixPriorityConfig implements
 	 * @return
 	 */
 	public String getValidationQuery() {
-		return ((IDataSource) this.delegate).getValidationQuery();
+		return this.delegate.getValidationQuery();
 	}
 
 	public void setValidationQuery(String validationQuery) {
-		((IDataSource) this.delegate).setValidationQuery(validationQuery);
+		this.delegate.setValidationQuery(validationQuery);
 	}
 
 	/**
@@ -430,13 +428,11 @@ public class DynamicDataSource extends PrefixPriorityConfig implements
 	 * @return
 	 */
 	public long getMinEvictableIdleTimeMillis() {
-		return ((IDataSource) this.delegate)
-				.getMinEvictableIdleTimeMillis();
+		return this.delegate.getMinEvictableIdleTimeMillis();
 	}
 
 	public void setMinEvictableIdleTimeMillis(long minEvictableIdleTimeMillis) {
-		((IDataSource) this.delegate)
-				.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
+		this.delegate.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
 	}
 
 	/**
@@ -445,31 +441,30 @@ public class DynamicDataSource extends PrefixPriorityConfig implements
 	 * @return
 	 */
 	public long getTimeBetweenEvictionRunsMillis() {
-		return ((IDataSource) this.delegate)
-				.getTimeBetweenEvictionRunsMillis();
+		return this.delegate.getTimeBetweenEvictionRunsMillis();
 	}
 
 	public void setTimeBetweenEvictionRunsMillis(
 			long timeBetweenEvictionRunsMillis) {
-		((IDataSource) this.delegate)
+		this.delegate
 				.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
 	}
 
 	@Override
 	public int getMaxOpenPreparedStatements() {
-		return ((IDataSource) this.delegate).getMaxOpenPreparedStatements();
+		return this.delegate.getMaxOpenPreparedStatements();
 	}
 
 	@Override
 	public void setMaxOpenPreparedStatements(int maxOpenPreparedStatements) {
-		((IDataSource) this.delegate).setMaxOpenPreparedStatements(maxOpenPreparedStatements);
+		this.delegate.setMaxOpenPreparedStatements(maxOpenPreparedStatements);
 	}
-	
-	public DataSource getDelegate() {
+
+	public IDataSource getDelegate() {
 		return delegate;
 	}
 
-	public void setDelegate(DataSource delegate) {
+	public void setDelegate(IDataSource delegate) {
 		this.delegate = delegate;
 	}
 
@@ -544,9 +539,9 @@ public class DynamicDataSource extends PrefixPriorityConfig implements
 		}
 	}
 
-	private IDataSource create(){
+	private IDataSource create() {
 		try {
-			return (IDataSource)Class.forName(datasourceImpl).newInstance();
+			return (IDataSource) Class.forName(datasourceImpl).newInstance();
 		} catch (Exception ex) {
 			logger.error("create", ex);
 			throw new RuntimeException(ex);
