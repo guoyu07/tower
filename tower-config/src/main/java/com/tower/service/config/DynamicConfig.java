@@ -380,6 +380,22 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
     public boolean isEmpty() {
         return delegate.isEmpty();
     }
+    
+    private boolean isEncryptPropertyVal(String propertyName){
+        if(propertyName.startsWith("encrypt")){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    protected String convertProperty(String propertyName,String propertyValue){
+        if(isEncryptPropertyVal(propertyName)){
+            return DesUtils.getDecryptString(propertyValue);//调用解密方法
+        }else{
+            return propertyValue;
+        }
+    }
 
     public boolean containsKey(String key) {
         return delegate.containsKey(key);
@@ -516,9 +532,16 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
     public BigInteger getBigInteger(String key, BigInteger defaultValue) {
         return delegate.getBigInteger(key, defaultValue);
     }
-
+    /**
+     * 支持加密机制
+     */
     public String getString(String key) {
-        return delegate.getString(key);
+    	String value = delegate.getString(key);
+    	if(key.toLowerCase().contains("encrypt")){
+    		logger.info("'{}'是加密字段",key);
+    		value = DesUtils.getDecryptString(value.toString());
+    	}
+        return value;
     }
 
     public String getString(String key, String defaultValue) {
