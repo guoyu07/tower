@@ -4,10 +4,11 @@
 	xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
     http://www.springframework.org/schema/tx
-    http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
     http://www.springframework.org/schema/context
@@ -69,11 +70,11 @@
  	</bean>
  	<!-- enable the configuration of transactional behavior based on annotations -->
  	<!--
- 	<tx:annotation-driven transaction-manager="txManager"/><!-- a PlatformTransactionManager is still required -->
-    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <!-- (this dependency is defined somewhere else) -->
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
+ 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	    <property name="dataSource" ref="#{artifactId}_db"/>
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager"/>
  	-->
 	
 </beans>
