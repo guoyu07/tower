@@ -2,10 +2,12 @@ package com.tower.service.dao.ibatis;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -864,12 +866,25 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		if (params == null || params.isEmpty()) {
 			throw new DataAccessException(IBatisDAOException.MSG_1_0004);
 		}
-
+		validate(params.values());
 		if (logger.isDebugEnabled()) {
 			logger.debug("validate(Map<String,Object>) - end"); //$NON-NLS-1$
 		}
 	}
-
+	
+	protected void validate(Collection<Object> params){
+		if (params == null || params.isEmpty()) {
+			throw new DataAccessException(IBatisDAOException.MSG_1_0004);
+		}
+		Iterator<Object> it = params.iterator();
+		while(it.hasNext()){
+			Object element = it.next();
+			if(element!=null){
+				return;
+			}
+		}
+		throw new DataAccessException(IBatisDAOException.MSG_1_0004);
+	}
 	// ##################################################################################################
 
 	/**
@@ -1150,6 +1165,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		if (datas == null) {
 			throw new DataAccessException(IBatisDAOException.MSG_1_0005);
+		}
+		int size = datas.size();
+		for(int i=0;i<size;i++){
+			validate(datas.get(i));
 		}
 
 		if (logger.isDebugEnabled()) {

@@ -28,7 +28,6 @@
 + 当是一个web请求时，web框架中会根据其调用端传入参数［X-Request-ID］情况来获取或者产生请求id（X-Request-ID为空时自动产生）
 
 ###### tower－config
-+ 具体模块配置文件，通过java 属性机制进行改变-Dxxx=yyy
 + 配置文件存储目录：
 	+ 配置目录有三级，安优先级列表如下，序号最小优先级最高
 		+ 1,应用配置，位置在应用用安装目录下的config目录
@@ -40,6 +39,9 @@
 	+ 支持动态加载机制［上面1，2项配置支持动态加载］
 	+ 相关设计模式：代理设计模式
 	+ 相关配置文件：从框架级别进行解耦
+	+ 每个配置文件都支持全局级配置及应用级配置
+		+ 全局配置规则：不含有'.'符号／或者以'global.'开头
+		+ 应用配置规则：应用id（以job Id、serviceId等）开头，用'.'连接配置项；
 		+ 资源类型：支持多组机制
 			+ database.properties
 			+ cache-mem.properties
@@ -47,11 +49,11 @@
 			+ mq.properties
 			+ dubbo.properties
 		+ 开关类型：按层管理
-			+ acc.xml
-			+ service.xml
-			+ weblayer.xml
-			+ rpc.xml
-			+ job.xml
+			+ acc.xml（数据访问层）
+			+ service.xml（service层）
+			+ webapp.xml（webapp层）
+			+ rpc.xml（rpc层）
+			+ job.xml（job层）
 ###### tower－mq
 + 负责消息中间件通信的模块
 
