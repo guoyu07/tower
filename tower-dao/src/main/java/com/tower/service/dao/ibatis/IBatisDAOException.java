@@ -78,7 +78,7 @@ public enum IBatisDAOException implements IExceptionBody {
    * code:1{spid}00007
    * </p>
    */
-  MSG_1_0007("7", "更新-条件参数不能为空", 1, "0"),
+  MSG_1_0007("7", "更新-条件参数不能为空非法sql:{}", 1, "0"),
   /**
    * 系统异常－执行出错.
    * <p>

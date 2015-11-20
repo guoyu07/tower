@@ -15,6 +15,7 @@ import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.Configuration;
 
+import com.tower.service.exception.DataAccessException;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 import com.tower.service.reflection.MetaObject;
@@ -85,7 +86,10 @@ public class StatementHandlerPlugin implements Interceptor {
       sb.append(db);
       sb.append("*/");
       sql = sb.toString().replaceAll("\n", " ").replaceAll("\t", " ").replaceAll("[\\s]+", " ");
-
+      String tmp = sql.toLowerCase().trim();
+      if((tmp.indexOf("update ")==0 || tmp.indexOf("delete ")==0)&&tmp.indexOf(" where ") == -1){
+        throw new DataAccessException(IBatisDAOException.MSG_1_0007,sql);
+      }
       return sql;
     }
   }

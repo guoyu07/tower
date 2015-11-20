@@ -204,7 +204,7 @@ public class DesUtils {
 	 */
 	public static void main(String[] args) {
 		try {
-			String test = "Salary999";
+			String test = "Kjt@)!$";
 			DesUtils des = new DesUtils();// 自定义密钥
 			System.out.println("加密前的字符：" + test);
 			System.out.println("加密后的字符：" + des.encrypt(test));

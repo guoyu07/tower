@@ -866,25 +866,11 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		if (params == null || params.isEmpty()) {
 			throw new DataAccessException(IBatisDAOException.MSG_1_0004);
 		}
-		validate(params.values());
 		if (logger.isDebugEnabled()) {
 			logger.debug("validate(Map<String,Object>) - end"); //$NON-NLS-1$
 		}
 	}
 	
-	protected void validate(Collection<Object> params){
-		if (params == null || params.isEmpty()) {
-			throw new DataAccessException(IBatisDAOException.MSG_1_0004);
-		}
-		Iterator<Object> it = params.iterator();
-		while(it.hasNext()){
-			Object element = it.next();
-			if(element!=null){
-				return;
-			}
-		}
-		throw new DataAccessException(IBatisDAOException.MSG_1_0004);
-	}
 	// ##################################################################################################
 
 	/**
