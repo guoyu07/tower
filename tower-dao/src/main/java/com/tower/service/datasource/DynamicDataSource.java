@@ -85,7 +85,10 @@ public class DynamicDataSource extends PrefixPriorityConfig implements
 		String driverClassName_ = config.getString(prefix_ + "driver");
 		String url_ = config.getString(prefix_ + "url");
 		String username_ = config.getString(prefix_ + "username");
-		String password_ = config.getString(prefix_ + "password");
+		String password_ = config.getString(prefix_ + "password.encrypted");
+		if(StringUtil.isEmpty(password_)){
+			password_ = config.getString(prefix_ + "password");
+		}
 		Integer initialSize_ = config.getInt(prefix_ + "initialSize");
 		Integer maxActive_ = config.getInt(prefix_ + "maxActive");
 		Integer maxIdle_ = config.getInt(prefix_ + "maxIdle");

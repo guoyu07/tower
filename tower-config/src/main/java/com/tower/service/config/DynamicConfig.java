@@ -45,6 +45,7 @@ import com.tower.service.util.StringUtil;
 public class DynamicConfig implements ConfigFileDict, Constants, Configuration, IConfigListener {
    
     protected Logger logger = LoggerFactory.getLogger(getClass());
+    
     /**
      * 默认为没有profile<br>
      * 当没有设置profile时 <br>
@@ -136,7 +137,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
      */
     public CompositeConfiguration buildCompositeConfiguration() {
 
-        CompositeConfiguration compositeConfiguration = new CompositeConfiguration();
+        CompositeConfiguration compositeConfiguration = new SecutiryCompositeConfiguration();
         compositeConfiguration.setThrowExceptionOnMissing(_throwExceptionOnMissing);
         
         if(!StringUtil.isEmpty(getAppHomeDir())){
@@ -382,22 +383,6 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
         return delegate.isEmpty();
     }
     
-    private boolean isEncryptPropertyVal(String propertyName){
-        if(propertyName.startsWith("encrypt")){
-            return true;
-        }else{
-            return false;
-        }
-    }
-    
-    protected String convertProperty(String propertyName,String propertyValue){
-        if(isEncryptPropertyVal(propertyName)){
-            return DesUtils.getDecryptString(propertyValue);//调用解密方法
-        }else{
-            return propertyValue;
-        }
-    }
-
     public boolean containsKey(String key) {
         return delegate.containsKey(key);
     }
@@ -533,20 +518,13 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
     public BigInteger getBigInteger(String key, BigInteger defaultValue) {
         return delegate.getBigInteger(key, defaultValue);
     }
-    /**
-     * 支持加密机制
-     */
+    
     public String getString(String key) {
-    	String value = delegate.getString(key);
-    	if(key.toLowerCase().contains("encrypt")){
-    		logger.info("'{}'是加密字段",key);
-    		value = DesUtils.getDecryptString(value.toString());
-    	}
-        return value;
+    	return delegate.getString(key);
     }
 
     public String getString(String key, String defaultValue) {
-        return delegate.getString(key, defaultValue);
+    	return delegate.getString(key, defaultValue);
     }
 
     public String[] getStringArray(String key) {
@@ -561,7 +539,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration, 
         return delegate.getList(key, defaultValue);
     }
 
-    public Configuration getConfig() {
+    protected Configuration getConfig() {
         return delegate;
     }
 }

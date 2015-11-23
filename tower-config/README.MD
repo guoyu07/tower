@@ -13,6 +13,7 @@
 	+ 每个配置文件都支持全局级配置及应用级配置
 		+ 全局配置规则：不含有'.'符号／或者以'global.'开头
 		+ 应用配置规则：应用id（以job Id、serviceId等）开头，用'.'连接配置项；
+		+ 加密规则：所有以.encrypted结尾的配置项都是加密项
 		+ 资源类型：支持多组机制
 			+ database.properties
 			+ cache-mem.properties

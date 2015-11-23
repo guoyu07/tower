@@ -4,6 +4,8 @@ import java.security.Key;
 
 import javax.crypto.Cipher;
 
+import com.tower.service.util.StringUtil;
+
 public class DesUtils {
 
 	/** 字符串默认键值 */
@@ -14,6 +16,23 @@ public class DesUtils {
 
 	/** 解密工具 */
 	private static Cipher decryptCipher = null;
+	
+	private void init(String keyString){
+		try {
+			if(!StringUtil.isEmpty(keyString)){
+				strDefaultKey = keyString;
+			}
+			Key key = getKey(strDefaultKey.getBytes());
+			encryptCipher = Cipher.getInstance("DES");
+			encryptCipher.init(Cipher.ENCRYPT_MODE, key);
+			
+			decryptCipher = Cipher.getInstance("DES");
+			decryptCipher.init(Cipher.DECRYPT_MODE, key);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+	}
 	
 	/**
 	 * 将byte数组转换为表示16进制值的字符串， 如：byte[]{ 8,18 }转换为：0813， 和public static byte[]
@@ -96,16 +115,10 @@ public class DesUtils {
 	 *            指定的密钥
 	 * @throws Exception
 	 */
-	public DesUtils(String strKey) throws Exception {
+	public DesUtils(String strKey) {
 
 		// Security.addProvider(new com.sun.crypto.provider.SunJCE());
-		Key key = getKey(strKey.getBytes());
-
-		encryptCipher = Cipher.getInstance("DES");
-		encryptCipher.init(Cipher.ENCRYPT_MODE, key);
-
-		decryptCipher = Cipher.getInstance("DES");
-		decryptCipher.init(Cipher.DECRYPT_MODE, key);
+		init(strKey);
 
 	}
 
@@ -117,7 +130,7 @@ public class DesUtils {
 	 * @return 加密后的字节数组
 	 * @throws Exception
 	 */
-	public static byte[] encrypt(byte[] arrB) throws Exception {
+	public byte[] encrypt(byte[] arrB) throws Exception {
 
 		return encryptCipher.doFinal(arrB);
 
@@ -131,7 +144,7 @@ public class DesUtils {
 	 * @return 加密后的字符串
 	 * @throws Exception
 	 */
-	public static String encrypt(String strIn) throws Exception {
+	public String encrypt(String strIn) throws Exception {
 
 		return byteArr2HexStr(encrypt(strIn.getBytes()));
 
@@ -145,7 +158,7 @@ public class DesUtils {
 	 * @return 解密后的字节数组
 	 * @throws Exception
 	 */
-	public static byte[] decrypt(byte[] arrB) throws Exception {
+	public byte[] decrypt(byte[] arrB) throws Exception {
 
 		return decryptCipher.doFinal(arrB);
 
@@ -159,7 +172,7 @@ public class DesUtils {
 	 * @return 解密后的字符串
 	 * @throws Exception
 	 */
-	public static String decrypt(String strIn) throws Exception {
+	public String decrypt(String strIn) throws Exception {
 
 		return new String(decrypt(hexStr2ByteArr(strIn)));
 
@@ -173,7 +186,7 @@ public class DesUtils {
 	 * @return 生成的密钥
 	 * @throws java.lang.Exception
 	 */
-	private static Key getKey(byte[] arrBTmp) throws Exception {
+	private Key getKey(byte[] arrBTmp) throws Exception {
 
 		// 创建一个空的8位字节数组（默认值为0）
 		byte[] arrB = new byte[8];
@@ -188,14 +201,6 @@ public class DesUtils {
 
 	}
 	
-	public static String getDecryptString(String value){
-		try {
-			return decrypt(value);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 	/**
 	 * main方法 。
 	 * 
@@ -205,10 +210,11 @@ public class DesUtils {
 	public static void main(String[] args) {
 		try {
 			String test = "Kjt@)!$";
-			DesUtils des = new DesUtils();// 自定义密钥
+			DesUtils des = new DesUtils();// 自定义密钥32a024b11a5ac37f
 			System.out.println("加密前的字符：" + test);
-			System.out.println("加密后的字符：" + des.encrypt(test));
-			System.out.println("解密后的字符：" + des.decrypt(des.encrypt(test)));
+			String encStr = des.encrypt(test);
+			System.out.println("加密后的字符：" + encStr);
+			System.out.println("解密后的字符：" + des.decrypt(encStr));
 		} catch (Exception e) {
 			e.printStackTrace();
 
