@@ -1,10 +1,8 @@
-package com.tower.service.config;
+package com.tower.service.util;
 
 import java.security.Key;
 
 import javax.crypto.Cipher;
-
-import com.tower.service.util.StringUtil;
 
 public class DesUtils {
 

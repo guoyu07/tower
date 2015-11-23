@@ -49,7 +49,7 @@ public class CommonsConfigurationFactoryBean implements InitializingBean, Factor
                 && (_locations == null || _locations.length == 0))
             throw new IllegalArgumentException("no configuration object or location specified");
 
-        if (_configuration == null) _configuration = new CompositeConfiguration();
+        if (_configuration == null) _configuration = new SecutiryCompositeConfiguration();
 
         _configuration.setThrowExceptionOnMissing(_throwExceptionOnMissing);
 

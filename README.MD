@@ -9,7 +9,7 @@
 
 #### soa服务框架包图
 
-![soa服务框架包图](doc/soafw-package.png)
+![soa服务框架包图](doc/tower-package.png)
 
 ##### tower-soa－framwork
 + 统一的java框架

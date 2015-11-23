@@ -9,6 +9,8 @@ import java.util.Properties;
 import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
 
+import com.tower.service.util.DesUtils;
+
 public class SecutiryCompositeConfiguration  extends CompositeConfiguration implements Configuration{
 
 	/**
