@@ -9,10 +9,12 @@ import java.util.Properties;
 import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
 
+import com.tower.service.log.Logger;
+import com.tower.service.log.LoggerFactory;
 import com.tower.service.util.DesUtils;
 
 public class SecutiryCompositeConfiguration  extends CompositeConfiguration implements Configuration{
-
+	protected Logger logger = LoggerFactory.getLogger(getClass());
 	/**
      * 加密／解密工具
      */
@@ -214,8 +216,9 @@ public class SecutiryCompositeConfiguration  extends CompositeConfiguration impl
     	if(value!=null && isEncryptPropertyVal(key)){
     		try {
 				value = utils.decrypt(value.toString());
+				logger.error("{} 解密成功",key);
 			} catch (Exception e) {
-				throw new RuntimeException(e);
+				logger.error("{}={}解密失败",key,value);
 			}
     	}
         return value;
@@ -228,8 +231,9 @@ public class SecutiryCompositeConfiguration  extends CompositeConfiguration impl
     	if(value!=null && isEncryptPropertyVal(key)){
     		try {
 				value = utils.decrypt(value.toString());
+				logger.error("{} 解密成功",key);
 			} catch (Exception e) {
-				throw new RuntimeException(e);
+				logger.error("{}={}解密失败",key,value);
 			}
     	}
         return value;
