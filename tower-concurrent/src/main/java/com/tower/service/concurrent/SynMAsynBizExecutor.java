@@ -7,7 +7,11 @@ import com.tower.service.log.LogUtils;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 import com.tower.service.util.RequestID;
-
+/**
+ * 分布式并发处理框架
+ * @author alexzhu
+ *
+ */
 public abstract class SynMAsynBizExecutor implements Runnable {
 
     protected static Logger _logger = LoggerFactory.getLogger("trace");

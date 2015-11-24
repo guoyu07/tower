@@ -65,6 +65,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>aspectj-maven-plugin</artifactId>
+				<version>1.8</version>
 				<configuration>
 					<verbose>true</verbose>
 					<privateScope>true</privateScope>

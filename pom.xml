@@ -65,7 +65,9 @@
 		<springsecurity.version>3.2.3.RELEASE</springsecurity.version>
 		<!-- 异常代码生成公共定义 -->
 		<!-- plugins version -->
-		<maven-compiler-plugin.version>2.4.2</maven-compiler-plugin.version>
+		<maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
+		<maven-surefire-plugin.version>2.19</maven-surefire-plugin.version>
+		<maven-source-plugin.version>2.4</maven-source-plugin.version>
 		<!-- plugins version -->
 		<validation-api.version>1.1.0.Final</validation-api.version>
 		<aspectj.version>1.8.4</aspectj.version>
@@ -150,11 +152,6 @@
 			<dependency>
 				<groupId>com.tower.soafw</groupId>
 				<artifactId>tower-rpc</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.tower.soafw</groupId>
-				<artifactId>tower-service</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
@@ -424,6 +421,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
@@ -433,7 +431,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${maven-compiler-plugin.version}</version>
+				<version>${maven-surefire-plugin.version}</version>
 				<configuration>
 					<skipTests>true</skipTests>
 				</configuration>
@@ -450,6 +448,7 @@
 						</goals>
 					</execution>
 				</executions>
+				<version>${maven-source-plugin.version}</version>
 			</plugin>
 		</plugins>
 	</build>

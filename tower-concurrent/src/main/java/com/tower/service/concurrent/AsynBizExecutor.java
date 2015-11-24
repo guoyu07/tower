@@ -9,8 +9,9 @@ import com.tower.service.util.RequestID;
 
 /**
  * 高性能控制器
+ * 异步执行器
  * 
- * @author Administrator
+ * @author alex.zhu
  *
  */
 public abstract class AsynBizExecutor implements Runnable {
