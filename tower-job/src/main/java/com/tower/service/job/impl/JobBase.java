@@ -116,12 +116,24 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
     
     protected String defStatus = "start";
     
+    private List<IJob> beforeList = new ArrayList<IJob>();
     @Override
-    public void before() {
-    	
+    public final void before() {
+    	int size = beforeList==null?0:beforeList.size();
+    	for(int i=0;i<size;i++){
+    		beforeList.get(i).start();
+    	}
     }
     
-    private boolean newStart = false;
+    public List<IJob> getBeforeList() {
+		return beforeList;
+	}
+
+	public void setBeforeList(List<IJob> beforeList) {
+		this.beforeList = beforeList;
+	}
+
+	private boolean newStart = false;
     
     public boolean isNewStart() {
 		return newStart;
@@ -337,13 +349,24 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
          * 
          */
     }
-    
-    /**
+    private List<IJob> afterList = new ArrayList<IJob>();
+    public List<IJob> getAfterList() {
+		return afterList;
+	}
+
+	public void setAfterList(List<IJob> afterList) {
+		this.afterList = afterList;
+	}
+
+	/**
      * 整个job执行完成后，后续业务扩展
      */
     @Override
-    public void after(){
-    	
+    public final void after(){
+    	int size = afterList==null?0:afterList.size();
+    	for(int i=0;i<size;i++){
+    		afterList.get(i).start();
+    	}
     }
     protected void notifyFinished(){
     	int size = listeners==null?0:listeners.size();
