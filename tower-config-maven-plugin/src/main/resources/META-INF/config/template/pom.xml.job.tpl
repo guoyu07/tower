@@ -90,6 +90,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.6</version>
 				<configuration>
 					<archive>
 						<manifest>
@@ -101,6 +102,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.5.4</version>
 				<configuration>
 					<descriptors>
 						<descriptor>src/main/assemble/dist.xml</descriptor>
