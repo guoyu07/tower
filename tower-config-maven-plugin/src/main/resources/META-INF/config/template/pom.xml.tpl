@@ -81,6 +81,11 @@
         <exception.level></exception.level>
         <spId>1</spId>
         <!-- 异常代码生成公共定义 -->
+        
+        <!-- plugins version -->
+		<maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
+		<maven-surefire-plugin.version>2.19</maven-surefire-plugin.version>
+		<maven-source-plugin.version>2.4</maven-source-plugin.version>
 	</properties>
 	<modules>
 		<module>#{artifactId}-util</module>
@@ -432,6 +437,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
@@ -441,7 +447,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${maven-compiler-plugin.version}</version>
+				<version>${maven-surefire-plugin.version}</version>
 				<configuration>
 					<skipTests>true</skipTests>
 				</configuration>
@@ -449,6 +455,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven-source-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -488,6 +495,7 @@
             <plugin>
 				<groupId>com.tower.soafw</groupId>
 				<artifactId>tower-test-maven-plugin</artifactId>
+				<version>${soafw-common.version}</version>
 				<executions>
 					<execution>
 						<id>tower-test</id>
@@ -531,7 +539,7 @@
 											exception-generator
 										</artifactId>
 										<versionRange>
-											[1.0-SNAPSHOT,)
+											[#{tower.version},)
 										</versionRange>
 										<goals>
 											<goal>gen</goal>
@@ -550,7 +558,7 @@
 											tower-test-maven-plugin
 										</artifactId>
 										<versionRange>
-											[1.0-SNAPSHOT,)
+											[#{tower.version},)
 										</versionRange>
 										<goals>
 											<goal>gen</goal>

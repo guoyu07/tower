@@ -8,7 +8,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 
 import com.alibaba.dubbo.rpc.RpcContext;
-import com.tower.service.aop.LoggerPoint;
+import com.tower.service.aop.Loggable;
 import com.tower.service.concurrent.AsynBizExecutor;
 import com.tower.service.domain.result.IResult;
 import com.tower.service.log.Logger;
@@ -28,7 +28,7 @@ public class AccessLoger {
         if(ip!=null){
             ip = ip+" ";
         }
-        LoggerPoint point = getLoggerPoint(pjp);
+        Loggable point = getLoggerPoint(pjp);
         String keys = null;
         if(point!=null){
             keys = point.key();
@@ -55,15 +55,15 @@ public class AccessLoger {
     }
     
     private static boolean monitor(ProceedingJoinPoint pjp){        
-        LoggerPoint loggerPoint = getLoggerPoint(pjp);
+        Loggable loggerPoint = getLoggerPoint(pjp);
         if(loggerPoint==null){
             return false;
         }
         return true;
     }
     
-    private static LoggerPoint getLoggerPoint(ProceedingJoinPoint pjp){
-        return ((MethodSignature)pjp.getSignature()).getMethod().getAnnotation(LoggerPoint.class);
+    private static Loggable getLoggerPoint(ProceedingJoinPoint pjp){
+        return ((MethodSignature)pjp.getSignature()).getMethod().getAnnotation(Loggable.class);
     }
     
     /**
@@ -72,7 +72,7 @@ public class AccessLoger {
      * @return
      * @throws Throwable
      */
-    private static Object processAroundInternal(Map svcDef,final ProceedingJoinPoint pjp,LoggerPoint point)
+    private static Object processAroundInternal(Map svcDef,final ProceedingJoinPoint pjp,Loggable point)
             throws Throwable {
         
         long _time = System.currentTimeMillis();
@@ -134,7 +134,7 @@ public class AccessLoger {
         return _response;
     }
     
-    private static String getService(ProceedingJoinPoint pjp,IService service,LoggerPoint point,Map<String,String> keyMaps){
+    private static String getService(ProceedingJoinPoint pjp,IService service,Loggable point,Map<String,String> keyMaps){
         _logger.debug("keyMaps"+keyMaps);       
         if(point!=null){
             String keys = point.key();
