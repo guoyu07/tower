@@ -49,12 +49,12 @@
 	<!-- 提供方应用信息，用于计算依赖关系 -->
 	<dubbo:application name="#{company}-#{artifactId}-service"/>
 
+    <!-- 用dubbo协议在20880端口暴露服务 -->
+    <dubbo:protocol name="dubbo" port="${#{artifactId}.service.protocol.dubbo.port}" serialization="kryo"/>
+    
     <!-- 使用multicast广播注册中心暴露服务地址 -->
     <!-- 多注册中心配置，竖号分隔表示同时连接多个不同注册中心，同一注册中心的多个集群地址用逗号分隔 -->
     <dubbo:registry protocol="zookeeper" address="${#{artifactId}.service.registry.address}"/>
-    
-    <!-- 用dubbo协议在20880端口暴露服务 -->
-    <dubbo:protocol name="dubbo" port="${#{artifactId}.service.protocol.dubbo.port}"/>
     
     <!-- 使用监控中心 -->
     <dubbo:monitor protocol="registry"/>

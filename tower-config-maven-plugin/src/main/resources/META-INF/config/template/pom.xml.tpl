@@ -65,7 +65,7 @@
 		<aspectj.version>1.8.4</aspectj.version>
 		<unirest-java.version>1.3.26</unirest-java.version>
 		<jackson-databind.version>2.4.2</jackson-databind.version>
-		<dubbo.version>2.5.3</dubbo.version>
+		<dubbo.version>2.8.4</dubbo.version>
 		<zookeeper.version>3.4.6</zookeeper.version>
 		<zkclient.version>0.4</zkclient.version>
 		
