@@ -2,7 +2,7 @@ package com.#{company}.service.#{artifactId}.impl;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.oimboi.service.#{artifactId}.IHello;
+import com.#{company}.service.#{artifactId}.IHello;
 
 public class HelloImpl implements IHello {
 	

@@ -73,11 +73,11 @@
     
     <!-- 声明需要暴露的服务接口 -->
     <!--
-    <dubbo:service interface="com.#{company}.service.#{artifactId}.IXxxService" ref="xxxService"/>
+    <dubbo:service interface="com.#{company}.service.#{artifactId}.IHelloService" ref="helloService"/>
     -->
     <!-- 和本地bean一样实现服务 -->
     <!--
-    <bean id="xxxService" class="com.#{company}.service.#{artifactId}.impl.XxxServiceImpl"/>
+    <bean id="xxxService" class="com.#{company}.service.#{artifactId}.impl.HelloServiceImpl"/>
     -->
     
 </beans>
