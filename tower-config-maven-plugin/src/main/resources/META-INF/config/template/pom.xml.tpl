@@ -44,9 +44,9 @@
 		<mysql.version>5.1.26</mysql.version>
 		<mail.version>1.4.1</mail.version>
 		<jedis.version>2.6.2</jedis.version>
-		<junit.version>4.7</junit.version>
+		<junit.version>4.11</junit.version>
 		<json-lib.version>2.2.3</json-lib.version>
-		<spring.version>4.0.7.RELEASE</spring.version>
+		<spring.version>4.1.6.RELEASE</spring.version>
 		<hessian.version>4.0.7</hessian.version>
 		<sqljdbc4.version>4.0</sqljdbc4.version>
 		<slf4j.version>1.7.5</slf4j.version>
@@ -334,6 +334,21 @@
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-cql</artifactId>
+				<version>1.2.2.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-expression</artifactId>
+				<version>4.2.0.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
 				<artifactId>spring-webmvc</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
@@ -345,6 +360,11 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
 			<dependency>
