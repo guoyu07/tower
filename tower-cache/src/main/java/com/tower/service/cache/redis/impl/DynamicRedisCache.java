@@ -455,4 +455,23 @@ public class DynamicRedisCache extends PrefixPriorityConfig
         byte[] b = toBytes(1L);
     }
 
+	public ValueWrapper putIfAbsent(Object key, Object value) {
+		
+		ShardedJedis _jedis = null;
+        try {
+            _jedis = delegate.getResource();
+            byte[] datas = _jedis.get(toBytes(key));
+            Object result = toObject(datas);
+            if(result==null){
+            	_jedis.set(toBytes(key), toBytes(value));
+            	return new SimpleValueWrapper(value);
+            }
+            return new SimpleValueWrapper(result);
+        } finally {
+            if (_jedis != null) {
+                delegate.returnResource(_jedis);
+            }
+        }
+	}
+
 }

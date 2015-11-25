@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.tower.soafw</groupId>
 	<artifactId>tower</artifactId>
 	<version>2.2.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	
+
 	<issueManagement>
 		<url>https://github.com/archlevel/tower/issues</url>
 		<system>GitHub Issues</system>
@@ -22,9 +23,9 @@
 		<connection>scm:git:git@github.com:archlevel/tower.git</connection>
 		<developerConnection>scm:git:git@github.com:archlevel/tower.git</developerConnection>
 		<url>git@github.com:archlevel/tower.git</url>
-	  	<tag>HEAD</tag>
-  	</scm>
-	
+		<tag>HEAD</tag>
+	</scm>
+
 	<developers>
 		<developer>
 			<name>朱拱平</name>
@@ -41,9 +42,9 @@
 		<mysql.version>5.1.26</mysql.version>
 		<mail.version>1.4.1</mail.version>
 		<jedis.version>2.6.2</jedis.version>
-		<junit.version>4.7</junit.version>
+		<junit.version>4.11</junit.version>
 		<json-lib.version>2.2.3</json-lib.version>
-		<spring.version>4.0.7.RELEASE</spring.version>
+		<spring.version>4.1.6.RELEASE</spring.version>
 		<hessian.version>4.0.7</hessian.version>
 		<sqljdbc4.version>3.0</sqljdbc4.version>
 		<slf4j.version>1.7.5</slf4j.version>
@@ -313,6 +314,11 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-context-support</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
 			<dependency>

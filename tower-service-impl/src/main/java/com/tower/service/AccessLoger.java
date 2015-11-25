@@ -22,7 +22,6 @@ public class AccessLoger {
         if(StringUtil.isEmpty(reqId)){
             RequestID.set(null);
         }
-        _logger.info("start process");
         Object target = pjp.getTarget();
         String ip = RpcContext.getContext().getRemoteAddressString();
         if(ip!=null){
@@ -49,7 +48,6 @@ public class AccessLoger {
         finally {
             time = System.currentTimeMillis() - time;
             _logger.info("ip={} {}{}{}{} {} ms", ip,svcDef.get("className"),".",svcDef.get("methodName"),svcDef.get("detail"),time);
-            _logger.info("end process");
             RequestID.unset();
         }
     }

@@ -285,4 +285,19 @@ public class DynamicMemCache extends PrefixPriorityConfig
         this.mcInstance.delete((String) key);
     }
 
+	public ValueWrapper putIfAbsent(Object key, Object value) {
+		Object value_ = this.mcInstance.get((String) key);
+		if(value_==null){
+			CacheOpParams params = CacheOpParamsContext.getOpParams();
+	        if (params != null) {
+	            Calendar cal = Calendar.getInstance();
+	            cal.add(Calendar.SECOND, Long.valueOf(params.time()).intValue());
+	            this.mcInstance.add((String) key, value, cal.getTime());// ((String) key, value,params.time());
+	        } else {
+	            this.mcInstance.add((String) key, value);
+	        }
+	        return new SimpleValueWrapper(value);
+		}
+        return (value_ != null ? new SimpleValueWrapper(value_) : null);
+	}
 }
