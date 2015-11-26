@@ -7,9 +7,9 @@
 	
 	+ memcached
 
-		+ 实现类 com.#{company}.service.common.cache.mem.impl.DynamicMemCache
+		+ 实现类 com.tower.service.cache.mem.impl.DynamicMemCache
 	+ redis
-		+ 实现类 com.#{company}.service.common.cache.mem.impl.DynamicRedisCache
+		+ 实现类 com.tower.service.cache.mem.impl.DynamicRedisCache
 	
 + ... 
 

@@ -8,12 +8,12 @@
 			
 		+ 配置文件列表
 			+ spring-cache.xml
-			+ spring-db.xml
+			+ spring-dao.xml
 			+ spring-rpc.xml
 			+ spring-mq.xml
 			+ spring-service.xml
 			+ spring-job.xml
-			+ spring-dubbo.xml
+			+ spring-service.xml
 		
 	+ 资源&程序开关配置 支持动态加载机制
 		+ 位置
@@ -49,7 +49,7 @@
 			
 
 			```
-			<bean id="xxx" class="com.#{company}.service.common.config.ConfigurationFactoryBean">
+			<bean id="xxx" class="com.tower.service.config.ConfigurationFactoryBean">
 				<property name="name" value="xxx" />
 		        <property name="encoding" value="utf8" />
 		        <property name="type" value="xml" />
