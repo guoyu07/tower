@@ -198,7 +198,7 @@
 		SELECT
 			<include refid="Column_List_Base_Gen" />
 		FROM
-			${r"${tKjtTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
+			${r"${TowerTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
 		<where>
 			<include refid="Where_Clause_Id_Gen" />
 		</where>
@@ -209,7 +209,7 @@
 		SELECT
 			<include refid="Column_List_Base_Gen" />
 		FROM
-			${r"${tKjtTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
+			${r"${TowerTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
 		<where>
 			<include refid="Where_Clause_Normal_Gen" />
 		</where>
@@ -220,7 +220,7 @@
 		SELECT
 			<include refid="Column_List_Id_Gen" />
 		FROM
-			${r"${tKjtTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
+			${r"${TowerTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
 		<where>
 			<include refid="Where_Clause_Normal_Gen" />
 		</where>
@@ -231,7 +231,7 @@
 		SELECT
 			count(*)
 		FROM
-			${r"${tKjtTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
+			${r"${TowerTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
 		<where>
 			<include refid="Where_Clause_Normal_Gen" />
 		</where>
@@ -243,7 +243,7 @@
 			TOP (${r"${pageSize}"})
 			<include refid="Column_List_Base_Gen" />
 		FROM
-			${r"${params.tKjtTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
+			${r"${params.TowerTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
 		<where>
 			<if test="params !=  null">
 				<include refid="Where_Clause_Params_Gen" />
@@ -254,7 +254,7 @@
 				select 
 					top ((${r"${pageIndex}"} -1) * ${r"${pageSize}"}) ${col.name} 
 				FROM 
-					${r"${params.tKjtTabName}"} WITH(NOLOCK)
+					${r"${params.TowerTabName}"} WITH(NOLOCK)
 				</#if>
 				</#list>
 				</#if>
@@ -272,7 +272,7 @@
 		SELECT
 			<include refid="Column_List_Base_Gen" />
 		FROM
-			${r"${params.tKjtTabName}"}
+			${r"${params.TowerTabName}"}
 		<where>
 			<if test="params !=  null">
 				<include refid="Where_Clause_Params_Gen" />
@@ -283,7 +283,7 @@
 	</#if>
 	
 	<insert id="insert" parameterType="${package}.dao.model.${name}" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO	${r"${tKjtTabName}"}
+		INSERT INTO	${r"${TowerTabName}"}
 		(
 		<trim suffix="" suffixOverrides=",">
 			<#list colMaps as col>
@@ -320,7 +320,7 @@
 	
 	<update id="updateById" parameterType="java.util.Map">
 		update 
-			${r"${tKjtTabName}"}
+			${r"${TowerTabName}"}
 		<set>
 			<include refid="Update_Set_Normal_Gen" />
 		</set>
@@ -331,7 +331,7 @@
 	
 	<update id="cmplxUpdate" parameterType="java.util.Map">
 		update 
-			${r"${tKjtTabName}"}
+			${r"${TowerTabName}"}
 		<set>
 			<include refid="Update_Set_NewObj_Gen" />
 		</set>
@@ -343,7 +343,7 @@
 	<delete id="deleteByMap" parameterType="java.util.Map">		
 		DELETE
 		FROM
-			${r"${tKjtTabName}"} 
+			${r"${TowerTabName}"} 
 		<where>
 			<include refid="Where_Clause_Id_Gen" />
 		</where>
@@ -351,7 +351,7 @@
 	
 	<insert id="batchInsert" parameterType="java.util.Map" <#if tab.pkFieldType.javaType != "String">useGeneratedKeys="true" keyProperty="id"</#if>>
 		insert into 
-			${r"${tKjtTabName}"}  
+			${r"${TowerTabName}"}  
 			( 
 		<foreach collection="batchInsertCols" item="batchInsertCol" index="index" separator=",">
 			<trim suffix="" suffixOverrides=",">
@@ -429,7 +429,7 @@
 	
 	<update id="batchUpdate" parameterType="java.util.Map">
 		update 
-			${r"${tKjtTabName}"}
+			${r"${TowerTabName}"}
 		<set>
 			<include refid="Update_Set_NewObj_Gen" />
 		</set>
@@ -441,7 +441,7 @@
 	<delete id="batchDelete"  parameterType="java.util.Map">
 		delete 
 		from
-			${r"${tKjtTabName}"}
+			${r"${TowerTabName}"}
 		<where>
 			<include refid="Where_Clause_Batch_Gen" />
 		</where>
@@ -451,7 +451,7 @@
 		select 
 			<include refid="Column_List_Base_Gen" />
 		from
-			${r"${tKjtTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
+			${r"${TowerTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
 		<where>
 			<include refid="Where_Clause_Batch_Gen" />
 		</where>

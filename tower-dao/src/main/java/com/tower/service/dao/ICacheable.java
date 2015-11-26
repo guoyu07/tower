@@ -60,7 +60,7 @@ public interface ICacheable<T> {
    * 
    * @return
    */
-  public String get$TKjtTabName(String tabNameSuffix);
+  public String get$TowerTabName(String tabNameSuffix);
 
   /**
    * 缓存总开关
@@ -176,7 +176,7 @@ public interface ICacheable<T> {
    */
   public final String TAB_SUFFIX_PATTERN = "[0-9a-zA-Z]+(_|[0-9a-zA-Z]+)*";
   
-  public final String CacheKeyPrefixExpress = "#root.target.get$TKjtTabName(#tabNameSuffix).concat('@').concat('id').concat('=').concat(#id)";
+  public final String CacheKeyPrefixExpress = "#root.target.get$TowerTabName(#tabNameSuffix).concat('@').concat('id').concat('=').concat(#id)";
   
   public final String PkCacheKeyPrefixExpress = "#root.target.getPKRecCacheKeyPrefix(#tabNameSuffix).concat('@').concat('id').concat('=').concat(#id)";
 

@@ -17,5 +17,5 @@ public interface IModel extends Serializable {
    */
   public boolean validate();
   
-  public void setTKjtTabName(String tKjtTabName);
+  public void setTowerTabName(String TowerTabName);
 }

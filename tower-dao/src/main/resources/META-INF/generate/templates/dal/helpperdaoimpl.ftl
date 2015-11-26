@@ -37,7 +37,7 @@ public class ${name}HelpperIbatisDAOImpl extends AbsHelpperIBatisDAOImpl<${name}
 	}
 	
 	@Override
-	public String get$TKjtTabName(String tabNameSuffix) {
+	public String get$TowerTabName(String tabNameSuffix) {
 	  suffixValidate(tabNameSuffix);
 	  StringBuilder tableName = new StringBuilder("${tab.name}");
       if(tabNameSuffix!=null&&tabNameSuffix.trim().length()>0){
@@ -65,7 +65,7 @@ public class ${name}HelpperIbatisDAOImpl extends AbsHelpperIBatisDAOImpl<${name}
     public List<${name}> queryByHelpper(${name}Helpper helpper, String tabNameSuffix) {
         validate(helpper);
 
-        helpper.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
+        helpper.setTowerTabName(this.get$TowerTabName(tabNameSuffix));
 
         SqlSessionFactory sessionFactory = this.getMapQuerySessionFactory();
 	    SqlSession session = SqlmapUtils.openSession(sessionFactory);

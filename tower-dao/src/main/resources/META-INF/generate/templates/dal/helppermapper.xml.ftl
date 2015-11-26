@@ -61,7 +61,7 @@
 	    	</if>
 	    	<include refid="Base_Column_List" />
 	    from 
-	    	${r"${tKjtTabName}"}
+	    	${r"${TowerTabName}"}
 	    	
 	      	<include refid="Helpper_Where_Clause" />
 	    	
@@ -74,7 +74,7 @@
     	select 
     		count(*) 
     	from 
-    		${r"${tKjtTabName}"}
+    		${r"${TowerTabName}"}
 	     
 	     <include refid="Helpper_Where_Clause" />
 	     
@@ -83,7 +83,7 @@
   	<delete id="deleteByHelpper" parameterType="${package}.dao.model.${name}Helpper">
 	    delete 
 	    from 
-	    	${r"${tKjtTabName}"}
+	    	${r"${TowerTabName}"}
 		<include refid="Helpper_Where_Clause" />
   	</delete>
   
@@ -118,7 +118,7 @@
   	</sql>
   	<update id="updateByHelpper" parameterType="java.util.Map">
   		update 
-  		${r"${tKjtTabName}"}
+  		${r"${TowerTabName}"}
 		<set>
 			<#if tab.pkFieldNum==1>
 			<#list colMaps as col>

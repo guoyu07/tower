@@ -72,7 +72,7 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
 
     validate(helpper);
 
-    helpper.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
+    helpper.setTowerTabName(this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = getMapQuerySessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -92,7 +92,7 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
   public int deleteByHelpper(T helpper, String tabNameSuffix) {
     validate(helpper);
 
-    helpper.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
+    helpper.setTowerTabName(this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = this.getMasterSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -117,7 +117,7 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
 
     validate(helpper);
 
-    helpper.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
+    helpper.setTowerTabName(this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = this.getMasterSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -140,7 +140,7 @@ public abstract class AbsHelpperIBatisDAOImpl<T extends IHelpper> implements IBa
 
     validate(helpper);
 
-    helpper.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
+    helpper.setTowerTabName(this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = this.getMasterSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);

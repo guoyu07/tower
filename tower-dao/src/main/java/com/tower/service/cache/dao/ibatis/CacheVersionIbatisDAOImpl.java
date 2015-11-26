@@ -84,7 +84,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
 
     validate(model);
 
-    model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
+    model.setTowerTabName(this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = this.getMasterSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -127,7 +127,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
     validate(id);
     CacheVersion model = new CacheVersion();
     model.setId(id);
-    model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
+    model.setTowerTabName(this.get$TowerTabName(tabNameSuffix));
     SqlSessionFactory sessionFactory = this.getMasterSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
@@ -148,7 +148,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
 
     CacheVersion model = new CacheVersion();
     model.setId(id);
-    model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
+    model.setTowerTabName(this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = this.getMasterSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -170,7 +170,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
 
     CacheVersion model = new CacheVersion();
     model.setId(id);
-    model.setTKjtTabName(this.get$TKjtTabName(tabNameSuffix));
+    model.setTowerTabName(this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = this.getMasterSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);

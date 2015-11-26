@@ -62,7 +62,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
     Map<String, Object> cond = new HashMap<String, Object>();
     cond.put(property, fkValue);
-    cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    cond.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = getMasterSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -106,7 +106,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     Map<String, Object> cond = new HashMap<String, Object>();
     cond.put(property, fkValue);
     cond.putAll(attchParams);
-    cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    cond.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = getMasterSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -147,7 +147,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     Map<String, Object> cond = new HashMap<String, Object>();
     cond.put(property, fkValue);
 
-    cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    cond.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = getMasterSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -192,7 +192,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
     cond.putAll(attchParams);
 
-    cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    cond.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = getMasterSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -232,7 +232,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
     Map<String, Object> cond = new HashMap<String, Object>();
     cond.put(property, fkValue);
-    cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    cond.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
     SqlSessionFactory sessionFactory = getSlaveSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
@@ -275,7 +275,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     Map<String, Object> cond = new HashMap<String, Object>();
     cond.put(property, fkValue);
     cond.putAll(attchParams);
-    cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    cond.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
     SqlSessionFactory sessionFactory = getSlaveSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
     try {
@@ -312,7 +312,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
     Map<String, Object> cond = new HashMap<String, Object>();
     cond.put(property, fkValue);
-    cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    cond.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
     SqlSessionFactory sessionFactory = master ? this.getMasterSessionFactory()
             : getSlaveSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -353,7 +353,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     Map<String, Object> cond = new HashMap<String, Object>();
     cond.put(property, fkValue);
     cond.putAll(attchParams);
-    cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    cond.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
     SqlSessionFactory sessionFactory = master ? this.getMasterSessionFactory()
             : getSlaveSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -391,7 +391,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
     Map<String, Object> cond = new HashMap<String, Object>();
     cond.put(property, fkValue);
-    cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    cond.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = getSlaveSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -432,7 +432,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     Map<String, Object> cond = new HashMap<String, Object>();
     cond.put(property, fkValue);
     cond.putAll(attchParams);
-    cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    cond.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = getSlaveSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -470,7 +470,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
     Map<String, Object> cond = new HashMap<String, Object>();
     cond.put(property, fkValue);
-    cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    cond.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
     SqlSessionFactory sessionFactory = master ? this.getMasterSessionFactory()
             : getSlaveSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -511,7 +511,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     Map<String, Object> cond = new HashMap<String, Object>();
     cond.put(property, fkValue);
     cond.putAll(attchParams);
-    cond.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    cond.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = master ? this.getMasterSessionFactory()
             : getSlaveSessionFactory();
@@ -565,7 +565,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       params.put("newObj", newValue);
       params.put("params", cond);
     }
-    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = getMasterSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -624,7 +624,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       params.put("newObj", newValue);
       params.put("params", cond);
     }
-    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = getMasterSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -680,7 +680,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       params.put("newObj", newValue);
       params.put("params", cond);
     }
-    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = getMasterSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -738,7 +738,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       params.put("newObj", newValue);
       params.put("params", cond);
     }
-    params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+    params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = getMasterSessionFactory();
     SqlSession session = SqlmapUtils.openSession(sessionFactory);

@@ -110,7 +110,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		nonePK$FKCheck(params);
 
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
 		SqlSessionFactory sessionFactory = getMasterSessionFactory();
 	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -153,7 +153,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		Map<String, Object> params = new HashMap<String, Object>();
 
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 		int version = this.getVersion();
 		if (version == 1) {
 			params.put("updNewMap", newValue);
@@ -198,7 +198,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		nonePK$FKCheck(params);
 
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
 		SqlSessionFactory sessionFactory = getMapQuerySessionFactory();
 	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -236,7 +236,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		params.put("orders", this.convert(this.getModelClass(), orders));
 
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
 		SqlSessionFactory sessionFactory = getMapQuerySessionFactory();
 	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -270,7 +270,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		validate(params);
 
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
 		SqlSessionFactory sessionFactory = getMapQuerySessionFactory();
 	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -306,7 +306,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		params.put("orders", this.convert(this.getModelClass(), orders));
 
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
 		SqlSessionFactory sessionFactory = getMapQuerySessionFactory();
 	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -340,7 +340,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		validate(params);
 
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
 		SqlSessionFactory sessionFactory = master ? this.getMasterSessionFactory()
 	            : getMapQuerySessionFactory();
@@ -378,7 +378,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		params.put("orders", this.convert(this.getModelClass(), orders));
 
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
 		SqlSessionFactory sessionFactory = master ? this.getMasterSessionFactory()
 	            : getMapQuerySessionFactory();
@@ -416,7 +416,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		nonePK$FKCheck(params);
 
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
 		SqlSessionFactory sessionFactory = master ? this.getMasterSessionFactory()
 	            : getMapQuerySessionFactory();
@@ -455,7 +455,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		params.put("orders", this.convert(this.getModelClass(), orders));
 
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
 		SqlSessionFactory sessionFactory = master ? this.getMasterSessionFactory()
 	            : getMapQuerySessionFactory();
@@ -492,7 +492,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		nonePK$FKCheck(params);
 
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
 		SqlSessionFactory sessionFactory = getMapQuerySessionFactory();
 	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -527,7 +527,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		nonePK$FKCheck(params);
 
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 		
 		SqlSessionFactory sessionFactory = master ? getMasterSessionFactory()
 				: getMapQuerySessionFactory();
@@ -561,7 +561,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		validate(params);
 
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 		SqlSessionFactory sessionFactory = getMapQuerySessionFactory();
 	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
 		try {
@@ -599,7 +599,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		validate(params);
 
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
 		SqlSessionFactory sessionFactory = master ? this.getMasterSessionFactory()
 	            : getMapQuerySessionFactory();
@@ -640,7 +640,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		validate(params);
 
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
 		SqlSessionFactory sessionFactory = getMapQuerySessionFactory();
 	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -681,7 +681,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		validate(params);
 
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
 		SqlSessionFactory sessionFactory = master ? this.getMasterSessionFactory()
 	            : getMapQuerySessionFactory();
@@ -1038,7 +1038,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		Map<String, Object> params = new HashMap<String, Object>();
 
 		params.put("list", datas);
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
 		SqlSessionFactory sessionFactory = getMasterSessionFactory();
 	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -1077,7 +1077,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		params.put("list", datas);
 		params.put("newObj", new_);
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
 		SqlSessionFactory sessionFactory = getMasterSessionFactory();
 	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -1120,7 +1120,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		Map<String, Object> params = new HashMap<String, Object>();
 
 		params.put("list", datas);
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 		
 		SqlSessionFactory sessionFactory = getMasterSessionFactory();
 	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -1173,9 +1173,9 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	}
 
 	@Override
-	public String get$TKjtTabName(String tabNameSuffix) {
+	public String get$TowerTabName(String tabNameSuffix) {
 		if (logger.isDebugEnabled()) {
-			logger.debug("get$TKjtTabName(String) - start"); //$NON-NLS-1$
+			logger.debug("get$TowerTabName(String) - start"); //$NON-NLS-1$
 		}
 
 		suffixValidate(tabNameSuffix);
@@ -1186,7 +1186,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		}
 		String returnString = tableName.toString();
 		if (logger.isDebugEnabled()) {
-			logger.debug("get$TKjtTabName(String) - end"); //$NON-NLS-1$
+			logger.debug("get$TowerTabName(String) - end"); //$NON-NLS-1$
 		}
 		return returnString;
 	}

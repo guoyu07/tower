@@ -13,7 +13,7 @@ public interface IHelpperDAO<T> {
    *          表名后缀［用于支持表拆分机制，即：数据库操作时的表名规则为:tableName+"_"+tabNameSuffix］
    * @return
    */
-  public String get$TKjtTabName(String tabNameSuffix);
+  public String get$TowerTabName(String tabNameSuffix);
   
   /**
    * 复杂count支持表达式

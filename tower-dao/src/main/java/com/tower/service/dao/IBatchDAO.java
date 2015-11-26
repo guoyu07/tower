@@ -48,6 +48,6 @@ public interface IBatchDAO<T> extends ICacheable<T> {
 	public Integer batchDelete(List<Map<String, Object>> datas,
 			String tabNameSuffix);
 
-	public String get$TKjtTabName(String tabNameSuffix);
+	public String get$TowerTabName(String tabNameSuffix);
 
 }

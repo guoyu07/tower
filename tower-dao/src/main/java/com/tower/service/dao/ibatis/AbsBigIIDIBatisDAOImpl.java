@@ -71,7 +71,7 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 		params.put("batchInsertProps", cols);
 		params.put("batchInsertCols", convert(cols));
 		params.put("list", datas);
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 		SqlSessionFactory sessionFactory = getMasterSessionFactory();
 		SqlSession session = SqlmapUtils.openSession(sessionFactory);
 		try {
@@ -135,7 +135,7 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
 
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 		SqlSessionFactory sessionFactory = master ? this
 				.getMasterSessionFactory() : getSlaveSessionFactory();
 		SqlSession session = SqlmapUtils.openSession(sessionFactory);
@@ -177,7 +177,7 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 		SqlSessionFactory sessionFactory = getMasterSessionFactory();
 		SqlSession session = SqlmapUtils.openSession(sessionFactory);
 		try {
@@ -219,7 +219,7 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.putAll(newValue);
 		params.put("id", id);
-		params.put("tKjtTabName", this.get$TKjtTabName(tabNameSuffix));
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 		SqlSessionFactory sessionFactory = getMasterSessionFactory();
 		SqlSession session = SqlmapUtils.openSession(sessionFactory);
 		try {

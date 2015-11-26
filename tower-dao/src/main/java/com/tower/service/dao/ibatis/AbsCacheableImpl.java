@@ -73,7 +73,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
   abstract public boolean tabCacheable();
 
   /**
-   * 表级缓存keyPrefix tabName+tabNameSuffix@Tn@TabVersion
+   * 表级缓存keyPrefix TowerTabName+tabNameSuffix@Tn@TabVersion
    * 
    * @return
    */
@@ -93,7 +93,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
   }
 
   /**
-   * 表级缓存版本key tabName+tabNameSuffix@Tn
+   * 表级缓存版本key TowerTabName+tabNameSuffix@Tn
    * 
    * @return
    */
@@ -102,7 +102,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
       logger.debug("getTabVersionKey(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
     }
 
-    String returns = this.get$TKjtTabName(tabNameSuffix) + "@T"
+    String returns = this.get$TowerTabName(tabNameSuffix) + "@T"
         + cacheConfig.getInteger(defaultCache.getPrefix() + "tab.cache.tag", 0);
 
     if (logger.isDebugEnabled()) {
@@ -114,7 +114,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
   }
 
   /**
-   * 主键缓存keyPrefix tabName+tabNameSuffix@Rn@RecVersion
+   * 主键缓存keyPrefix TowerTabName+tabNameSuffix@Rn@RecVersion
    * 
    * @return
    */
@@ -134,7 +134,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
   }
 
   /**
-   * 外键缓存keyPrefix tabName+tabNameSuffix@Rn@RecVersion@TabVersion
+   * 外键缓存keyPrefix TowerTabName+tabNameSuffix@Rn@RecVersion@TabVersion
    */
   public String getFKRecCacheKeyPrefix(String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
@@ -153,7 +153,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
   }
 
   /**
-   * 记录级缓存版本key tabName+tabNameSuffix@Rn
+   * 记录级缓存版本key TowerTabName+tabNameSuffix@Rn
    * 
    * @return
    */
@@ -162,7 +162,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
       logger.debug("getRecVersionKey(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
     }
 
-    String returns = this.get$TKjtTabName(tabNameSuffix) + "@R"
+    String returns = this.get$TowerTabName(tabNameSuffix) + "@R"
         + cacheConfig.getInteger(defaultCache.getPrefix() + "rec.cache.tag", 0);
 
     if (logger.isDebugEnabled()) {
@@ -290,7 +290,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
       return 0;
     }
     try {
-      long eft = cacheVersionDAO.incrObjRecVersion(this.get$TKjtTabName(tabNameSuffix), null);
+      long eft = cacheVersionDAO.incrObjRecVersion(this.get$TowerTabName(tabNameSuffix), null);
       if (logger.isDebugEnabled()) {
         logger.debug(
             "incrRecVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, eft); //$NON-NLS-1$
@@ -317,7 +317,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     if (logger.isDebugEnabled()) {
       logger.debug("getRecVersion(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
     }
-    CacheVersion vObj = cacheVersionDAO.queryById(this.get$TKjtTabName(tabNameSuffix), null);// redisCache.get(getRecVersionKey(tabNameSuffix));
+    CacheVersion vObj = cacheVersionDAO.queryById(this.get$TowerTabName(tabNameSuffix), null);// redisCache.get(getRecVersionKey(tabNameSuffix));
 
     String vStr = vObj == null ? "0" : vObj.getRecVersion().toString();
     if (vStr == null) {
@@ -405,7 +405,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     }
 
     /**
-     * 外键缓存keyPrefix tabName+tabNameSuffix@Rn@RecVersion@TabVersion
+     * 外键缓存keyPrefix TowerTabName+tabNameSuffix@Rn@RecVersion@TabVersion
      */
     final String fKeyPrefix = getFKRecCacheKeyPrefix(tabNameSuffix);
 
@@ -473,7 +473,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
       return;
     }
     /**
-     * 外键缓存keyPrefix tabName+tabNameSuffix@Rn@RecVersion@TabVersion
+     * 外键缓存keyPrefix TowerTabName+tabNameSuffix@Rn@RecVersion@TabVersion
      */
     final String fKeyPrefix = getFKRecCacheKeyPrefix(tabNameSuffix);
 
@@ -559,7 +559,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
         try {
           // 删除主键缓存
           /**
-           * mc pkPrefix: tabName+tabNameSuffix@Rn@RV@id=value
+           * mc pkPrefix: TowerTabName+tabNameSuffix@Rn@RV@id=value
            */
           String pk = idsa[i].toString();
           String key = pkPrefix + "@id=" + pk;

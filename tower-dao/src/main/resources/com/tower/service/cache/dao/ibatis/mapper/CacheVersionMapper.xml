@@ -17,7 +17,7 @@
 		rec_version,
 		tab_version
 		FROM
-		${tKjtTabName}
+		${TowerTabName}
 		<where>
 			and obj_name=#{id}
 		</where>
@@ -30,7 +30,7 @@
 		rec_version,
 		tab_version
 		FROM
-		${tKjtTabName}
+		${TowerTabName}
 		<where>
 			<if test="id !=  null">
 				and obj_name=#{id}
@@ -50,7 +50,7 @@
 		SELECT
 		obj_name
 		FROM
-		${tKjtTabName}
+		${TowerTabName}
 		<where>
 			<if test="id !=  null">
 				and obj_name=#{id}
@@ -70,7 +70,7 @@
 		SELECT
 		count(*)
 		FROM
-		${tKjtTabName}
+		${TowerTabName}
 		<where>
 			<if test="id !=  null">
 				and obj_name=#{id}
@@ -92,7 +92,7 @@
 		rec_version,
 		tab_version
 		FROM
-		${tKjtTabName}
+		${TowerTabName}
 		<where>
 			<if test="params !=  null">
 				<if test="params.id !=  null">
@@ -112,7 +112,7 @@
 
 	<insert id="insert" parameterType="com.tower.service.cache.dao.model.CacheVersion"
 		useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO ${tKjtTabName} 
+		INSERT INTO ${TowerTabName} 
 		(
 		<trim suffix="" suffixOverrides=",">
 		
@@ -141,14 +141,14 @@
 		</trim>
 		)
 		<!-- 
-		INSERT INTO ${tKjtTabName}
+		INSERT INTO ${TowerTabName}
 		(obj_name,rec_version,tab_version)
 		VALUES(#{id},#{recVersion},#{tabVersion})
 		 -->
 	</insert>
 	<insert id="incrRecVersion" parameterType="com.tower.service.cache.dao.model.CacheVersion">
 		INSERT INTO
-		${tKjtTabName}
+		${TowerTabName}
 		(obj_name)
 		VALUES(#{id}) ON
 		DUPLICATE
@@ -160,7 +160,7 @@
 
 	<insert id="incrTabVersion" parameterType="com.tower.service.cache.dao.model.CacheVersion">
 		INSERT INTO
-		${tKjtTabName}
+		${TowerTabName}
 		(obj_name)
 		VALUES(#{id}) ON
 		DUPLICATE KEY
@@ -171,7 +171,7 @@
 
 	<insert id="incrVersion" parameterType="com.tower.service.cache.dao.model.CacheVersion">
 		INSERT INTO
-		${tKjtTabName}
+		${TowerTabName}
 		(obj_name)
 		VALUES(#{id}) ON
 		DUPLICATE KEY UPDATE
@@ -181,7 +181,7 @@
 
 	<update id="updateById" parameterType="java.util.Map">
 		update
-		${tKjtTabName}
+		${TowerTabName}
 		<set>
 			<if test="recVersion !=  null">
 				rec_version=#{recVersion},
@@ -200,7 +200,7 @@
 
 	<update id="cmplxUpdate" parameterType="java.util.Map">
 		update
-		${tKjtTabName}
+		${TowerTabName}
 		<set>
 			<if test="updNewMap.id !=  null">
 				obj_name=#{updNewMap.id},
@@ -229,7 +229,7 @@
 	<delete id="deleteByMap" parameterType="java.util.Map">
 		DELETE
 		FROM
-		${tKjtTabName}
+		${TowerTabName}
 		<where>
 			<if test="id !=  null">
 				and obj_name=#{id}

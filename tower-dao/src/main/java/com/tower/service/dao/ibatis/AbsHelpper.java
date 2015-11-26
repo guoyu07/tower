@@ -7,22 +7,22 @@ import com.tower.service.dao.IHelpper;
 
 public abstract class AbsHelpper<T> implements IHelpper<T> {
   
-  private String tKjtTabName;
+  private String TowerTabName;
   /*
    * (non-Javadoc)
-   * @see com.tower.service.dao.ibatis.IHelpper#getTKjtTabName()
+   * @see com.tower.service.dao.ibatis.IHelpper#getTowerTabName()
    */
   @Override
-  public String getTKjtTabName() {
-    return tKjtTabName;
+  public String getTowerTabName() {
+    return TowerTabName;
   }
   /*
    * (non-Javadoc)
-   * @see com.tower.service.dao.ibatis.IHelpper#setTKjtTabName(java.lang.String)
+   * @see com.tower.service.dao.ibatis.IHelpper#setTowerTabName(java.lang.String)
    */
   @Override
-  public void setTKjtTabName(String tKjtTabName) {
-    this.tKjtTabName = tKjtTabName;
+  public void setTowerTabName(String TowerTabName) {
+    this.TowerTabName = TowerTabName;
   }
   
   protected List<T> oredCriteria;

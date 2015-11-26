@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface IHelpper<T> {
 
-  public String getTKjtTabName();
+  public String getTowerTabName();
   
-  public void setTKjtTabName(String tKjtTabName);
+  public void setTowerTabName(String TowerTabName);
   
   public void setOrderByClause(String orderByClause);
 

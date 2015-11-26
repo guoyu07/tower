@@ -86,14 +86,14 @@ public class ${name} implements IModel{
 	/**
    	* 保存时对应的分表；
    	*/
-  	private String tKjtTabName;
+  	private String TowerTabName;
 
-  	public String getTKjtTabName() {
-    	return tKjtTabName;
+  	public String getTowerTabName() {
+    	return TowerTabName;
   	}
 
   	@Override
-  	public void setTKjtTabName(String tKjtTabName) {
-    	this.tKjtTabName = tKjtTabName;
+  	public void setTowerTabName(String TowerTabName) {
+    	this.TowerTabName = TowerTabName;
   	}
 }
