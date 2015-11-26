@@ -8,7 +8,7 @@
 		    <value>#{artifactId}-web</value>
 		</constructor-arg>
 		<constructor-arg index="1">
-			<value>classpath*:META-INF/config/spring/spring-dubbo.xml</value>
+			<value>classpath*:META-INF/config/spring/spring-service.xml</value>
 		</constructor-arg>
 	</bean>
 </beans>

@@ -1,5 +1,5 @@
 package com.siling.service.hello;
 
-public interface IHello {
+public interface IHelloService {
 	public void sayHello();
 }

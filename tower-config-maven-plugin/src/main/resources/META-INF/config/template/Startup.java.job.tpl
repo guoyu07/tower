@@ -1,4 +1,4 @@
-package com.#{company}.service.#{artifactId}.job;
+package com.#{company}.service.#{artifactId};
 
 import com.tower.service.TowerServiceContainer;
 

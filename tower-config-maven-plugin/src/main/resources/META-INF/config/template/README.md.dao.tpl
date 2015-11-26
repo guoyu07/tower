@@ -7,7 +7,7 @@
 	
 	+ memcached
 
-		+ 实现类 com.#{company}.service.common.datasource.DynamicDataSource
+		+ 实现类 com.tower.service.datasource.DynamicDataSource
 	
 + ... 
 
@@ -15,10 +15,11 @@
 	
 	+ 应用配置
 		+ 保存在#{artifactId}-dao/src/main/resource/META-INF/config/spring
-		+ spring-db.xml
+		+ spring-dao.xml
 	+ 资源&开关配置
 		+ 资源文件默认保存在/config目录,当没有找到时，程序会从tsl-dao/src/main/resource/META-INF/config/local中读取配置信息
 		+ database.properties
+		+ acc.xml
 		
 + dao操作扩展实现
 	

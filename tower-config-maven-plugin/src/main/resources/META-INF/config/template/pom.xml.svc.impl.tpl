@@ -39,25 +39,7 @@
 			<groupId>com.#{company}.service.#{artifactId}</groupId>
 			<artifactId>#{artifactId}-mq</artifactId>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>aopalliance</groupId>
-			<artifactId>aopalliance</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
-			<version>2.2</version>
-		</dependency>
+				
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

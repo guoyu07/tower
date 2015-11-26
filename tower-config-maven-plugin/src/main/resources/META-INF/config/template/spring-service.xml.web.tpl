@@ -17,6 +17,13 @@
 	
 	<!--框架配置：该设置请不要轻易改变-->
 	<context:component-scan base-package="com.tower.service.web.impl,com.#{company}.service.#{artifactId}" />
+	
+	<!-- 激活组件扫描功能,在包com.oimboi.service.s2s.aop及其子包下面自动扫描通过注解配置的组件 -->
+	<context:component-scan base-package="com.#{company}.service.#{artifactId}.aop" />
+	<!-- 激活自动代理功能 -->
+	<!-- 启用@AspectJ 支持 -->
+	<aop:aspectj-autoproxy />
+	
 	<!--开启authenticationFilter及取消web.xml的DelegatingFilterProxy的备注即可集成权限控制-->
 	<!--
 	<bean id="authenticationFilter" class="com.tower.service.web.impl.AuthenticationFilter" />

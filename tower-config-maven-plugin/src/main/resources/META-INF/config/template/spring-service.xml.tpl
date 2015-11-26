@@ -77,7 +77,7 @@
     -->
     <!-- 和本地bean一样实现服务 -->
     <!--
-    <bean id="xxxService" class="com.#{company}.service.#{artifactId}.impl.HelloServiceImpl"/>
+    <bean id="helloService" class="com.#{company}.service.#{artifactId}.impl.HelloServiceImpl"/>
     -->
     
 </beans>
