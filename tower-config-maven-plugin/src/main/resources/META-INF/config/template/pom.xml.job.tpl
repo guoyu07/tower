@@ -95,7 +95,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>com.#{company}.service.#{artifactId}.job.Startup</mainClass>
+							<mainClass>com.#{company}.service.#{artifactId}.Startup</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
