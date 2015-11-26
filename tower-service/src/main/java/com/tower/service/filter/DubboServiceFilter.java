@@ -14,14 +14,14 @@ import com.tower.service.log.LoggerFactory;
 import com.tower.service.util.RequestID;
 
 @Activate(group = { Constants.PROVIDER, Constants.CONSUMER })
-public class ServiceFilter implements Filter {
+public class DubboServiceFilter implements Filter {
 
-	private Logger logger = LoggerFactory.getLogger(ServiceFilter.class);
+	private Logger logger = LoggerFactory.getLogger(DubboServiceFilter.class);
 	
 	private String reqidKey = "ReqId";
 
-	public ServiceFilter() {
-		logger.info("ServiceFilter created");
+	public DubboServiceFilter() {
+		logger.info("DubboServiceFilter created");
 	}
 
 	@Override
