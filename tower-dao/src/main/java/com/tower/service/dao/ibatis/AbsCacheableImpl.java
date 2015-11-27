@@ -590,7 +590,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
 			logger.debug("cacheable() - start"); //$NON-NLS-1$
 		}
 		
-		Boolean cacheable = CacheSwitcher.get()&&cacheConfig.getBoolean(redisCache.getPrefix()+CACHE_FLG, false);// 缓存总开关
+		Boolean cacheable = cacheConfig.getBoolean(redisCache.getPrefix()+CACHE_FLG, false);// 缓存总开关
 
 		if (logger.isDebugEnabled()) {
 			logger.debug("cacheable() - end"); //$NON-NLS-1$
@@ -607,7 +607,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
 		}
 
 		boolean returnboolean = cacheable() // 缓存开关
-				&& cacheConfig.getBoolean(redisCache.getPrefix()+PK_CACHE_FLG,cacheable());// 主键缓存开关
+				&& CacheSwitcher.get() && cacheConfig.getBoolean(redisCache.getPrefix()+PK_CACHE_FLG,cacheable());// 主键缓存开关
 
 		if (logger.isDebugEnabled()) {
 			logger.debug("pkCacheable() - end"); //$NON-NLS-1$
