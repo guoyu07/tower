@@ -110,19 +110,19 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
     }
   }
 
-  @Cacheable(value = "defaultRedisCache", key = CacheKeyPrefixExpress, unless = "#result == null")
+  @Cacheable(value = "defaultCache", key = CacheKeyPrefixExpress, unless = "#result == null")
   @Override
   public CacheVersion queryById(String id, String tabNameSuffix) {
     return super.queryById(id, tabNameSuffix);
   }
 
-  @Cacheable(value = "defaultRedisCache", key = CacheKeyPrefixExpress + "", unless = "#result == null")
+  @Cacheable(value = "defaultCache", key = CacheKeyPrefixExpress + "", unless = "#result == null")
   @Override
   public CacheVersion queryById(String id, Boolean master, String tabNameSuffix) {
     return super.queryById(id, master, tabNameSuffix);
   }
 
-  @CacheEvict(value = "defaultRedisCache", key = CacheKeyPrefixExpress)
+  @CacheEvict(value = "defaultCache", key = CacheKeyPrefixExpress)
   public int incrObjVersion(String id, String tabNameSuffix) {
     validate(id);
     CacheVersion model = new CacheVersion();
