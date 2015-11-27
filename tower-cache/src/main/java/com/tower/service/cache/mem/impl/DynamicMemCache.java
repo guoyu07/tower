@@ -32,7 +32,6 @@ public class DynamicMemCache extends PrefixPriorityConfig
     public static final String DEFAULT_CACHE_NAME = "defaultCache";
 
     private MemCachedClient mcInstance;
-    private String sufix = null;
 
     private String cacheName = DEFAULT_CACHE_NAME;
 
@@ -283,7 +282,7 @@ public class DynamicMemCache extends PrefixPriorityConfig
 			logger.debug("init() - end"); //$NON-NLS-1$
 		}
     }
-
+    private String lastPoolName = null;
     public void build(Configuration config) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("build(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("Configuration config", config).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -291,11 +290,9 @@ public class DynamicMemCache extends PrefixPriorityConfig
 
         String prefix_ = this.getPrefix();
 
-        String _sufix = null;
-
         try {
 
-            _sufix = DateUtil.format(new Date(), "yyyyMMddHHmmss");
+            String _sufix = DateUtil.format(new Date(), "yyyyMMddHHmmss");
             String poolName = prefix_ + _sufix;
             SockIOPool pool = SockIOPool.getInstance(poolName);
             if (pool.isInitialized()) {
@@ -331,17 +328,16 @@ public class DynamicMemCache extends PrefixPriorityConfig
             MemCachedClient _tmpMC = new MemCachedClient(poolName);
             this.mcInstance = _tmpMC;
 
-            if (sufix != null) {
-                final String _poolName = prefix_ + sufix;
-
-                sufix = _sufix;
+            if (lastPoolName != null) {
                 try {
                     Thread.sleep(2000);
-                    SockIOPool.getInstance(_poolName).shutDown();
+                    SockIOPool.getInstance(lastPoolName).shutDown();
                 } catch (Exception ex) {
 					logger.warn("build(Configuration) - exception ignored", ex); //$NON-NLS-1$
 				}
             }
+            
+            lastPoolName = poolName;
 
         } catch (Exception e) {
 			logger.warn("build(Configuration) - exception ignored", e); //$NON-NLS-1$
