@@ -54,7 +54,7 @@
 		</property>
 	</bean>
 	<mvc:interceptors>
-		<bean class="com.tower.service.web.interceptor.RequestIDInterceptor" />
+		<bean class="com.tower.service.web.interceptor.RequestInterceptor" />
 	</mvc:interceptors>
 
 

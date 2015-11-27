@@ -2,17 +2,14 @@ package com.tower.service.dao.ibatis;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.apache.commons.configuration.Configuration;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.cache.annotation.CacheEvict;
@@ -71,17 +68,8 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	 * Logger for this class
 	 */
 	@Resource(name = ConfigComponent.AccConfig)
-	private DynamicConfig accConfig;
-
-	/**
-	 * 获取数据访问层acc.xml配置信息
-	 * 
-	 * @return
-	 */
-	protected Configuration getConfig() {
-		return accConfig;
-	}
-
+	protected DynamicConfig accConfig;
+	
 	@PostConstruct
 	public void init() {
 		if (logger.isDebugEnabled()) {
@@ -871,95 +859,6 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		}
 	}
 	
-	// ##################################################################################################
-
-	/**
-	 * 缓存总开关
-	 */
-	public boolean cacheable() {
-		if (logger.isDebugEnabled()) {
-			logger.debug("cacheable() - start"); //$NON-NLS-1$
-		}
-
-		String cacheable = System.getProperty(CACHE_FLG, "false");// 缓存总开关
-
-		boolean returnboolean = Boolean.valueOf(cacheable);
-
-		if (logger.isDebugEnabled()) {
-			logger.debug("cacheable() - end"); //$NON-NLS-1$
-		}
-		return returnboolean; // 缓存开关
-	}
-
-	/**
-	 * 主键缓存开关
-	 */
-	public boolean pkCacheable() {
-		if (logger.isDebugEnabled()) {
-			logger.debug("pkCacheable() - start"); //$NON-NLS-1$
-		}
-
-		boolean returnboolean = cacheable() // 缓存开关
-				&& Boolean.valueOf(System.getProperty(PK_CACHE_FLG,
-						String.valueOf(cacheable())));// 主键缓存开关
-
-		if (logger.isDebugEnabled()) {
-			logger.debug("pkCacheable() - end"); //$NON-NLS-1$
-		}
-		return returnboolean; // 主键缓存
-	}
-
-	/**
-	 * 外键缓存开关
-	 */
-	public boolean fkCacheable() {
-		if (logger.isDebugEnabled()) {
-			logger.debug("fkCacheable() - start"); //$NON-NLS-1$
-		}
-
-		boolean returnboolean = pkCacheable() // 主键缓存
-				&& Boolean.valueOf(System.getProperty(FK_CACHE_FLG,
-						String.valueOf(pkCacheable())));// 外键缓存开关
-
-		if (logger.isDebugEnabled()) {
-			logger.debug("fkCacheable() - end"); //$NON-NLS-1$
-		}
-		return returnboolean;// 表级缓存
-	}
-
-	/**
-	 * 表级缓存开关 缓存开关必须开启，主键缓存、外键缓存必须开启
-	 */
-	public boolean tabCacheable() {
-		if (logger.isDebugEnabled()) {
-			logger.debug("tabCacheable() - start"); //$NON-NLS-1$
-		}
-
-		boolean returnboolean = fkCacheable() // 外键缓存开关
-				&& Boolean.valueOf(System.getProperty(TB_CACHE_FLG,
-						String.valueOf(fkCacheable()))); // 表级缓存
-
-		if (logger.isDebugEnabled()) {
-			logger.debug("tabCacheable() - end"); //$NON-NLS-1$
-		}
-		return returnboolean;// 表级缓存
-	}
-
-	@Override
-	public Integer getThresholds() {
-		if (logger.isDebugEnabled()) {
-			logger.debug("getThresholds() - start"); //$NON-NLS-1$
-		}
-
-		Integer returnInteger = getConfig().getInteger(
-				"threshold_for_delete_pk_by_where", 100);
-
-		if (logger.isDebugEnabled()) {
-			logger.debug("getThresholds() - end"); //$NON-NLS-1$
-		}
-		return returnInteger;
-	}
-
 	public void validate(IModel model) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("validate(IModel) - start"); //$NON-NLS-1$

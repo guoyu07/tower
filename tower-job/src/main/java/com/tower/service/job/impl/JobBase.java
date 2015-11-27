@@ -23,6 +23,7 @@ import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 import com.tower.service.reflection.MetaObject;
 import com.tower.service.reflection.factory.DefaultObjectFactory;
+import com.tower.service.util.CacheSwitcher;
 import com.tower.service.util.RequestID;
 
 public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigChangeListener{
@@ -54,6 +55,7 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
         this.setPrefix(id);
         addChangeListener(this);
         super.init();
+        CacheSwitcher.set(Boolean.valueOf(System.getProperty("query.cacheable", this.getString(this.getPrefix()+"query.cacheable", "true"))));
         if(monitor==null){
         	monitor = new Thread() {
         		Logger logger = LoggerFactory.getLogger("monitor");

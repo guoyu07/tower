@@ -25,6 +25,7 @@ import com.tower.service.dao.IModel;
 import com.tower.service.exception.DataAccessException;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
+import com.tower.service.util.CacheSwitcher;
 
 public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T> {
   // private int cnt = 0;
@@ -47,11 +48,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
   }
   
   @Resource(name=ConfigComponent.CacheConfig)
-  private DynamicConfig cacheConfig;
-
-  protected Configuration getConfig() {
-    return cacheConfig;
-  }
+  protected DynamicConfig cacheConfig;
 
   public void init() {
     if (logger.isDebugEnabled()) {
@@ -68,12 +65,8 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     }
   }
 
-  abstract public boolean fkCacheable();
-
-  abstract public boolean tabCacheable();
-
   /**
-   * 表级缓存keyPrefix TowerTabName+tabNameSuffix@Tn@TabVersion
+   * 表级缓存keyPrefix TowerTabName+tabNameSuffix@Tn@TV@TabVersion
    * 
    * @return
    */
@@ -103,7 +96,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     }
 
     String returns = this.get$TowerTabName(tabNameSuffix) + "@T"
-        + cacheConfig.getInteger(defaultCache.getPrefix() + "tab.cache.tag", 0);
+        + cacheConfig.getInteger(redisCache.getPrefix() + "tab.cache.tag", 0);
 
     if (logger.isDebugEnabled()) {
       logger
@@ -163,7 +156,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     }
 
     String returns = this.get$TowerTabName(tabNameSuffix) + "@R"
-        + cacheConfig.getInteger(defaultCache.getPrefix() + "rec.cache.tag", 0);
+        + cacheConfig.getInteger(redisCache.getPrefix() + "rec.cache.tag", 0);
 
     if (logger.isDebugEnabled()) {
       logger
@@ -589,4 +582,84 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     }
   }
 
+  /**
+	 * 缓存总开关
+	 */
+	public boolean cacheable() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("cacheable() - start"); //$NON-NLS-1$
+		}
+		
+		Boolean cacheable = CacheSwitcher.get()&&cacheConfig.getBoolean(redisCache.getPrefix()+CACHE_FLG, false);// 缓存总开关
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("cacheable() - end"); //$NON-NLS-1$
+		}
+		return cacheable; // 缓存开关
+	}
+
+	/**
+	 * 主键缓存开关
+	 */
+	public boolean pkCacheable() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("pkCacheable() - start"); //$NON-NLS-1$
+		}
+
+		boolean returnboolean = cacheable() // 缓存开关
+				&& cacheConfig.getBoolean(redisCache.getPrefix()+PK_CACHE_FLG,cacheable());// 主键缓存开关
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("pkCacheable() - end"); //$NON-NLS-1$
+		}
+		return returnboolean; // 主键缓存
+	}
+
+	/**
+	 * 外键缓存开关
+	 */
+	public boolean fkCacheable() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("fkCacheable() - start"); //$NON-NLS-1$
+		}
+
+		boolean returnboolean = pkCacheable() // 主键缓存
+				&& cacheConfig.getBoolean(redisCache.getPrefix()+FK_CACHE_FLG,pkCacheable());// 外键缓存开关
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("fkCacheable() - end"); //$NON-NLS-1$
+		}
+		return returnboolean;// 表级缓存
+	}
+
+	/**
+	 * 表级缓存开关 缓存开关必须开启，主键缓存、外键缓存必须开启
+	 */
+	public boolean tabCacheable() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("tabCacheable() - start"); //$NON-NLS-1$
+		}
+
+		boolean returnboolean = fkCacheable() // 外键缓存开关
+				&& cacheConfig.getBoolean(redisCache.getPrefix()+TB_CACHE_FLG,fkCacheable()); // 表级缓存
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("tabCacheable() - end"); //$NON-NLS-1$
+		}
+		return returnboolean;// 表级缓存
+	}
+
+	@Override
+	public Integer getThresholds() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("getThresholds() - start"); //$NON-NLS-1$
+		}
+
+		Integer returnInteger = cacheConfig.getInteger(redisCache.getPrefix()+THRESHOLD_FOR_DEL_PK_BY_WHERE, 100);
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("getThresholds() - end"); //$NON-NLS-1$
+		}
+		return returnInteger;
+	}
 }

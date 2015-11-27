@@ -11,25 +11,23 @@ import org.springframework.cache.CacheManager;
 public interface ICacheable<T> {
   
   /**
-   * 缓存开关通过java -Ddao.cacheable方式进行设置
+   * 缓存开关通过java -Dquery.cacheable方式进行设置
    */
-  public static String CACHE_FLG = "dao.cacheable";
+  public static String CACHE_FLG = "query.cacheable";
   /**
-   * 缓存开关通过java -Ddao.query.cacheable方式设置
+   * 主键缓存开关通过java -Dquery.cacheable.pk方式设置
    */
-  public static String QUERY_CACHE_FLG = "dao.query.cacheable";
+  public static String PK_CACHE_FLG = "query.cacheable.pk";
   /**
-   * 主键缓存开关通过java -Ddao.query.cacheable.pk方式设置
+   * 外键缓存开关通过java -Dquery.cacheable.fk方式设置
    */
-  public static String PK_CACHE_FLG = "dao.query.cacheable.pk";
+  public static String FK_CACHE_FLG = "query.cacheable.fk";
   /**
-   * 外键缓存开关通过java -Ddao.query.cacheable.fk方式设置
+   * 表级缓存开关通过java -Dquery.cacheable.tb方式设置
    */
-  public static String FK_CACHE_FLG = "dao.query.cacheable.fk";
-  /**
-   * 表级缓存开关通过java -Ddao.query.cacheable.tb方式设置
-   */
-  public static String TB_CACHE_FLG = "dao.query.cacheable.tb";
+  public static String TB_CACHE_FLG = "query.cacheable.tb";
+  
+  public static String THRESHOLD_FOR_DEL_PK_BY_WHERE = "threshold_for_delete_pk_by_where";
   /**
    * 一小时,单位为秒
    */
