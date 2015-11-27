@@ -590,12 +590,12 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
 			logger.debug("cacheable() - start"); //$NON-NLS-1$
 		}
 		
-		Boolean cacheable = cacheConfig.getBoolean(redisCache.getPrefix()+CACHE_FLG, false);// 缓存总开关
+		Boolean returnboolean = cacheConfig.getBoolean(redisCache.getPrefix()+CACHE_FLG, false);// 缓存总开关
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("cacheable() - end"); //$NON-NLS-1$
+			logger.debug("cacheable() - endend {}",returnboolean); //$NON-NLS-1$
 		}
-		return cacheable; // 缓存开关
+		return returnboolean; // 缓存开关
 	}
 
 	/**
@@ -610,7 +610,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
 				&& CacheSwitcher.get() && cacheConfig.getBoolean(redisCache.getPrefix()+PK_CACHE_FLG,cacheable());// 主键缓存开关
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("pkCacheable() - end"); //$NON-NLS-1$
+			logger.debug("pkCacheable() - end {}",returnboolean); //$NON-NLS-1$
 		}
 		return returnboolean; // 主键缓存
 	}
@@ -627,7 +627,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
 				&& cacheConfig.getBoolean(redisCache.getPrefix()+FK_CACHE_FLG,pkCacheable());// 外键缓存开关
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("fkCacheable() - end"); //$NON-NLS-1$
+			logger.debug("fkCacheable() - endend {}",returnboolean); //$NON-NLS-1$
 		}
 		return returnboolean;// 表级缓存
 	}
@@ -644,7 +644,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
 				&& cacheConfig.getBoolean(redisCache.getPrefix()+TB_CACHE_FLG,fkCacheable()); // 表级缓存
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("tabCacheable() - end"); //$NON-NLS-1$
+			logger.debug("tabCacheable() - endend {}",returnboolean); //$NON-NLS-1$
 		}
 		return returnboolean;// 表级缓存
 	}

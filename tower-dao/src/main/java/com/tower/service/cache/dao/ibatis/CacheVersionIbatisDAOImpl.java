@@ -110,19 +110,19 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
     }
   }
 
-  @Cacheable(value = "defaultCache", key = CacheKeyPrefixExpress, unless = "#result == null", condition = "#root.target.cacheable()")
+  @Cacheable(value = "defaultRedisCache", key = CacheKeyPrefixExpress, unless = "#result == null")
   @Override
   public CacheVersion queryById(String id, String tabNameSuffix) {
     return super.queryById(id, tabNameSuffix);
   }
 
-  @Cacheable(value = "defaultCache", key = CacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.cacheable()")
+  @Cacheable(value = "defaultRedisCache", key = CacheKeyPrefixExpress + "", unless = "#result == null")
   @Override
   public CacheVersion queryById(String id, Boolean master, String tabNameSuffix) {
     return super.queryById(id, master, tabNameSuffix);
   }
 
-  @CacheEvict(value = "defaultCache", key = CacheKeyPrefixExpress, condition = "#root.target.cacheable()")
+  @CacheEvict(value = "defaultRedisCache", key = CacheKeyPrefixExpress)
   public int incrObjVersion(String id, String tabNameSuffix) {
     validate(id);
     CacheVersion model = new CacheVersion();
@@ -142,7 +142,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
     }
   }
 
-  @CacheEvict(value = "defaultCache", key = CacheKeyPrefixExpress, condition = "#root.target.cacheable()")
+  @CacheEvict(value = "defaultCache", key = CacheKeyPrefixExpress)
   public int incrObjRecVersion(String id, String tabNameSuffix) {
     validate(id);
 
@@ -164,7 +164,7 @@ public class CacheVersionIbatisDAOImpl extends AbsStrIDIBatisDAOImpl<CacheVersio
     }
   }
 
-  @CacheEvict(value = "defaultCache", key = CacheKeyPrefixExpress, condition = "#root.target.cacheable()")
+  @CacheEvict(value = "defaultCache", key = CacheKeyPrefixExpress)
   public int incrObjTabVersion(String id, String tabNameSuffix) {
     validate(id);
 

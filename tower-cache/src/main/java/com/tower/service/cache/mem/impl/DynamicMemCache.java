@@ -6,6 +6,8 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.configuration.Configuration;
+import org.apache.commons.lang.builder.StandardToStringStyle;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.cache.Cache;
 import org.springframework.cache.support.SimpleValueWrapper;
 
@@ -24,7 +26,9 @@ public class DynamicMemCache extends PrefixPriorityConfig
             Cache,
             ICache,
             IConfigListener {
-
+	/**
+	 * Logger for this class
+	 */
     public static final String DEFAULT_CACHE_NAME = "defaultCache";
 
     private MemCachedClient mcInstance;
@@ -48,99 +52,242 @@ public class DynamicMemCache extends PrefixPriorityConfig
 
     @Override
     public boolean set(String key, Object item) {
-        return set(key, item, null);
+		if (logger.isDebugEnabled()) {
+			logger.debug("set(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).append("Object item", item).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		}
+
+		boolean returnboolean = set(key, item, null);
+		if (logger.isDebugEnabled()) {
+			logger.debug("set(String, Object) - end"); //$NON-NLS-1$
+		}
+        return returnboolean;
     }
 
     @Override
     public boolean set(String key, Object item, int expiry) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("set(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).append("Object item", item).append("int expiry", expiry).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+		}
+
         if (expiry <= 0) {
-            return this.set(key, item, null);
+			boolean returnboolean = this.set(key, item, null);
+			if (logger.isDebugEnabled()) {
+				logger.debug("set(String, Object, int) - end"); //$NON-NLS-1$
+			}
+            return returnboolean;
         } else {
-            return mcInstance.set(key, item, new Date(System.currentTimeMillis() + expiry * 1000));
+			boolean returnboolean = mcInstance.set(key, item, new Date(System.currentTimeMillis() + expiry * 1000));
+			if (logger.isDebugEnabled()) {
+				logger.debug("set(String, Object, int) - end"); //$NON-NLS-1$
+			}
+            return returnboolean;
         }
     }
 
     @Override
     public boolean set(String key, Object item, Date expiry) {
-        return mcInstance.set(key, item, expiry);
+		if (logger.isDebugEnabled()) {
+			logger.debug("set(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).append("Object item", item).append("Date expiry", expiry).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+		}
+
+		boolean returnboolean = mcInstance.set(key, item, expiry);
+		if (logger.isDebugEnabled()) {
+			logger.debug("set(String, Object, Date) - end"); //$NON-NLS-1$
+		}
+        return returnboolean;
     }
 
     @Override
     public boolean add(String key, Object item) {
-        return add(key, item, null);
+		if (logger.isDebugEnabled()) {
+			logger.debug("add(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).append("Object item", item).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		}
+
+		boolean returnboolean = add(key, item, null);
+		if (logger.isDebugEnabled()) {
+			logger.debug("add(String, Object) - end"); //$NON-NLS-1$
+		}
+        return returnboolean;
     }
 
     @Override
     public boolean add(String key, Object item, int expiry) {
-        return add(key, item, new Date(System.currentTimeMillis() + expiry * 1000));
+		if (logger.isDebugEnabled()) {
+			logger.debug("add(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).append("Object item", item).append("int expiry", expiry).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+		}
+
+		boolean returnboolean = add(key, item, new Date(System.currentTimeMillis() + expiry * 1000));
+		if (logger.isDebugEnabled()) {
+			logger.debug("add(String, Object, int) - end"); //$NON-NLS-1$
+		}
+        return returnboolean;
     }
 
     @Override
     public boolean add(String key, Object item, Date expiry) {
-        return mcInstance.add(key, item, expiry);
+		if (logger.isDebugEnabled()) {
+			logger.debug("add(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).append("Object item", item).append("Date expiry", expiry).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+		}
+
+		boolean returnboolean = mcInstance.add(key, item, expiry);
+		if (logger.isDebugEnabled()) {
+			logger.debug("add(String, Object, Date) - end"); //$NON-NLS-1$
+		}
+        return returnboolean;
     }
 
     @Override
     public boolean replace(String key, Object item) {
-        return replace(key, item, null);
+		if (logger.isDebugEnabled()) {
+			logger.debug("replace(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).append("Object item", item).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		}
+
+		boolean returnboolean = replace(key, item, null);
+		if (logger.isDebugEnabled()) {
+			logger.debug("replace(String, Object) - end"); //$NON-NLS-1$
+		}
+        return returnboolean;
     }
 
     @Override
     public boolean replace(String key, Object item, int expiry) {
-        return replace(key, item, new Date(System.currentTimeMillis() + expiry * 1000));
+		if (logger.isDebugEnabled()) {
+			logger.debug("replace(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).append("Object item", item).append("int expiry", expiry).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+		}
+
+		boolean returnboolean = replace(key, item, new Date(System.currentTimeMillis() + expiry * 1000));
+		if (logger.isDebugEnabled()) {
+			logger.debug("replace(String, Object, int) - end"); //$NON-NLS-1$
+		}
+        return returnboolean;
     }
 
     @Override
     public boolean replace(String key, Object item, Date expiry) {
-        return mcInstance.replace(key, item, expiry);
+		if (logger.isDebugEnabled()) {
+			logger.debug("replace(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).append("Object item", item).append("Date expiry", expiry).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
+		}
+
+		boolean returnboolean = mcInstance.replace(key, item, expiry);
+		if (logger.isDebugEnabled()) {
+			logger.debug("replace(String, Object, Date) - end"); //$NON-NLS-1$
+		}
+        return returnboolean;
     }
 
     @Override
     public boolean delete(String key) {
-        return mcInstance.delete(key);
+		if (logger.isDebugEnabled()) {
+			logger.debug("delete(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		}
+
+		boolean returnboolean = mcInstance.delete(key);
+		if (logger.isDebugEnabled()) {
+			logger.debug("delete(String) - end"); //$NON-NLS-1$
+		}
+        return returnboolean;
     }
 
     @Override
     public Object get(String key) {
-        return mcInstance.get(key);
+		if (logger.isDebugEnabled()) {
+			logger.debug("get(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		}
+
+		Object returnObject = mcInstance.get(key);
+		if (logger.isDebugEnabled()) {
+			logger.debug("get(String) - end"); //$NON-NLS-1$
+		}
+        return returnObject;
     }
 
     @Override
     public Object[] get(String[] keys) {
-        return mcInstance.getMultiArray(keys);
+		if (logger.isDebugEnabled()) {
+			logger.debug("get(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String[] keys", keys).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		}
+
+		Object[] returnObjectArray = mcInstance.getMultiArray(keys);
+		if (logger.isDebugEnabled()) {
+			logger.debug("get(String[]) - end"); //$NON-NLS-1$
+		}
+        return returnObjectArray;
     }
 
     @Override
     public boolean flush() {
-        return mcInstance.flushAll();
+		if (logger.isDebugEnabled()) {
+			logger.debug("flush() - start"); //$NON-NLS-1$
+		}
+
+		boolean returnboolean = mcInstance.flushAll();
+		if (logger.isDebugEnabled()) {
+			logger.debug("flush() - end"); //$NON-NLS-1$
+		}
+        return returnboolean;
     }
 
     @Override
     public long addOrIncr(String key, long incr) {
-        return mcInstance.addOrIncr(key, incr);
+		if (logger.isDebugEnabled()) {
+			logger.debug("addOrIncr(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).append("long incr", incr).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		}
+
+		long returnlong = mcInstance.addOrIncr(key, incr);
+		if (logger.isDebugEnabled()) {
+			logger.debug("addOrIncr(String, long) - end"); //$NON-NLS-1$
+		}
+        return returnlong;
     }
 
     @Override
     public long incr(String key, long incr) {
-        return mcInstance.incr(key, incr);
+		if (logger.isDebugEnabled()) {
+			logger.debug("incr(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).append("long incr", incr).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		}
+
+		long returnlong = mcInstance.incr(key, incr);
+		if (logger.isDebugEnabled()) {
+			logger.debug("incr(String, long) - end"); //$NON-NLS-1$
+		}
+        return returnlong;
 
     }
 
     @Override
     public boolean storeCounter(String key, Long counter) {
-        return mcInstance.storeCounter(key, counter);
+		if (logger.isDebugEnabled()) {
+			logger.debug("storeCounter(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).append("Long counter", counter).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		}
+
+		boolean returnboolean = mcInstance.storeCounter(key, counter);
+		if (logger.isDebugEnabled()) {
+			logger.debug("storeCounter(String, Long) - end"); //$NON-NLS-1$
+		}
+        return returnboolean;
     }
 
     @Override
     @PostConstruct
     public void init() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("init() - start"); //$NON-NLS-1$
+		}
+
         this.setFileName(System.getProperty(CACHE_MEM_CONFIG_FILE, DEFAULT_CACHE_MEM_CONFIG_NAME));
         this.setType(ConfigFileTypeDict.PROPERTIES);
         super.init();
         this.build(this.getConfig());
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("init() - end"); //$NON-NLS-1$
+		}
     }
 
     public void build(Configuration config) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("build(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("Configuration config", config).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		}
 
         String prefix_ = this.getPrefix();
 
@@ -191,15 +338,25 @@ public class DynamicMemCache extends PrefixPriorityConfig
                 try {
                     Thread.sleep(2000);
                     SockIOPool.getInstance(_poolName).shutDown();
-                } catch (Exception ex) {}
+                } catch (Exception ex) {
+					logger.warn("build(Configuration) - exception ignored", ex); //$NON-NLS-1$
+				}
             }
 
         } catch (Exception e) {
+			logger.warn("build(Configuration) - exception ignored", e); //$NON-NLS-1$
 
         }
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("build(Configuration) - end"); //$NON-NLS-1$
+		}
     }
 
     protected String configToString(Configuration config) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("configToString(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("Configuration config", config).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		}
 
         String prefix_ = getPrefix();
 
@@ -221,10 +378,18 @@ public class DynamicMemCache extends PrefixPriorityConfig
         sb.append(arrayToString(config.getStringArray(prefix_ + "memcached.servers"))).append("|");
         sb.append(arrayToString(config.getStringArray(prefix_ + "memcached.weights")));
 
-        return sb.toString();
+		String returnString = sb.toString();
+		if (logger.isDebugEnabled()) {
+			logger.debug("configToString(Configuration) - end"); //$NON-NLS-1$
+		}
+        return returnString;
     }
 
     private String arrayToString(Object[] objs) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("arrayToString(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("Object[] objs", objs).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		}
+
         StringBuffer sb = new StringBuffer();
         int len = objs == null ? 0 : objs.length;
         for (int i = 0; i < len; i++) {
@@ -233,7 +398,11 @@ public class DynamicMemCache extends PrefixPriorityConfig
                 sb.append("|");
             }
         }
-        return sb.toString();
+		String returnString = sb.toString();
+		if (logger.isDebugEnabled()) {
+			logger.debug("arrayToString(Object[]) - end"); //$NON-NLS-1$
+		}
+        return returnString;
     }
 
     // *********************以下方法遵循spring cacheManager规范********************
@@ -254,22 +423,42 @@ public class DynamicMemCache extends PrefixPriorityConfig
 
     @Override
     public ValueWrapper get(Object key) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("get(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("Object key", key).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		}
+
         Object value = this.mcInstance.get((String) key);
-        return (value != null ? new SimpleValueWrapper(value) : null);
+		ValueWrapper returnValueWrapper = (value != null ? new SimpleValueWrapper(value) : null);
+		if (logger.isDebugEnabled()) {
+			logger.debug("get(Object) - end {}",value); //$NON-NLS-1$
+		}
+        return returnValueWrapper;
     }
 
     @Override
     public <T> T get(Object key, Class<T> type) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("get(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("Object key", key).append("Class<T> type", type).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		}
+
         Object value = this.mcInstance.get((String) key);
         if (value != null && type != null && !type.isInstance(value)) {
             throw new IllegalStateException("Cached value is not of required type ["
                     + type.getName() + "]: " + value);
         }
-        return (T) value;
+		T returnT = (T) value;
+		if (logger.isDebugEnabled()) {
+			logger.debug("get(Object, Class<T>) - end"); //$NON-NLS-1$
+		}
+        return returnT;
     }
 
     @Override
     public void put(Object key, Object value) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("put(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("Object key", key).append("Object value", value).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		}
+
         CacheOpParams params = CacheOpParamsContext.getOpParams();
         if (params != null) {
             Calendar cal = Calendar.getInstance();
@@ -278,14 +467,30 @@ public class DynamicMemCache extends PrefixPriorityConfig
         } else {
             this.mcInstance.add((String) key, value);
         }
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("put(Object, Object) - end"); //$NON-NLS-1$
+		}
     }
 
     @Override
     public void evict(Object key) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("evict(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("Object key", key).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		}
+
         this.mcInstance.delete((String) key);
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("evict(Object) - end"); //$NON-NLS-1$
+		}
     }
 
 	public ValueWrapper putIfAbsent(Object key, Object value) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("putIfAbsent(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("Object key", key).append("Object value", value).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+		}
+
 		Object value_ = this.mcInstance.get((String) key);
 		if(value_==null){
 			CacheOpParams params = CacheOpParamsContext.getOpParams();
@@ -296,8 +501,16 @@ public class DynamicMemCache extends PrefixPriorityConfig
 	        } else {
 	            this.mcInstance.add((String) key, value);
 	        }
-	        return new SimpleValueWrapper(value);
+			ValueWrapper returnValueWrapper = new SimpleValueWrapper(value);
+			if (logger.isDebugEnabled()) {
+				logger.debug("putIfAbsent(Object, Object) - end"); //$NON-NLS-1$
+			}
+	        return returnValueWrapper;
 		}
-        return (value_ != null ? new SimpleValueWrapper(value_) : null);
+		ValueWrapper returnValueWrapper = (value_ != null ? new SimpleValueWrapper(value_) : null);
+		if (logger.isDebugEnabled()) {
+			logger.debug("putIfAbsent(Object, Object) - end"); //$NON-NLS-1$
+		}
+        return returnValueWrapper;
 	}
 }

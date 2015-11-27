@@ -7,9 +7,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import com.alibaba.dubbo.rpc.RpcContext;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
-import com.tower.service.util.CacheSwitcher;
-import com.tower.service.util.RequestID;
-import com.tower.service.util.StringUtil;
 public class AccessLoger {
 
     public static Object process(ProceedingJoinPoint pjp) throws Throwable{
