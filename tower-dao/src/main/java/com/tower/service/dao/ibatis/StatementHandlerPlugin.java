@@ -20,85 +20,97 @@ import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 import com.tower.service.reflection.MetaObject;
 import com.tower.service.reflection.factory.DefaultObjectFactory;
+import com.tower.service.util.NetUtils;
 import com.tower.service.util.RequestID;
 import com.tower.service.util.SPUtil;
 
 @Intercepts({ @Signature(method = "prepare", type = StatementHandler.class, args = { Connection.class }) })
 public class StatementHandlerPlugin implements Interceptor {
-  /**
-   * Logger for this class
-   */
-  private static final Logger logger = LoggerFactory.getLogger(StatementHandlerPlugin.class);
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = LoggerFactory
+			.getLogger(StatementHandlerPlugin.class);
 
-  private static String pid = "unknow";
+	private static String ip;
+	private static String pid = "unknow";
 
-  static {
-    pid = ManagementFactory.getRuntimeMXBean().getName();
-  }
+	static {
+		pid = ManagementFactory.getRuntimeMXBean().getName();
+		ip = NetUtils.getLocalAddress().getHostAddress();
+	}
 
-  public Object intercept(Invocation invocation) throws Throwable {
+	public Object intercept(Invocation invocation) throws Throwable {
 
-    StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
+		StatementHandler statementHandler = (StatementHandler) invocation
+				.getTarget();
 
-    MetaObject metaStatementHandler = DefaultObjectFactory.getMetaObject(statementHandler);
+		MetaObject metaStatementHandler = DefaultObjectFactory
+				.getMetaObject(statementHandler);
 
-    Configuration configuration = (Configuration) metaStatementHandler
-        .getValue("delegate.configuration");
+		Configuration configuration = (Configuration) metaStatementHandler
+				.getValue("delegate.configuration");
 
-    BoundSql boundSql = (BoundSql) metaStatementHandler.getValue("delegate.boundSql");
+		BoundSql boundSql = (BoundSql) metaStatementHandler
+				.getValue("delegate.boundSql");
 
-    metaStatementHandler.setValue("delegate.boundSql.sql",
-        buildSql(boundSql.getSql(), configuration));
-    if (logger.isDebugEnabled()) {
-      logger
-      .debug("intercept(Invocation invocation={}) - end - return value={}", boundSql.getSql()); //$NON-NLS-1$
-    }
-    // 将执行权交给下一个拦截器
-    Object returnObject = invocation.proceed();
-    return returnObject;
-  }
+		metaStatementHandler.setValue("delegate.boundSql.sql",
+				buildSql(boundSql.getSql(), configuration));
+		if (logger.isDebugEnabled()) {
+			logger.debug(
+					"intercept(Invocation invocation={}) - end - return value={}", boundSql.getSql()); //$NON-NLS-1$
+		}
+		// 将执行权交给下一个拦截器
+		Object returnObject = invocation.proceed();
+		return returnObject;
+	}
 
-  private String buildSql(String sql, Configuration configuration) {
+	private String buildSql(String sql, Configuration configuration) {
 
-    if (sql.indexOf(" /*from_api:") != -1) {
-      return sql;
-    } else {
-      String db = null;
-      Environment env = null;
-      if (configuration != null) {
-        env = configuration.getEnvironment();
-      }
-      if (env != null) {
-        db = env.getId();
-      }
-      /**
-       * 删除sql \/*...*\/的多行注释，和以 -- 开始的单行注释
-       */
-      Pattern p = Pattern.compile("(?ms)('(?:''|[^'])*')|--.*?$|/\\*.*?\\*/");  
-      sql = p.matcher(sql).replaceAll("$1");
-      StringBuilder sb = new StringBuilder(sql);
-      sb.append(" /*from_api:");
-      sb.append(RequestID.get());
-      sb.append(pid);
-      sb.append(" ");
-      sb.append(SPUtil.getSpid());
-      sb.append(" ");
-      sb.append(db);
-      sb.append("*/");
-      sql = sb.toString().replaceAll("\n", " ").replaceAll("\t", " ").replaceAll("[\\s]+", " ");
-      String tmp = sql.toLowerCase().trim();
-      if((tmp.indexOf("update ")==0 || tmp.indexOf("delete ")==0)&&tmp.indexOf(" where ") == -1){
-        throw new DataAccessException(IBatisDAOException.MSG_1_0007,sql);
-      }
-      return sql;
-    }
-  }
+		if (sql.indexOf(" /*from_api:") != -1) {
+			return sql;
+		} else {
+			String db = null;
+			Environment env = null;
+			if (configuration != null) {
+				env = configuration.getEnvironment();
+			}
+			if (env != null) {
+				db = env.getId();
+			}
+			/**
+			 * 删除sql \/*...*\/的多行注释，和以 -- 开始的单行注释
+			 */
+			Pattern p = Pattern
+					.compile("(?ms)('(?:''|[^'])*')|--.*?$|/\\*.*?\\*/");
+			sql = p.matcher(sql).replaceAll("$1");
+			StringBuilder sb = new StringBuilder(sql);
+			sb.append(" /*from_api:");
+			sb.append(" " + ip);
+			sb.append(RequestID.get());
+			sb.append(pid);
+			sb.append(" ");
+			sb.append(SPUtil.getSpid());
+			sb.append(" ");
+			sb.append(db);
+			sb.append("*/");
+			sql = sb.toString().replaceAll("\n", " ").replaceAll("\t", " ")
+					.replaceAll("[\\s]+", " ");
+			String tmp = sql.toLowerCase().trim();
+			if ((tmp.indexOf("update ") == 0 || tmp.indexOf("delete ") == 0)
+					&& tmp.indexOf(" where ") == -1) {
+				throw new DataAccessException(IBatisDAOException.MSG_1_0007,
+						sql);
+			}
+			return sql;
+		}
+	}
 
-  public Object plugin(Object target) {
-    return Plugin.wrap(target, this);
-  }
+	public Object plugin(Object target) {
+		return Plugin.wrap(target, this);
+	}
 
-  public void setProperties(Properties properties) {
-  }
-  
+	public void setProperties(Properties properties) {
+	}
+
 }

@@ -71,5 +71,6 @@ public class NetUtils {
 		return (name != null) && (!"0.0.0.0".equals(name)) && (!"127.0.0.1".equals(name)) && (IP_PATTERN.matcher(name).matches());
 	}
 	public static void main(String[] args){
+		System.out.println(getLocalAddress().getHostAddress());
 	}
 }
