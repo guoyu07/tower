@@ -38,6 +38,7 @@ public class StatementHandlerPlugin implements Interceptor {
 	static {
 		pid = ManagementFactory.getRuntimeMXBean().getName();
 		ip = NetUtils.getLocalAddress().getHostAddress();
+		pid=pid.replaceAll("localhost", ip);
 	}
 
 	public Object intercept(Invocation invocation) throws Throwable {
@@ -86,7 +87,6 @@ public class StatementHandlerPlugin implements Interceptor {
 			sql = p.matcher(sql).replaceAll("$1");
 			StringBuilder sb = new StringBuilder(sql);
 			sb.append(" /*from_api:");
-			sb.append(" " + ip);
 			sb.append(RequestID.get());
 			sb.append(pid);
 			sb.append(" ");

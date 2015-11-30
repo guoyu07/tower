@@ -13,9 +13,12 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
  * TODO: ThreadLocal SqlSession
  */
 public final class SqlmapUtils {
-
+	private static StatementHandlerPlugin plugin =  new StatementHandlerPlugin();
 	public static void addMapper(Class<?> mapperType, SqlSessionFactory factory) {
 		Configuration configuration = factory.getConfiguration();
+		if(!configuration.getInterceptors().contains(plugin)){
+			configuration.addInterceptor(plugin);
+		}
 		if (!configuration.hasMapper(mapperType)) {
 			configuration.addMapper(mapperType);
 		}
