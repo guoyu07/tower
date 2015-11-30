@@ -31,16 +31,6 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>com.#{company}.service.#{artifactId}</groupId>
-			<artifactId>#{artifactId}-rpc</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.#{company}.service.#{artifactId}</groupId>
-			<artifactId>#{artifactId}-mq</artifactId>
-		</dependency>
-				
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>

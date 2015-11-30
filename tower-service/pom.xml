@@ -23,7 +23,14 @@
 			<groupId>com.tower.soafw</groupId>
 			<artifactId>tower-concurrent</artifactId>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.tower.soafw</groupId>
+			<artifactId>tower-mq</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.tower.soafw</groupId>
+			<artifactId>tower-rpc</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
