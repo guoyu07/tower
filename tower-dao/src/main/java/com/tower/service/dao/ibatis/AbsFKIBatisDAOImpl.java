@@ -556,15 +556,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.put(property, fkValue);
 
     Map<String, Object> params = new HashMap<String, Object>();
-    int version = this.getVersion();
-    if(version==1){
-      params.put("updNewMap", newValue);
-      params.put("updCondMap", cond);
-    }
-    else{
-      params.put("newObj", newValue);
-      params.put("params", cond);
-    }
+    params.put("newObj", newValue);
+    params.put("params", cond);
     params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = getMasterSessionFactory();
@@ -615,15 +608,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.putAll(attchParams);
 
     Map<String, Object> params = new HashMap<String, Object>();
-    int version = this.getVersion();
-    if(version==1){
-      params.put("updNewMap", newValue);
-      params.put("updCondMap", cond);
-    }
-    else{
-      params.put("newObj", newValue);
-      params.put("params", cond);
-    }
+    params.put("newObj", newValue);
+    params.put("params", cond);
     params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = getMasterSessionFactory();
@@ -671,15 +657,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.put(property, fkValue);
 
     Map<String, Object> params = new HashMap<String, Object>();
-    int version = this.getVersion();
-    if(version==1){
-      params.put("updNewMap", newValue);
-      params.put("updCondMap", cond);
-    }
-    else{
-      params.put("newObj", newValue);
-      params.put("params", cond);
-    }
+    params.put("newObj", newValue);
+    params.put("params", cond);
     params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = getMasterSessionFactory();
@@ -729,15 +708,8 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
     cond.putAll(attchParams);
 
     Map<String, Object> params = new HashMap<String, Object>();
-    int version = this.getVersion();
-    if(version==1){
-      params.put("updNewMap", newValue);
-      params.put("updCondMap", cond);
-    }
-    else{
-      params.put("newObj", newValue);
-      params.put("params", cond);
-    }
+    params.put("newObj", newValue);
+    params.put("params", cond);
     params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
     SqlSessionFactory sessionFactory = getMasterSessionFactory();

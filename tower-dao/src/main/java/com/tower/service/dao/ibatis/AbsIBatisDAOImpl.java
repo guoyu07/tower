@@ -141,15 +141,9 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 		Map<String, Object> params = new HashMap<String, Object>();
 
+		params.put("newObj", newValue);
+		params.put("params", cond);
 		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
-		int version = this.getVersion();
-		if (version == 1) {
-			params.put("updNewMap", newValue);
-			params.put("updCondMap", cond);
-		} else {
-			params.put("newObj", newValue);
-			params.put("params", cond);
-		}
 		SqlSessionFactory sessionFactory = getMasterSessionFactory();
 	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
 		try {

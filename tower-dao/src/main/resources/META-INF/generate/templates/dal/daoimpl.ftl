@@ -52,12 +52,6 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
 	private SqlSessionFactory mapQuerySessionFactory;
 	
 	@Override
-	public int getVersion(){
-		//代码生成器版本号，请不要手动改
-	    return 2;
-	}
-  
-	@Override
 	public Class<${name}Mapper> getMapperClass() {
 		
 		return ${name}Mapper.class;
