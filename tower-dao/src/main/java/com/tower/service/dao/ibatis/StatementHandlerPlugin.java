@@ -84,7 +84,7 @@ public class StatementHandlerPlugin implements Interceptor {
 			 */
 			Pattern p = Pattern
 					.compile("(?ms)('(?:''|[^'])*')|--.*?$|/\\*.*?\\*/");
-			sql = p.matcher(sql).replaceAll("$1");
+			sql = p.matcher(sql).replaceAll("$1");//\/*...*\/的多行注释，和以 -- 开始的单行注释 防止sql注入
 			StringBuilder sb = new StringBuilder(sql);
 			sb.append(" /*from_api:");
 			sb.append(RequestID.get());
@@ -95,10 +95,10 @@ public class StatementHandlerPlugin implements Interceptor {
 			sb.append(db);
 			sb.append("*/");
 			sql = sb.toString().replaceAll("\n", " ").replaceAll("\t", " ")
-					.replaceAll("[\\s]+", " ");
+					.replaceAll("[\\s]+", " ");//格式化sql语句
 			String tmp = sql.toLowerCase().trim();
 			if ((tmp.indexOf("update ") == 0 || tmp.indexOf("delete ") == 0)
-					&& tmp.indexOf(" where ") == -1) {
+					&& tmp.indexOf(" where ") == -1) {//屏蔽不带where 条件的更新&删除操作
 				throw new DataAccessException(IBatisDAOException.MSG_1_0007,
 						sql);
 			}

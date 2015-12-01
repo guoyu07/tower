@@ -212,7 +212,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
       logger.debug("incrTabVersion(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
     }
 
-    if (!cacheable()) {
+    if (!cacheable()||!this.tabCacheable()) {
       if (logger.isDebugEnabled()) {
         logger.debug(
             "incrTabVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0); //$NON-NLS-1$
@@ -275,7 +275,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
       logger.debug("incrRecVersion(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
     }
 
-    if (!cacheable()) {
+    if (!cacheable()||!this.fkCacheable()) {
       if (logger.isDebugEnabled()) {
         logger.debug(
             "incrRecVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0); //$NON-NLS-1$
@@ -491,7 +491,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
     synPKCache(eft, params, tabNameSuffix);
 
     /**
-     * 表级缓存实效
+     * 表级缓存失效
      */
     incrTabVersion(tabNameSuffix);
     // 删除外键缓存

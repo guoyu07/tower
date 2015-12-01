@@ -86,7 +86,7 @@ public interface ICacheable<T> {
   public boolean tabCacheable();
 
   /**
-   * 新增纪录版本号
+   * 新增纪录版本号：主键缓存&外键缓存失效
    * 
    * @param tabNameSuffix
    */
@@ -135,7 +135,7 @@ public interface ICacheable<T> {
   Long getRecVersion(String tabNameSuffix);
 
   /**
-   * 新增表级版本号
+   * 新增表级版本号:当前表的外键缓存&表级缓存失效；
    * @param tabNameSuffix
    */
   public long incrTabVersion(String tabNameSuffix);
