@@ -137,7 +137,7 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
       		</#if>
       		Long id = mapper.insert(model);
       		if (id !=null) {
-        		this.incrTabVersion(tabNameSuffix);
+        		this.incrTabVersion(CallFrom_PK,tabNameSuffix);
       		}
 
       		if (logger.isDebugEnabled()) {
