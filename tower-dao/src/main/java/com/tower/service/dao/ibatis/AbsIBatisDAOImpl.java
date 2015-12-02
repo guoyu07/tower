@@ -22,6 +22,8 @@ import com.tower.service.config.dict.ConfigComponent;
 import com.tower.service.dao.IModel;
 import com.tower.service.dao.MapPage;
 import com.tower.service.exception.DataAccessException;
+import com.tower.service.log.Logger;
+import com.tower.service.log.LoggerFactory;
 import com.tower.service.util.BeanUtil;
 
 /**
@@ -60,9 +62,11 @@ import com.tower.service.util.BeanUtil;
  */
 public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		AbsCacheableImpl<T> implements IBatisDAO<T> {
+	
 	/**
 	 * Logger for this class
 	 */
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * Logger for this class
@@ -106,7 +110,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			IMapper<T> mapper = session.getMapper(getMapperClass());
 			Integer eft = mapper.deleteByMap(params);
 			if (eft > 0) {
-				this.synCache(tabNameSuffix);
+				this.synCache(CallFrom_TB,tabNameSuffix);
 			}
 
 			if (logger.isDebugEnabled()) {
@@ -150,7 +154,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			IMapper<T> mapper = session.getMapper(getMapperClass());
 			Integer eft = mapper.cmplxUpdate(params);
 			if (eft > 0) {
-				this.synCache(tabNameSuffix);
+				this.synCache(CallFrom_TB,tabNameSuffix);
 			}
 
 			if (logger.isDebugEnabled()) {
@@ -978,7 +982,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			IBatchMapper<T> mapper = session.getMapper(getMapperClass());
 			int eft = mapper.batchUpdate(params);
 			if (eft > 0) {
-				this.synCache(tabNameSuffix);
+				this.synCache(CallFrom_TB,tabNameSuffix);
 			}
 
 			if (logger.isDebugEnabled()) {
@@ -1021,7 +1025,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			IBatchMapper<T> mapper = session.getMapper(getMapperClass());
 			int eft = mapper.batchDelete(params);
 			if (eft > 0) {
-				this.synCache(tabNameSuffix);
+				this.synCache(CallFrom_TB,tabNameSuffix);
 			}
 
 			if (logger.isDebugEnabled()) {

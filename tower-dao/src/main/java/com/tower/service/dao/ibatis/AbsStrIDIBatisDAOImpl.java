@@ -76,7 +76,7 @@ public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends
 			IBatchMapper<T> mapper = session.getMapper(getMapperClass());
 			Integer eft = mapper.batchInsert(params);
 			if (eft > 0) {
-				this.incrTabVersion(tabNameSuffix);
+				this.incrTabVersion(CallFrom_PK,tabNameSuffix);
 			}
 
 			if (logger.isDebugEnabled()) {
@@ -173,7 +173,7 @@ public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends
 			IMapper<T> mapper = session.getMapper(getMapperClass());
 			Integer eft = mapper.deleteByMap(params);
 			if (eft > 0) {
-				this.incrTabVersion(tabNameSuffix);
+				this.incrTabVersion(CallFrom_PK,tabNameSuffix);
 			}
 
 			if (logger.isDebugEnabled()) {
@@ -216,7 +216,7 @@ public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends
 			IMapper<T> mapper = session.getMapper(getMapperClass());
 			Integer eft = mapper.updateById(params);
 			if (eft > 0) {
-				this.incrTabVersion(tabNameSuffix);
+				this.incrTabVersion(CallFrom_PK,tabNameSuffix);
 			}
 
 			if (logger.isDebugEnabled()) {

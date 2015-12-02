@@ -76,7 +76,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends
 			Integer eft = mapper.batchInsert(params);
 			if (eft > 0) {
 				Integer lastId = (Integer) params.get("id");
-				this.incrTabVersion(tabNameSuffix);
+				this.incrTabVersion(CallFrom_PK,tabNameSuffix);
 				Integer[] ids = new Integer[eft];
 				for (int i = 0; i < eft; i++) {
 					ids[i] = lastId + i;
@@ -177,7 +177,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends
 			IMapper<T> mapper = session.getMapper(getMapperClass());
 			Integer eft = mapper.deleteByMap(params);
 			if (eft > 0) {
-				this.incrTabVersion(tabNameSuffix);
+				this.incrTabVersion(CallFrom_PK,tabNameSuffix);
 			}
 
 			if (logger.isDebugEnabled()) {
@@ -220,7 +220,7 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends
 			IMapper<T> mapper = session.getMapper(getMapperClass());
 			Integer eft = mapper.updateById(params);
 			if (eft > 0) {
-				this.incrTabVersion(tabNameSuffix);
+				this.incrTabVersion(CallFrom_PK,tabNameSuffix);
 			}
 
 			if (logger.isDebugEnabled()) {

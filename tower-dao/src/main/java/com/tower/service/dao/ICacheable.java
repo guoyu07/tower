@@ -87,7 +87,6 @@ public interface ICacheable<T> {
 
   /**
    * 新增纪录版本号：主键缓存&外键缓存失效
-   * 
    * @param tabNameSuffix
    */
   public long incrRecVersion(String tabNameSuffix);
@@ -136,9 +135,10 @@ public interface ICacheable<T> {
 
   /**
    * 新增表级版本号:当前表的外键缓存&表级缓存失效；
+   * @param from 操作来源 1:主键；2:外键；3:表级
    * @param tabNameSuffix
    */
-  public long incrTabVersion(String tabNameSuffix);
+  public long incrTabVersion(int callFrom,String tabNameSuffix);
 
   /**
    * 表级缓存<br>
@@ -181,5 +181,17 @@ public interface ICacheable<T> {
   public final String FkCacheKeyPrefixExpress = "#root.target.getFKRecCacheKeyPrefix(#tabNameSuffix).concat('@').concat(#property).concat('=').concat(#fkValue).concat('@')";
 
   public final String TabCacheKeyPrefixExpress = "#root.target.getTabCacheKeyPrefix(#tabNameSuffix)";
+  /**
+   * 主键
+   */
+  public final int CallFrom_PK = 1;
+  /**
+   * 外键
+   */
+  public final int CallFrom_FK = 2;
+  /**
+   * 表级
+   */
+  public final int CallFrom_TB = 3;
 
 }

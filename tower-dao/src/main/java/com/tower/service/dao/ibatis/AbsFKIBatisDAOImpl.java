@@ -70,7 +70,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.deleteByMap(cond);
       if (eft > 0) {
-        synCache(eft, property, fkValue, null, tabNameSuffix);
+        synCache(CallFrom_FK,eft, property, fkValue, null, tabNameSuffix);
       }
 
       if (logger.isDebugEnabled()) {
@@ -114,7 +114,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.deleteByMap(cond);
       if (eft > 0) {
-        synCache(eft, property, fkValue, attchParams, tabNameSuffix);
+        synCache(CallFrom_FK,eft, property, fkValue, attchParams, tabNameSuffix);
       }
 
       if (logger.isDebugEnabled()) {
@@ -155,7 +155,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.deleteByMap(cond);
       if (eft > 0) {
-        synCache(eft, property, fkValue, null, tabNameSuffix);
+        synCache(CallFrom_FK,eft, property, fkValue, null, tabNameSuffix);
       }
 
       if (logger.isDebugEnabled()) {
@@ -200,7 +200,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.deleteByMap(cond);
       if (eft > 0) {
-        synCache(eft, property, fkValue, attchParams, tabNameSuffix);
+        synCache(CallFrom_FK,eft, property, fkValue, attchParams, tabNameSuffix);
       }
 
       if (logger.isDebugEnabled()) {
@@ -566,7 +566,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.cmplxUpdate(params);
       if (eft > 0) {
-        synCache(eft, property, fkValue, null, tabNameSuffix);
+        synCache(CallFrom_FK,eft, property, fkValue, null, tabNameSuffix);
       }
 
       if (logger.isDebugEnabled()) {
@@ -618,7 +618,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.cmplxUpdate(params);
       if (eft > 0) {
-        synCache(eft, property, fkValue, attchParams, tabNameSuffix);
+        synCache(CallFrom_FK,eft, property, fkValue, attchParams, tabNameSuffix);
       }
 
       if (logger.isDebugEnabled()) {
@@ -667,7 +667,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.cmplxUpdate(params);
       if (eft > 0) {
-        synCache(eft, property, fkValue, null, tabNameSuffix);
+        synCache(CallFrom_FK,eft, property, fkValue, null, tabNameSuffix);
       }
 
       if (logger.isDebugEnabled()) {
@@ -718,7 +718,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
       IMapper<T> mapper = session.getMapper(getMapperClass());
       Integer eft = mapper.cmplxUpdate(params);
       if (eft > 0) {
-        synCache(eft, property, fkValue, attchParams, tabNameSuffix);
+        synCache(CallFrom_FK,eft, property, fkValue, attchParams, tabNameSuffix);
       }
 
       if (logger.isDebugEnabled()) {

@@ -94,7 +94,7 @@ public class CacheVersionIbatisDAOImpl extends
 
 			Long id = mapper.insert(model);
 			if (id != null) {
-				this.incrTabVersion(tabNameSuffix);
+				this.incrTabVersion(CallFrom_PK,tabNameSuffix);
 			}
 
 			if (logger.isDebugEnabled()) {
