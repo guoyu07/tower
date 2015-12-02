@@ -39,6 +39,8 @@ import com.tower.service.util.StringUtil;
  * System.getProperty(GLOBAL_CONFIG_DIR, GLOBAL_CONFIG_DIR_DEF) + File.separator + profiel+.+
  * _settingFileName + File.separator + "." + type;
  * 
+ * 支持加密机制:通过key是否含有.encrypted来支持加密支持
+ * 
  * @author alexzhu
  * 
  */

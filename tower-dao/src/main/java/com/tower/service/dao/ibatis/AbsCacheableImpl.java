@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.configuration.Configuration;
 import org.springframework.cache.CacheManager;
 
 import redis.clients.jedis.exceptions.JedisDataException;
@@ -212,7 +211,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
       logger.debug("incrTabVersion(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
     }
 
-    if (!cacheable()||!this.tabCacheable()) {
+    if (!fkCacheable()) {
       if (logger.isDebugEnabled()) {
         logger.debug(
             "incrTabVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0); //$NON-NLS-1$
@@ -275,7 +274,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements ICacheable<T
       logger.debug("incrRecVersion(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
     }
 
-    if (!cacheable()||!this.fkCacheable()) {
+    if (!pkCacheable()) {
       if (logger.isDebugEnabled()) {
         logger.debug(
             "incrRecVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0); //$NON-NLS-1$
