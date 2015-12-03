@@ -219,7 +219,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   }
 
   @CacheOpParams(time = ONE_DAY)
-  @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.fkCacheable()")
+  @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.fkCacheable() and #root.target.enable()")
   @Override
   public List<T> queryByFK(String property, Integer fkValue, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
@@ -258,7 +258,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
   @CacheOpParams(time = ONE_DAY)
   @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress
-      + ".concat('@').concat(#attchParams)", unless = "#result == null", condition = "#root.target.fkCacheable()")
+      + ".concat('@').concat(#attchParams)", unless = "#result == null", condition = "#root.target.fkCacheable() and #root.target.enable()")
   @Override
   public List<T> queryByFK(String property, Integer fkValue, Map<String, Object> attchParams,
       String tabNameSuffix) {
@@ -299,7 +299,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   }
 
   @CacheOpParams(time = ONE_DAY)
-  @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.fkCacheable()")
+  @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.fkCacheable() and #root.target.enable()")
   @Override
   public List<T> queryByFK(String property, Integer fkValue, Boolean master, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
@@ -338,7 +338,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
   @CacheOpParams(time = ONE_DAY)
   @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress
-      + ".concat('@').concat(#attchParams)", unless = "#result == null", condition = "!#master and #root.target.fkCacheable()")
+      + ".concat('@').concat(#attchParams)", unless = "#result == null", condition = "!#master and #root.target.fkCacheable() and #root.target.enable()")
   @Override
   public List<T> queryByFK(String property, Integer fkValue, Map<String, Object> attchParams,
       Boolean master, String tabNameSuffix) {
@@ -378,7 +378,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   }
 
   @CacheOpParams(time = ONE_DAY)
-  @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.fkCacheable()")
+  @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.fkCacheable() and #root.target.enable()")
   @Override
   public List<T> queryByFK(String property, Long fkValue, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
@@ -417,7 +417,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
   @CacheOpParams(time = ONE_DAY)
   @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress
-      + ".concat('@').concat(#attchParams)", unless = "#result == null", condition = "#root.target.fkCacheable()")
+      + ".concat('@').concat(#attchParams)", unless = "#result == null", condition = "#root.target.fkCacheable() and #root.target.enable()")
   @Override
   public List<T> queryByFK(String property, Long fkValue, Map<String, Object> attchParams,
       String tabNameSuffix) {
@@ -457,7 +457,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
   }
 
   @CacheOpParams(time = ONE_DAY)
-  @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.fkCacheable()")
+  @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.fkCacheable() and #root.target.enable()")
   @Override
   public List<T> queryByFK(String property, Long fkValue, Boolean master, String tabNameSuffix) {
     if (logger.isDebugEnabled()) {
@@ -496,7 +496,7 @@ public abstract class AbsFKIBatisDAOImpl<T extends IModel> extends AbsIBatisDAOI
 
   @CacheOpParams(time = ONE_DAY)
   @Cacheable(value = "defaultCache", key = FkCacheKeyPrefixExpress
-      + ".concat('@').concat(#attchParams)", unless = "#result == null", condition = "!#master and #root.target.fkCacheable()")
+      + ".concat('@').concat(#attchParams)", unless = "#result == null", condition = "!#master and #root.target.fkCacheable() and #root.target.enable()")
   @Override
   public List<T> queryByFK(String property, Long fkValue, Map<String, Object> attchParams,
       Boolean master, String tabNameSuffix) {

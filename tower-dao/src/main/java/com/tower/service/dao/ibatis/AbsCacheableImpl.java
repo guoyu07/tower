@@ -459,16 +459,8 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 	protected void synCache(int callFrom, int eft, final String property,
 			final Object value, final Map<String, Object> attchParams,
 			String tabNameSuffix) {
-		if (logger.isDebugEnabled()) {
-			logger.debug(
-					"synCache(int eft={}, String property={}, Object value={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - start", eft, property, value, attchParams, tabNameSuffix); //$NON-NLS-1$
-		}
 
 		if (!cacheable()) {
-			if (logger.isDebugEnabled()) {
-				logger.debug(
-						"synCache(int eft={}, String property={}, Object value={}, Map<String,Object> attchParams={}, String tabNameSuffix={}) - end", eft, property, value, attchParams, tabNameSuffix); //$NON-NLS-1$
-			}
 			return;
 		}
 		/**
@@ -593,38 +585,29 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 	}
 
 	/**
-	 * 缓存总开关
+	 * 系统是否启用缓存总开关
 	 */
 	public boolean cacheable() {
-		if (logger.isDebugEnabled()) {
-			logger.debug("cacheable() - start"); //$NON-NLS-1$
-		}
-
 		Boolean returnboolean = cacheConfig.getBoolean(redisCache.getPrefix()
 				+ CACHE_FLG, false);// 缓存总开关
-
-		if (logger.isDebugEnabled()) {
-			logger.debug("cacheable() - endend {}", returnboolean); //$NON-NLS-1$
-		}
 		return returnboolean; // 缓存开关
+	}
+	/**
+	 * 当前请求是否启用cache
+	 * @return
+	 */
+	public boolean enable(){
+		return CacheSwitcher.get();
 	}
 
 	/**
 	 * 主键缓存开关
 	 */
 	public boolean pkCacheable() {
-		if (logger.isDebugEnabled()) {
-			logger.debug("pkCacheable() - start"); //$NON-NLS-1$
-		}
 
 		boolean returnboolean = cacheable() // 缓存开关
-				&& CacheSwitcher.get()
 				&& cacheConfig.getBoolean(
 						redisCache.getPrefix() + PK_CACHE_FLG, cacheable());// 主键缓存开关
-
-		if (logger.isDebugEnabled()) {
-			logger.debug("pkCacheable() - end {}", returnboolean); //$NON-NLS-1$
-		}
 		return returnboolean; // 主键缓存
 	}
 
@@ -632,17 +615,10 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 	 * 外键缓存开关
 	 */
 	public boolean fkCacheable() {
-		if (logger.isDebugEnabled()) {
-			logger.debug("fkCacheable() - start"); //$NON-NLS-1$
-		}
 
 		boolean returnboolean = pkCacheable() // 主键缓存
 				&& cacheConfig.getBoolean(
 						redisCache.getPrefix() + FK_CACHE_FLG, pkCacheable());// 外键缓存开关
-
-		if (logger.isDebugEnabled()) {
-			logger.debug("fkCacheable() - endend {}", returnboolean); //$NON-NLS-1$
-		}
 		return returnboolean;// 表级缓存
 	}
 
@@ -650,32 +626,20 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 	 * 表级缓存开关 缓存开关必须开启，主键缓存、外键缓存必须开启
 	 */
 	public boolean tabCacheable() {
-		if (logger.isDebugEnabled()) {
-			logger.debug("tabCacheable() - start"); //$NON-NLS-1$
-		}
 
 		boolean returnboolean = fkCacheable() // 外键缓存开关
 				&& cacheConfig.getBoolean(
 						redisCache.getPrefix() + TB_CACHE_FLG, fkCacheable()); // 表级缓存
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("tabCacheable() - endend {}", returnboolean); //$NON-NLS-1$
-		}
 		return returnboolean;// 表级缓存
 	}
 
 	@Override
 	public Integer getThresholds() {
-		if (logger.isDebugEnabled()) {
-			logger.debug("getThresholds() - start"); //$NON-NLS-1$
-		}
 
 		Integer returnInteger = cacheConfig.getInteger(redisCache.getPrefix()
 				+ THRESHOLD_FOR_DEL_PK_BY_WHERE, 100);
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("getThresholds() - end"); //$NON-NLS-1$
-		}
 		return returnInteger;
 	}
 }

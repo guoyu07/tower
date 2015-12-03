@@ -55,7 +55,6 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
         this.setPrefix(id);
         addChangeListener(this);
         super.init();
-        CacheSwitcher.set(Boolean.valueOf(System.getProperty("query.cacheable", this.getString(this.getPrefix()+"query.cacheable", "true"))));
         if(monitor==null){
         	monitor = new Thread() {
         		Logger logger = LoggerFactory.getLogger("monitor");
@@ -147,6 +146,7 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
 
 	public final void start() {
         
+		CacheSwitcher.set(Boolean.valueOf(this.getString(this.getPrefix()+"query.cacheable", System.getProperty("query.cacheable","true"))));
     	RequestID.set(null);
     	this.setNewStart(true);
     	
@@ -168,6 +168,7 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
         	}
         	catch(Exception ex){}
             decreaseRunning();
+            CacheSwitcher.unset();
             logger.info("finshed");
         }
     }

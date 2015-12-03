@@ -67,6 +67,11 @@ public interface ICacheable<T> {
    */
   public boolean cacheable();
   /**
+   * 当前请求是否启用cache
+   * @return
+   */
+  public boolean enable();
+  /**
    * 当cacheable()=true时
    * 主键查询是否启用缓存
    * @return
