@@ -3,6 +3,58 @@
 #### 安装git
 #### 搭建本地私服库（nexus）
 + 备注：个别java包可能需要在互联网上单独下载，公共的私服服务上可能没有；
++ 配置maven配置文件settings.xml
+<p>详细配置信息</p>
+```
+	...
+	<pluginGroups>
+	
+		<pluginGroup>com.tower.soafw</pluginGroup>
+		
+  	</pluginGroups>
+  	
+	<mirrors>
+	
+ 		<mirror>
+ 		
+			<id>UK</id>
+			
+			<name>UK Center</name>
+			
+			<url>http://uk.maven.org/maven2</url>
+			
+			<mirrorOf>center</mirrorOf>
+			
+		</mirror>
+		
+		<mirror>
+		
+  			<id>CN</id>
+  			
+  	  		<name>OSChina Central</name>
+  	  		
+  	  		<url>http://maven.oschina.net/content/groups/public/</url>
+  	  		
+  	  		<mirrorOf>central</mirrorOf>
+  	  		
+  		</mirror>
+  		
+		<mirror>
+		
+			<id>US Central</id>
+			
+			<name>Center</name>
+			
+			<url>http://repo1.maven.org/maven2</url>
+			
+			<mirrorOf>center</mirrorOf>
+			
+		</mirror>
+		
+	</mirrors>
+	
+	...
+```
 #### 安装Jenkins（构件）
 
 ## 框架介绍
@@ -25,7 +77,6 @@
 ###### tower－log
 + 日志处理相关类
 + 每条日志信息都会自动输出当前请求ID(当当前请求没有请求ID时，框架会自动产生，并且一直跟着到最后：追加到sql语句的备注部分)
-+ 当是一个web请求时，web框架中会根据其调用端传入参数［X-Request-ID］情况来获取或者产生请求id（X-Request-ID为空时自动产生）
 
 ###### tower－config
 + 配置文件存储目录：
@@ -72,6 +123,7 @@
 ###### tower－dao
 + 数据访问层框架模块
 + 关系型数据库访问层接口及默认实现机制（mybaties）
++ 数据访问层代码生成器目前支持mysql、sql server
 
 ###### tower－model
 + 业务模型对象模块
@@ -86,11 +138,14 @@
 + job框架模块
 + job监控信息采集
 + 可以动态调整job调度策略
-+ 可以动态暂停job的执行（可以控制所有、一组及单独的某一个job）
++ 可以通过status=pause的方式动态暂停job的执行（可以控制所有、一组及单独的某一个job）
 
 ###### tower－web
 + web框架模块
 + web监控信息采集
++ 通过RequestInterceptor
+	+ 拦截并读取head参数［X-Request-ID］情况来获取或者产生请求id（X-Request-ID为空时自动产生）,当没有设置时系统会自动产生一个reqid,并且一直往后传，直到db上执行的sql语句；
+	+ 拦截并读取head参数［X-Cached］缓存开关参赛，决定是否启用缓存［默认情况下启用缓存］
 
 + 插件
 	+ 项目框架生成插件（tower-config-maven-plugin）
