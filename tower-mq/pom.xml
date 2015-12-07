@@ -16,8 +16,9 @@
 
 		<dependency>
 			<groupId>com.tower.soafw</groupId>
-			<artifactId>tower-config</artifactId>
+			<artifactId>tower-concurrent</artifactId>
 		</dependency>
+		
 		<dependency>
 			<groupId>com.rabbitmq</groupId>
 			<artifactId>amqp-client</artifactId>

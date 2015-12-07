@@ -21,10 +21,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.tower.soafw</groupId>
-			<artifactId>tower-concurrent</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.tower.soafw</groupId>
 			<artifactId>tower-mq</artifactId>
 		</dependency>
 		<dependency>

@@ -15,12 +15,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.tower.soafw</groupId>
-			<artifactId>tower-config</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.tower.soafw</groupId>
-			<artifactId>tower-log</artifactId>
+			<artifactId>tower-concurrent</artifactId>
 		</dependency>
 
 		<dependency>

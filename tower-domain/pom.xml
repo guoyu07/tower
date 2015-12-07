@@ -14,16 +14,6 @@
 		<exception.enum.class>com.tower.soafw.dao.ibatis.IBatisDAOException</exception.enum.class>
 	</properties>
 
-	<dependencies>
-
-		<dependency>
-			<groupId>com.tower.soafw</groupId>
-			<artifactId>tower-util</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+	<dependencies />
+		
 </project>
