@@ -114,6 +114,11 @@
 	        </dependency>
 	        <dependency>
 	            <groupId>com.tower.soafw</groupId>
+	            <artifactId>tower-concurrent</artifactId>
+	            <version>${soafw-common.version}</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>com.tower.soafw</groupId>
 	            <artifactId>tower-cache</artifactId>
 	            <version>${soafw-common.version}</version>
 	        </dependency>

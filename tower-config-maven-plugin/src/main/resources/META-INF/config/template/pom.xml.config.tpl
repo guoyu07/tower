@@ -18,7 +18,10 @@
 			<groupId>com.tower.soafw</groupId>
 			<artifactId>tower-config</artifactId>
 		</dependency>
-		
+		<dependency>
+	        <groupId>com.tower.soafw</groupId>
+	    	<artifactId>tower-concurrent</artifactId>
+	    </dependency>
 		<dependency>
 			<groupId>com.#{company}.service.#{artifactId}</groupId>
 			<artifactId>#{artifactId}-util</artifactId>
