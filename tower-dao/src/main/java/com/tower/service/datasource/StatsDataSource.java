@@ -12,7 +12,6 @@ public class StatsDataSource implements IDataSource {
 
 	private DruidDataSource datasource = new DruidDataSource();
 
-	@Override
 	public Logger getParentLogger() throws SQLFeatureNotSupportedException {
 		return datasource.getParentLogger();
 	}
