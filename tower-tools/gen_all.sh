@@ -27,9 +27,9 @@ projectcommon=$projectid-util
 mvn -B archetype:generate -DarchetypeCatalog=locale -DgroupId=com.$company.service.$projectid -DartifactId=$projectcommon -Dcompany=$company
 echo $projectcommon build success
 
-projectconfig=$projectid-config
-mvn -B archetype:generate -DarchetypeCatalog=locale -DgroupId=com.$company.service.$projectid -DartifactId=$projectconfig -Dcompany=$company
-echo $projectconfig build success
+#projectconfig=$projectid-config
+#mvn -B archetype:generate -DarchetypeCatalog=locale -DgroupId=com.$company.service.$projectid -DartifactId=$projectconfig -Dcompany=$company
+#cho $projectconfig build success
 
 projectcache=$projectid-cache
 mvn -B archetype:generate -DarchetypeCatalog=locale -DgroupId=com.$company.service.$projectid -DartifactId=$projectcache -Dcompany=$company

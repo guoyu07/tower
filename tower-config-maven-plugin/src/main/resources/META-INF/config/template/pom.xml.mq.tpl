@@ -19,10 +19,6 @@
 			<artifactId>tower-mq</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.#{company}.service.#{artifactId}</groupId>
-			<artifactId>#{artifactId}-config</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>

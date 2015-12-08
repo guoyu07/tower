@@ -43,11 +43,11 @@ if [ ! -d "$app_home_dir/$1/$1-util" ]; then
 	echo $projectcommon build success
 fi
 
-if [ ! -d "$app_home_dir/$1/$1-config" ]; then
-	projectconfig=$projectid-config
-	mvn -B archetype:generate -DarchetypeCatalog=locale -DgroupId=com.$company.service.$projectid -DartifactId=$projectconfig -Dcompany=$company
-	echo $projectconfig build success
-fi
+#if [ ! -d "$app_home_dir/$1/$1-config" ]; then
+#	projectconfig=$projectid-config
+#	mvn -B archetype:generate -DarchetypeCatalog=locale -DgroupId=com.$company.service.$projectid -DartifactId=$projectconfig -Dcompany=$company
+#	echo $projectconfig build success
+#fi
 if [ ! -d "$app_home_dir/$1/$1-domain" ]; then
 	projectdomain=$projectid-domain
 	mvn -B archetype:generate -DarchetypeCatalog=locale -DgroupId=com.$company.service.$projectid -DartifactId=$projectdomain -Dcompany=$company

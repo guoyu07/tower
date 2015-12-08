@@ -89,7 +89,6 @@
 	</properties>
 	<modules>
 		<module>#{artifactId}-util</module>
-		<module>#{artifactId}-config</module>
 		<module>#{artifactId}-cache</module>
 		<module>#{artifactId}-dao</module>
 		<module>#{artifactId}-domain</module>
@@ -166,11 +165,6 @@
 			<dependency>
 				<groupId>com.#{company}.service.#{artifactId}</groupId>
 				<artifactId>#{artifactId}-util</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.#{company}.service.#{artifactId}</groupId>
-				<artifactId>#{artifactId}-config</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
