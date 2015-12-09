@@ -597,7 +597,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 	 * @return
 	 */
 	public boolean enable(){
-		return CacheSwitcher.get();
+		return CacheSwitcher.get()&&!SqlmapUtils.hasTransaction();
 	}
 
 	/**

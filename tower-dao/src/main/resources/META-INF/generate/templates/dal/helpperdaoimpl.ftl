@@ -54,7 +54,7 @@ public class ${name}HelpperIbatisDAOImpl extends AbsHelpperIBatisDAOImpl<${name}
 	
 	@Override
 	public SqlSessionFactory getMapQuerySessionFactory(){
-		if (mapQuerySessionFactory == null) {
+		if (mapQuerySessionFactory == null||SqlmapUtils.hasTransaction()) {
  			return getMasterSessionFactory();
  		}
  		return mapQuerySessionFactory;

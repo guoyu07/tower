@@ -9,7 +9,24 @@
 Git是一个开源的分布式版本控制系统，用以有效、高速的处理从很小到非常大的项目版本管理。
 
 ### Git的安装
->````sudo apt-get install git-core #linux````
+````sudo apt-get install git-core #linux````
+> 迁移
+``` 假设原来的GitLab 位于A服务器，现在在B服务上已经装好了Gitlab。
+
+1. 通过scp命令将A的/home/git/repositories/目录下的所有内容复制到B上对应位置
+
+这个时间比较长
+
+2. 到B服务器上，进入/home/git/gitlab目录后，运行下面的命令：
+
+sudo -u git -H bundle exec rake gitlab:import:repos RAILS_ENV=production
+
+完成后，打开B服务器上的gitlab网站，代码有了，wiki有了。issue和用户没有。还要手动建。
+
+别忘了用下面的命令检测：
+
+sudo -u git -H bundle exec rake gitlab:check RAILS_ENV=production
+```
 
 ### gitlab的初始化和配置
 ### 配置gitlab

@@ -81,7 +81,7 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
 	
 	@Override
 	public SqlSessionFactory getSlaveSessionFactory(){
-		if (slaveSessionFactory == null) {
+		if (slaveSessionFactory == null||SqlmapUtils.hasTransaction()) {
  			return getMasterSessionFactory();
  		}
  		return slaveSessionFactory;
@@ -89,7 +89,7 @@ public class ${name}IbatisDAOImpl extends AbsLongIDIBatisDAOImpl<${name}> implem
 	
 	@Override
 	public SqlSessionFactory getMapQuerySessionFactory(){
-		if (mapQuerySessionFactory == null) {
+		if (mapQuerySessionFactory == null||SqlmapUtils.hasTransaction()) {
  			return getSlaveSessionFactory();
  		}
  		return mapQuerySessionFactory;

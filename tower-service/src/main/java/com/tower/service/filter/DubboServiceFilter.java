@@ -19,8 +19,8 @@ public class DubboServiceFilter implements Filter {
 
 	private Logger logger = LoggerFactory.getLogger(DubboServiceFilter.class);
 	
-	private String reqidKey = "TowerReqId";
-	private String cachedKey = "TowerCached";
+	private String reqidKey = "X-Request-ID";
+	private String cachedKey = "X-Cached";
 
 	public DubboServiceFilter() {
 		logger.info("DubboServiceFilter created");

@@ -146,7 +146,7 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
 
 	public final void start() {
         
-		CacheSwitcher.set(Boolean.valueOf(this.getString(this.getPrefix()+"query.cacheable", System.getProperty("query.cacheable","true"))));
+		CacheSwitcher.set(Boolean.valueOf(this.getString(this.getPrefix()+"X-Cached", System.getProperty("X-Cached","true"))));
     	RequestID.set(null);
     	this.setNewStart(true);
     	

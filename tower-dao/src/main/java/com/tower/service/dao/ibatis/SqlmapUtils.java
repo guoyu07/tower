@@ -29,15 +29,19 @@ public final class SqlmapUtils {
 	}
 
 	public static void release(SqlSession session,SqlSessionFactory sessionFactory){
+		if (!hasTransaction()) {//没有加入事务，即单操作单事务
+			session.commit();
+			SqlSessionUtils.closeSqlSession(session, sessionFactory);
+		}
+	}
+	
+	public static boolean hasTransaction(){
 		TransactionStatus status = null;
 		try{
 			status = TransactionAspectSupport.currentTransactionStatus();
 		}
 		catch(Exception ex){
 		}
-		if (status==null) {//没有加入事务，即单操作单事务
-			session.commit();
-			SqlSessionUtils.closeSqlSession(session, sessionFactory);
-		}
+		return status!=null;
 	}
 }
