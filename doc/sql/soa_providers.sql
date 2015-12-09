@@ -1,32 +1,29 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : tsl-dev
+ Source Server         : 10.10.6.63
  Source Server Type    : MySQL
- Source Server Version : 50622
- Source Host           : 192.168.1.110
+ Source Server Version : 50617
+ Source Host           : 10.10.6.63
  Source Database       : soafw_db
 
  Target Server Type    : MySQL
- Target Server Version : 50622
+ Target Server Version : 50617
  File Encoding         : utf-8
 
- Date: 11/01/2015 15:39:39 PM
+ Date: 12/09/2015 10:17:33 AM
 */
 
 SET NAMES utf8;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
---  Table structure for `soa_provider`
+--  Table structure for `soa_sp`
 -- ----------------------------
-DROP TABLE IF EXISTS `soa_provider`;
-CREATE TABLE `soa_provider` (
+DROP TABLE IF EXISTS `soa_sp`;
+CREATE TABLE `soa_sp` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sp_name` varchar(100) DEFAULT NULL,
-  `start_port` int(11) DEFAULT '8000',
-  `stop_port` int(11) DEFAULT '9000',
-  `service_port` int(11) DEFAULT '20880',
   `sp_description` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index2` (`sp_name`)

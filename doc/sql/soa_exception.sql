@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : tsl-dev
+ Source Server         : 10.10.6.63
  Source Server Type    : MySQL
- Source Server Version : 50622
- Source Host           : 192.168.1.110
+ Source Server Version : 50617
+ Source Host           : 10.10.6.63
  Source Database       : soafw_db
 
  Target Server Type    : MySQL
- Target Server Version : 50622
+ Target Server Version : 50617
  File Encoding         : utf-8
 
- Date: 11/01/2015 15:40:03 PM
+ Date: 12/09/2015 10:17:17 AM
 */
 
 SET NAMES utf8;
