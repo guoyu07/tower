@@ -2,7 +2,7 @@
 
 #### 安装git
 #### 搭建本地私服库（nexus）
-+ 本地私服库域名：maven.tower.com
++ 本地私服库域名：maven.corp.tower.com
 + 备注：个别java包可能需要在互联网上单独下载，公共的私服服务上可能没有；
 + 配置maven配置文件settings.xml
 <p>详细配置信息</p>
@@ -67,7 +67,7 @@
 				<repository>
 					<id>nexus</id>
 					<name>Nexus</name>
-					<url>http://maven.tower.com:8081/nexus/content/groups/public/</url>
+					<url>http://maven.corp.tower.com:8081/nexus/content/groups/public/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
@@ -80,7 +80,7 @@
 				<pluginRepository>
 					<id>nexus</id>
 					<name>Nexus</name>
-					<url>http://maven.tower.com:8081/nexus/content/groups/public/</url>
+					<url>http://maven.corp.tower.com:8081/nexus/content/groups/public/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
@@ -228,6 +228,7 @@
 ##### git 安装
 
 ```
+开通域名:gitlab.corp.tower.com
 一键安装 gitlab7 on rhel6.4 并设置邮件发送
 
 世间本无事，庸人自扰之。书归正传，简短节说：gitlab是个好东西，但是安装手册奇烂。虽然曾经对照文档一步一步安装起来gitlab 6.x，但是，时过境迁，再也不想把时间花在这无聊的配置上。谷歌已然变成往日黄花，又无翻越 墙 狱之利器，只能在百度和Bing之间来回寻找答案。
@@ -286,7 +287,7 @@ you may be unable to access your Gitlab installation from other computers. It is
 advisable to use a Domain instead of an IP address for compatibility with
 different browsers.
 
-Domain [192.168.82.181]:
+Domain [192.168.82.181]:gitlab.corp.tower.com
 
 Do you want to configure mail support? [y/N]: y
 

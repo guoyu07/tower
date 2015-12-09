@@ -58,7 +58,7 @@
 				<repository>
 					<id>nexus</id>
 					<name>Nexus</name>
-					<url>http://maven.kjt.com:8081/nexus/content/groups/public/</url>
+					<url>http://maven.corp.tower.com:8081/nexus/content/groups/public/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
@@ -71,7 +71,7 @@
 				<pluginRepository>
 					<id>nexus</id>
 					<name>Nexus</name>
-					<url>http://maven.kjt.com:8081/nexus/content/groups/public/</url>
+					<url>http://maven.corp.tower.com:8081/nexus/content/groups/public/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
