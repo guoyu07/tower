@@ -157,7 +157,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 	 * 
 	 * @return
 	 */
-	protected String getRecVersionKey(String tabNameSuffix) {
+	private String getRecVersionKey(String tabNameSuffix) {
 		if (logger.isDebugEnabled()) {
 			logger.debug(
 					"getRecVersionKey(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
@@ -267,7 +267,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 		String key = this.get$TowerTabName(tabNameSuffix);
 		CacheVersion tabv = CacheVersionStack.getTabvs().get(key);
 		if (tabv != null) {
-			return tabv.getRecVersion().longValue();
+			return tabv.getTabVersion().longValue();
 		}
 		else{
 			tabv = cacheVersionDAO.queryById(key, null);// redisCache.get(getRecVersionKey(tabNameSuffix));
