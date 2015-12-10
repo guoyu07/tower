@@ -1,4 +1,4 @@
-package com.tower.service.dao;
+package com.tower.service.cache;
 
 import java.io.Serializable;
 

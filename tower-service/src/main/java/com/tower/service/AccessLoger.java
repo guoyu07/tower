@@ -5,12 +5,15 @@ import java.util.Map;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 import com.alibaba.dubbo.rpc.RpcContext;
+import com.tower.service.cache.CacheVersion;
+import com.tower.service.cache.CacheVersionStack;
+import com.tower.service.cache.ICacheVersion;
+import com.tower.service.concurrent.AsynBizExecutor;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 public class AccessLoger {
 
     public static Object process(ProceedingJoinPoint pjp) throws Throwable{
-        Object target = pjp.getTarget();
         String ip = RpcContext.getContext().getRemoteAddressString();
         if(ip!=null){
             ip = ip+" ";
@@ -20,6 +23,7 @@ public class AccessLoger {
         Map svcDef = AliasUtil.getAlias(keys,pjp, true);
         try {
             time = System.currentTimeMillis();
+            CacheVersionStack.init();
             return pjp.proceed(); 
         } 
         catch(Exception ex){
@@ -27,6 +31,21 @@ public class AccessLoger {
             throw ex;
         }
         finally {
+        	
+//        	new AsynBizExecutor("syn.cache") {
+//				
+//				@Override
+//				public void execute() {
+//					ICacheVersion<CacheVersion> cacher = CacheVersionStack.getCacher();
+//					Map<String,Integer> recs = CacheVersionStack.getRecIncs();
+//					Map<String,Integer> tabs = CacheVersionStack.getTabIncs();
+//					
+//					cacher.incrObjRecVersion(null, null);
+//				}
+//			};
+        	
+			CacheVersionStack.unset();
+			
             time = System.currentTimeMillis() - time;
             _logger.info("ip={} {}{}{}{} {} ms", ip,svcDef.get("className"),".",svcDef.get("methodName"),svcDef.get("detail"),time);
         }

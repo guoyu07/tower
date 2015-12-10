@@ -1,10 +1,9 @@
-package com.tower.service.cache.dao.model;
+package com.tower.service.cache;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.tower.service.annotation.JField;
-import com.tower.service.dao.IModel;
 
 public class CacheVersion implements IModel {
 

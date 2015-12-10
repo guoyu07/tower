@@ -13,18 +13,19 @@ import org.springframework.cache.CacheManager;
 
 import redis.clients.jedis.exceptions.JedisDataException;
 
+import com.tower.service.cache.CacheSwitcher;
+import com.tower.service.cache.CacheVersion;
+import com.tower.service.cache.CacheVersionStack;
+import com.tower.service.cache.ICacheable;
+import com.tower.service.cache.IModel;
 import com.tower.service.cache.dao.ICacheVersionDAO;
-import com.tower.service.cache.dao.model.CacheVersion;
 import com.tower.service.cache.mem.impl.DynamicMemCache;
 import com.tower.service.cache.redis.impl.DynamicRedisCache;
 import com.tower.service.config.DynamicConfig;
 import com.tower.service.config.dict.ConfigComponent;
-import com.tower.service.dao.ICacheable;
-import com.tower.service.dao.IModel;
 import com.tower.service.exception.DataAccessException;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
-import com.tower.service.util.CacheSwitcher;
 
 public abstract class AbsCacheableImpl<T extends IModel> implements
 		ICacheable<T> {
@@ -34,7 +35,8 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 	/**
 	 * Logger for this class
 	 */
-	protected final Logger logger = LoggerFactory.getLogger("com.tower.service.dao.ibatis.Cache");
+	protected final Logger logger = LoggerFactory
+			.getLogger("com.tower.service.dao.ibatis.Cache");
 
 	protected DynamicMemCache defaultCache;
 
@@ -220,18 +222,21 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 	public long incrTabVersion(int callFrom, String tabNameSuffix) {
 
 		if (callFrom == 1) {// 主键操作
-			if(!fkCacheable()&&!tabCacheable()){
+			if (!fkCacheable() && !tabCacheable()) {
+				return 0;
+			}
+		} else if (callFrom == 2 || callFrom == 3) {// 外键或者表级操作
+			if (!tabCacheable()) {
 				return 0;
 			}
 		}
-		else if(callFrom == 2 || callFrom ==3){//外键或者表级操作
-			if(!tabCacheable()){
-				return 0;
-			}
-		}
+		String key = this.get$TowerTabName(tabNameSuffix);
+		CacheVersionStack.setTabInc(key);
+		CacheVersionStack.set(cacheVersionDAO);
 		try {
 
-			long eft = cacheVersionDAO.incrObjTabVersion(this.get$TowerTabName(tabNameSuffix),null);
+			long eft = cacheVersionDAO.incrObjTabVersion(
+					this.get$TowerTabName(tabNameSuffix), null);
 
 			if (logger.isDebugEnabled()) {
 				logger.debug(
@@ -259,15 +264,27 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 			logger.debug(
 					"getTabVersion(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
 		}
-		CacheVersion vObj = cacheVersionDAO.queryById(
-				getTabVersionKey(tabNameSuffix), null);
-		String vStr = vObj == null ? "0" : vObj.getTabVersion().toString();
+		String key = this.get$TowerTabName(tabNameSuffix);
+		CacheVersion tabv = CacheVersionStack.getTabvs().get(key);
+		if (tabv != null) {
+			return tabv.getRecVersion().longValue();
+		}
+		else{
+			tabv = cacheVersionDAO.queryById(key, null);// redisCache.get(getRecVersionKey(tabNameSuffix));
+			if(tabv!=null){
+				CacheVersionStack.setTabv(key, tabv);
+			}
+		}
+		String vStr = tabv == null ? "0" : tabv.getTabVersion().toString();
 		if (vStr == null) {
 			if (logger.isDebugEnabled()) {
 				logger.debug(
 						"getTabVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0l); //$NON-NLS-1$
 			}
 			return 0l;
+		}
+		else{
+			CacheVersionStack.setTabv(key, tabv);
 		}
 		Long version = Long.valueOf(vStr);
 
@@ -283,11 +300,13 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 	 */
 	@Override
 	public long incrRecVersion(String tabNameSuffix) {
-		
-		if (!fkCacheable()&&!pkCacheable()) {
+
+		if (!fkCacheable() && !pkCacheable()) {
 			return 0;
 		}
-		
+		String key = this.get$TowerTabName(tabNameSuffix);
+		CacheVersionStack.setRecInc(key);
+		CacheVersionStack.set(cacheVersionDAO);
 		try {
 			long eft = cacheVersionDAO.incrObjRecVersion(
 					this.get$TowerTabName(tabNameSuffix), null);
@@ -318,10 +337,18 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 			logger.debug(
 					"getRecVersion(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
 		}
-		CacheVersion vObj = cacheVersionDAO.queryById(
-				this.get$TowerTabName(tabNameSuffix), null);// redisCache.get(getRecVersionKey(tabNameSuffix));
-
-		String vStr = vObj == null ? "0" : vObj.getRecVersion().toString();
+		String key = this.get$TowerTabName(tabNameSuffix);
+		CacheVersion tabv = CacheVersionStack.getTabvs().get(key);
+		if (tabv != null) {
+			return tabv.getRecVersion().longValue();
+		}
+		else{
+			tabv = cacheVersionDAO.queryById(key, null);// redisCache.get(getRecVersionKey(tabNameSuffix));
+			if(tabv!=null){
+				CacheVersionStack.setTabv(key, tabv);
+			}
+		}
+		String vStr = tabv == null ? "0" : tabv.getRecVersion().toString();
 		if (vStr == null) {
 			if (logger.isDebugEnabled()) {
 				logger.debug(
@@ -329,6 +356,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 			}
 			return 0l;
 		}
+		
 		Long version = Long.valueOf(vStr);
 
 		if (logger.isDebugEnabled()) {
@@ -592,12 +620,14 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 				+ CACHE_FLG, false);// 缓存总开关
 		return returnboolean; // 缓存开关
 	}
+
 	/**
 	 * 当前请求是否启用cache
+	 * 
 	 * @return
 	 */
-	public boolean enable(){
-		return CacheSwitcher.get()&&!SqlmapUtils.hasTransaction();
+	public boolean enable() {
+		return CacheSwitcher.get() && !SqlmapUtils.hasTransaction();
 	}
 
 	/**

@@ -1,4 +1,4 @@
-package com.tower.service.util;
+package com.tower.service.cache;
 
 /**
  * 客户端调用服务时，服务端缓存否启用开关；

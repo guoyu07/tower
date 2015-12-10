@@ -2,6 +2,8 @@ package com.tower.service.dao;
 
 import java.util.Map;
 
+import com.tower.service.cache.ICacheable;
+
 /**
  * 主键为长整型操作接口
  * 

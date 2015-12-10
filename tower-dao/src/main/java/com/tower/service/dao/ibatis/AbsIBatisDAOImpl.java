@@ -16,10 +16,10 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import com.tower.service.annotation.JField;
+import com.tower.service.cache.IModel;
 import com.tower.service.cache.annotation.CacheOpParams;
 import com.tower.service.config.DynamicConfig;
 import com.tower.service.config.dict.ConfigComponent;
-import com.tower.service.dao.IModel;
 import com.tower.service.dao.MapPage;
 import com.tower.service.exception.DataAccessException;
 import com.tower.service.log.Logger;

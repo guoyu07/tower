@@ -1,15 +1,13 @@
 package com.tower.service.cache.dao;
 
-import com.tower.service.cache.dao.model.CacheVersion;
+import com.tower.service.cache.CacheVersion;
+import com.tower.service.cache.ICacheVersion;
 import com.tower.service.dao.IDAO;
 import com.tower.service.dao.IFKDAO;
 import com.tower.service.dao.ISDAO;
 
-public interface ICacheVersionDAO<T extends CacheVersion> extends ISDAO<T>, IFKDAO<T>, IDAO<T> {
 
-  public int incrObjVersion(String objName, String tabNameSuffix);
+public interface ICacheVersionDAO<T extends CacheVersion> extends ISDAO<T>, IFKDAO<T>, IDAO<T>,ICacheVersion<T> {
 
-  public int incrObjRecVersion(String objName, String tabNameSuffix);
-
-  public int incrObjTabVersion(String objName, String tabNameSuffix);
+  
 }

@@ -3,6 +3,8 @@ package com.tower.service.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.tower.service.cache.IModel;
+
 public interface IHelpperDAO<T> {
   
   void validate(T params);

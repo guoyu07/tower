@@ -2,9 +2,9 @@ package com.tower.service.dao.ibatis;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import com.tower.service.cache.IModel;
 import com.tower.service.dao.IBatchDAO;
 import com.tower.service.dao.IDAO;
-import com.tower.service.dao.IModel;
 
 /**
  * ibatis 操作接口

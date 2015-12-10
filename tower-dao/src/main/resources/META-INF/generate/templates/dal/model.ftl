@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.tower.service.annotation.JField;
-import com.tower.service.dao.IModel;
+import com.tower.service.cache.IModel;
 
 public class ${name} implements IModel{
 	

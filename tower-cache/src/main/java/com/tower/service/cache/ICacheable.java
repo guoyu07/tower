@@ -1,4 +1,4 @@
-package com.tower.service.dao;
+package com.tower.service.cache;
 
 import org.springframework.cache.CacheManager;
 
@@ -198,5 +198,4 @@ public interface ICacheable<T> {
    * 表级
    */
   public final int CallFrom_TB = 3;
-
 }

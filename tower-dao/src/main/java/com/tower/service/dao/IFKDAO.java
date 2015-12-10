@@ -3,6 +3,8 @@ package com.tower.service.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.tower.service.cache.ICacheable;
+
 /**
  * 以外健操作的数据访问层接口
  * 

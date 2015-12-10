@@ -10,12 +10,12 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import com.tower.service.cache.IModel;
 import com.tower.service.cache.mem.impl.DynamicMemCache;
 import com.tower.service.cache.redis.impl.DynamicRedisCache;
 import com.tower.service.config.DynamicConfig;
 import com.tower.service.config.dict.ConfigFileDict;
 import com.tower.service.dao.IHelpper;
-import com.tower.service.dao.IModel;
 import com.tower.service.exception.DataAccessException;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;

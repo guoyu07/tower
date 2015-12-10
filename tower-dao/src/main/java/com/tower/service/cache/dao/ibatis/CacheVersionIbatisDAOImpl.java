@@ -8,9 +8,9 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
+import com.tower.service.cache.CacheVersion;
 import com.tower.service.cache.dao.ICacheVersionDAO;
 import com.tower.service.cache.dao.ibatis.mapper.CacheVersionMapper;
-import com.tower.service.cache.dao.model.CacheVersion;
 import com.tower.service.dao.ibatis.AbsStrIDIBatisDAOImpl;
 import com.tower.service.dao.ibatis.IBatisDAOException;
 import com.tower.service.dao.ibatis.ISMapper;

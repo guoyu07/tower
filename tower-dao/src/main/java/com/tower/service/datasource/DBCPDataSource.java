@@ -13,7 +13,7 @@ public class DBCPDataSource extends BasicDataSource implements IDataSource {
 
 	@Override
 	public Logger getParentLogger() throws SQLFeatureNotSupportedException {
-		return datasource.getParentLogger();
+		return null;
 	}
 
 	public int getInitialSize() {

@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.tower.service.util.CacheSwitcher;
+import com.tower.service.cache.CacheSwitcher;
 import com.tower.service.util.RequestID;
 
 public class RequestInterceptor extends HandlerInterceptorAdapter {

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.tower.service.dao.IModel;
+import com.tower.service.cache.IModel;
 
 /**
  * ibatis 基础数据访问接口

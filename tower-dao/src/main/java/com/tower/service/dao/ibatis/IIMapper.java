@@ -1,6 +1,6 @@
 package com.tower.service.dao.ibatis;
 
-import com.tower.service.dao.IModel;
+import com.tower.service.cache.IModel;
 
 /**
  * 主键为整型的 ibatis 数据访问接口

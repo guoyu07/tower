@@ -15,6 +15,7 @@ import org.quartz.TriggerKey;
 import org.quartz.impl.triggers.CronTriggerImpl;
 
 import com.tower.service.TowerServiceContainer;
+import com.tower.service.cache.CacheSwitcher;
 import com.tower.service.config.IConfigChangeListener;
 import com.tower.service.job.IJob;
 import com.tower.service.job.IListener;
@@ -23,7 +24,6 @@ import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 import com.tower.service.reflection.MetaObject;
 import com.tower.service.reflection.factory.DefaultObjectFactory;
-import com.tower.service.util.CacheSwitcher;
 import com.tower.service.util.RequestID;
 
 public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigChangeListener{

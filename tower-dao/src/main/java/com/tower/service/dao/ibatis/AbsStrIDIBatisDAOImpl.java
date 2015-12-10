@@ -10,7 +10,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
-import com.tower.service.dao.IModel;
+import com.tower.service.cache.IModel;
 import com.tower.service.dao.ISBatchDAO;
 import com.tower.service.exception.DataAccessException;
 
