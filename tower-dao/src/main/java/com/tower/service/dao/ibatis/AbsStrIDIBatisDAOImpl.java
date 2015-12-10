@@ -97,14 +97,14 @@ public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends
 	public T queryById(String id, String tabNameSuffix) {
 		if (logger.isDebugEnabled()) {
 			logger.debug(
-					"queryById(Long id={}, String tabNameSuffix={}) - start", id, tabNameSuffix); //$NON-NLS-1$
+					"queryById(String id={}, String tabNameSuffix={}) - start", id, tabNameSuffix); //$NON-NLS-1$
 		}
 
 		T returnT = queryById(id, false, tabNameSuffix);
 
 		if (logger.isDebugEnabled()) {
 			logger.debug(
-					"queryById(Long id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, returnT); //$NON-NLS-1$
+					"queryById(String id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, returnT); //$NON-NLS-1$
 		}
 		return returnT;
 
@@ -115,7 +115,7 @@ public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends
 	public T queryById(String id, Boolean master, String tabNameSuffix) {
 		if (logger.isDebugEnabled()) {
 			logger.debug(
-					"queryById(Long id={}, Boolean master={}, String tabNameSuffix={}) - start", id, master, tabNameSuffix); //$NON-NLS-1$
+					"queryById(String id={}, Boolean master={}, String tabNameSuffix={}) - start", id, master, tabNameSuffix); //$NON-NLS-1$
 		}
 
 		validate(id);
@@ -133,7 +133,7 @@ public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends
 			if (objs == null || objs.isEmpty()) {
 				if (logger.isDebugEnabled()) {
 					logger.debug(
-							"queryById(Long id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, null); //$NON-NLS-1$
+							"queryById(String id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, null); //$NON-NLS-1$
 				}
 				return null;
 			}
@@ -141,11 +141,11 @@ public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends
 
 			if (logger.isDebugEnabled()) {
 				logger.debug(
-						"queryById(Long id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, returnT); //$NON-NLS-1$
+						"queryById(String id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, returnT); //$NON-NLS-1$
 			}
 			return returnT;
 		} catch (Exception t) {
-			logger.error("queryById(Long, Boolean, String)", t); //$NON-NLS-1$
+			logger.error("queryById(String, Boolean, String)", t); //$NON-NLS-1$
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
@@ -158,7 +158,7 @@ public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends
 	public Integer deleteById(String id, String tabNameSuffix) {
 		if (logger.isDebugEnabled()) {
 			logger.debug(
-					"deleteById(Long id={}, String tabNameSuffix={}) - start", id, tabNameSuffix); //$NON-NLS-1$
+					"deleteById(String id={}, String tabNameSuffix={}) - start", id, tabNameSuffix); //$NON-NLS-1$
 		}
 
 		validate(id);
@@ -178,11 +178,11 @@ public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends
 
 			if (logger.isDebugEnabled()) {
 				logger.debug(
-						"deleteById(Long id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, eft); //$NON-NLS-1$
+						"deleteById(String id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, eft); //$NON-NLS-1$
 			}
 			return eft;
 		} catch (Exception t) {
-			logger.error("deleteById(Long, String)", t); //$NON-NLS-1$
+			logger.error("deleteById(String, String)", t); //$NON-NLS-1$
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
@@ -196,7 +196,7 @@ public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends
 			String tabNameSuffix) {
 		if (logger.isDebugEnabled()) {
 			logger.debug(
-					"updateById(Long id={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - start", id, newValue, tabNameSuffix); //$NON-NLS-1$
+					"updateById(String id={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - start", id, newValue, tabNameSuffix); //$NON-NLS-1$
 		}
 
 		validate(id);
@@ -235,7 +235,7 @@ public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends
 
 	protected void validate(String id) {
 		if (logger.isDebugEnabled()) {
-			logger.debug("validate(Long id={}) - start", id); //$NON-NLS-1$
+			logger.debug("validate(String id={}) - start", id); //$NON-NLS-1$
 		}
 
 		if (id == null) {
@@ -246,7 +246,7 @@ public abstract class AbsStrIDIBatisDAOImpl<T extends IModel> extends
 		}
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("validate(Long id={}) - end", id); //$NON-NLS-1$
+			logger.debug("validate(String id={}) - end", id); //$NON-NLS-1$
 		}
 	}
 }

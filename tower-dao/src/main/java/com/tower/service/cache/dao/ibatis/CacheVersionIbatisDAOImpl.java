@@ -1,9 +1,15 @@
 package com.tower.service.cache.dao.ibatis;
 
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.poi.hssf.record.formula.functions.T;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
@@ -110,38 +116,56 @@ public class CacheVersionIbatisDAOImpl extends
 		}
 	}
 
-	@Cacheable(value = "defaultCache", key = CacheKeyPrefixExpress, unless = "#result == null")
+	@Cacheable(value = "defaultCache", key = CacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.pkCacheable() and #root.target.enable()")
 	@Override
 	public CacheVersion queryById(String id, String tabNameSuffix) {
 		return queryById(id, false, tabNameSuffix);
 	}
 
-	@Cacheable(value = "defaultCache", key = CacheKeyPrefixExpress + "", unless = "#result == null")
+	@Cacheable(value = "defaultCache", key = CacheKeyPrefixExpress  + "", unless = "#result == null", condition = "!#master and #root.target.pkCacheable() and #root.target.enable()")
 	@Override
 	public CacheVersion queryById(String id, Boolean master,
 			String tabNameSuffix) {
-		CacheVersion version = super.queryById(id, master, tabNameSuffix);
-		if (version == null) {
-			CacheVersion model = new CacheVersion();
-			model.setId(id);
-			model.setTowerTabName(this.get$TowerTabName(tabNameSuffix));
-			SqlSessionFactory sessionFactory = this.getMasterSessionFactory();
-			SqlSession session = SqlmapUtils.openSession(sessionFactory);
-			try {
-				CacheVersionMapper mapper = session.getMapper(getMapperClass());
-				mapper.insert(model);
-				return model;
-			} catch (Exception t) {
-				throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
-			} finally {
-				SqlmapUtils.release(session, sessionFactory);
+		validate(id);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+
+		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
+
+		SqlSessionFactory sessionFactory = master ? this
+				.getMasterSessionFactory() : getSlaveSessionFactory();
+	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
+	    CacheVersion returnT = null;
+		try {
+			CacheVersionMapper mapper = session.getMapper(getMapperClass());
+			List<CacheVersion> objs = mapper.queryByMap(params);
+			if (objs != null && !objs.isEmpty()) {
+				returnT = objs.get(0);
 			}
+			if (returnT == null) {
+				returnT = new CacheVersion();
+				returnT.setId(id);
+				returnT.setRecVersion(new BigInteger("0"));
+				returnT.setTabVersion(new BigInteger("0"));
+				returnT.setTowerTabName(this.get$TowerTabName(tabNameSuffix));
+				mapper.insert(returnT);
+			}
+			return returnT;
+		} catch (Exception t) {
+			logger.error("queryById(String, Boolean, String)", t); //$NON-NLS-1$
+
+			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
+		} finally {
+			SqlmapUtils.release(session,sessionFactory);
 		}
-		return version;
 	}
 
-	@CacheEvict(value = "defaultCache", key = CacheKeyPrefixExpress)
+	@CacheEvict(value = "defaultCache", key = CacheKeyPrefixExpress+ "", condition = "#root.target.pkCacheable()")
 	public int incrObjVersion(String id, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug(
+					"incrObjVersion(String id={},String tabNameSuffix={}) - start", id,tabNameSuffix); //$NON-NLS-1$
+		}
 		validate(id);
 		CacheVersion model = new CacheVersion();
 		model.setId(id);
@@ -151,7 +175,10 @@ public class CacheVersionIbatisDAOImpl extends
 		try {
 			CacheVersionMapper mapper = session.getMapper(getMapperClass());
 			Integer eft = mapper.incrVersion(model);
-
+			if (logger.isDebugEnabled()) {
+				logger.debug(
+						"incrObjVersion(String id={},String tabNameSuffix={}) - end - return value={}",id, tabNameSuffix, eft); //$NON-NLS-1$
+			}
 			return eft;
 		} catch (Exception t) {
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
@@ -160,8 +187,12 @@ public class CacheVersionIbatisDAOImpl extends
 		}
 	}
 
-	@CacheEvict(value = "defaultCache", key = CacheKeyPrefixExpress)
+	@CacheEvict(value = "defaultCache", key = CacheKeyPrefixExpress+ "", condition = "#root.target.pkCacheable()")
 	public int incrObjRecVersion(String id, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug(
+					"incrObjRecVersion(String id={},String tabNameSuffix={}) - start", id,tabNameSuffix); //$NON-NLS-1$
+		}
 		validate(id);
 
 		CacheVersion model = new CacheVersion();
@@ -173,7 +204,10 @@ public class CacheVersionIbatisDAOImpl extends
 		try {
 			CacheVersionMapper mapper = session.getMapper(getMapperClass());
 			Integer eft = mapper.incrRecVersion(model);
-
+			if (logger.isDebugEnabled()) {
+				logger.debug(
+						"incrObjRecVersion(String id={},String tabNameSuffix={}) - end - return value={}",id, tabNameSuffix, eft); //$NON-NLS-1$
+			}
 			return eft;
 		} catch (Exception t) {
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
@@ -182,8 +216,12 @@ public class CacheVersionIbatisDAOImpl extends
 		}
 	}
 
-	@CacheEvict(value = "defaultCache", key = CacheKeyPrefixExpress)
+	@CacheEvict(value = "defaultCache", key = CacheKeyPrefixExpress+ "", condition = "#root.target.pkCacheable()")
 	public int incrObjTabVersion(String id, String tabNameSuffix) {
+		if (logger.isDebugEnabled()) {
+			logger.debug(
+					"incrObjTabVersion(String id={},String tabNameSuffix={}) - start", id,tabNameSuffix); //$NON-NLS-1$
+		}
 		validate(id);
 
 		CacheVersion model = new CacheVersion();
@@ -195,7 +233,10 @@ public class CacheVersionIbatisDAOImpl extends
 		try {
 			CacheVersionMapper mapper = session.getMapper(getMapperClass());
 			Integer eft = mapper.incrTabVersion(model);
-
+			if (logger.isDebugEnabled()) {
+				logger.debug(
+						"incrObjTabVersion(String id={},String tabNameSuffix={}) - end - return value={}",id, tabNameSuffix, eft); //$NON-NLS-1$
+			}
 			return eft;
 		} catch (Exception t) {
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);

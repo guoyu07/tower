@@ -1071,9 +1071,6 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 	@Override
 	public String get$TowerTabName(String tabNameSuffix) {
-		if (logger.isDebugEnabled()) {
-			logger.debug("get$TowerTabName(String) - start"); //$NON-NLS-1$
-		}
 
 		suffixValidate(tabNameSuffix);
 		StringBuilder tableName = new StringBuilder(this.getTableName());
@@ -1082,9 +1079,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			tableName.append(tabNameSuffix.trim());
 		}
 		String returnString = tableName.toString();
-		if (logger.isDebugEnabled()) {
-			logger.debug("get$TowerTabName(String) - end"); //$NON-NLS-1$
-		}
+
 		return returnString;
 	}
 

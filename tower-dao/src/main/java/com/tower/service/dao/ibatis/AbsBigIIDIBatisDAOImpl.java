@@ -110,14 +110,14 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 	public T queryById(BigInteger id, String tabNameSuffix) {
 		if (logger.isDebugEnabled()) {
 			logger.debug(
-					"queryById(Long id={}, String tabNameSuffix={}) - start", id, tabNameSuffix); //$NON-NLS-1$
+					"queryById(BigInteger id={}, String tabNameSuffix={}) - start", id, tabNameSuffix); //$NON-NLS-1$
 		}
 
 		T returnT = queryById(id, false, tabNameSuffix);
 
 		if (logger.isDebugEnabled()) {
 			logger.debug(
-					"queryById(Long id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, returnT); //$NON-NLS-1$
+					"queryById(BigInteger id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, returnT); //$NON-NLS-1$
 		}
 		return returnT;
 
@@ -128,7 +128,7 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 	public T queryById(BigInteger id, Boolean master, String tabNameSuffix) {
 		if (logger.isDebugEnabled()) {
 			logger.debug(
-					"queryById(Long id={}, Boolean master={}, String tabNameSuffix={}) - start", id, master, tabNameSuffix); //$NON-NLS-1$
+					"queryById(BigInteger id={}, Boolean master={}, String tabNameSuffix={}) - start", id, master, tabNameSuffix); //$NON-NLS-1$
 		}
 
 		validate(id);
@@ -145,7 +145,7 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 			if (objs == null || objs.isEmpty()) {
 				if (logger.isDebugEnabled()) {
 					logger.debug(
-							"queryById(Long id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, null); //$NON-NLS-1$
+							"queryById(BigInteger id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, null); //$NON-NLS-1$
 				}
 				return null;
 			}
@@ -153,11 +153,11 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 
 			if (logger.isDebugEnabled()) {
 				logger.debug(
-						"queryById(Long id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, returnT); //$NON-NLS-1$
+						"queryById(BigInteger id={}, Boolean master={}, String tabNameSuffix={}) - end - return value={}", id, master, tabNameSuffix, returnT); //$NON-NLS-1$
 			}
 			return returnT;
 		} catch (Exception t) {
-			logger.error("queryById(Long, Boolean, String)", t); //$NON-NLS-1$
+			logger.error("queryById(BigInteger, Boolean, String)", t); //$NON-NLS-1$
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
@@ -170,7 +170,7 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 	public Integer deleteById(BigInteger id, String tabNameSuffix) {
 		if (logger.isDebugEnabled()) {
 			logger.debug(
-					"deleteById(Long id={}, String tabNameSuffix={}) - start", id, tabNameSuffix); //$NON-NLS-1$
+					"deleteById(BigInteger id={}, String tabNameSuffix={}) - start", id, tabNameSuffix); //$NON-NLS-1$
 		}
 
 		validate(id);
@@ -189,11 +189,11 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 
 			if (logger.isDebugEnabled()) {
 				logger.debug(
-						"deleteById(Long id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, eft); //$NON-NLS-1$
+						"deleteById(BigInteger id={}, String tabNameSuffix={}) - end - return value={}", id, tabNameSuffix, eft); //$NON-NLS-1$
 			}
 			return eft;
 		} catch (Exception t) {
-			logger.error("deleteById(Long, String)", t); //$NON-NLS-1$
+			logger.error("deleteById(BigInteger, String)", t); //$NON-NLS-1$
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
@@ -207,7 +207,7 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 			String tabNameSuffix) {
 		if (logger.isDebugEnabled()) {
 			logger.debug(
-					"updateById(Long id={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - start", id, newValue, tabNameSuffix); //$NON-NLS-1$
+					"updateById(BigInteger id={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - start", id, newValue, tabNameSuffix); //$NON-NLS-1$
 		}
 
 		validate(id);
@@ -231,11 +231,11 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 
 			if (logger.isDebugEnabled()) {
 				logger.debug(
-						"updateById(Long id={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - end - return value={}", id, newValue, tabNameSuffix, eft); //$NON-NLS-1$
+						"updateById(BigInteger id={}, Map<String,Object> newValue={}, String tabNameSuffix={}) - end - return value={}", id, newValue, tabNameSuffix, eft); //$NON-NLS-1$
 			}
 			return eft;
 		} catch (Exception t) {
-			logger.error("updateById(Long, Map<String,Object>, String)", t); //$NON-NLS-1$
+			logger.error("updateById(BigInteger, Map<String,Object>, String)", t); //$NON-NLS-1$
 
 			throw new DataAccessException(IBatisDAOException.MSG_2_0001, t);
 		} finally {
@@ -245,7 +245,7 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 
 	protected void validate(BigInteger id) {
 		if (logger.isDebugEnabled()) {
-			logger.debug("validate(Long id={}) - start", id); //$NON-NLS-1$
+			logger.debug("validate(BigInteger id={}) - start", id); //$NON-NLS-1$
 		}
 
 		if (id == null) {
@@ -253,7 +253,7 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 		}
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("validate(Long id={}) - end", id); //$NON-NLS-1$
+			logger.debug("validate(BigInteger id={}) - end", id); //$NON-NLS-1$
 		}
 	}
 
