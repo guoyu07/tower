@@ -231,12 +231,12 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 			}
 		}
 		String key = this.get$TowerTabName(tabNameSuffix);
-		CacheVersionStack.setTabInc(key);
-		CacheVersionStack.set(cacheVersionDAO);
 		try {
 
 			long eft = cacheVersionDAO.incrObjTabVersion(
 					this.get$TowerTabName(tabNameSuffix), null);
+
+			CacheVersionStack.getTabvs().remove(key);
 
 			if (logger.isDebugEnabled()) {
 				logger.debug(
@@ -265,13 +265,14 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 					"getTabVersion(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
 		}
 		String key = this.get$TowerTabName(tabNameSuffix);
+		
 		CacheVersion tabv = CacheVersionStack.getTabvs().get(key);
+		
 		if (tabv != null) {
 			return tabv.getTabVersion().longValue();
-		}
-		else{
+		} else {
 			tabv = cacheVersionDAO.queryById(key, null);// redisCache.get(getRecVersionKey(tabNameSuffix));
-			if(tabv!=null){
+			if (tabv != null) {
 				CacheVersionStack.setTabv(key, tabv);
 			}
 		}
@@ -282,8 +283,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 						"getTabVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, 0l); //$NON-NLS-1$
 			}
 			return 0l;
-		}
-		else{
+		} else {
 			CacheVersionStack.setTabv(key, tabv);
 		}
 		Long version = Long.valueOf(vStr);
@@ -305,11 +305,12 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 			return 0;
 		}
 		String key = this.get$TowerTabName(tabNameSuffix);
-		CacheVersionStack.setRecInc(key);
-		CacheVersionStack.set(cacheVersionDAO);
 		try {
 			long eft = cacheVersionDAO.incrObjRecVersion(
 					this.get$TowerTabName(tabNameSuffix), null);
+
+			CacheVersionStack.getTabvs().remove(key);
+
 			if (logger.isDebugEnabled()) {
 				logger.debug(
 						"incrRecVersion(String tabNameSuffix={}) - end - return value={}", tabNameSuffix, eft); //$NON-NLS-1$
@@ -317,8 +318,6 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 			return eft;
 		} catch (JedisDataException ex) {
 			logger.error("incrRecVersion(String)", ex); //$NON-NLS-1$
-
-			// redisCache.set(getRecVersionKey(tabNameSuffix), "0");
 
 			if (logger.isDebugEnabled()) {
 				logger.debug(
@@ -338,13 +337,14 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 					"getRecVersion(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
 		}
 		String key = this.get$TowerTabName(tabNameSuffix);
+		
 		CacheVersion tabv = CacheVersionStack.getTabvs().get(key);
+		
 		if (tabv != null) {
 			return tabv.getRecVersion().longValue();
-		}
-		else{
+		} else {
 			tabv = cacheVersionDAO.queryById(key, null);// redisCache.get(getRecVersionKey(tabNameSuffix));
-			if(tabv!=null){
+			if (tabv != null) {
 				CacheVersionStack.setTabv(key, tabv);
 			}
 		}
@@ -356,7 +356,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 			}
 			return 0l;
 		}
-		
+
 		Long version = Long.valueOf(vStr);
 
 		if (logger.isDebugEnabled()) {
@@ -627,7 +627,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 	 * @return
 	 */
 	public boolean enable() {
-		return CacheSwitcher.get() && !SqlmapUtils.hasTransaction();
+		return CacheSwitcher.get();
 	}
 
 	/**
