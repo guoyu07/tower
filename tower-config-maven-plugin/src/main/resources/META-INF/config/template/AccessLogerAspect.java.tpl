@@ -6,11 +6,11 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
-import com.tower.service.AccessLoger;
+import com.tower.service.AccessLogerHelpper;
 
 @Component
 @Aspect
-public class LogAspect {
+public class AccessLogerAspect {
 	
 	/** 
      * Pointcut 
@@ -30,6 +30,6 @@ public class LogAspect {
      */
     @Around(value = "aspectjMethod()")
     public Object processAround(ProceedingJoinPoint pjp) throws Throwable {
-      return AccessLoger.process(pjp);
+      return AccessLogerHelpper.process(pjp);
     }
 }
