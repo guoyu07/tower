@@ -10,7 +10,7 @@ import com.tower.service.AccessLogerHelpper;
 
 @Component
 @Aspect
-public class AccessLogerAspect {
+public class ServiceLogerAspect {
 	
 	/** 
      * Pointcut 
