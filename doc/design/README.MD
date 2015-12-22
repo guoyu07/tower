@@ -37,7 +37,7 @@
 + 采用敏捷思想指导开发
 
 #### 系统架构图
-![系统架构图](design/tower-系统架构.png)
+![系统架构图](tower-系统架构.png)
 
 ### 业务架构图
 略
@@ -48,9 +48,9 @@
 ### 技术架构
 
 #### 技术架构图
-![技术架构图](design/tower-技术架构图.png)
+![技术架构图](tower-技术架构图.png)
 #### 技术栈
-![技术栈图](design/tower-技术栈.png)
+![技术栈图](tower-技术栈.png)
 
 #### 以SOA思想架构系统
 
@@ -61,7 +61,7 @@
 
 #### soa服务框架包图
 
-![soa服务框架包图](design/tower-package.png)
+![soa服务框架包图](tower-package.png)
 
 ##### tower-framwork
 + 统一的java框架
