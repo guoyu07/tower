@@ -1,6 +1,5 @@
 ## 框架使用说明
 
-#### 安装git
 #### 搭建本地私服库（nexus）
 + 本地私服库域名：maven.corp.tower.com
 + 备注：个别java包可能需要在互联网上单独下载，公共的私服服务上可能没有；
@@ -225,7 +224,7 @@
 ##### deploy
 + mvn deploy
 
-##### git 安装
+#### 安装git
 
 ```
 开通域名:gitlab.corp.tower.com
