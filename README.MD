@@ -1,7 +1,7 @@
 ## 文档索引
 ### [框架使用向导](user_guide.md)
-### [术语摘要](term-summary.md)
-### [系统架构](doc/design/README.MD)
+### [术语摘要](doc/term-summary.md)
+### [系统架构](doc/README.MD)
 ### [部署规范](doc/规范相关文档/deploy.md)
 ### [编程规范](doc/规范相关文档/编程规范/README.md)
 ### [log4j使用向导](doc/规范相关文档/log4e/README.md)
