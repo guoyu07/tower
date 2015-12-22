@@ -376,7 +376,10 @@ public class UserDaoImpl3 extends SqlSessionDaoSupport implements UserDao {
    return (User) getSqlSession().selectOne("com.xxt.ibatis.dbcp.domain.User.getUser", user);     
 } 
   }  
+
 参考资料
+
+### [JTA原理文档](JTA.MD)
 
 http://loftor.com/archives/spring-mybatis-tomcat-jta.html
 
