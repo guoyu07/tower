@@ -1,5 +1,5 @@
 ## 文档索引
-### [框架使用向导](doc/user_guide.md)
+### [框架使用向导](doc/user_guide.MD)
 ### [术语摘要](doc/term-summary.md)
 ### [系统架构](doc/design/README.MD)
 ### [部署规范](doc/规范相关文档/deploy.md)
