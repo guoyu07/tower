@@ -104,7 +104,7 @@
 
 ![soa服务框架包图](doc/tower-package.png)
 
-##### tower-soa－framwork
+##### tower-framwork
 + 统一的java框架
 + j2ee、spring、mybaties、springmvc、freemarker、memchecache、redis、mysql等
 
