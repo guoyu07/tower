@@ -1,4 +1,4 @@
 coding-style
 ============
 
-安居客代码规范
+### [java代码规范](java/java-coding-style.md)

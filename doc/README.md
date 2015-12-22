@@ -1,161 +1,183 @@
-## 文档索引
-### [参考文档](reference/README.md)
-### [系统架构](arch_design/README.MD)
+## 架构
+### 宗旨
+#### 高可用性
++ 自动化运维
+	+ 自动化化部署
+		+ 统一部署机制
+		+ 系统自动化部署
+		
+	+ 监控平台
+		+ 系统基础设施监控
+		+ 业务系统监控
+		+ 业务数据监控
+		
+	+ 发布平台
+		+ 支持灰度发布
+		+ 支持版本快速回滚
+		
+	+ 自动测试
+		+ 自动化测试平台
+		+ 单元测试
+		
+#### 高扩展性
++ 系统架构简单清新
++ 易水平扩展
++ 业务功能能够增加方便
 
-## 业务系统
+#### 低风险、低成本
++ 提高服务的重用性
++ 提高开发效率
++ 利用成熟的开源技术
++ 启用虚拟化技术
 
-### [术语摘要](term-summary.md)
+#### 高质量、高效率
++ 重复的事情工具化
++ 复杂的事情简单化
++ 人工的事情系统化
++ 采用敏捷思想指导开发
 
-### [sp系统](sp/README.md)
-> 简介
-```内容``` sale portal 陈光
+#### 系统架构图
+![系统架构图](design/tower-系统架构.png)
 
-### [wms系统](wms/README.md)
-> 简介
-```内容``` 仓库管理系统 陈芝健
+### 业务架构图
+略
 
-### [手机api服务](mapi/README.md)
-> 简介
-```内容```手机业务服务
+### 系统用例图
+略
 
-### [oms系统](oms/README.md)
-> 简介
-```内容```外部订单对接接口
+### 技术架构
 
-### [amz系统](amz/README.md)
-> 简介
-```内容``` 亚马逊对接接口
+#### 技术架构图
+![技术架构图](design/tower-技术架构图.png)
+#### 技术栈
+![技术栈图](design/tower-技术栈.png)
 
-### [ecc系统](ecc/README.md)
-> 简介
-```内容```陈光
+#### 以SOA思想架构系统
 
-### [清分清算平台](http://192.168.1.111/_code_java/tsl/blob/master/README.md)
-> 简介
-```内容```This sorting liquidation system（清分清算平台）
+##### soa 平台
++ dubbo
 
+## 框架介绍
 
-### 相关系统
+#### soa服务框架包图
 
-### [5+2系统](52/README.md)
-> 简介
-```内容```林广
+![soa服务框架包图](design/tower-package.png)
 
-### [清关平台](liquid/README.md)
-> 简介
-```内容```
+##### tower-framwork
++ 统一的java框架
++ j2ee、spring、mybaties、springmvc、freemarker、memchecache、redis、mysql等
 
-### [商检系统](inspec/README.md)
-> 简介
-```内容```
+###### tower－util
++ 框架中的公共类，eg：工具类 
 
-### 辅助系统
+###### tower－concurrent
++ 框架中多线程处理模版类
++ 同步锁处理类
 
-### [soj系统](soj/README.md)
-> 简介
-```内容```
+###### tower－log
++ 日志处理相关类
++ 每条日志信息都会自动输出当前请求ID(当当前请求没有请求ID时，框架会自动产生，并且一直跟着到最后：追加到sql语句的备注部分)
 
-### [knowing](knowing/README.md)
-> 简介
-```内容```
+###### tower－config
++ 配置文件存储目录：
+	+ 配置目录有三级，安优先级列表如下，序号最小优先级最高
+		+ 1,应用配置，位置在应用用安装目录下的config目录
+		+ 2,框架默认配置目录,默认在/config，可以通过-Dconfig.file.dir=iiii进行设置调整
+		+ 3,classpath:META-INF/config/local/
+	+ 配置文件格式支持
+		+ xml
+		+ properties
+	+ 支持动态加载机制［上面1，2项配置支持动态加载］
+	+ 相关设计模式：代理设计模式
+	+ 相关配置文件：从框架级别进行解耦
+	+ 每个配置文件都支持全局级配置及应用级配置
+		+ 全局配置规则：不含有'.'符号／或者以'global.'开头
+		+ 应用配置规则：应用id（以job Id、serviceId等）开头，用'.'连接配置项；
+		+ 资源类型：支持多组机制
+			+ database.properties
+			+ cache-mem.properties
+			+ cache-redis.properties
+			+ mq.properties
+			+ dubbo.properties
+		+ 开关类型：按层管理
+			+ acc.xml（数据访问层）
+			+ service.xml（service层）
+			+ webapp.xml（webapp层）
+			+ rpc.xml（rpc层）
+			+ job.xml（job层）
+###### tower－mq
++ 负责消息中间件通信的模块
 
-## 业务服务
+###### tower－rpc
++ rpc通信模块（第三方通信）
+	+ http
+	+ rmi
+	+ hessian
 
-### 基础服务
+###### tower－cache
++ 缓存机制模块
+	+ mem cache
+	+ redis
+	+ 。。。no sql
 
-#### [用户服务](user/README.md)
-> 简介
-```内容``` 拱平
+###### tower－dao
++ 数据访问层框架模块
++ 关系型数据库访问层接口及默认实现机制（mybaties）
++ 数据访问层代码生成器目前支持mysql、sql server
 
-#### [商户服务](merchants/README.md)
-> 简介
-```内容``` 拱平
+###### tower－model
++ 业务模型对象模块
+	+ DTO 建议其子类实现toString()方法
+	+ BO 建议其子类实现toString()方法
 
-#### [许可服务](promise/README.md)
-> 简介
-```内容``` 拱平
+###### tower－service
++ service框架模块
++ service服务监控信息采集
 
+###### tower－job
++ job框架模块
++ job监控信息采集
++ 可以动态调整job调度策略
++ 可以通过status=pause的方式动态暂停job的执行（可以控制所有、一组及单独的某一个job）
 
-#### [平台用户](puser/README.md)
-> 简介
-```内容``` 拱平
+###### tower－web
++ web框架模块
++ web监控信息采集
++ 通过RequestInterceptor
+	+ 拦截并读取head参数［X-Request-ID］情况来获取或者产生请求id（X-Request-ID为空时自动产生）,当没有设置时系统会自动产生一个reqid,并且一直往后传，直到db上执行的sql语句；
+	+ 拦截并读取head参数［X-Cached］缓存开关参赛，决定是否启用缓存［默认情况下启用缓存］
 
-#### [权限服务](right/README.md)
-> 简介
-```内容``` 拱平
++ 插件
+	+ 项目框架生成插件（tower-config-maven-plugin）
+	+ 测试框架代码生成器插件(tower-test-maven-plugin)
+		+ 默认是关闭的,可以通过-Dsoafw.tester.gen=true的方式开启
+##### 相关工具
++ 服务项目框架生成器
+	+ 项目生成工具
+		+ tower-tools
+		+ ./gen_all.sh hello company 生成项目的所有模块
+		+ ./gen_job.sh hello company xxx 生成特定的job
+		+ ./gen_service.sh hello company 生成服务框架
+		+ ./gen_web.sh hello company 生成web框架
+	+ 数据访问层代码生成器
+		+ 支持mysql、sql server
+		+ 支持事务（单数据库的两阶段提交分布式事务）
+		+ import hello-dao as maven 项目
+		+ 在src/test/java中找到com.[company].service.hello.dao.DaoGen
+		+ 按照提示修改DaoGen.java内容
+		+ 运行DaoGen
+	+ 代码发布脚步工具 publish目录下
+		+ 生成版本号
+			+ sh publish.sh hello 
+		+ 发布代码到服务器
+			+ sh rsyc.sh hello yyyy-MM-dd_xxx targetIp userId
 
-#### [地址服务](address/README.md)
-> 简介
-```内容``` 拱平
++ exception管理工具
++ checkstyle
 
-#### [商品服务](product/README.md)
-> 简介
-```内容``` 拱平
+##### 相关标准
++ 编程规范
++ 测试规范
++ RESTful
++ dubbo
 
-#### [促销服务](promtion/README.md)
-> 简介
-```内容``` 拱平
-
-#### [仓库服务](wmss/README.md)
-> 简介
-```内容``` 拱平
-
-### [物流服务](logistics/README.md)
-> 简介
-```内容``` 拱平
-
-### [关务服务](smid/README.md)
-> 简介
-```内容``` 拱平
-
-### [购汇服务](fep/README.md)
-> 简介
-```内容```林广
-
-### [交易服务](trade/README.md)
-> 简介
-```内容```林广
-
-#### [敏感词服务](mss/README.md)
-> 简介
-```内容``` 林广
-
-#### [搜索服务](search/README.md)
-> 简介
-```内容``` 林广
-
-#### [图片服务](image/README.md)
-> 简介
-```内容``` 林广
-
-#### [订单服务](order/README.md)
-> 简介
-```内容```林广
-
-#### [ip2city服务](ip2city/README.md)
-> 简介
-```内容```拱平
-
-
-
-#### [秒杀系统](seckill/README.md)
-> 简介
-```内容```
-### 组合服务
-	订单服务
-	运单服务
-	售后服务
-	发票服务
-	gis服务
-	
-### 流程服务
-	购物车服务
-	拆分服务
-	取消订单服务
-	秒杀下单服务
-	通用下单服务
-	
-### 内外连接服务
-### [中间件系统](mom/README.md)
-> 简介
-```内容```小龙
