@@ -1,4 +1,4 @@
-package com.tower.service.domain.result;
+package com.tower.service.domain;
 
 
 import java.util.List;

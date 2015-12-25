@@ -2,7 +2,7 @@ package com.tower.service.domain.code;
 
 import java.util.List;
 
-import com.tower.service.domain.result.IResult;
+import com.tower.service.domain.IResult;
 
 public class CodeResponse implements IResult {
 

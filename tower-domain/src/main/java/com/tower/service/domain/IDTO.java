@@ -1,5 +1,6 @@
 package com.tower.service.domain;
 
-public class aa {
+
+public interface IDTO extends IVo{
 
 }

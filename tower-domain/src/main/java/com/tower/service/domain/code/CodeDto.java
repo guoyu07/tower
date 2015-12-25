@@ -1,6 +1,6 @@
 package com.tower.service.domain.code;
 
-import com.tower.service.domain.result.IResult;
+import com.tower.service.domain.IResult;
 
 public class CodeDto implements IResult {
 

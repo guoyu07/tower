@@ -2,7 +2,7 @@ package com.tower.service.domain.auth;
 
 import java.util.List;
 
-import com.tower.service.domain.result.IResult;
+import com.tower.service.domain.IResult;
 
 public class AuthResourcesDto implements IResult {
 

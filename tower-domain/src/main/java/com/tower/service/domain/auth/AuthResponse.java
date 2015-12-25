@@ -2,8 +2,8 @@ package com.tower.service.domain.auth;
 
 import java.util.List;
 
-import com.tower.service.domain.result.IResult;
-import com.tower.service.domain.result.Pager;
+import com.tower.service.domain.IResult;
+import com.tower.service.domain.Pager;
 
 public class AuthResponse<T extends IResult> implements IResult {
 

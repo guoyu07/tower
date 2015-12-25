@@ -10,7 +10,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.tower.service.domain.result.Pager;
+import com.tower.service.domain.Pager;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 

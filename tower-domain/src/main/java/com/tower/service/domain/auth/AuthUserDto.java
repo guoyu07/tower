@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.tower.service.domain.result.IResult;
+import com.tower.service.domain.IResult;
 
 public class AuthUserDto implements IResult {
 
