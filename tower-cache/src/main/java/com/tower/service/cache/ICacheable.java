@@ -11,19 +11,19 @@ import org.springframework.cache.CacheManager;
 public interface ICacheable<T> {
   
   /**
-   * 缓存开关通过java -Dquery.cacheable方式进行设置
+   * 缓存开关通过java -DX-Cached方式进行设置
    */
   public static String CACHE_FLG = "X-Cached";
   /**
-   * 主键缓存开关通过java -Dquery.cacheable.pk方式设置
+   * 主键缓存开关通过java -DX-Cached.pk方式设置
    */
   public static String PK_CACHE_FLG = CACHE_FLG+".pk";
   /**
-   * 外键缓存开关通过java -Dquery.cacheable.fk方式设置
+   * 外键缓存开关通过java -DX-Cached.fk方式设置
    */
   public static String FK_CACHE_FLG = CACHE_FLG+".fk";
   /**
-   * 表级缓存开关通过java -Dquery.cacheable.tb方式设置
+   * 表级缓存开关通过java -DX-Cached.tb方式设置
    */
   public static String TB_CACHE_FLG = CACHE_FLG+".tb";
   

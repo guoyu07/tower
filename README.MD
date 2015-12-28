@@ -16,7 +16,7 @@
 ### [例外（异常）插件－使用向导](tower-exception-gen-maven-plugin/README.MD)
 ### [job模块－使用向导](tower-job/README.MD)
 ### [log模块－使用向导](tower-log/README.MD)
-### [MQ模块－使用向导](tower-job/README.MD)
+### [MQ模块－使用向导](tower-mq/README.MD)
 ### [RPC模块－使用向导](tower-rpc/README.MD)
 ### [service接口模块－使用向导](tower-service/README.MD)
 ### [servie-impl模块－使用向导](tower-service-impl/README.MD)
