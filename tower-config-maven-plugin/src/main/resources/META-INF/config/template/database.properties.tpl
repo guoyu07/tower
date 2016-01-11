@@ -24,8 +24,8 @@ connStr=useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNu
 #cache
 cache_db.driver = ${jdbc.driver}
 cache_db.url = jdbc:mysql://db.corp.tower.com:3306/soafw_db?${connStr}
-cache_db.username = root
-cache_db.password = 123456
+cache_db.username = #{db.username}
+cache_db.password = #{db.password}
 cache_db.initialSize = ${initialSize}
 cache_db.maxActive = ${maxActive}
 cache_db.maxIdle = 5
@@ -45,8 +45,8 @@ cache_db.validationQuery = ${validationQuery}
 #cache_db_slave
 cache_db_slave.driver = ${jdbc.driver}
 cache_db_slave.url = jdbc:mysql://db.corp.tower.com:3306/soafw_db?${connStr}
-cache_db_slave.username = root
-cache_db_slave.password = 123456
+cache_db_slave.username = #{db.username}
+cache_db_slave.password = #{db.password}
 cache_db_slave.initialSize = ${initialSize}
 cache_db_slave.maxActive = ${maxActive}
 cache_db_slave.maxIdle = ${maxIdle}
@@ -66,8 +66,8 @@ cache_db_slave.validationQuery = ${validationQuery}
 #cache_db_map_query
 cache_db_map_query.driver = ${jdbc.driver}
 cache_db_map_query.url = jdbc:mysql://db.corp.tower.com:3306/soafw_db?${connStr}
-cache_db_map_query.username = root
-cache_db_map_query.password = 123456
+cache_db_map_query.username = #{db.username}
+cache_db_map_query.password = #{db.password}
 cache_db_map_query.initialSize = ${initialSize}
 cache_db_map_query.maxActive = ${maxActive}
 cache_db_map_query.maxIdle = ${maxIdle}
@@ -87,8 +87,8 @@ cache_db_map_query.validationQuery = ${validationQuery}
 ##{artifactId}_db
 #{artifactId}_db.driver = ${jdbc.driver}
 #{artifactId}_db.url = jdbc:mysql://db.corp.tower.com:3306/#{artifactId}_db?${connStr}
-#{artifactId}_db.username = root
-#{artifactId}_db.password = 123456
+#{artifactId}_db.username = #{db.username}
+#{artifactId}_db.password = #{db.password}
 #{artifactId}_db.initialSize = ${initialSize}
 #{artifactId}_db.maxActive = ${maxActive}
 #{artifactId}_db.maxIdle = 5
@@ -108,8 +108,8 @@ cache_db_map_query.validationQuery = ${validationQuery}
 ##{artifactId}_db_slave
 #{artifactId}_db_slave.driver = ${jdbc.driver}
 #{artifactId}_db_slave.url = jdbc:mysql://db.corp.tower.com:3306/#{artifactId}_db?${connStr}
-#{artifactId}_db_slave.username = root
-#{artifactId}_db_slave.password = 123456
+#{artifactId}_db_slave.username = #{db.username}
+#{artifactId}_db_slave.password = #{db.password}
 #{artifactId}_db_slave.initialSize = ${initialSize}
 #{artifactId}_db_slave.maxActive = ${maxActive}
 #{artifactId}_db_slave.maxIdle = ${maxIdle}
@@ -129,8 +129,8 @@ cache_db_map_query.validationQuery = ${validationQuery}
 ##{artifactId}_db_map_query
 #{artifactId}_db_map_query.driver = ${jdbc.driver}
 #{artifactId}_db_map_query.url = jdbc:mysql://db.corp.tower.com:3306/#{artifactId}_db?${connStr}
-#{artifactId}_db_map_query.username = root
-#{artifactId}_db_map_query.password = 123456
+#{artifactId}_db_map_query.username = #{db.username}
+#{artifactId}_db_map_query.password = #{db.password}
 #{artifactId}_db_map_query.initialSize = ${initialSize}
 #{artifactId}_db_map_query.maxActive = ${maxActive}
 #{artifactId}_db_map_query.maxIdle = ${maxIdle}

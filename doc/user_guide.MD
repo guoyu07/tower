@@ -3,9 +3,8 @@
 #### 搭建本地私服库（nexus）
 + 本地私服库域名：maven.corp.tower.com
 + 本地开发数据库域名：db.corp.tower.com
-	+ 修改SoafwConfigMojo.java内的用户名密码
-	+ 修改tower-exception-manager/src/main/resources/database.properties内的数据库用户名密码
-	+ 修改tower-config-maven-plugin/src/main/resources/META-INF/config/template/database.properties.tpl内的数据库用户名密码
+	+ 创建sofa_db数据库
+	+ 修改tower-config/src/main/resource/META-INF/tower.properties内的数据库配置信息
 + 备注：个别java包可能需要在互联网上单独下载，公共的私服服务上可能没有；
 + 配置maven配置文件settings.xml
 <p>详细配置信息</p>

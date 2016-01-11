@@ -34,6 +34,8 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.descriptor.PluginDescriptor;
 
+import com.tower.service.config.utils.TowerConfig;
+
 /**
  * Goal which touches a timestamp file.
  * 
@@ -56,7 +58,10 @@ public class SoafwConfigMojo extends AbstractMojo {
 	private String moduleSuffix = "";
 	private String company = "tower";
 	private PluginDescriptor desc = null;
-
+	private String dburl = TowerConfig.getConfig("db.url");
+	private String dbuser = TowerConfig.getConfig("db.user");
+	private String dbpwd = TowerConfig.getConfig("db.pwd");
+	
 	public void execute() throws MojoExecutionException {
 		groupId = System.getProperty("groupId");
 		artifactId = System.getProperty("artifactId");
@@ -105,9 +110,7 @@ public class SoafwConfigMojo extends AbstractMojo {
 		} catch (ClassNotFoundException e) {
 			this.getLog().error(e);
 		}
-		String dburl = "jdbc:mysql://db.corp.tower.com:3306/soafw_db";
-		String dbuser = "root";
-		String dbpwd = "123456";
+		;
 		try {
 			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 			System.out.println(">>dburl: " + dburl);
@@ -186,6 +189,8 @@ public class SoafwConfigMojo extends AbstractMojo {
 		tpl = format(tpl, "stopPort", stopPort);
 		tpl = format(tpl, "servicePort", servicePort);
 		tpl = format(tpl, "serviceId", serviceId);
+		tpl = format(tpl, "db.username", dbuser);
+		tpl = format(tpl, "db.password", dbpwd);
 		tpl = format(tpl, "tower.version", desc.getVersion());
 		return tpl;
 	}
