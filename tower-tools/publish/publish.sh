@@ -38,7 +38,7 @@ app_name="root"
 ################################
 
 ###########初始化版本序号####
-org_file=$1"_""seq.txt"
+tpl_file=$1"_""seq.txt"
 
 date_file=$1"_""date_version.txt"
 
@@ -49,10 +49,10 @@ echo $date_time  > $date_file
 
 fi
 
-if [ ! -f "$org_file" ]; then
+if [ ! -f "$tpl_file" ]; then
 
-touch $org_file
-echo 1 > $org_file
+touch $tpl_file
+echo 1 > $tpl_file
 
 fi
 
@@ -62,7 +62,7 @@ echo "发布前的最后日期:"$old_date
 
 if  [ "$date_time" != "$old_date"  ];then
 
-echo 1 > $org_file
+echo 1 > $tpl_file
 
 echo $date_time  > $date_file
 fi
@@ -101,7 +101,7 @@ web_target_path="$web_path"/"target"
 current_path="$app_release_path"/"$date_time""_""$seq_no"/"bin"
 
 ############增加脚本版本文件###########
-shell_bash_org_file="$shell_gen_base/$1_seq.txt"
+shell_bash_tpl_file="$shell_gen_base/$1_seq.txt"
 shell_bash_last_file="$shell_gen_base/$1_last_version.txt"
 shell_bash_backup_file="$shell_gen_base/$1_last_version_bak.txt"
 
@@ -124,7 +124,7 @@ echo "service_impl_path:"$service_impl_path
 
 ######################生成可执行脚本##########
 if [ -d "$app_source_path/$1-service-impl" ];then
-sed '1,$s/$prefix/'"$1"'/g'  startService_org.sh > startService.sh
+sed '1,$s/$prefix/'"$1"'/g'  startService_tpl.sh > startService.sh
 fi
 if [ -d "$app_source_path/$1-web" ];then
 
@@ -132,14 +132,14 @@ echo "输入的第二个参数:"$2
 
 if [  -n "$2" ];then
 echo "输入的端口号:"$2
-sed -e '1,$s/$2/'"$2"'/g' -e '1,$s/$prefix/'"$1"'/g'  startWeb_org.sh > startWeb.sh
+sed -e '1,$s/$2/'"$2"'/g' -e '1,$s/$prefix/'"$1"'/g'  startWeb_tpl.sh > startWeb.sh
 else
 str=`sed -n '/<jetty.port>/p' $webPort_xml_file`
 #echo "我是user-----str="$str
 delblankStr=$(echo $str)
 port=${delblankStr:12:4}
 echo "未输入端口号默认port:"$port
-sed -e  '1,$s/$2/'"$port"'/g' -e '1,$s/$prefix/'"$1"'/g'  startWeb_org.sh > startWeb.sh
+sed -e  '1,$s/$2/'"$port"'/g' -e '1,$s/$prefix/'"$1"'/g'  startWeb_tpl.sh > startWeb.sh
 fi
 fi
 
@@ -176,7 +176,7 @@ echo "start_shell:"$start_shell
 start_shell="start"$start_shell
 echo "start_shell=========="$start_shell
 rm -rf "$start_shell".sh
-sed -e '1,$s/$2/'"$1"'/g' -e '1,$s/$prefix/'"$var"'/g' startJob_org.sh > "$start_shell".sh
+sed -e '1,$s/$2/'"$1"'/g' -e '1,$s/$prefix/'"$var"'/g' startJob_tpl.sh > "$start_shell".sh
 chmod 755 "$start_shell".sh
 ###########创建路径
 if [ ! -d "$job_path$var" ]; then

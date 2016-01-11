@@ -45,7 +45,7 @@ Create Admin account
 
 Bitnami Gitlab Stack admin user creation
 
-Email Address [user@example.com]: 3501xxxxx@qq.com
+Email Address [user@example.com]: it.service@shforeigntrade.com
 
 Login [user]: master
 
@@ -79,11 +79,11 @@ This data is stored in the application configuration files and may be visible to
 others. For this reason, it is recommended that you do not use your personal
 account credentials.
 
-Username []: 3501xxxxx@qq.com
+Username []: it.service@shforeigntrade.com
 
-Password :
-Re-enter :
-SMTP Host []: smtp.qq.com
+Password :@123456!
+Re-enter :@123456!
+SMTP Host []: smtp.shforeigntrade.com
 
 SMTP Port []: 25
 
@@ -139,7 +139,7 @@ Press [Enter] to continue:
     :enable_starttls_auto => true
   }
   ........
-2） config/environments/production.rb
+2） config/initializers/smtp_settings.rb
 
 # cd /opt/gitlab-7.1.1-0/apps/gitlab/htdocs/config/initializers/
   # cp smtp_settings.rb.sample smtp_settings.rb
