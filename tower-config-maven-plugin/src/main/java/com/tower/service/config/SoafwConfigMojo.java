@@ -105,9 +105,9 @@ public class SoafwConfigMojo extends AbstractMojo {
 		} catch (ClassNotFoundException e) {
 			this.getLog().error(e);
 		}
-		String dburl = "jdbc:mysql://192.168.1.110:3306/soafw_db";
+		String dburl = "jdbc:mysql://db.corp.tower.com:3306/soafw_db";
 		String dbuser = "root";
-		String dbpwd = "Kjt@)!$";
+		String dbpwd = "123456";
 		try {
 			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 			System.out.println(">>dburl: " + dburl);

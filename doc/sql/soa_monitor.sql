@@ -4,7 +4,7 @@
  Source Server         : tsl-dev
  Source Server Type    : MySQL
  Source Server Version : 50622
- Source Host           : 192.168.1.110
+ Source Host           : db.corp.tower.com
  Source Database       : soafw_db
 
  Target Server Type    : MySQL
