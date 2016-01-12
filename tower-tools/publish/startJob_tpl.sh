@@ -1,6 +1,8 @@
 #!/bin/sh
 
-prefix="$1"
+app="$1"
+
+prefix=""
 
 app_home_dir="$(dirname $(pwd))"
 

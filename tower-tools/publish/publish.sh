@@ -108,12 +108,6 @@ current_path="$app_release_path"/"$date_time""_""$seq_no"/"bin"
 
 ############增加脚本版本文件###########
 
-mkdir -p $shell_gen_base
-
-shell_bash_tpl_file="$app_release_path/$1_$2_seq.txt"
-shell_bash_last_file="$app_release_path/$1_$2_last_version.txt"
-shell_bash_backup_file="$app_release_path/$1_$2_last_version_bak.txt"
-
 webPort_xml_file="$app_source_path/$1-web/pom.xml"
 
 pom_xml_file="$app_source_path/pom.xml"

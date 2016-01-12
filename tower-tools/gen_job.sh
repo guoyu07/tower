@@ -4,8 +4,8 @@ if [ -z $1 ];then
     echo "请重新输入项目名称"
     exit
 fi
-company=$2
-if [ -z $2 ];then
+company=$3
+if [ -z $3 ];then
     company="siling"
 fi
 
@@ -33,8 +33,8 @@ cd $projectid
 
 suffix=""
 
-if [ -n "$3" ]; then
-	suffix="-"$3
+if [ -n "$2" ]; then
+	suffix="-"$2
 fi
 
 if [ ! -d "$app_home_dir/$1/$1-util" ]; then

@@ -1,9 +1,9 @@
-#!/sh/bash
+#!/bin/bash
 
 # 参数的说明  1-项目名(oft) 2-分支名 3-版本号(2015-03-19_1) 4-需要同步的远程IP地址(192.168.1.111)
 
 if [ -z $5 ]; then
-     user="apps"
+     user="root"
 else
     user=$5
 fi
@@ -32,7 +32,7 @@ global_config_path="/config"
 
 ###########pro_config_path####
 
-pro_config_path="$user_home"/"apps"/"$1"/"config"
+pro_config_path="$user_home"/"apps"/"$1"/"$2"/"config"
 #############################
 
 

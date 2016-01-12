@@ -4,17 +4,17 @@
 
  echo "输入的参数:"$1" "$2" "$3" "$4
 
- org_file=$2"_"$3"_seq.txt"
+ org_file=$1/$2/$3/$2"_"$3"_seq.txt"
 
- version_file=$2"_"$3"_last_version.txt"
+ version_file=$1/$2/$3/$2"_"$3"_last_version.txt"
 
- version_file_old=$2"_"$3"_last_version_bak.txt"
+ version_file_old=$1/$2/$3/$2"_"$3"_last_version_bak.txt"
 
  ##########保存版本所属的日期
 
  current_date=`date +%Y-%m-%d`
 
- date_file=$1"_"$2"_date_version.txt"
+ date_file=$1/$2/$3/$1"_"$2"_date_version.txt"
 
 
  if [ $# != 4 ];then
