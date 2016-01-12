@@ -2,23 +2,31 @@
 
 ######## 参数1表示项目名称
 
-if [ "$1" != "tsl" ]&&[ "$1" != "order" ]&&[ "$1" != "merchant" ]&&[ "$1" != "code" ]&&[ "$1" != "user" ]&&[ "$1" != "purchs" ]&&[ "$1" != "oapi" ];then
+if [ "$1" != "oft" ]&&[ "$1" != "b2b" ]&&[ "$1" != "oapi" ];then
 
-echo "不是有效的项目名称tsl|order|merchant|code|user|purchs|oapi请重新输入"
+echo "不是有效的项目名称oft|b2b||oapi请重新输入"
 
 exit
 
 fi
 
-shell_gen_base="/root/shell_bash"
+if [ -z $2 ]; then
+    branch="master"
+else
+    branch=$2
+fi
 
 source_base="/root/code/projects/workspace"
 
-app_source_path="$source_base/$1"
+app_source_path="$source_base/$1_$branch"
 
 release_base="/root/apps"
 
-app_release_path="$release_base/$1"
+app_release_path="$release_base/$1/$branch"
+
+shell_gen_base="$app_release_path/temp"
+
+mkdir -p "$shell_gen_base"
 
 #seq_no="1"
 #next_seq_no="2"
@@ -38,9 +46,9 @@ app_name="root"
 ################################
 
 ###########初始化版本序号####
-tpl_file=$1"_""seq.txt"
+tpl_file=$app_release_path"/"$1"_"$2"_seq.txt"
 
-date_file=$1"_""date_version.txt"
+date_file=$app_release_path"/"$1"_"$2"_date_version.txt"
 
 if [ ! -f "$date_file" ]; then
 
@@ -55,7 +63,7 @@ touch $tpl_file
 echo 1 > $tpl_file
 
 fi
-
+##########读取最后版本#####
 while read old_date
 do
 echo "发布前的最后日期:"$old_date
@@ -68,13 +76,11 @@ echo $date_time  > $date_file
 fi
 done < $date_file
 
-
 while read seq_num
 do
 echo "LINE:"$seq_num
 seq_no=$seq_num
-done < $1_seq.txt
-
+done < $tpl_file
 
 echo "当前版本号:""$date_time""_"$seq_no
 
@@ -84,7 +90,7 @@ next_seq_no=$[ $seq_no + 1 ]
 
 echo "下一个序列号next_seq_no:"$next_seq_no
 
-sed -i 's'/$seq_no/$next_seq_no/'g' $1_seq.txt
+sed -i 's'/$seq_no/$next_seq_no/'g' $tpl_file
 
 global_pom_path="$app_release_path"/"$date_time""_"$seq_no
 
@@ -101,9 +107,12 @@ web_target_path="$web_path"/"target"
 current_path="$app_release_path"/"$date_time""_""$seq_no"/"bin"
 
 ############增加脚本版本文件###########
-shell_bash_tpl_file="$shell_gen_base/$1_seq.txt"
-shell_bash_last_file="$shell_gen_base/$1_last_version.txt"
-shell_bash_backup_file="$shell_gen_base/$1_last_version_bak.txt"
+
+mkdir -p $shell_gen_base
+
+shell_bash_tpl_file="$app_release_path/$1_$2_seq.txt"
+shell_bash_last_file="$app_release_path/$1_$2_last_version.txt"
+shell_bash_backup_file="$app_release_path/$1_$2_last_version_bak.txt"
 
 webPort_xml_file="$app_source_path/$1-web/pom.xml"
 
@@ -124,26 +133,29 @@ echo "service_impl_path:"$service_impl_path
 
 ######################生成可执行脚本##########
 if [ -d "$app_source_path/$1-service-impl" ];then
-sed '1,$s/$prefix/'"$1"'/g'  startService_tpl.sh > startService.sh
+sed '1,$s/$prefix/'"$1"'/g'  startService_tpl.sh > $shell_gen_base/startService.sh
+chmod 755 "$shell_gen_base/startService".sh
 fi
 if [ -d "$app_source_path/$1-web" ];then
 
-echo "输入的第二个参数:"$2
+echo "输入的第二个参数:"$3
 
-if [  -n "$2" ];then
-echo "输入的端口号:"$2
-sed -e '1,$s/$2/'"$2"'/g' -e '1,$s/$prefix/'"$1"'/g'  startWeb_tpl.sh > startWeb.sh
+if [  -n "$3" ];then
+echo "输入的端口号:"$3
+sed -e '1,$s/$3/'"$3"'/g' -e '1,$s/$prefix/'"$1"'/g'  startWeb_tpl.sh > $shell_gen_base/startWeb.sh
+chmod 755 "$shell_gen_base/startWeb".sh
 else
 str=`sed -n '/<jetty.port>/p' $webPort_xml_file`
 #echo "我是user-----str="$str
 delblankStr=$(echo $str)
 port=${delblankStr:12:4}
 echo "未输入端口号默认port:"$port
-sed -e  '1,$s/$2/'"$port"'/g' -e '1,$s/$prefix/'"$1"'/g'  startWeb_tpl.sh > startWeb.sh
+sed -e  '1,$s/$3/'"$port"'/g' -e '1,$s/$prefix/'"$1"'/g'  startWeb_tpl.sh > $shell_gen_base/startWeb.sh
+chmod 755 "$shell_gen_base/startWeb".sh
 fi
 fi
 
-sh switch.sh   $1 $current_version
+sh switch.sh $release_base $1 $branch $current_version
 
 ###########################动态生成job脚本
 declare -a array
@@ -176,8 +188,8 @@ echo "start_shell:"$start_shell
 start_shell="start"$start_shell
 echo "start_shell=========="$start_shell
 rm -rf "$start_shell".sh
-sed -e '1,$s/$2/'"$1"'/g' -e '1,$s/$prefix/'"$var"'/g' startJob_tpl.sh > "$start_shell".sh
-chmod 755 "$start_shell".sh
+sed -e '1,$s/$3/'"$1"'/g' -e '1,$s/$prefix/'"$var"'/g' startJob_tpl.sh > "$shell_gen_base/$start_shell".sh
+chmod 755 "$shell_gen_base/$start_shell".sh
 ###########创建路径
 if [ ! -d "$job_path$var" ]; then
 mkdir -p  "$job_path$var"
@@ -252,12 +264,9 @@ start_shell=${var:$strlen:200}
 start_shell="start"$start_shell
 
 cp -Rpf $app_source_path/$var/target/*.tar.gz  $job_path$var
-
 cp -Rpf $shell_gen_base/$start_shell.sh  $current_path
 
 done
-
-cp -Rpf $shell_gen_base/current  $app_release_path
 
 if [ -d "$app_source_path/$1-service-impl" ]; then
 mkdir -p "$service_impl_path"
@@ -280,4 +289,4 @@ fi
 
 echo "publish project execute over!!!"
 
-echo "当前版本号请记录:""$date_time""_"$seq_no
+echo "当前版本号请记录:"$1/$2/"$date_time""_"$seq_no
