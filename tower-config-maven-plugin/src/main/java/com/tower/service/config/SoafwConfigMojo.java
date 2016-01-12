@@ -112,10 +112,10 @@ public class SoafwConfigMojo extends AbstractMojo {
 		}
 		;
 		try {
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-			System.out.println(">>dburl: " + dburl);
-			System.out.println(">>dbuser: " + dbuser);
-			System.out.println(">>dbpwd: " + dbpwd);
+			this.getLog().info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+			this.getLog().info(">>dburl: " + dburl);
+			this.getLog().info(">>dbuser: " + dbuser);
+			this.getLog().info(">>dbpwd: " + dbpwd);
 			Connection connection = DriverManager.getConnection(dburl, dbuser,
 					dbpwd);
 			return connection;
