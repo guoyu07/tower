@@ -27,7 +27,9 @@ public class AccessLogerHelpper {
         }
         finally {        	
             time = System.currentTimeMillis() - time;
-            _logger.info("ip={} {}{}{}{} {} ms", ip,svcDef.get("className"),".",svcDef.get("methodName"),svcDef.get("detail"),time);
+            if(svcDef!=null){
+            	_logger.info("ip={} {}{}{}{} {} ms", ip,svcDef.get("className"),".",svcDef.get("methodName"),svcDef.get("detail"),time);
+            }
         }
     }
     private transient static Logger _logger = LoggerFactory.getLogger(AccessLogerHelpper.class);

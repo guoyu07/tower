@@ -14,6 +14,9 @@ public class AliasUtil {
     public static String KEYMAP_KEY = "@@@$$$$$@@@@";
 
     public static Map getAlias(String keys, ProceedingJoinPoint pjp, boolean both) {
+    	if(pjp.getTarget()==null){
+    		return null;
+    	}
         MethodSignature sign = (MethodSignature) pjp.getSignature();
         String methodName = sign.getName();
         String returnType = sign.getReturnType().getSimpleName();

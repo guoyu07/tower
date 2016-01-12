@@ -10,7 +10,7 @@ $prefix_service_pid=`ps x | grep $prefix-service-impl-1.0-SNAPSHOT.jar | grep -v
 
 echo "prefix_service_pid:"$$prefix_service_pid
 
- [ -n "$"$prefix"_service_pid" ] && kill $$prefix_service_pid
+ [ -n "$prefix"_service_pid" ] && kill $prefix_service_pid
 
 sleep 3
 
