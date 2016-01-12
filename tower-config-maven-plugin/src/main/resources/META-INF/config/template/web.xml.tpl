@@ -62,7 +62,7 @@
 
 	<context-param>
         <param-name>locatorFactorySelector</param-name>
-        <param-value>classpath:/META-INF/config/beanRefContext.xml</param-value>
+        <param-value>classpath:/META-INF/config/spring/beanRefContext.xml</param-value>
 	</context-param>
 	<context-param>
 	        <param-name>parentContextKey</param-name>
