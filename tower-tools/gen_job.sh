@@ -33,8 +33,8 @@ cd $projectid
 
 suffix=""
 
-if [ -n "$2" ]; then
-	suffix="-"$2
+if [ -n "$3" ]; then
+	suffix="-"$3
 fi
 
 if [ ! -d "$app_home_dir/$1/$1-util" ]; then

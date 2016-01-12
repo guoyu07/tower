@@ -1,14 +1,10 @@
 #!/bin/sh
 
-app="$1"
-
-prefix=""
+prefix="$1"
 
 app_home_dir="$(dirname $(pwd))"
 
 tar -zxvf ../$prefix/$prefix-1.0-SNAPSHOT-bin.tar.gz
-
-#cd ../$prefix/lib
 
 pid=`ps x | grep '$prefix-1.0-SNAPSHOT.jar' | grep -v grep | awk '{print $1}'`
 
