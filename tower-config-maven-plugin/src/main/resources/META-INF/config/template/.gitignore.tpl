@@ -17,4 +17,3 @@ build-bootstrap.jar
 *.ear
 .metadata
 gen-dal/
-/README.md
