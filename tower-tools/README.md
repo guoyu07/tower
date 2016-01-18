@@ -21,5 +21,5 @@
 + 安装发布脚本
 	+ mkdir -p /root/shell_bash
 	+ 拷贝 tower-tools/publish下的*.sh
-	+ [设置keychain](publish/README.MD)
+	+ [设置keychain](publish/README.md)
 	

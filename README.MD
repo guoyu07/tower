@@ -21,6 +21,6 @@
 ### [service接口模块－使用向导](tower-service/README.MD)
 ### [servie-impl模块－使用向导](tower-service-impl/README.MD)
 ### [测试框架代码生成器插件－使用向导](tower-test-maven-plgin/README.MD)
-### [框架代码生成器脚本－使用向导](tower-tools/README.MD)
+### [框架代码生成器脚本－使用向导](tower-tools/README.md)
 ### [框架工具类－使用向导](tower-util/README.MD)
 ### [框架web－使用向导](tower-util/README.MD)
