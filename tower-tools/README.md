@@ -13,6 +13,7 @@
 	+ 安装ssh key
 + 安装maven插件
 + 配置jenkins
+
 	+ 工作空间根目录:
 		+ 登录到部署机器
 		+ mkdir -p /root/code/projects/workspace
@@ -22,4 +23,13 @@
 	+ mkdir -p /root/shell_bash
 	+ 拷贝 tower-tools/publish下的*.sh
 	+ [设置keychain](publish/README.md)
+	
++ 发布代码
+	+ login 2 部署机器	
+	+ cd /root/shell_bash
+	+ publish.sh 项目名称 分支名
+	+ rsyc.sh 项目名称 分支名 版本号 远程IP地址 用户名
+	+ current/start_job.sh
+	+ current/startService.sh
+	+ current/startWeb.sh
 	
