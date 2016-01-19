@@ -5,7 +5,7 @@
 ### [开发规范](doc/规范相关文档/README.md)
 ### [部署规范](doc/规范相关文档/deploy.md)
 ### [log4j使用向导](doc/规范相关文档/log4e/README.md)
-### [git安装向导](doc/规范相关文档/gitlab-install.md)
+### [gitlab server安装向导](doc/规范相关文档/gitlab-install.md)
 ### [git使用向导](doc/规范相关文档/git_user_manual.md)
 ### [缓存模块－使用向导](tower-cache/README.MD)
 ### [多线程模块－使用向导](tower-concurrent/README.MD)
