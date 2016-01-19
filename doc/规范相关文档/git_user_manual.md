@@ -47,11 +47,11 @@ sudo -u git -H bundle exec rake gitlab:check RAILS_ENV=production
 
 #### 生成key
 
->````ssh-keygen -t dsa -C "zhu.gongping@kjt.com"````
+>````ssh-keygen -t dsa -C "zhu.gongping@xxx.com"````
 
 >````cat ~/.ssh/id_rsa.pub```` 
 
->````拷贝cat输出结果粘贴至至gitlab.corp.kjt.com```` 
+>````拷贝cat输出结果粘贴至至gitlab.corp.tower.com```` 
 
 + 登录
 + 点击 Profile Setting->SSH Key->Add SSH Key
@@ -61,10 +61,10 @@ sudo -u git -H bundle exec rake gitlab:check RAILS_ENV=production
 #### 配置gitlab
 >````git config --global user.name "zhu.gongping" #配置本地git账户的姓名````
 
->````git config --global user.email "zhu.gongping@kjt.com" #配置本地git账户的邮件````
+>````git config --global user.email "zhu.gongping@xxx.com" #配置本地git账户的邮件````
 
 ### 初始仓库
->````git clone git@gitlab.corp.kjt.com:site/kjt-xxx kjt-xxx #克隆远程库的代码到本地的anjuke_broker目录````
+>````git clone git@gitlab.corp.tower.com:site/yyy yyy #克隆远程库的代码到本地的yyy目录````
 
 ### 创建分支
 
