@@ -17,6 +17,9 @@ Git是一个开源的分布式版本控制系统，用以有效、高速的处�
 + 首先安装TortoiseGit，接着安装msysGit，安装过程中的一些选项都可以默认！
 + go tortoisegit安装目录/bin,找到puttygen.exe,运行puttygen.exe,生成公钥并且拷贝将其设置到gitlab服务的profile，同时导出并且保存私钥private.ppk;
 + 设置tortoisegit
+        + url: git@192.168.1.102:_code_doc/oft_doc.git 
+        + 用户名密码
+        + 设置私钥：即private.ppk文件
 
 #### git unix安装
 
