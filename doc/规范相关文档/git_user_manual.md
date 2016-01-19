@@ -9,6 +9,17 @@
 Git是一个开源的分布式版本控制系统，用以有效、高速的处理从很小到非常大的项目版本管理。
 
 ### Git的安装
+#### git windows安装
++ 下载tortoisegit
++ go http://download.tortoisegit.org/tgit/
++ 下载msysgit
++ go http://git-for-windows.github.io
++ 首先安装TortoiseGit，接着安装msysGit，安装过程中的一些选项都可以默认！
++ go tortoisegit安装目录/bin,找到puttygen.exe,运行puttygen.exe,生成公钥并且拷贝将其设置到gitlab服务的profile，同时导出并且保存私钥private.ppk;
++ 设置tortoisegit
+
+#### git unix安装
+
 ````sudo apt-get install git-core #linux````
 > 迁移
 ``` 假设原来的GitLab 位于A服务器，现在在B服务上已经装好了Gitlab。
