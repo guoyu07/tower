@@ -15,8 +15,6 @@
     http://code.alibabatech.com/schema/dubbo/dubbo.xsd"
 	default-autowire="byName">
 	
-	<context:component-scan base-package="com.tower.service.impl" />
-	
 	<context:component-scan base-package="com.#{company}.service.#{artifactId}.impl" />
 	
 	<!-- 激活组件扫描功能,在包com.oimboi.service.s2s.aop及其子包下面自动扫描通过注解配置的组件 -->
