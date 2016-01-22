@@ -17,7 +17,7 @@ public class XCacheAspect {
      * 定义Pointcut，Pointcut的名称为aspectjMethod()，此方法没有返回值和参数 
      * 该方法就是一个标识，不进行调用 
      */  
-    @Pointcut("execution(* com.#{company}.service.#{artifactId}.impl.*.*(..))")
+    @Pointcut("execution(* com.#{company}.service.#{artifactId}.impl..*(..))")
     private void aspectjMethod(){};
     
     /**
