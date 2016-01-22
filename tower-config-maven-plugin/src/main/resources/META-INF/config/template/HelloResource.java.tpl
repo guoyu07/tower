@@ -6,7 +6,7 @@ import com.tower.service.web.impl.AbsResource;
 public class HelloResource extends AbsResource implements IResource{
 	
 	public void hello(){
-		
+		System.out.println("hello");
 	}
 }
 

@@ -14,6 +14,12 @@
     http://www.springframework.org/schema/util/spring-util-4.0.xsd"
 	default-autowire="byName">
 	
+	<!-- 激活组件扫描功能,在包com.oimboi.service.s2s.aop及其子包下面自动扫描通过注解配置的组件 -->
+	<context:component-scan base-package="com.#{company}.service.#{artifactId}.aop" />
+	<!-- 激活自动代理功能 -->
+	<!-- 启用@AspectJ 支持 -->
+	<aop:aspectj-autoproxy />
+	
 	<!-- 把标记了@Controller注解的类转换为bean -->
 	<context:component-scan
         base-package="com.#{company}.service.#{artifactId}.resource"
