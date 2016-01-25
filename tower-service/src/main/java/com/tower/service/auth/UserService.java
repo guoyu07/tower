@@ -7,15 +7,15 @@ import com.tower.service.domain.auth.AuthResponse;
 import com.tower.service.domain.auth.AuthUserDto;
 
 public interface UserService<T extends AuthUserDto> {
-	public AuthResponse selectList(Map<String, Object> params);
+	public AuthResponse<T> selectList(Map<String, Object> params);
 
-	public AuthResponse insert(Map<String, Object> params);
+	public AuthResponse<T> insert(Map<String, Object> params);
 
-	public AuthResponse updateById(Map<String, Object> params);
+	public AuthResponse<T> updateById(Map<String, Object> params);
 
-	public AuthResponse deleteById(BigInteger id);
+	public AuthResponse<T> deleteById(BigInteger id);
 
-	public AuthResponse selectList(Map<String, Object> params, int offset,
+	public AuthResponse<T> selectList(Map<String, Object> params, int offset,
 			int pageSize);
 
 	public boolean isUserNameExist(String userName);

@@ -10,11 +10,11 @@ public interface RoleService<T extends AuthRoleDto> {
     
     public AuthResponse<T> selectList(Map<String, Object> params);
 
-    public AuthResponse insert(Map<String, Object> params);
+    public AuthResponse<T> insert(Map<String, Object> params);
     
-    public AuthResponse updateById(Map<String, Object> params);
+    public AuthResponse<T> updateById(Map<String, Object> params);
     
-    public AuthResponse deleteById(BigInteger id) ;
+    public AuthResponse<T> deleteById(BigInteger id) ;
     
     public AuthResponse<T> selectList(Map<String, Object> params, int offset,
         int pageSize);
@@ -23,7 +23,7 @@ public interface RoleService<T extends AuthRoleDto> {
     
     public AuthResponse<T> selectById(BigInteger id);
     
-    public AuthResponse addUserRole(BigInteger userId, BigInteger roleId);
+    public AuthResponse<T> addUserRole(BigInteger userId, BigInteger roleId);
     
-    public AuthResponse delUserRole(BigInteger userId, BigInteger roleId);
+    public AuthResponse<T> delUserRole(BigInteger userId, BigInteger roleId);
 }
