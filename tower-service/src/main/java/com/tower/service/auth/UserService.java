@@ -6,7 +6,7 @@ import java.util.Map;
 import com.tower.service.domain.auth.AuthResponse;
 import com.tower.service.domain.auth.AuthUserDto;
 
-public interface UserService {
+public interface UserService<T extends AuthUserDto> {
 	public AuthResponse selectList(Map<String, Object> params);
 
 	public AuthResponse insert(Map<String, Object> params);
@@ -20,11 +20,11 @@ public interface UserService {
 
 	public boolean isUserNameExist(String userName);
 
-	public AuthResponse<AuthUserDto> selectById(BigInteger id);
+	public AuthResponse<T> selectById(BigInteger id);
 
 	public boolean isAllowDelele(BigInteger id);
 
-	public AuthUserDto selectByTicket(String ticketValidateUrl, String ticket);
+	public T selectByTicket(String ticketValidateUrl, String ticket);
 
 	public String selectFullNameByUserName(String userName);
 

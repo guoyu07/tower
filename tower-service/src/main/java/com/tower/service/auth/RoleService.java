@@ -6,9 +6,9 @@ import java.util.Map;
 import com.tower.service.domain.auth.AuthResponse;
 import com.tower.service.domain.auth.AuthRoleDto;
 
-public interface RoleService {
+public interface RoleService<T extends AuthRoleDto> {
     
-    public AuthResponse<AuthRoleDto> selectList(Map<String, Object> params);
+    public AuthResponse<T> selectList(Map<String, Object> params);
 
     public AuthResponse insert(Map<String, Object> params);
     
@@ -16,12 +16,12 @@ public interface RoleService {
     
     public AuthResponse deleteById(BigInteger id) ;
     
-    public AuthResponse<AuthRoleDto> selectList(Map<String, Object> params, int offset,
+    public AuthResponse<T> selectList(Map<String, Object> params, int offset,
         int pageSize);
     
-    public AuthResponse<AuthRoleDto> selectByUserId(BigInteger userId);
+    public AuthResponse<T> selectByUserId(BigInteger userId);
     
-    public AuthResponse<AuthRoleDto> selectById(BigInteger id);
+    public AuthResponse<T> selectById(BigInteger id);
     
     public AuthResponse addUserRole(BigInteger userId, BigInteger roleId);
     
