@@ -69,7 +69,3 @@ cd ../tower/tower-config-maven-plugin
 
 ##config
 mvn -B tower-config:config -DartifactId=$projectid -DdestDir=../../projects -Dmodel=AllIn -DgenModule=web -DmoduleSuffix=$3 -Dcompany=$company -X
-
-cd ../../soafw/tools/
-
-sh ./sed-pom.sh $1
