@@ -21,7 +21,7 @@ import com.tower.service.log.LoggerFactory;
 import com.tower.service.reflection.MetaObject;
 import com.tower.service.reflection.factory.DefaultObjectFactory;
 import com.tower.service.util.NetUtils;
-import com.tower.service.util.RequestID;
+import com.tower.service.util.Request;
 import com.tower.service.util.SPUtil;
 
 @Intercepts({ @Signature(method = "prepare", type = StatementHandler.class, args = { Connection.class }) })
@@ -87,7 +87,7 @@ public class StatementHandlerPlugin implements Interceptor {
 			sql = p.matcher(sql).replaceAll("$1");//\/*...*\/的多行注释，和以 -- 开始的单行注释 防止sql注入
 			StringBuilder sb = new StringBuilder(sql);
 			sb.append(" /*from_api:");
-			sb.append(RequestID.get());
+			sb.append(Request.getId());
 			sb.append(pid);
 			sb.append(" ");
 			sb.append(SPUtil.getSpid());

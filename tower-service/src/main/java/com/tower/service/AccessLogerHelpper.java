@@ -7,10 +7,18 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import com.alibaba.dubbo.rpc.RpcContext;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
+import com.tower.service.util.Request;
 public class AccessLogerHelpper {
-
-    public static Object process(ProceedingJoinPoint pjp) throws Throwable{
-        String ip = RpcContext.getContext().getRemoteAddressString();
+	public static final int WEB = 1;
+	public static final int SERVICE = 2;
+    public static Object process(int from,ProceedingJoinPoint pjp) throws Throwable{
+    	String ip = null;
+    	if(from==WEB){
+    		ip = Request.getRIP();
+    	}
+    	else if(from==SERVICE){
+    		ip = RpcContext.getContext().getRemoteAddressString();
+    	}
         if(ip!=null){
             ip = ip+" ";
         }

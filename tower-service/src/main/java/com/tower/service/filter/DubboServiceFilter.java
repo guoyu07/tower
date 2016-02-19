@@ -12,7 +12,7 @@ import com.alibaba.dubbo.rpc.RpcException;
 import com.tower.service.cache.CacheSwitcher;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
-import com.tower.service.util.RequestID;
+import com.tower.service.util.Request;
 
 @Activate(group = { Constants.PROVIDER, Constants.CONSUMER })
 public class DubboServiceFilter implements Filter {
@@ -36,11 +36,11 @@ public class DubboServiceFilter implements Filter {
 		String interfaceStr = url.getParameter("interface");
 		if (provider) {
 			String reqId = invocation.getAttachment(reqidKey);
-			RequestID.set(reqId);
+			Request.setId(reqId);
 			boolean cached = Boolean.valueOf(invocation.getAttachment(cachedKey,"true"));
 			CacheSwitcher.set(cached);
 		} else {
-			String reqId = RequestID.get();
+			String reqId = Request.getId();
 			invocation.getAttachments().put(reqidKey, reqId);
 			Boolean cached = CacheSwitcher.get();
 			invocation.getAttachments().put(cachedKey, cached==null?null:String.valueOf(cached));

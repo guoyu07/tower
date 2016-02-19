@@ -12,7 +12,7 @@ import com.tower.service.config.DynamicZookeeper;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 import com.tower.service.util.DateUtil;
-import com.tower.service.util.RequestID;
+import com.tower.service.util.Request;
 
 /**
  * 并发处理协调器
@@ -28,7 +28,7 @@ public abstract class SynLockerExecutor {
 
     private static DynamicZookeeper loader = new DynamicZookeeper();
 
-    private String reqId = RequestID.get();
+    private String reqId = Request.getId();
 
     private InterProcessMutex lock = null;
 
@@ -55,7 +55,7 @@ public abstract class SynLockerExecutor {
      */
     public SynLockerExecutor(Class cls, String method, Object element, Integer lockTime,
             boolean tryUntilSuccessed) {
-        RequestID.set(reqId);
+        Request.setId(reqId);
         this.tryUntilSuccessed = tryUntilSuccessed;
         StringBuffer holder = new StringBuffer();
         holder.append(cls.getName());
@@ -255,17 +255,17 @@ public abstract class SynLockerExecutor {
             public void run() {
                 int idx = 0;
                 while (true) {
-                    RequestID.set(Thread.currentThread().getName() + "@" + (++idx));
+                    Request.setId(Thread.currentThread().getName() + "@" + (++idx));
                     try {
                         new SynLockerExecutor(SynLockerExecutor.class, "test0", 1, true) {
                             @Override
                             public void execute() {
                                 try {
-                                    System.err.println(RequestID.get() + " before " + "@"
+                                    System.err.println(Request.getId() + " before " + "@"
                                             + System.currentTimeMillis());
                                     long t = Double.valueOf(Math.random() * 100).longValue();
                                     Thread.currentThread().sleep(t);
-                                    System.err.println(RequestID.get() + " exec used: " + t
+                                    System.err.println(Request.getId() + " exec used: " + t
                                             + " after " + "@" + System.currentTimeMillis());
                                 } catch (InterruptedException e) {
                                     logger.error(e);
@@ -283,17 +283,17 @@ public abstract class SynLockerExecutor {
             public void run() {
                 int idx = 0;
                 while (true) {
-                    RequestID.set(Thread.currentThread().getName() + "@" + (++idx));
+                    Request.setId(Thread.currentThread().getName() + "@" + (++idx));
                     try {
                         new SynLockerExecutor(SynLockerExecutor.class, "test0", 1, true) {
                             @Override
                             public void execute() {
                                 try {
-                                    System.err.println(RequestID.get() + " before " + "@"
+                                    System.err.println(Request.getId() + " before " + "@"
                                             + System.currentTimeMillis());
                                     long t = Double.valueOf(Math.random() * 100).longValue();
                                     Thread.currentThread().sleep(t);
-                                    System.err.println(RequestID.get() + " exec used: " + t
+                                    System.err.println(Request.getId() + " exec used: " + t
                                             + " after " + "@" + System.currentTimeMillis());
                                 } catch (InterruptedException e) {
                                     logger.error(e);

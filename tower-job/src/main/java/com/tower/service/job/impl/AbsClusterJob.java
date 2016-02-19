@@ -14,7 +14,7 @@ import com.tower.service.job.JobExecuteException;
 import com.tower.service.log.LogUtils;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
-import com.tower.service.util.RequestID;
+import com.tower.service.util.Request;
 
 public abstract class AbsClusterJob<T> extends QuartzJobBean implements IJob<T> {
 	protected JobDataMap dataMap = null;
@@ -50,7 +50,7 @@ public abstract class AbsClusterJob<T> extends QuartzJobBean implements IJob<T> 
 		long tmpStart = start;
 		int total = 0;
 		try {
-			RequestID.set(null);
+			Request.setId(null);
 			before();
 			datas = execute();
 			if (logger.isInfoEnabled()) {

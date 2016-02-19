@@ -24,7 +24,7 @@ import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 import com.tower.service.reflection.MetaObject;
 import com.tower.service.reflection.factory.DefaultObjectFactory;
-import com.tower.service.util.RequestID;
+import com.tower.service.util.Request;
 
 public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigChangeListener{
     
@@ -147,7 +147,7 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
 	public final void start() {
         
 		CacheSwitcher.set(Boolean.valueOf(this.getString(this.getPrefix()+"X-Cached", System.getProperty("X-Cached","true"))));
-    	RequestID.set(null);
+    	Request.setId(null);
     	this.setNewStart(true);
     	
     	pausedCheck("starting");

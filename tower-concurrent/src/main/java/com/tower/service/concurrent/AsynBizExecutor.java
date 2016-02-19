@@ -5,7 +5,7 @@ package com.tower.service.concurrent;
 import com.tower.service.log.LogUtils;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
-import com.tower.service.util.RequestID;
+import com.tower.service.util.Request;
 
 /**
  * 高性能控制器
@@ -17,7 +17,7 @@ import com.tower.service.util.RequestID;
 public abstract class AsynBizExecutor implements Runnable {
 
     protected Logger logger = LoggerFactory.getLogger("trace");
-    private String reqId = (String) RequestID.get();
+    private String reqId = (String) Request.getId();
     private String biz = "";
 
     public AsynBizExecutor(String biz) {
@@ -32,7 +32,7 @@ public abstract class AsynBizExecutor implements Runnable {
     @Override
     public void run() {
         final long start = System.currentTimeMillis();
-        RequestID.set(this.getReqId());
+        Request.setId(this.getReqId());
         try {
             execute();
         } catch (Exception ex) {

@@ -30,6 +30,6 @@ public class ServiceLogerAspect {
      */
     @Around(value = "aspectjMethod()")
     public Object processAround(ProceedingJoinPoint pjp) throws Throwable {
-      return AccessLogerHelpper.process(pjp);
+      return AccessLogerHelpper.process(2,pjp);
     }
 }

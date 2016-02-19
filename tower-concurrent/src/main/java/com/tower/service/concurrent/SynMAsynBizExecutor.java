@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.tower.service.log.LogUtils;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
-import com.tower.service.util.RequestID;
+import com.tower.service.util.Request;
 /**
  * 分布式并发处理框架
  * @author alexzhu
@@ -16,7 +16,7 @@ public abstract class SynMAsynBizExecutor implements Runnable {
 
     protected static Logger _logger = LoggerFactory.getLogger("trace");
 
-    private String reqId = (String) RequestID.get();
+    private String reqId = (String) Request.getId();
     protected String bizMethod = null;
     private Integer index = 0;
     protected Map<Integer, Object> map = null;
@@ -57,7 +57,7 @@ public abstract class SynMAsynBizExecutor implements Runnable {
     @Override
     public void run() {
         final long start = System.currentTimeMillis();
-        RequestID.set(this.getReqId());
+        Request.setId(this.getReqId());
         try {
             execute();
         } catch (Exception ex) {

@@ -9,7 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.tower.service.cache.CacheSwitcher;
-import com.tower.service.util.RequestID;
+import com.tower.service.util.Request;
+import com.tower.service.web.util.J2eeHttpUtil;
 
 public class RequestInterceptor extends HandlerInterceptorAdapter {
 
@@ -17,11 +18,19 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+		
 		String rid = request.getHeader("X-Request-ID");
+		
 		String cached = request.getHeader("X-Cached");
+		
+		String ip = J2eeHttpUtil.getIpAddr(request);
+		Request.setRIP(ip);
+		
 		LOGGER.debug("rid: {}", rid);
-		RequestID.set(rid);
-		LOGGER.debug("{}", RequestID.get());
+		
+		Request.setId(rid);
+		
+		LOGGER.debug("{}", Request.getId());
 		if("true".equalsIgnoreCase(cached)||"false".equalsIgnoreCase(cached)){
 			CacheSwitcher.set(Boolean.valueOf(cached));
 		}
@@ -33,7 +42,7 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
-		RequestID.unset();
+		Request.unset();
 		CacheSwitcher.unset();
 	}
 }
