@@ -10,7 +10,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.tower.service.cache.CacheSwitcher;
 import com.tower.service.util.Request;
-import com.tower.service.web.util.J2eeHttpUtil;
+import com.tower.service.web.util.HttpRequestUtil;
 
 public class RequestInterceptor extends HandlerInterceptorAdapter {
 
@@ -23,7 +23,7 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
 		
 		String cached = request.getHeader("X-Cached");
 		
-		String ip = J2eeHttpUtil.getIpAddr(request);
+		String ip = HttpRequestUtil.getIpAddr(request);
 		Request.setRIP(ip);
 		
 		LOGGER.debug("rid: {}", rid);

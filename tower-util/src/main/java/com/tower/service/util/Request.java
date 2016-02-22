@@ -40,6 +40,7 @@ public class Request {
     }
     
     public static String getId() {
+    	init();
         String uuid = REQUESTS.get().get(XID);
         if(uuid==null||uuid.trim().length()==0){
             setId(null);
@@ -52,6 +53,7 @@ public class Request {
         REQUESTS.get().put(RIP, remoteIp);
     }
     public static String getRIP(){
+    	init();
     	return REQUESTS.get().get(RIP);
     }
     
@@ -60,6 +62,7 @@ public class Request {
         REQUESTS.get().put(XCACHED, remoteIp);
     }
     public static String getXCached(){
+    	init();
     	return REQUESTS.get().get(XCACHED);
     }
 }
