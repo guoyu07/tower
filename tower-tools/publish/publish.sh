@@ -283,4 +283,6 @@ fi
 
 echo "publish project execute over!!!"
 
+sh tag.sh $1 $2 "$date_time""_"$seq_no
+
 echo "当前版本号请记录:"$1/$2/"$date_time""_"$seq_no
