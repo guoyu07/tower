@@ -50,6 +50,14 @@
 					<groupId>io.netty</groupId>
 					<artifactId>netty</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpclient</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpcore</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		
