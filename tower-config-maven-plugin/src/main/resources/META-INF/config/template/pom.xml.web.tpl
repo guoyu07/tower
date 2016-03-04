@@ -100,7 +100,11 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson-databind.version}</version>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-data-redis</artifactId>
+			<version>1.0.2.RELEASE</version>
+		</dependency>
 		<!-- dubbo -->
 		<dependency>
 			<groupId>com.alibaba</groupId>

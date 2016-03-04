@@ -54,25 +54,28 @@ public class AliasUtil {
 			}
 		}
 		Map keyMap = new HashMap();
-		if (paramNames != null) {
-			for (int i = 0; i < classes.length; i++) {
-				String value = getAliasAccordingType(ans[i], classes[i],
-						args[i]);
-				if (paramNames[i].equalsIgnoreCase(name)) {
-					keyMap.put(paramNames[i], value);
-				}
-				if (i > 0) {
-					if (both)
-						simple.append(",");
-					detail.append(",");
-				}
-				if (both) {
-					simple.append(classes[i].getSimpleName());
-					simple.append(" ");
-					simple.append(paramNames[i]);
-				}
-				detail.append(paramNames[i] + "=" + value);
+		for (int i = 0; i < classes.length; i++) {
+			String value = getAliasAccordingType(ans[i], classes[i], args[i]);
+			String paramName = null;
+			if(paramNames==null){
+				paramName = "param"+i;
+				keyMap.put(paramName, value);
 			}
+			else{
+				paramName =paramNames[i];
+			}
+			keyMap.put(paramName, value);
+			if (i > 0) {
+				if (both)
+					simple.append(",");
+				detail.append(",");
+			}
+			if (both) {
+				simple.append(classes[i].getSimpleName());
+				simple.append(" ");
+				simple.append(paramName);
+			}
+			detail.append(paramName + "=" + value);
 		}
 
 		Map params = new HashMap();
