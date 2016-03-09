@@ -227,19 +227,8 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	public ServiceResponse<ListResult<${name}Dto>> queryByMap(Map<String, Object> params) {
 		ServiceResponse<ListResult<${name}Dto>> response = new ServiceResponse<ListResult<${name}Dto>>();
 		try {
-			List<${name}Dto> list = new ArrayList<${name}Dto>();
 			List<${name}> resultlist = i${name}DAO.queryByMap(params,null);
-			if(resultlist != null && resultlist.size()>0){
-				for(${name} result:resultlist){
-					try {
-						${name}Dto dto = new ${name}Dto();
-						BeanUtilsBean2.getInstance().copyProperties(dto, result);
-						list.add(dto);
-					} catch (Exception e) {
-					    logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),e);
-					}
-				}
-			}
+			List<${name}Dto> list = transfter(resultlist);
 			response.setResult(new ListResult<${name}Dto>(list));
 		} catch (Exception e) {
 			response.setCode(ServiceResponse.FAILURE);
@@ -260,19 +249,8 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	public ServiceResponse<ListResult<${name}Dto>> queryByMap(Map<String, Object> params, Boolean master) {
 		ServiceResponse<ListResult<${name}Dto>> response = new ServiceResponse<ListResult<${name}Dto>>();
 		try {
-			List<${name}Dto> list = new ArrayList<${name}Dto>();
 			List<${name}> resultlist = i${name}DAO.queryByMap(params,master,null);
-			if(resultlist != null && resultlist.size()>0){
-				for(${name} result:resultlist){
-					try {
-						${name}Dto dto = new ${name}Dto();
-						BeanUtilsBean2.getInstance().copyProperties(dto, result);
-						list.add(dto);
-					} catch (Exception e) {
-					    logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),e);
-					}
-				}
-			}
+			List<${name}Dto> list = transfter(resultlist);
 			response.setResult(new ListResult<${name}Dto>(list));
 		} catch (Exception e) {
 			response.setCode(ServiceResponse.FAILURE);
@@ -286,19 +264,8 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	public ServiceResponse<PageResult<${name}Dto>> pageByMap(Map<String, Object> params, int pageIndex, int pageSize) {
 		ServiceResponse<PageResult<${name}Dto>> response = new ServiceResponse<PageResult<${name}Dto>>();
 		try {
-			List<${name}Dto> list = new ArrayList<${name}Dto>();
 			List<${name}> resultlist = i${name}DAO.pageQuery(params,pageIndex,pageSize,null);
-			if(resultlist != null && resultlist.size()>0){
-				for(${name} result:resultlist){
-					try {
-						${name}Dto dto = new ${name}Dto();
-						BeanUtilsBean2.getInstance().copyProperties(dto, result);
-						list.add(dto);
-					} catch (Exception e) {
-					    logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),e);
-					}
-				}
-			}
+			List<${name}Dto> list = transfter(resultlist);
 			PageResult<${name}Dto> pager = new PageResult<${name}Dto>(pageIndex,pageSize,list);
 			response.setResult(pager);
 		} catch (Exception e) {
@@ -314,19 +281,8 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 			Boolean master) {
 		ServiceResponse<PageResult<${name}Dto>> response = new ServiceResponse<PageResult<${name}Dto>>();
 		try {
-			List<${name}Dto> list = new ArrayList<${name}Dto>();
 			List<${name}> resultlist = i${name}DAO.pageQuery(params,pageIndex,pageSize,master,null);
-			if(resultlist != null && resultlist.size()>0){
-				for(${name} result:resultlist){
-					try {
-						${name}Dto dto = new ${name}Dto();
-						BeanUtilsBean2.getInstance().copyProperties(dto, result);
-						list.add(dto);
-					} catch (Exception e) {
-					    logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),e);
-					}
-				}
-			}
+			List<${name}Dto> list = transfter(resultlist);
 			PageResult<${name}Dto> pager = new PageResult<${name}Dto>(pageIndex,pageSize,list);
 			response.setResult(pager);
 		} catch (Exception e) {
@@ -335,5 +291,21 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 		    logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),e);
 		}
 		return response;
+	}
+	
+	private List<${name}Dto> transfter(List<${name}> resultList) {
+		List<${name}Dto> list = new ArrayList<${name}Dto>();
+		if (resultList != null && resultList.size() > 0) {
+			for (${name} result : resultList) {
+				try {
+					${name}Dto dto = new ${name}Dto();
+					BeanUtilsBean2.getInstance().copyProperties(dto, result);
+					list.add(dto);
+				} catch (Exception e) {
+					logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),e);
+				}
+			}
+		}
+		return list;
 	}
 }

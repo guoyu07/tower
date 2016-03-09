@@ -27,6 +27,23 @@ public class PageResult<T> implements IResult{
 	public void setResult(List<T> result) {
 		this.result = result;
 	}
+	
+	private int total = 0; // 总记录数
+	public int getTotal() {
+		return total;
+	}
+	public void setTotal(int total) {
+		this.total = total;
+	}
+	public int getPageCount() {
+		return pageCount;
+	}
+	public void setPageCount(int pageCount) {
+		this.pageCount = pageCount;
+	}
+
+	private int pageCount = 0; // 总页数
+	
 	private int pageIndex;
 	private int pageSize;
 	private List<T> result;
