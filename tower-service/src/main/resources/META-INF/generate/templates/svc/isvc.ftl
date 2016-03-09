@@ -119,6 +119,20 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	/**
 	 * 
 	 * @param params 查询条件
+	 * @return
+	 */
+	public ServiceResponse<IntegerResult> count(Map<String, Object> params);
+	
+	/**
+	 * 
+	 * @param params 查询条件
+	 * @param master 是否从主库中查询
+	 * @return
+	 */
+	public ServiceResponse<IntegerResult> count(Map<String, Object> params, Boolean master);
+	/**
+	 * 
+	 * @param params 查询条件
 	 * @param pageIndex 分页位置
 	 * @param pageSize 分页大小
 	 * @return

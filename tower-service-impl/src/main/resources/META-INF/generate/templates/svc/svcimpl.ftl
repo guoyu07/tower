@@ -261,6 +261,37 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	}
 	
 	@Override
+	public ServiceResponse<IntegerResult> count(Map<String, Object> params) {
+		ServiceResponse<IntegerResult> response = new ServiceResponse<IntegerResult>();
+		try {
+			Integer cnt = i${name}DAO.countByMap(params,null);
+			IntegerResult result = new IntegerResult(cnt);
+			response.setResult(result);
+		} catch (Exception e) {
+			response.setCode(ServiceResponse.FAILURE);
+			response.setMsg(e.getMessage());
+		    logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),e);
+		}
+		return response;
+	}
+	
+	@Override
+	public ServiceResponse<IntegerResult> count(Map<String, Object> params,
+			Boolean master) {
+		ServiceResponse<IntegerResult> response = new ServiceResponse<IntegerResult>();
+		try {
+			Integer cnt = i${name}DAO.countByMap(params,master,null);
+			IntegerResult result = new IntegerResult(cnt);
+			response.setResult(result);
+		} catch (Exception e) {
+			response.setCode(ServiceResponse.FAILURE);
+			response.setMsg(e.getMessage());
+		    logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),e);
+		}
+		return response;
+	}
+	
+	@Override
 	public ServiceResponse<PageResult<${name}Dto>> pageByMap(Map<String, Object> params, int pageIndex, int pageSize) {
 		ServiceResponse<PageResult<${name}Dto>> response = new ServiceResponse<PageResult<${name}Dto>>();
 		try {
