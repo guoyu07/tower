@@ -1,4 +1,4 @@
-package com.tower.service.dao.generate.config;
+package com.tower.service.gen;
 
 import java.io.File;
 

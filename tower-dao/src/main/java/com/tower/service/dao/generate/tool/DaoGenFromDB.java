@@ -4,7 +4,7 @@ import javax.sql.DataSource;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.tower.service.dao.generate.config.TemplateFactoryBean;
+import com.tower.service.gen.TemplateFactoryBean;
 
 import freemarker.template.Configuration;
 

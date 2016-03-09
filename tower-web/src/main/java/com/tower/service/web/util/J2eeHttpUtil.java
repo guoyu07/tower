@@ -129,5 +129,9 @@ public class J2eeHttpUtil extends HttpUtil{
         }
         return map;
     }
+    
+    public void getSession(){
+    	
+    }
     private static final Logger logger = LoggerFactory.getLogger(J2eeHttpUtil.class);
 }

@@ -1,4 +1,4 @@
-package com.#{company}.service.#{artifactId}.dao;
+package com.#{company}.service.#{artifactId};
 
 import com.tower.service.dao.generate.tool.DaoGenFromDB;
 

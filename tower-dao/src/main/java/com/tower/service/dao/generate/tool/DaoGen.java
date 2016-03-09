@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.tower.service.gen.AbsGen;
+
 import freemarker.template.TemplateException;
 
 public abstract class DaoGen extends AbsGen {

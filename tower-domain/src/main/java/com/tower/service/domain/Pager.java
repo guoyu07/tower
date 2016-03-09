@@ -7,6 +7,7 @@ import java.util.List;
  * 用于分页的工具类
  * 
  * @author
+ * @deprecated replace by PageResult
  */
 public class Pager<T extends IResult> implements IResult {
 
