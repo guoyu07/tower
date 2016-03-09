@@ -1,16 +1,18 @@
 package ${package}.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.BeanUtilsBean2;
+import org.springframework.beans.BeanUtils;
 
+import ${package}.dao.model.${name};
 import ${package}.dto.${name}Dto;
 import ${package}.I${name}Service;
 import ${package}.dao.I${name}DAO;
-import ${package}.dao.model.${name};
 
 import com.tower.service.domain.IntegerResult;
 <#if pkType="Integer">	
@@ -169,8 +171,12 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	</#if>
 		ServiceResponse<${name}Dto> response = new ServiceResponse<${name}Dto>();
 		try {
-			${name}Dto result = i${name}DAO.queryById(id,null);
-			response.setResult(result);
+			${name} result = i${name}DAO.queryById(id,null);
+			if (result != null) {
+				${name}Dto dto = new ${name}Dto();
+				BeanUtils.copyProperties(result, dto);
+				response.setResult(dto);
+			}
 		} catch (Exception e) {
 			response.setCode(ServiceResponse.FAILURE);
 			response.setMsg(e.getMessage());
@@ -199,8 +205,12 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	</#if>
 		ServiceResponse<${name}Dto> response = new ServiceResponse<${name}Dto>();
 		try {
-			${name}Dto result = i${name}DAO.queryById(id,master,null);
-			response.setResult(result);
+			${name} result = i${name}DAO.queryById(id,master,null);
+			if (result != null) {
+				${name}Dto dto = new ${name}Dto();
+				BeanUtils.copyProperties(result, dto);
+				response.setResult(dto);
+			}
 		} catch (Exception e) {
 			response.setCode(ServiceResponse.FAILURE);
 			response.setMsg(e.getMessage());
@@ -217,8 +227,20 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	public ServiceResponse<ListResult<${name}Dto>> queryByMap(Map<String, Object> params) {
 		ServiceResponse<ListResult<${name}Dto>> response = new ServiceResponse<ListResult<${name}Dto>>();
 		try {
-			List<${name}Dto> result = i${name}DAO.queryByMap(params,null);
-			response.setResult(new ListResult<${name}Dto>(result));
+			List<${name}Dto> list = new ArrayList<${name}Dto>();
+			List<${name}> resultlist = i${name}DAO.queryByMap(params,null);
+			if(resultlist != null && resultlist.size()>0){
+				for(${name} result:resultlist){
+					try {
+						${name}Dto dto = new ${name}Dto();
+						BeanUtilsBean2.getInstance().copyProperties(dto, result);
+						list.add(dto);
+					} catch (Exception e) {
+					    logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),e);
+					}
+				}
+			}
+			response.setResult(new ListResult<${name}Dto>(list));
 		} catch (Exception e) {
 			response.setCode(ServiceResponse.FAILURE);
 			response.setMsg(e.getMessage());
@@ -238,8 +260,20 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	public ServiceResponse<ListResult<${name}Dto>> queryByMap(Map<String, Object> params, Boolean master) {
 		ServiceResponse<ListResult<${name}Dto>> response = new ServiceResponse<ListResult<${name}Dto>>();
 		try {
-			List<${name}Dto> result = i${name}DAO.queryByMap(params,master,null);
-			response.setResult(new ListResult<${name}Dto>(result));
+			List<${name}Dto> list = new ArrayList<${name}Dto>();
+			List<${name}> resultlist = i${name}DAO.queryByMap(params,master,null);
+			if(resultlist != null && resultlist.size()>0){
+				for(${name} result:resultlist){
+					try {
+						${name}Dto dto = new ${name}Dto();
+						BeanUtilsBean2.getInstance().copyProperties(dto, result);
+						list.add(dto);
+					} catch (Exception e) {
+					    logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),e);
+					}
+				}
+			}
+			response.setResult(new ListResult<${name}Dto>(list));
 		} catch (Exception e) {
 			response.setCode(ServiceResponse.FAILURE);
 			response.setMsg(e.getMessage());
@@ -252,8 +286,20 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	public ServiceResponse<PageResult<${name}Dto>> pageByMap(Map<String, Object> params, int pageIndex, int pageSize) {
 		ServiceResponse<PageResult<${name}Dto>> response = new ServiceResponse<PageResult<${name}Dto>>();
 		try {
-			List<${name}Dto> result = i${name}DAO.pageQuery(params,pageIndex,pageSize,null);
-			PageResult<${name}Dto> pager = new PageResult<${name}Dto>(pageIndex,pageSize);
+			List<${name}Dto> list = new ArrayList<${name}Dto>();
+			List<${name}> resultlist = i${name}DAO.pageQuery(params,pageIndex,pageSize,null);
+			if(resultlist != null && resultlist.size()>0){
+				for(${name} result:resultlist){
+					try {
+						${name}Dto dto = new ${name}Dto();
+						BeanUtilsBean2.getInstance().copyProperties(dto, result);
+						list.add(dto);
+					} catch (Exception e) {
+					    logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),e);
+					}
+				}
+			}
+			PageResult<${name}Dto> pager = new PageResult<${name}Dto>(pageIndex,pageSize,list);
 			response.setResult(pager);
 		} catch (Exception e) {
 			response.setCode(ServiceResponse.FAILURE);
@@ -268,8 +314,20 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 			Boolean master) {
 		ServiceResponse<PageResult<${name}Dto>> response = new ServiceResponse<PageResult<${name}Dto>>();
 		try {
-			List<${name}Dto> result = i${name}DAO.pageQuery(params,pageIndex,pageSize,master,null);
-			PageResult<${name}Dto> pager = new PageResult<${name}Dto>(pageIndex,pageSize);
+			List<${name}Dto> list = new ArrayList<${name}Dto>();
+			List<${name}> resultlist = i${name}DAO.pageQuery(params,pageIndex,pageSize,master,null);
+			if(resultlist != null && resultlist.size()>0){
+				for(${name} result:resultlist){
+					try {
+						${name}Dto dto = new ${name}Dto();
+						BeanUtilsBean2.getInstance().copyProperties(dto, result);
+						list.add(dto);
+					} catch (Exception e) {
+					    logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),e);
+					}
+				}
+			}
+			PageResult<${name}Dto> pager = new PageResult<${name}Dto>(pageIndex,pageSize,list);
 			response.setResult(pager);
 		} catch (Exception e) {
 			response.setCode(ServiceResponse.FAILURE);
