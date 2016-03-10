@@ -97,13 +97,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 		return response;
 	</#if>
 	}
-	/**
-	 * 通过主键删除业务对象
-	 * 
-	 * @param id
-	 *            主键值
-	 * @return
-	 */
+	
 	@Override
 	<#if pkType="Integer">	
 	public ServiceResponse<IntegerResult> deleteById(Integer id) {
@@ -126,6 +120,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 		}
 		return response;
 	}
+	
 	@Override
 	public ServiceResponse<IntegerResult> deleteByMap(Map<String, Object> params) {
 		ServiceResponse<IntegerResult> response = new ServiceResponse<IntegerResult>();
@@ -140,14 +135,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 		}
 		return response;
 	}
-	/**
-	 * 通过id，更新业务对象
-	 * 
-	 * @param id
-	 *            主键值
-	 * @param newValue
-	 * @return
-	 */
+	
 	@Override
 	<#if pkType="Integer">	
 	public ServiceResponse<IntegerResult> updateById(Integer id, Map<String, Object> newValue) {
@@ -170,6 +158,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 		}
 		return response;
 	}
+	
 	@Override
 	public ServiceResponse<IntegerResult> updateByMap(
 			Map<String, Object> newValue, Map<String, Object> conds) {
@@ -185,13 +174,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 		}
 		return response;
 	}
-	/**
-	 * 通过id查询对象，默认从slave中查询
-	 * 
-	 * @param id
-	 *            主键值
-	 * @return
-	 */
+	
 	@Override
 	<#if pkType="Integer">	
 	public ServiceResponse<${name}Dto> queryById(Integer id) {
@@ -217,16 +200,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 		}
 		return response;
 	}
-	/**
-	 * 通过id查询对象
-	 * 
-	 * @param id
-	 *            主键值
-	 * 
-	 * @param master
-	 *            是否从master中查询,master＝true时从master库中查询,同时重新刷新缓存
-	 * @return
-	 */
+	
 	@Override
 	<#if pkType="Integer">
 	public ServiceResponse<${name}Dto> queryById(Integer id, Boolean master) {
@@ -252,12 +226,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 		}
 		return response;
 	}
-	/**
-	 * 
-	 * @param params
-	 *            查询条件
-	 * @return
-	 */
+	
 	@Override
 	public ServiceResponse<ListResult<${name}Dto>> queryByMap(
 			Map<String, Object> params) {
@@ -276,14 +245,6 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 		return response;
 	}
 
-	/**
-	 * 
-	 * @param params
-	 *            查询条件
-	 * @param master
-	 *            是否从主库中查询
-	 * @return
-	 */
 	@Override
 	public ServiceResponse<ListResult<${name}Dto>> queryByMap(
 			Map<String, Object> params, Boolean master) {

@@ -4,6 +4,8 @@ import com.tower.service.domain.IResult;
 
 public class ${name}Dto implements IResult {
 	
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * 
 	 * 通过拷贝粘土相关model对象的属性,
