@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.BeanUtilsBean2;
-import org.springframework.beans.BeanUtils;
+import org.springframework.cglib.beans.BeanCopier;
 
 import ${package}.dao.model.${name};
 import ${package}.dto.${name}Dto;
@@ -189,8 +189,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 		try {
 			${name} result = i${name}DAO.queryById(id,null);
 			if (result != null) {
-				${name}Dto dto = new ${name}Dto();
-				BeanUtils.copyProperties(result, dto);
+				${name}Dto dto = copy(result);
 				response.setResult(dto);
 			}
 		} catch (Exception e) {
@@ -215,8 +214,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 		try {
 			${name} result = i${name}DAO.queryById(id,master,null);
 			if (result != null) {
-				${name}Dto dto = new ${name}Dto();
-				BeanUtils.copyProperties(result, dto);
+				${name}Dto dto = copy(result);
 				response.setResult(dto);
 			}
 		} catch (Exception e) {
@@ -387,8 +385,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 			list = new ArrayList<${name}Dto>();
 			for (${name} result : resultList) {
 				try {
-					${name}Dto dto = new ${name}Dto();
-					BeanUtilsBean2.getInstance().copyProperties(dto, result);
+					${name}Dto dto = copy(result);
 					list.add(dto);
 				} catch (Exception e) {
 					logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),
@@ -397,5 +394,19 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 			}
 		}
 		return list;
+	}
+	
+	private BeanCopier model2dtoCopier = BeanCopier.create(${name}.class, ${name}Dto.class, false);
+	private ${name}Dto copy(${name} model){
+		${name}Dto dto = new ${name}Dto();
+		model2dtoCopier.copy(model,dto, null);
+		return dto;
+	}
+	
+	private BeanCopier dto2modelCopier = BeanCopier.create(${name}Dto.class, ${name}.class, false);
+	private ${name} copy(${name}Dto dto){
+		${name} model = new ${name}();
+		dto2modelCopier.copy(dto,model, null);
+		return model;
 	}
 }
