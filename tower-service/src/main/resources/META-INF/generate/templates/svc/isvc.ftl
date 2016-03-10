@@ -164,6 +164,21 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	 */
 	public ServiceResponse<PageResult<T>> pageByMap(Map<String, Object> params,int pageIndex,int pageSize);
 	/**
+	 * 分页查询
+	 * 
+	 * @param params
+	 *            查询条件
+	 * @param pageIndex
+	 *            分页位置
+	 * @param pageSize
+	 *            分页大小
+	 * @param orders
+	 *            排序规则
+	 * @return
+	 */
+	public ServiceResponse<PageResult<T>> pageByMap(Map<String, Object> params,
+			int pageIndex, int pageSize, String orders);
+	/**
 	 * 
 	 * @param params 查询条件
 	 * @param pageIndex 分页位置
@@ -172,4 +187,21 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	 * @return
 	 */
 	public ServiceResponse<PageResult<T>> pageByMap(Map<String, Object> params,int pageIndex,int pageSize, Boolean master);
+	/**
+	 * 分页查询
+	 * 
+	 * @param params
+	 *            查询条件
+	 * @param pageIndex
+	 *            分页位置
+	 * @param pageSize
+	 *            分页大小
+	 * @param orders
+	 *            排序规则
+	 * @param master
+	 *            是否从主库中查询
+	 * @return
+	 */
+	public ServiceResponse<PageResult<T>> pageByMap(Map<String, Object> params,
+			int pageIndex, int pageSize, String orders, Boolean master);
 }

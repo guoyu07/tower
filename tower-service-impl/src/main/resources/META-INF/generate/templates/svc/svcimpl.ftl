@@ -302,9 +302,31 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 			List<${name}> resultlist = i${name}DAO.pageQuery(params, pageIndex,
 					pageSize, null);
 			List<${name}Dto> list = transfter(resultlist);
-			if(list!=null){
-				PageResult<${name}Dto> pager = new PageResult<${name}Dto>(pageIndex,
-						pageSize, list);
+			if (list != null) {
+				PageResult<${name}Dto> pager = new PageResult<${name}Dto>(
+						pageIndex, pageSize, list);
+				response.setResult(pager);
+			}
+		} catch (Exception e) {
+			response.setCode(ServiceResponse.FAILURE);
+			response.setMsg(e.getMessage());
+			logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(), e);
+		}
+		return response;
+	}
+
+	@Override
+	public ServiceResponse<PageResult<${name}Dto>> pageByMap(
+			Map<String, Object> params, int pageIndex, int pageSize,
+			String orders) {
+		ServiceResponse<PageResult<${name}Dto>> response = new ServiceResponse<PageResult<${name}Dto>>();
+		try {
+			List<${name}> resultlist = i${name}DAO.pageQuery(params, pageIndex,
+					pageSize, orders, null);
+			List<${name}Dto> list = transfter(resultlist);
+			if (list != null) {
+				PageResult<${name}Dto> pager = new PageResult<${name}Dto>(
+						pageIndex, pageSize, list);
 				response.setResult(pager);
 			}
 		} catch (Exception e) {
@@ -324,9 +346,9 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 			List<${name}> resultlist = i${name}DAO.pageQuery(params, pageIndex,
 					pageSize, master, null);
 			List<${name}Dto> list = transfter(resultlist);
-			if(list!=null){
-				PageResult<${name}Dto> pager = new PageResult<${name}Dto>(pageIndex,
-						pageSize, list);
+			if (list != null) {
+				PageResult<${name}Dto> pager = new PageResult<${name}Dto>(
+						pageIndex, pageSize, list);
 				response.setResult(pager);
 			}
 		} catch (Exception e) {
@@ -336,7 +358,29 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 		}
 		return response;
 	}
-	
+
+	@Override
+	public ServiceResponse<PageResult<${name}Dto>> pageByMap(
+			Map<String, Object> params, int pageIndex, int pageSize,
+			String orders, Boolean master) {
+		ServiceResponse<PageResult<${name}Dto>> response = new ServiceResponse<PageResult<${name}Dto>>();
+		try {
+			List<${name}> resultlist = i${name}DAO.pageQuery(params, pageIndex,
+					pageSize, orders, master, null);
+			List<${name}Dto> list = transfter(resultlist);
+			if (list != null) {
+				PageResult<${name}Dto> pager = new PageResult<${name}Dto>(
+						pageIndex, pageSize, list);
+				response.setResult(pager);
+			}
+		} catch (Exception e) {
+			response.setCode(ServiceResponse.FAILURE);
+			response.setMsg(e.getMessage());
+			logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(), e);
+		}
+		return response;
+	}
+
 	private List<${name}Dto> transfter(List<${name}> resultList) {
 		List<${name}Dto> list = null;
 		if (resultList != null && resultList.size() > 0) {
@@ -347,7 +391,8 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 					BeanUtilsBean2.getInstance().copyProperties(dto, result);
 					list.add(dto);
 				} catch (Exception e) {
-					logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),e);
+					logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),
+							e);
 				}
 			}
 		}
