@@ -5,6 +5,18 @@ import com.tower.service.domain.IResult;
 public class ${name}Dto implements IResult {
 	
 	private static final long serialVersionUID = 1L;
+<#list fields as field>
+
+	private ${field.y.type.simpleName} ${field.y.name};
+	public ${field.y.type.simpleName} get${field.x}(){
+		return ${field.y.name};
+	}
+	
+	public void set${field.x}(${field.y.type.simpleName} ${field.y.name}){
+		this.${field.y.name} = ${field.y.name};
+	}
+	
+</#list>	
 	
 	/**
 	 * 

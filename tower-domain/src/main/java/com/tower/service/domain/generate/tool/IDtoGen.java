@@ -1,5 +1,6 @@
 package com.tower.service.domain.generate.tool;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.Map;
 
 import com.tower.service.gen.AbsGen;
 import com.tower.service.gen.TemplateFactoryBean;
+import com.tower.service.util.Pair;
 
 import freemarker.template.Configuration;
 
@@ -17,7 +19,7 @@ public class IDtoGen extends AbsGen{
 	 * @param name Dto对象名
 	 * @param targetJava 目标类目录
 	 */
-	public IDtoGen(String pkgname,String name,String targetJava){
+	public IDtoGen(List<Pair<String,Field>> fields,String pkgname,String name,String targetJava){
 		
 		TemplateFactoryBean templateFactoryBean = new TemplateFactoryBean();
 	    templateFactoryBean.setPath("classpath:/META-INF/generate/templates/dto");
@@ -31,6 +33,7 @@ public class IDtoGen extends AbsGen{
 
 		root.put("package", package_);
 	    root.put("name", name);
+	    root.put("fields", fields);
 	    
 	    String java = targetJava;
 
@@ -47,6 +50,6 @@ public class IDtoGen extends AbsGen{
 	}
 	
 	public static void main(String[] args){
-		new IDtoGen("com.ebls.service.oft","Hello","src/main/java/");
+		new IDtoGen(null,"com.ebls.service.oft","Hello","src/main/java/");
 	}
 }
