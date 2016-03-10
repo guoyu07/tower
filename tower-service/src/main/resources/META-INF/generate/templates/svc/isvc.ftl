@@ -20,6 +20,12 @@ import com.tower.service.domain.PageResult;
 import com.tower.service.domain.ServiceResponse;
 
 public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
+	
+	/**
+	 * 新增${name}对象
+	 * @param params 插入参数
+	 * @return
+	 */
 	<#if pkType="Integer">	
 	public ServiceResponse<IntegerResult> insert(Map<String, Object> params);
 	<#elseif pkType="java.math.BigInteger">

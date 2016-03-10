@@ -34,6 +34,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	@Resource(name="${name}")
 	private I${name}DAO<${name}> i${name}DAO;
 	
+	@Override
 	<#if pkType="Integer">	
 	public ServiceResponse<IntegerResult> insert(Map<String, Object> params) {
 		ServiceResponse<IntegerResult> response = new ServiceResponse<IntegerResult>();
@@ -103,6 +104,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	 *            主键值
 	 * @return
 	 */
+	@Override
 	<#if pkType="Integer">	
 	public ServiceResponse<IntegerResult> deleteById(Integer id) {
 	<#elseif pkType="java.math.BigInteger">
@@ -132,6 +134,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	 * @param newValue
 	 * @return
 	 */
+	@Override
 	<#if pkType="Integer">	
 	public ServiceResponse<IntegerResult> updateById(Integer id, Map<String, Object> newValue) {
 	<#elseif pkType="java.math.BigInteger">
@@ -160,6 +163,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	 *            主键值
 	 * @return
 	 */
+	@Override
 	<#if pkType="Integer">	
 	public ServiceResponse<${name}Dto> queryById(Integer id) {
 	<#elseif pkType="java.math.BigInteger">
@@ -194,7 +198,8 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	 *            是否从master中查询,master＝true时从master库中查询,同时重新刷新缓存
 	 * @return
 	 */
-	<#if pkType="Integer">	
+	@Override
+	<#if pkType="Integer">
 	public ServiceResponse<${name}Dto> queryById(Integer id, Boolean master) {
 	<#elseif pkType="java.math.BigInteger">
 	public ServiceResponse<${name}Dto> queryById(BigInteger id, Boolean master) {
@@ -224,6 +229,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	 *            查询条件
 	 * @return
 	 */
+	@Override
 	public ServiceResponse<ListResult<${name}Dto>> queryByMap(Map<String, Object> params) {
 		ServiceResponse<ListResult<${name}Dto>> response = new ServiceResponse<ListResult<${name}Dto>>();
 		try {
@@ -246,6 +252,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	 *            是否从主库中查询
 	 * @return
 	 */
+	@Override
 	public ServiceResponse<ListResult<${name}Dto>> queryByMap(Map<String, Object> params, Boolean master) {
 		ServiceResponse<ListResult<${name}Dto>> response = new ServiceResponse<ListResult<${name}Dto>>();
 		try {
