@@ -377,8 +377,9 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	}
 	
 	private List<${name}Dto> transfter(List<${name}> resultList) {
-		List<${name}Dto> list = new ArrayList<${name}Dto>();
+		List<${name}Dto> list = null;
 		if (resultList != null && resultList.size() > 0) {
+			list = new ArrayList<${name}Dto>();
 			for (${name} result : resultList) {
 				try {
 					${name}Dto dto = new ${name}Dto();
