@@ -52,6 +52,14 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	public ServiceResponse<IntegerResult> deleteById(Long id);
 	</#if>
 	/**
+	 * 通过条件删除数据
+	 * 
+	 * @param params
+	 *            参数
+	 * @return
+	 */
+	public ServiceResponse<IntegerResult> deleteByMap(Map<String, Object> params);
+	/**
 	 * 通过id，更新业务对象
 	 * 
 	 * @param id
@@ -68,6 +76,17 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	<#else>
 	public ServiceResponse<IntegerResult> updateById(Long id, Map<String, Object> newValue);
 	</#if>
+	/**
+	 * 通过map条件更新数据
+	 * 
+	 * @param newValue
+	 *            新值
+	 * @param conds
+	 *            更新条件
+	 * @return
+	 */
+	public ServiceResponse<IntegerResult> updateByMap(
+			Map<String, Object> newValue, Map<String, Object> conds);
 	/**
 	 * 通过id查询对象，默认从slave中查询
 	 * 

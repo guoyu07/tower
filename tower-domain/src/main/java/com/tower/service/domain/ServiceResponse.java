@@ -50,4 +50,8 @@ public class ServiceResponse<T extends IResult> implements IResult {
 	public void setResult(T result) {
 		this.result = result;
 	}
+	
+	public boolean isNull(){
+		return result==null;
+	}
 }

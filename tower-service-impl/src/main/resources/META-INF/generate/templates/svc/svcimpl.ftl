@@ -126,6 +126,20 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 		}
 		return response;
 	}
+	@Override
+	public ServiceResponse<IntegerResult> deleteByMap(Map<String, Object> params) {
+		ServiceResponse<IntegerResult> response = new ServiceResponse<IntegerResult>();
+		try {
+			Integer eft = i${name}DAO.deleteByMap(params, null);
+			IntegerResult result = new IntegerResult(eft);
+			response.setResult(result);
+		} catch (Exception e) {
+			response.setCode(ServiceResponse.FAILURE);
+			response.setMsg(e.getMessage());
+			logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(), e);
+		}
+		return response;
+	}
 	/**
 	 * 通过id，更新业务对象
 	 * 
@@ -153,6 +167,21 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 			response.setCode(ServiceResponse.FAILURE);
 			response.setMsg(e.getMessage());
 		    logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),e);
+		}
+		return response;
+	}
+	@Override
+	public ServiceResponse<IntegerResult> updateByMap(
+			Map<String, Object> newValue, Map<String, Object> conds) {
+		ServiceResponse<IntegerResult> response = new ServiceResponse<IntegerResult>();
+		try {
+			Integer eft = i${name}DAO.updateByMap(newValue, conds, null);
+			IntegerResult result = new IntegerResult(eft);
+			response.setResult(result);
+		} catch (Exception e) {
+			response.setCode(ServiceResponse.FAILURE);
+			response.setMsg(e.getMessage());
+			logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(), e);
 		}
 		return response;
 	}
@@ -230,16 +259,19 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	 * @return
 	 */
 	@Override
-	public ServiceResponse<ListResult<${name}Dto>> queryByMap(Map<String, Object> params) {
+	public ServiceResponse<ListResult<${name}Dto>> queryByMap(
+			Map<String, Object> params) {
 		ServiceResponse<ListResult<${name}Dto>> response = new ServiceResponse<ListResult<${name}Dto>>();
 		try {
-			List<${name}> resultlist = i${name}DAO.queryByMap(params,null);
+			List<${name}> resultlist = i${name}DAO.queryByMap(params, null);
 			List<${name}Dto> list = transfter(resultlist);
-			response.setResult(new ListResult<${name}Dto>(list));
+			if(list!=null){
+				response.setResult(new ListResult<${name}Dto>(list));
+			}
 		} catch (Exception e) {
 			response.setCode(ServiceResponse.FAILURE);
 			response.setMsg(e.getMessage());
-		    logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),e);
+			logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(), e);
 		}
 		return response;
 	}
@@ -253,16 +285,19 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	 * @return
 	 */
 	@Override
-	public ServiceResponse<ListResult<${name}Dto>> queryByMap(Map<String, Object> params, Boolean master) {
+	public ServiceResponse<ListResult<${name}Dto>> queryByMap(
+			Map<String, Object> params, Boolean master) {
 		ServiceResponse<ListResult<${name}Dto>> response = new ServiceResponse<ListResult<${name}Dto>>();
 		try {
-			List<${name}> resultlist = i${name}DAO.queryByMap(params,master,null);
+			List<${name}> resultlist = i${name}DAO.queryByMap(params, master, null);
 			List<${name}Dto> list = transfter(resultlist);
-			response.setResult(new ListResult<${name}Dto>(list));
+			if(list!=null){
+				response.setResult(new ListResult<${name}Dto>(list));
+			}
 		} catch (Exception e) {
 			response.setCode(ServiceResponse.FAILURE);
 			response.setMsg(e.getMessage());
-		    logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),e);
+			logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(), e);
 		}
 		return response;
 	}
@@ -299,34 +334,44 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	}
 	
 	@Override
-	public ServiceResponse<PageResult<${name}Dto>> pageByMap(Map<String, Object> params, int pageIndex, int pageSize) {
+	public ServiceResponse<PageResult<${name}Dto>> pageByMap(
+			Map<String, Object> params, int pageIndex, int pageSize) {
 		ServiceResponse<PageResult<${name}Dto>> response = new ServiceResponse<PageResult<${name}Dto>>();
 		try {
-			List<${name}> resultlist = i${name}DAO.pageQuery(params,pageIndex,pageSize,null);
+			List<${name}> resultlist = i${name}DAO.pageQuery(params, pageIndex,
+					pageSize, null);
 			List<${name}Dto> list = transfter(resultlist);
-			PageResult<${name}Dto> pager = new PageResult<${name}Dto>(pageIndex,pageSize,list);
-			response.setResult(pager);
+			if(list!=null){
+				PageResult<${name}Dto> pager = new PageResult<${name}Dto>(pageIndex,
+						pageSize, list);
+				response.setResult(pager);
+			}
 		} catch (Exception e) {
 			response.setCode(ServiceResponse.FAILURE);
 			response.setMsg(e.getMessage());
-		    logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),e);
+			logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(), e);
 		}
 		return response;
 	}
 
 	@Override
-	public ServiceResponse<PageResult<${name}Dto>> pageByMap(Map<String, Object> params, int pageIndex, int pageSize,
+	public ServiceResponse<PageResult<${name}Dto>> pageByMap(
+			Map<String, Object> params, int pageIndex, int pageSize,
 			Boolean master) {
 		ServiceResponse<PageResult<${name}Dto>> response = new ServiceResponse<PageResult<${name}Dto>>();
 		try {
-			List<${name}> resultlist = i${name}DAO.pageQuery(params,pageIndex,pageSize,master,null);
+			List<${name}> resultlist = i${name}DAO.pageQuery(params, pageIndex,
+					pageSize, master, null);
 			List<${name}Dto> list = transfter(resultlist);
-			PageResult<${name}Dto> pager = new PageResult<${name}Dto>(pageIndex,pageSize,list);
-			response.setResult(pager);
+			if(list!=null){
+				PageResult<${name}Dto> pager = new PageResult<${name}Dto>(pageIndex,
+						pageSize, list);
+				response.setResult(pager);
+			}
 		} catch (Exception e) {
 			response.setCode(ServiceResponse.FAILURE);
 			response.setMsg(e.getMessage());
-		    logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(),e);
+			logger.error(ServiceResponse.SYSTEM_ERROR + e.getMessage(), e);
 		}
 		return response;
 	}
