@@ -44,9 +44,9 @@ public class ServiceImplGen extends AbsGen{
 		try {
 			create("svcimpl.ftl", root, java + package_ + "/impl/" + name
 					+ "ServiceImpl.java");
+			System.out.println("I"+name+"ServiceImpl生成成功");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("I"+name+"ServiceImpl生成失败"+e.getMessage());
 		}
 	}
 

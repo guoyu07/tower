@@ -40,9 +40,9 @@ public class IDtoGen extends AbsGen{
 	    
 	    try {
 			create("idto.ftl", root, java + package_ + "/dto/" + name + "Dto.java");
+			System.out.println(name+"Dto生成成功");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(name+"Dto生成失败"+e.getMessage());
 		}
 	}
 	

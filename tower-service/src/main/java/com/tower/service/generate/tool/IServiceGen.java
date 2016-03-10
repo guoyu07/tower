@@ -45,9 +45,9 @@ public class IServiceGen extends AbsGen {
 		try {
 			create("isvc.ftl", root, java + package_ + "/I" + name
 					+ "Service.java");
+			System.out.println("I"+name+"Service生成成功");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("I"+name+"Service生成失败"+e.getMessage());
 		}
 	}
 
