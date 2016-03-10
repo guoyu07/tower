@@ -46,9 +46,9 @@ import com.tower.service.config.utils.TowerConfig;
 public class SoafwConfigMojo extends AbstractMojo {
 
 	private String serviceId = "1";
-	private String startPort = "8080";
-	private String stopPort = "9999";
-	private String servicePort = "20880";
+	private Integer startPort = 8080;
+	private Integer stopPort = 9080;
+	private Integer servicePort = 20880;
 	private String groupId = "";
 	private String artifactId = "";
 	private String destDir = ".";
@@ -61,7 +61,7 @@ public class SoafwConfigMojo extends AbstractMojo {
 	private String dburl = TowerConfig.getConfig("db.url");
 	private String dbuser = TowerConfig.getConfig("db.user");
 	private String dbpwd = TowerConfig.getConfig("db.pwd");
-	
+
 	public void execute() throws MojoExecutionException {
 		groupId = System.getProperty("groupId");
 		artifactId = System.getProperty("artifactId");
@@ -79,7 +79,8 @@ public class SoafwConfigMojo extends AbstractMojo {
 		getServiceInfo();
 
 		this.getLog().info(
-				format(model, groupId, artifactId, startPort, stopPort,
+				format(model, groupId, artifactId, String.valueOf(startPort),
+						String.valueOf(stopPort),
 						new File(destDir).getAbsolutePath(), template));
 
 		if ("split".equalsIgnoreCase(model)) {
@@ -127,47 +128,60 @@ public class SoafwConfigMojo extends AbstractMojo {
 
 	private void getServiceInfo() {
 		Connection conn = getConn();
-		String checkSql = "select * from soa_provider where sp_name='"
-				+ artifactId + "'";
+		String checkSql = "select * from soa_sp where sp_name='" + artifactId
+				+ "'";
 		try {
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery(checkSql);
 			int id = 0;
-			int start = 0;
-			int stop = 0;
-			int service = 0;
 			if (rs.next()) {
+
 				id = rs.getInt("id");
 				serviceId = String.valueOf(id);
-				start = rs.getInt("start_port");
-				startPort = String.valueOf(start);
-				stop = rs.getInt("stop_port");
-				stopPort = String.valueOf(stop);
-				service = rs.getInt("service_port");
-				servicePort = String.valueOf(service);
+				startPort = rs.getInt("start_port");
+				stopPort = rs.getInt("stop_port");
+				servicePort = rs.getInt("service_port");
+				this.getLog().info(
+						artifactId + "服务已经存在,startPort=" + startPort
+								+ ",stopPort=" + stopPort + ",servicePort="
+								+ servicePort);
 			} else {
-				String sql = "select max(id) as id,max(start_port) as start_port,max(`stop_port`) as stop_port,max(`service_port`) as service_port from soa_provider";
+				String sql = "select max(id) as id,max(start_port) as start_port,max(`stop_port`) as stop_port,max(`service_port`) as service_port from soa_sp";
 				rs = st.executeQuery(sql);
 				if (rs.next()) {
 					id = rs.getInt("id") + 1;
 					serviceId = String.valueOf(id);
-					start = rs.getInt("start_port") + 1;
-					startPort = String.valueOf(start);
-					stop = rs.getInt("stop_port") + 1;
-					stopPort = String.valueOf(stop);
-					service = rs.getInt("service_port") + 1;
-					servicePort = String.valueOf(service);
+					int tmp = rs.getInt("start_port") + 1;
+					if (tmp!=1){
+						startPort = tmp;
+					}
+					tmp = rs.getInt("stop_port") + 1;
+					if (tmp!=1){
+						stopPort = tmp;
+					}
+					tmp = rs.getInt("service_port") + 1;
+					if (tmp!=1){
+						servicePort = tmp;
+					}
 				}
-				sql = "insert into `soa_provider` (id,sp_name,start_port,stop_port,service_port,sp_description) values ("
+				sql = "insert into `soa_sp` (id,sp_name,start_port,stop_port,service_port,sp_description) values ("
 						+ id
 						+ ",'"
 						+ artifactId
 						+ "',"
-						+ start
+						+ startPort
 						+ ","
-						+ stop
-						+ "," + service + ",'" + artifactId + "')";
+						+ stopPort
+						+ ","
+						+ servicePort
+						+ ",'"
+						+ artifactId
+						+ "')";
 				st.execute(sql);
+				this.getLog().info(
+						artifactId + "服务不存在,startPort=" + startPort
+								+ ",stopPort=" + stopPort + ",servicePort="
+								+ servicePort);
 			}
 		} catch (SQLException e) {
 			this.getLog().error(e);
@@ -185,9 +199,9 @@ public class SoafwConfigMojo extends AbstractMojo {
 		tpl = format(tpl, "groupId", groupId);
 		tpl = format(tpl, "artifactId", artifactId);
 		tpl = format(tpl, "moduleSuffix", moduleSuffix);
-		tpl = format(tpl, "startPort", startPort);
-		tpl = format(tpl, "stopPort", stopPort);
-		tpl = format(tpl, "servicePort", servicePort);
+		tpl = format(tpl, "startPort", String.valueOf(startPort));
+		tpl = format(tpl, "stopPort", String.valueOf(stopPort));
+		tpl = format(tpl, "servicePort", String.valueOf(servicePort));
 		tpl = format(tpl, "serviceId", serviceId);
 		tpl = format(tpl, "db.username", dbuser);
 		tpl = format(tpl, "db.password", dbpwd);
