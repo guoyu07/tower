@@ -14,7 +14,7 @@ import com.tower.service.util.Pair;
 
 public class ServiceGen {
 
-	static String pkgName = "com.#{company}.service.#{artifactId}";
+	static String pkgName = "com.#{company}.service.#{artifactId}";//包名，建议不要修改
 	
     private static Field[] getFields(String name) throws ClassNotFoundException{
     	Class cls = Class.forName(pkgName+".dao.model."+name);
@@ -28,9 +28,13 @@ public class ServiceGen {
     	for(int i=0;i<len;i++){
     		JField ann = field[i].getAnnotation(JField.class);
 			if(ann != null){
+				String first = null;
+				String last = "";
 				String name = field[i].getName();
-				String first = name.substring(0,1).toUpperCase();
-				String last = name.substring(1);
+				first = name.substring(0,1).toUpperCase();
+				if(name.length()>1){
+					last = name.substring(1);
+				}
 				Pair<String,Field> pair = new Pair<String,Field>(first+last,field[i]);
 				fields.add(pair);
 			}
@@ -41,12 +45,12 @@ public class ServiceGen {
     public static void main(String[] args) {
         try {
         	
-        	String model = "SoaSp";
-        	
-        	String path = new File(".").getAbsoluteFile().getParentFile().getAbsoluteFile().getParentFile().getAbsolutePath();//项目绝对路径
-        	new IDtoGen(genPair(model),pkgName, model,path+"/#{artifactId}-domain/src/main/java/");//生成dto
-        	new IServiceGen(PkType.INTEGER, pkgName, model,path+"/#{artifactId}-service/src/main/java/");//生成iservice
-        	new ServiceImplGen(PkType.INTEGER, pkgName, model,path+"/#{artifactId}-service-impl/src/main/java/");//生成serviceimpl
+        	String model = "SoaSp";//model name，可以修改
+        	String pkType = PkType.INTEGER;//主健类型，根据model的实际主健类型进行修改
+        	String path = new File(".").getAbsoluteFile().getParentFile().getAbsoluteFile().getParentFile().getAbsolutePath();//项目绝对路径，建议不要修改
+        	new IDtoGen(genPair(model),pkgName, model,path+"/#{artifactId}-domain/src/main/java/");//生成dto，建议不要修改
+        	new IServiceGen(pkType, pkgName, model,path+"/#{artifactId}-service/src/main/java/");//生成iservice，建议不要修改
+        	new ServiceImplGen(pkType, pkgName, model,path+"/#{artifactId}-service-impl/src/main/java/");//生成serviceimpl，建议不要修改
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
