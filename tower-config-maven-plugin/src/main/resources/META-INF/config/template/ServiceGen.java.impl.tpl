@@ -16,6 +16,11 @@ public class ServiceGen {
 
 	static String pkgName = "com.#{company}.service.#{artifactId}";//包名，建议不要修改
 	
+	static String path = new File(".").getAbsoluteFile().getParentFile().getAbsoluteFile().getParentFile().getAbsolutePath();//项目绝对路径，建议不要修改
+	static String Domain_Project_Path = path+"/#{artifactId}-domain/src/main/java/";//#{artifactId}-domain 项目路径，建议不要修改
+	static String Service_Project_Path = path+"/#{artifactId}-service/src/main/java/";//#{artifactId}-service 项目路径，建议不要修改
+	static String Service_Impl_Project_Path = path+"/#{artifactId}-service-impl/src/main/java/";//#{artifactId}-service-impl 项目路径，建议不要修改
+	
     private static Field[] getFields(String name) throws ClassNotFoundException{
     	Class cls = Class.forName(pkgName+".dao.model."+name);
     	return cls.getDeclaredFields();
@@ -47,10 +52,10 @@ public class ServiceGen {
         	
         	String model = "SoaSp";//model name，可以修改
         	String pkType = PkType.INTEGER;//主健类型，根据model的实际主健类型进行修改
-        	String path = new File(".").getAbsoluteFile().getParentFile().getAbsoluteFile().getParentFile().getAbsolutePath();//项目绝对路径，建议不要修改
-        	new IDtoGen(genPair(model),pkgName, model,path+"/#{artifactId}-domain/src/main/java/");//生成dto，建议不要修改
-        	new IServiceGen(pkType, pkgName, model,path+"/#{artifactId}-service/src/main/java/");//生成iservice，建议不要修改
-        	new ServiceImplGen(pkType, pkgName, model,path+"/#{artifactId}-service-impl/src/main/java/");//生成serviceimpl，建议不要修改
+        	
+        	new IDtoGen(genPair(model),pkgName, model,Domain_Project_Path);//生成dto，建议不要修改
+        	new IServiceGen(pkType, pkgName, model,Service_Project_Path);//生成iservice，建议不要修改
+        	new ServiceImplGen(pkType, pkgName, model,Service_Impl_Project_Path);//生成serviceimpl，建议不要修改
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -206,14 +206,18 @@
 		+ 支持mysql、sql server
 		+ 支持事务（单数据库的两阶段提交分布式事务）
 		+ import hello-dao as maven 项目
-		+ 在src/test/java中找到com.[company].service.hello.dao.DaoGen
+		+ 在src/test/java中找到com.[company].service.[项目名称].dao.DaoGen
 		+ 按照提示修改DaoGen.java内容
-		+ 运行DaoGen
+		+ 运行DaoGen.java
+	+ service代码生成器
+		+ 运行项目src/test/java中找到com.[company].service.[项目名称]/ServiceGen.java
+		+ 按照提示修改ServiceGen.java内容
+		+ 运行ServiceGen.java
 	+ 代码发布脚步工具 publish目录下
 		+ 生成版本号
-			+ sh publish.sh hello 
+			+ sh publish.sh hello 分支名
 		+ 发布代码到服务器
-			+ sh rsyc.sh hello yyyy-MM-dd_xxx targetIp userId
+			+ sh rsyc.sh hello 分支名 yyyy-MM-dd_xxx targetIp userId
 
 + exception管理工具
 + checkstyle
