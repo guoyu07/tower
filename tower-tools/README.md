@@ -9,18 +9,7 @@
 	+ ./gen_web.sh 项目名 [公司名] 生成项目web所需的相关模块,公司名称默认为siling
 	
 ### 部署	
-+ 安装jenkins	
-	+ 安装gitlab插件
-	+ 创建gitlab用户
-	+ 安装ssh key
-	+ 安装maven插件
-	+ 系统管理->系统配置
-		+ 主目录配置：/root/.jenkins
-		+ 工作空间根目录:
-			+ 登录到部署机器
-			+ mkdir -p /root/code/projects/workspace
-			+ /root/code/projects/workspace/${ITEM_FULL_NAME}
-		+ 构建记录根目录:${ITEM_ROOTDIR}/builds/${ITEM_FULL_NAME}
+
 + 安装发布脚本
 	+ mkdir -p /root/shell_bash
 	+ sip -rp tower-tools/publish/*.sh root@发布机器/root/shell_bash/

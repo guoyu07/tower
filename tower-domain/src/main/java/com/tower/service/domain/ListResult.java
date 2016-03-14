@@ -10,7 +10,7 @@ public class ListResult<T> implements IResult {
 	 */
 	private static final long serialVersionUID = -7602593878605710987L;
 	public ListResult(List<T> data){
-		data =data;
+		this.data =data;
 	}
 	public List<T> getData() {
 		return data;

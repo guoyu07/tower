@@ -1,6 +1,6 @@
 ## 框架使用说明
 
-#### 搭建本地私服库（nexus）
+### 搭建本地私服库（nexus）
 + 本地私服库域名：maven.corp.tower.com
 + 本地开发数据库域名：db.corp.tower.com
 	+ 创建sofa_db数据库
@@ -98,30 +98,42 @@
 	</activeProfiles>
 </settings>
 ```
-#### 安装Jenkins（构件）
+### 安装Jenkins（构件）
++ 安装jenkins	
+	+ 安装gitlab插件
+	+ 创建gitlab用户
+	+ 安装ssh key
+	+ 安装maven插件
+	+ 系统管理->系统配置
+		+ 主目录配置：/root/.jenkins
+		+ 工作空间根目录:
+			+ 登录到部署机器
+			+ mkdir -p /root/code/projects/workspace
+			+ /root/code/projects/workspace/${ITEM_FULL_NAME}
+		+ 构建记录根目录:${ITEM_ROOTDIR}/builds/${ITEM_FULL_NAME}
 
 ## 框架介绍
 
-#### soa服务框架包图
+### soa服务框架包图
 
 ![soa服务框架包图](design/tower-package.png)
 
-##### tower-framwork
+### tower-framwork
 + 统一的java框架
 + j2ee、spring、mybaties、springmvc、freemarker、memchecache、redis、mysql等
 
-###### tower－util
+### tower－util
 + 框架中的公共类，eg：工具类 
 
-###### tower－concurrent
+### tower－concurrent
 + 框架中多线程处理模版类
 + 同步锁处理类
 
-###### tower－log
+### tower－log
 + 日志处理相关类
 + 每条日志信息都会自动输出当前请求ID(当当前请求没有请求ID时，框架会自动产生，并且一直跟着到最后：追加到sql语句的备注部分)
 
-###### tower－config
+### tower－config
 + 配置文件存储目录：
 	+ 配置目录有三级，安优先级列表如下，序号最小优先级最高
 		+ 1,应用配置，位置在应用用安装目录下的config目录
@@ -148,42 +160,42 @@
 			+ webapp.xml（webapp层）
 			+ rpc.xml（rpc层）
 			+ job.xml（job层）
-###### tower－mq
+### tower－mq
 + 负责消息中间件通信的模块
 
-###### tower－rpc
+### tower－rpc
 + rpc通信模块（第三方通信）
 	+ http
 	+ rmi
 	+ hessian
 
-###### tower－cache
+### tower－cache
 + 缓存机制模块
 	+ mem cache
 	+ redis
 	+ 。。。no sql
 
-###### tower－dao
+### tower－dao
 + 数据访问层框架模块
 + 关系型数据库访问层接口及默认实现机制（mybaties）
 + 数据访问层代码生成器目前支持mysql、sql server
 
-###### tower－model
+### tower－model
 + 业务模型对象模块
 	+ DTO 建议其子类实现toString()方法
 	+ BO 建议其子类实现toString()方法
 
-###### tower－service
+### tower－service
 + service框架模块
 + service服务监控信息采集
 
-###### tower－job
+### tower－job
 + job框架模块
 + job监控信息采集
 + 可以动态调整job调度策略
 + 可以通过status=pause的方式动态暂停job的执行（可以控制所有、一组及单独的某一个job）
 
-###### tower－web
+### tower－web
 + web框架模块
 + web监控信息采集
 + 通过RequestInterceptor
@@ -194,7 +206,7 @@
 	+ 项目框架生成插件（tower-config-maven-plugin）
 	+ 测试框架代码生成器插件(tower-test-maven-plugin)
 		+ 默认是关闭的,可以通过-Dsoafw.tester.gen=true的方式开启
-##### 相关工具
+### 相关工具
 + 服务项目框架生成器
 	+ 项目生成工具
 		+ tower-tools
@@ -222,16 +234,16 @@
 + exception管理工具
 + checkstyle
 
-##### 相关标准
+### 相关标准
 + 编程规范
 + 测试规范
 + RESTful
 + dubbo
 
-##### deploy
+### deploy
 + mvn deploy
 
-#### 安装git
+### 安装git
 
 ```
 开通域名:gitlab.corp.tower.com
@@ -340,7 +352,7 @@ Please wait while Setup installs Bitnami Gitlab Stack on your computer.
 
  Installing
  0% ______________ 50% ______________ 100%
- #########################################
+ ###############################
 
 ----------------------------------------------------------------------------
 Setup has finished installing Bitnami Gitlab Stack on your computer.
