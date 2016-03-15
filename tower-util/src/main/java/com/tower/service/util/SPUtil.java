@@ -5,14 +5,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import com.tower.service.exception.ExceptionSupport;
-
 public class SPUtil {
-	private static String staticSpId="";
+	private static String staticSpId;
+	private static final String SPID_FILE = "/META-INF/SPID";
 	static {
 		initStaticSpId();
 	}
-	private static final String SPID_FILE = "/META-INF/SPID";
 
 	/**
 	 * 获取当前系统SPID
@@ -23,7 +21,7 @@ public class SPUtil {
 		BufferedReader br = null;
 
 		try {
-			is = ExceptionSupport.class.getResourceAsStream(SPID_FILE);
+			is = SPUtil.class.getResourceAsStream(SPID_FILE);
 			if (is != null) {
 				br = new BufferedReader(new InputStreamReader(is));
 				String s;

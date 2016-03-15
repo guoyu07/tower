@@ -27,21 +27,36 @@
 		init-method="init">
 		<property name="prefix" value="cache_db" />
 	</bean>
-	<bean id="cacheSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">     
+	<bean id="cacheSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configurationProperties">
+			<props>
+				<prop key="database_name">cache_db</prop>
+			</props>
+		</property>
  		<property name="dataSource" ref="cache_db" />
  	</bean>
 	<bean id="cache_db_slave" class="com.tower.service.datasource.DynamicDataSource"
 		init-method="init">
 		<property name="prefix" value="cache_db_slave" />
 	</bean>
-	<bean id="cacheSlaveSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">     
+	<bean id="cacheSlaveSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configurationProperties">
+			<props>
+				<prop key="database_name">cache_db_slave</prop>
+			</props>
+		</property>   
  		<property name="dataSource" ref="cache_db_slave" />
  	</bean>
 	<bean id="cache_db_map_query" class="com.tower.service.datasource.DynamicDataSource"
 		init-method="init">
 		<property name="prefix" value="cache_db_map_query" />
 	</bean>
-	<bean id="cacheMapQuerySessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">     
+	<bean id="cacheMapQuerySessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configurationProperties">
+			<props>
+				<prop key="database_name">cache_db_map_query</prop>
+			</props>
+		</property>     
  		<property name="dataSource" ref="cache_db_map_query" />
  	</bean>
  	
@@ -51,21 +66,36 @@
 		init-method="init">
 		<property name="prefix" value="#{artifactId}_db" />
 	</bean>
-	<bean id="#{artifactId}SessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">     
+	<bean id="#{artifactId}SessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configurationProperties">
+			<props>
+				<prop key="database_name">#{artifactId}_db</prop>
+			</props>
+		</property>     
  		<property name="dataSource" ref="#{artifactId}_db" />
  	</bean>
 	<bean id="#{artifactId}_db_slave" class="com.tower.service.datasource.DynamicDataSource"
 		init-method="init">
 		<property name="prefix" value="#{artifactId}_db_slave" />
 	</bean>
-	<bean id="#{artifactId}SlaveSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">     
+	<bean id="#{artifactId}SlaveSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configurationProperties">
+			<props>
+				<prop key="database_name">#{artifactId}_db_slave</prop>
+			</props>
+		</property>     
  		<property name="dataSource" ref="#{artifactId}_db_slave" />
  	</bean>
 	<bean id="#{artifactId}_db_map_query" class="com.tower.service.datasource.DynamicDataSource"
 		init-method="init">
 		<property name="prefix" value="#{artifactId}_db_map_query" />
 	</bean>
-	<bean id="#{artifactId}MapQuerySessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">     
+	<bean id="#{artifactId}MapQuerySessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configurationProperties">
+			<props>
+				<prop key="database_name">#{artifactId}_db_map_query</prop>
+			</props>
+		</property>     
  		<property name="dataSource" ref="#{artifactId}_db_map_query" />
  	</bean>
  	<!-- enable the configuration of transactional behavior based on annotations -->

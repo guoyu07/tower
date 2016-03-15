@@ -75,10 +75,9 @@ public class StatementHandlerPlugin implements Interceptor {
 			Environment env = null;
 			if (configuration != null) {
 				env = configuration.getEnvironment();
+				db = configuration.getVariables().getProperty("database_name");
 			}
-			if (env != null) {
-				db = env.getId();
-			}
+			
 			/**
 			 * 删除sql \/*...*\/的多行注释，和以 -- 开始的单行注释
 			 */
@@ -89,9 +88,9 @@ public class StatementHandlerPlugin implements Interceptor {
 			sb.append(" /*from_api:");
 			sb.append(Request.getId());
 			sb.append(pid);
-			sb.append(" ");
+			sb.append(" spid=");
 			sb.append(SPUtil.getSpid());
-			sb.append(" ");
+			sb.append(" dbname=");
 			sb.append(db);
 			sb.append("*/");
 			sql = sb.toString().replaceAll("\n", " ").replaceAll("\t", " ")

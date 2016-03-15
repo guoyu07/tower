@@ -19,7 +19,10 @@
 			<groupId>com.tower.soafw</groupId>
 			<artifactId>tower-cache</artifactId>
 		</dependency>
-		
+		<dependency>
+			<groupId>com.#{company}.service.#{artifactId}</groupId>
+			<artifactId>#{artifactId}-util</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
