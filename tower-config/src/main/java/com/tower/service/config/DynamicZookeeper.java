@@ -59,7 +59,7 @@ public class DynamicZookeeper extends PrefixPriorityConfig{
 	@Override
 	protected synchronized void build(Configuration config) {
 
-		connString = config.getString("connectionString");
+		connString = config.getString("connectionString");//10.20.3.9:2181,10.20.6.107:2181,10.20.6.39:2181
 		connectionTimeoutMs = getInteger("connectionTimeoutMs", 50);
 		sessionTimeoutMs = getInteger("sessionTimeoutMs", 2 * 1000);
 		lockAcquireTimeout = getInteger("lockAcquireTimeout", 1);

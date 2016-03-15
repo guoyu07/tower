@@ -36,6 +36,8 @@ Fastdfs对libevent版本有要求，所以先删除系统自带的libevent,然�
 
 3：安装最新的libevent
 
+wget https://github.com/downloads/libevent/libevent/libevent-2.0.21-stable.tar.gz
+
 本示例的libevent使用版本为libevent-2.0.21-stable.tar.gz
 
 安装libevent   
