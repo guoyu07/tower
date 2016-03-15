@@ -24,15 +24,14 @@ public class CodeDto implements IResult {
 	/**
 	 * 编号
 	 */
-  	private String no;
-  	
-  	public void setNo(String no){
-  		this.no=no;
-  	}
-  	
-  	public String getNo(){
-  		return this.no;
-  	}
+  	private String itemType;
+	public String getItemType() {
+		return itemType;
+	}
+
+	public void setItemType(String itemType) {
+		this.itemType = itemType;
+	}
 	/**
 	 * 名称
 	 */
@@ -116,8 +115,8 @@ public class CodeDto implements IResult {
 		this.itemValue = itemValue;
 	}
 
-	public CodeDto(String no, String name) {
-		this.no = no;
+	public CodeDto(String itemType, String name) {
+		this.itemType = itemType;
 		this.name = name;
 	}
   	

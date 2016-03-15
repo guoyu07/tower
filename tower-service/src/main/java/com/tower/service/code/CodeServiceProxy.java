@@ -20,8 +20,8 @@ public class CodeServiceProxy {
     private static Map<String, List<CodeDto>> codeMap = new ConcurrentHashMap<String, List<CodeDto>>();
 
     @SuppressWarnings("unchecked")
-    private List<CodeDto> getData(String codeNo, String... itemNo) {
-    	StringBuilder sb = new StringBuilder(codeNo);
+    private List<CodeDto> getData(String itemType, String... itemNo) {
+    	StringBuilder sb = new StringBuilder(itemType);
     	if (itemNo != null && itemNo.length != 0) {
     		for (String string : itemNo) {
     		    sb.append(",");
@@ -33,7 +33,7 @@ public class CodeServiceProxy {
             return codeMap.get(key);
         } else {
             Map<String, Object> params = new HashMap<String, Object>();
-            params.put("no", codeNo);
+            params.put("itemType", itemType);
             CodeResponse response = codeServiceClient.selectList(params);
             List<CodeDto> list = (List<CodeDto>) response.getList();
             if (itemNo == null || itemNo.length == 0) {
@@ -68,7 +68,7 @@ public class CodeServiceProxy {
             String[] keyA = key.split(",");
             int len=keyA.length;
             Map<String, Object> params = new HashMap<String, Object>();
-            params.put("no", keyA[0]);
+            params.put("itemType", keyA[0]);
             CodeResponse response = codeServiceClient.selectList(params);
             List<CodeDto> list = (List<CodeDto>) response.getList();
             if (list != null && !list.isEmpty()) {
@@ -93,30 +93,30 @@ public class CodeServiceProxy {
     
     /**
      * 根据code编号获取所有其下的code子值
-     * @param codeNo
+     * @param itemType
      * @return
      */
-    public List<CodeDto> getCodes(String codeNo) {
-        return getData(codeNo);
+    public List<CodeDto> getCodes(String itemType) {
+        return getData(itemType);
     }
     
     /**
      * 根据code编号获取所有其下的code子值
-     * @param codeNo
+     * @param itemType
      * @return
      */
-    public List<CodeDto> getCodes(String codeNo, String... itemNo) {
-        return getData(codeNo,itemNo);
+    public List<CodeDto> getCodes(String itemType, String... itemNo) {
+        return getData(itemType,itemNo);
     }
     
     /**
      * 根据code编号 和 节点编号 itemNo 获取 健
-     * @param codeNo code编号 
+     * @param itemType code编号 
      * @param itemNo 节点编号
      * @return
      */
-    public String getItemKeyByItemNo(String codeNo,String itemNo) {
-        List<CodeDto> list = getData(codeNo);
+    public String getItemKeyByItemNo(String itemType,String itemNo) {
+        List<CodeDto> list = getData(itemType);
         if (list != null && !list.isEmpty()) {
             for (CodeDto codeDto : list) {
                 if (codeDto.getItemNo().equals(itemNo)) {
@@ -129,12 +129,12 @@ public class CodeServiceProxy {
     
     /**
      * 根据code编号 和 节点编号 itemNo 获取 值
-     * @param codeNo code编号 
+     * @param itemType code编号 
      * @param itemNo 节点编号
      * @return
      */
-    public String getItemValueByItemNo(String codeNo,String itemNo) {
-        List<CodeDto> list = getData(codeNo);
+    public String getItemValueByItemNo(String itemType,String itemNo) {
+        List<CodeDto> list = getData(itemType);
         if (list != null && !list.isEmpty()) {
             for (CodeDto codeDto : list) {
                 if (codeDto.getItemNo().equals(itemNo)) {
@@ -147,12 +147,12 @@ public class CodeServiceProxy {
     
     /**
      * 根据code编号 和 节点编号 itemNo 获取 健
-     * @param codeNo code编号 
+     * @param itemType code编号 
      * @param itemNo 节点编号
      * @return
      */
-    public String getItemKey(String codeNo,String itemValue) {
-        List<CodeDto> list = getData(codeNo);
+    public String getItemKey(String itemType,String itemValue) {
+        List<CodeDto> list = getData(itemType);
         if (list != null && !list.isEmpty()) {
             for (CodeDto codeDto : list) {
                 if (codeDto.getItemValue().equals(itemValue)) {
@@ -165,12 +165,12 @@ public class CodeServiceProxy {
     
     /**
      * 根据code编号 和 节点编号 itemNo 获取  值
-     * @param codeNo code编号 
+     * @param itemType code编号 
      * @param itemNo 节点编号
      * @return
      */
-    public String getItemValue(String codeNo,String itemKey) {
-        List<CodeDto> list = getData(codeNo);
+    public String getItemValue(String itemType,String itemKey) {
+        List<CodeDto> list = getData(itemType);
         if (list != null && !list.isEmpty()) {
             for (CodeDto codeDto : list) {
                 if (codeDto.getItemKey().equals(itemKey)) {
@@ -183,12 +183,12 @@ public class CodeServiceProxy {
     
     /**
      * 判断 健 是否存在
-     * @param codeNo
+     * @param itemType
      * @param itemKey
      * @return
      */
-    public boolean isExistByItemKey(String codeNo,String itemKey) {
-        List<CodeDto> list = getData(codeNo);
+    public boolean isExistByItemKey(String itemType,String itemKey) {
+        List<CodeDto> list = getData(itemType);
         if (list != null && !list.isEmpty()) {
             for (CodeDto codeDto : list) {
                 if (codeDto.getItemKey().equals(itemKey)) {
@@ -201,12 +201,12 @@ public class CodeServiceProxy {
     
     /**
      * 判断 值 是否存在
-     * @param codeNo
+     * @param itemType
      * @param itemValue
      * @return
      */
-    public boolean isExistByItemValue(String codeNo,String itemValue) {
-        List<CodeDto> list = getData(codeNo);
+    public boolean isExistByItemValue(String itemType,String itemValue) {
+        List<CodeDto> list = getData(itemType);
         if (list != null && !list.isEmpty()) {
             for (CodeDto codeDto : list) {
                 if (codeDto.getItemValue().equals(itemValue)) {
