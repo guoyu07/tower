@@ -8,10 +8,10 @@ import java.io.InputStreamReader;
 import com.tower.service.exception.ExceptionSupport;
 
 public class SPUtil {
+	private static String staticSpId="";
 	static {
 		initStaticSpId();
 	}
-	private static String staticSpId="";
 	private static final String SPID_FILE = "/META-INF/SPID";
 
 	/**
