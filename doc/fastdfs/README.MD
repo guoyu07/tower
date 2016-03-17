@@ -166,7 +166,7 @@ Nginx需要依赖第三方的库 nginx的gzip模块需要zlib库，rewrite模块
 
 检查是否正常启动
 
- >> netstat –anp|grep –w fdfs
+ >> netstat -anp|grep -w fdfs
 
 看是否有输出，且22122端口已启动
 
