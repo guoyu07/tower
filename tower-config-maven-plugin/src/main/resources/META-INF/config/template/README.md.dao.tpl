@@ -17,7 +17,8 @@
 		+ 保存在#{artifactId}-dao/src/main/resource/META-INF/config/spring
 		+ spring-dao.xml
 		+ 通过配置MultipleDataSource实例的targetDataSources属性列表
-		
+	+ 事务配置
+		+ 找到spring-dao.xml,取消transactionManager的注释
 	+ 资源&开关配置
 		+ 资源文件默认保存在/config目录,当没有找到时，程序会从tsl-dao/src/main/resource/META-INF/config/local中读取配置信息
 		+ database.properties
