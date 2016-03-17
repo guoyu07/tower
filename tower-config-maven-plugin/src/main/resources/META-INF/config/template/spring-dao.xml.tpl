@@ -17,7 +17,7 @@
 	<!--框架配置：该scan设置请不要轻易改变-->
 	<context:component-scan base-package="com.tower.service.dao.ibatis" />
 	<context:component-scan base-package="com.tower.service.cache.dao.ibatis" />
-	<context:component-scan base-package="com.siling.service.#{artifactId}.dao.ibatis" />
+	<context:component-scan base-package="com.#{company}.service.#{artifactId}.dao.ibatis" />
 	
 	<!--框架配置：该import设置请不要轻易改变-->
 	<import resource="classpath*:/META-INF/config/spring/spring-cache.xml"/>
