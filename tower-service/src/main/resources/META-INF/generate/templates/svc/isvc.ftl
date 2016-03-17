@@ -1,6 +1,5 @@
 package ${package};
 
-import java.util.List;
 import java.util.Map;
 
 import ${package}.dto.${name}Dto;
@@ -22,8 +21,14 @@ import com.tower.service.domain.ServiceResponse;
 public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	
 	/**
-	 * 新增${name}对象
-	 * @param params 插入参数
+	 * 新增SoaSp对象
+	 * 
+	 * 按照业务逻辑在服务实现体内<br>
+	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过设置tabNameSuffix来实现分表机制实现<br>
+	 * 
+	 * @param params
+	 *            插入参数
 	 * @return
 	 */
 	<#if pkType="Integer">	
@@ -36,8 +41,10 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	public ServiceResponse<LongResult> insert(Map<String, Object> params);
 	</#if>
 	/**
-	 * 通过主键删除业务对象
-	 * 
+	 * 通过id删除数据
+	 * 按照业务逻辑在服务实现体内<br>
+	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * @param id
 	 *            主键值
 	 * @return
@@ -54,6 +61,10 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	/**
 	 * 通过条件删除数据
 	 * 
+	 * 按照业务逻辑在服务实现体内<br>
+	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过设置tabNameSuffix来实现分表机制实现<br>
+	 * 
 	 * @param params
 	 *            参数
 	 * @return
@@ -61,6 +72,10 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	public ServiceResponse<IntegerResult> deleteByMap(Map<String, Object> params);
 	/**
 	 * 通过id，更新业务对象
+	 * 
+	 * 按照业务逻辑在服务实现体内<br>
+	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param id
 	 *            主键值
@@ -79,6 +94,10 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	/**
 	 * 通过map条件更新数据
 	 * 
+	 * 按照业务逻辑在服务实现体内<br>
+	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过设置tabNameSuffix来实现分表机制实现<br>
+	 * 
 	 * @param newValue
 	 *            新值
 	 * @param conds
@@ -89,6 +108,10 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 			Map<String, Object> newValue, Map<String, Object> conds);
 	/**
 	 * 通过id查询对象，默认从slave中查询
+	 * 
+	 * 按照业务逻辑在服务实现体内<br>
+	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param id
 	 *            主键值
@@ -105,6 +128,10 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	</#if>
 	/**
 	 * 通过id查询对象
+	 * 
+	 * 按照业务逻辑在服务实现体内<br>
+	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param id
 	 *            主键值
@@ -124,6 +151,11 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	</#if>
 	
 	/**
+	 * 通过map查询数据
+	 * 
+	 * 按照业务逻辑在服务实现体内<br>
+	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param params
 	 *            查询条件
@@ -132,6 +164,10 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	public ServiceResponse<ListResult<T>> queryByMap(Map<String, Object> params);
 
 	/**
+	 * 通过map查询数据
+	 
+	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param params
 	 *            查询条件
@@ -142,29 +178,54 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	public ServiceResponse<ListResult<T>> queryByMap(Map<String, Object> params, Boolean master);
 	
 	/**
+	 * 统计记录数
+	 *
+	 * 按照业务逻辑在服务实现体内<br>
+	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
-	 * @param params 查询条件
+	 * @param params
+	 *            查询条件
 	 * @return
 	 */
 	public ServiceResponse<IntegerResult> count(Map<String, Object> params);
 	
 	/**
+	 * 统计记录数
 	 * 
-	 * @param params 查询条件
-	 * @param master 是否从主库中查询
+	 * 按照业务逻辑在服务实现体内<br>
+	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过设置tabNameSuffix来实现分表机制实现<br>
+	 * 
+	 * @param params
+	 *            查询条件
+	 * @param master
+	 *            是否从主库中查询
 	 * @return
 	 */
 	public ServiceResponse<IntegerResult> count(Map<String, Object> params, Boolean master);
 	/**
+	 * 分页查询数据
 	 * 
-	 * @param params 查询条件
-	 * @param pageIndex 分页位置
-	 * @param pageSize 分页大小
+	 * 按照业务逻辑在服务实现体内<br>
+	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过设置tabNameSuffix来实现分表机制实现<br>
+	 * 
+	 * @param params
+	 *            查询条件
+	 * @param pageIndex
+	 *            分页位置
+	 * @param pageSize
+	 *            分页大小
 	 * @return
 	 */
 	public ServiceResponse<PageResult<T>> pageByMap(Map<String, Object> params,int pageIndex,int pageSize);
 	/**
 	 * 分页查询
+	 * 
+	 * 按照业务逻辑在服务实现体内<br>
+	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param params
 	 *            查询条件
@@ -179,16 +240,29 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	public ServiceResponse<PageResult<T>> pageByMap(Map<String, Object> params,
 			int pageIndex, int pageSize, String orders);
 	/**
+	 * 分页查询数据
 	 * 
-	 * @param params 查询条件
-	 * @param pageIndex 分页位置
-	 * @param pageSize 分页大小
-	 * @param master 是否从主库中查询
+	 * 按照业务逻辑在服务实现体内<br>
+	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过设置tabNameSuffix来实现分表机制实现<br>
+	 * 
+	 * @param params
+	 *            查询条件
+	 * @param pageIndex
+	 *            分页位置
+	 * @param pageSize
+	 *            分页大小
+	 * @param master
+	 *            是否从主库中查询
 	 * @return
 	 */
 	public ServiceResponse<PageResult<T>> pageByMap(Map<String, Object> params,int pageIndex,int pageSize, Boolean master);
 	/**
 	 * 分页查询
+	 * 
+	 * 按照业务逻辑在服务实现体内<br>
+	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param params
 	 *            查询条件
