@@ -1,22 +1,25 @@
 package com.tower.service.config.utils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class TowerConfig {
 	private static Properties towerConfig=null;
+	static{
+		towerConfig = loadProperties();
+	}
 	public synchronized static String getConfig(String key){
-        if(towerConfig==null){
-            loadProperties();
-        }
         return towerConfig.getProperty(key);
     }
-    private static void loadProperties(){
+    private static Properties loadProperties(){
     	towerConfig=new Properties();
         try {
-        	towerConfig.load(TowerConfig.class.getResourceAsStream("/META-INF/tower.properties"));
+        	InputStream is = TowerConfig.class.getResourceAsStream("/META-INF/tower.properties");
+        	towerConfig.load(is);
         } catch (IOException e) {
         }
+        return towerConfig;
     }
     
     public static void main(String[] args){

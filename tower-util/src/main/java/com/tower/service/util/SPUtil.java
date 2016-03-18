@@ -51,4 +51,8 @@ public class SPUtil {
 	public static String getSpid() {
 		return staticSpId;
 	}
+	
+	public static void main(String[] args){
+    	System.out.println(getSpid());
+    }
 }

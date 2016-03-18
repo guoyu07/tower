@@ -11,18 +11,24 @@
 			+ 其他实现:com.tower.service.datasource.StatsDataSource［DruidDataSource实现的封装］
 + ... 
 
-+配置
++ 配置
 	
 	+ 应用配置
 		+ 保存在#{artifactId}-dao/src/main/resource/META-INF/config/spring
 		+ spring-dao.xml
-		+ 通过配置MultipleDataSource实例的targetDataSources属性列表
+		+ 通过配置DataSourceRouter实例的targetDataSources属性列表
 	+ 事务配置
 		+ 找到spring-dao.xml,取消transactionManager的注释
 	+ 资源&开关配置
 		+ 资源文件默认保存在/config目录,当没有找到时，程序会从tsl-dao/src/main/resource/META-INF/config/local中读取配置信息
 		+ database.properties
 		+ acc.xml
+	+ 分库
+		+ 通过DataSourceRouter在serviceImpl相关业务中实现
+	+ 分表
+		+ 通过数据访问层tabNameSuffix接口参数支持
+	+ 读写分离
+		+ 通过设置datasource.properties xxxx_db(读/写)、xxxx_db_slave（读）、xxxx_db_map_query（读）地址支持
 
 + dao生成器的使用
 	

@@ -65,7 +65,7 @@
 
 ##### tower-framwork
 + 统一的java框架
-+ j2ee、spring、mybaties、springmvc、freemarker、memchecache、redis、mysql等
++ j2ee、spring、mybatis、springmvc、freemarker、memchecache、redis、mysql等
 
 ###### tower－util
 + 框架中的公共类，eg：工具类 
@@ -122,8 +122,12 @@
 
 ###### tower－dao
 + 数据访问层框架模块
-+ 关系型数据库访问层接口及默认实现机制（mybaties）
++ 关系型数据库访问层接口及默认实现机制（mybatis）
 + 数据访问层代码生成器目前支持mysql、sql server
++ 支持分表机制：在serviceImpl具体的方法体内使用tabNameSuffix进行分表支持
++ 支持分库机制：在serviceImpl具体的方法体内使用DataSourceRouter进行datasource切换
++ 支持读写分离：改变database.properties数据源xxxx_slave、xxxx_map_query的ip地址
+
 
 ###### tower－model
 + 业务模型对象模块

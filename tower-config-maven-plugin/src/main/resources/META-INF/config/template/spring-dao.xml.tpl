@@ -27,7 +27,7 @@
 		init-method="init">
 		<property name="prefix" value="cache_db" />
 	</bean>
-	<bean id="cache_db" class="com.tower.service.datasource.MultipleDataSource">
+	<bean id="cache_db" class="com.tower.service.datasource.DataSourceRouter">
         <property name="defaultTargetDataSource" ref="cache_dbSrc"/>
         <property name="targetDataSources">
             <map>
@@ -50,7 +50,7 @@
 		init-method="init">
 		<property name="prefix" value="cache_db_slave" />
 	</bean>
-	<bean id="cache_db_slave" class="com.tower.service.datasource.MultipleDataSource">
+	<bean id="cache_db_slave" class="com.tower.service.datasource.DataSourceRouter">
         <property name="defaultTargetDataSource" ref="cache_db_slaveSrc"/>
         <property name="targetDataSources">
             <map>
@@ -73,7 +73,7 @@
 		init-method="init">
 		<property name="prefix" value="cache_db_map_query" />
 	</bean>
-	<bean id="cache_db_map_query" class="com.tower.service.datasource.MultipleDataSource">
+	<bean id="cache_db_map_query" class="com.tower.service.datasource.DataSourceRouter">
         <property name="defaultTargetDataSource" ref="cache_db_map_querySrc"/>
         <property name="targetDataSources">
             <map>
@@ -99,7 +99,7 @@
 		init-method="init">
 		<property name="prefix" value="#{artifactId}_db" />
 	</bean>
-	<bean id="#{artifactId}_db" class="com.tower.service.datasource.MultipleDataSource">
+	<bean id="#{artifactId}_db" class="com.tower.service.datasource.DataSourceRouter">
         <property name="defaultTargetDataSource" ref="#{artifactId}_dbSrc"/>
         <property name="targetDataSources">
             <map>
@@ -122,7 +122,7 @@
 		init-method="init">
 		<property name="prefix" value="#{artifactId}_db_slave" />
 	</bean>
-	<bean id="#{artifactId}_db_slave" class="com.tower.service.datasource.MultipleDataSource">
+	<bean id="#{artifactId}_db_slave" class="com.tower.service.datasource.DataSourceRouter">
         <property name="defaultTargetDataSource" ref="#{artifactId}_db_slaveSrc"/>
         <property name="targetDataSources">
             <map>
@@ -145,7 +145,7 @@
 		init-method="init">
 		<property name="prefix" value="#{artifactId}_db_map_query" />
 	</bean>
-	<bean id="#{artifactId}_db_map_query" class="com.tower.service.datasource.MultipleDataSource">
+	<bean id="#{artifactId}_db_map_query" class="com.tower.service.datasource.DataSourceRouter">
         <property name="defaultTargetDataSource" ref="#{artifactId}_db_map_querySrc"/>
         <property name="targetDataSources">
             <map>

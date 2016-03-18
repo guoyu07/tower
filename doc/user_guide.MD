@@ -120,7 +120,7 @@
 
 ### tower-framwork
 + 统一的java框架
-+ j2ee、spring、mybaties、springmvc、freemarker、memchecache、redis、mysql等
++ j2ee、spring、mybatis、springmvc、freemarker、memchecache、redis、mysql等
 
 ### tower－util
 + 框架中的公共类，eg：工具类 
@@ -177,7 +177,7 @@
 
 ### tower－dao
 + 数据访问层框架模块
-+ 关系型数据库访问层接口及默认实现机制（mybaties）
++ 关系型数据库访问层接口及默认实现机制（mybatis）
 + 数据访问层代码生成器目前支持mysql、sql server
 
 ### tower－model

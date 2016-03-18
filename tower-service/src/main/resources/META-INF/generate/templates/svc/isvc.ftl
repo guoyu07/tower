@@ -24,7 +24,7 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	 * 新增SoaSp对象
 	 * 
 	 * 按照业务逻辑在服务实现体内<br>
-	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过DataSourceRouter.switch2("xxDataSourceId")接口支持分库机制<br>
 	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param params
@@ -43,7 +43,7 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	/**
 	 * 通过id删除数据
 	 * 按照业务逻辑在服务实现体内<br>
-	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过DataSourceRouter.switch2("xxDataSourceId")接口支持分库机制<br>
 	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * @param id
 	 *            主键值
@@ -62,7 +62,7 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	 * 通过条件删除数据
 	 * 
 	 * 按照业务逻辑在服务实现体内<br>
-	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过DataSourceRouter.switch2("xxDataSourceId")接口支持分库机制<br>
 	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param params
@@ -74,7 +74,7 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	 * 通过id，更新业务对象
 	 * 
 	 * 按照业务逻辑在服务实现体内<br>
-	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过DataSourceRouter.switch2("xxDataSourceId")接口支持分库机制<br>
 	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param id
@@ -95,7 +95,7 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	 * 通过map条件更新数据
 	 * 
 	 * 按照业务逻辑在服务实现体内<br>
-	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过DataSourceRouter.switch2("xxDataSourceId")接口支持分库机制<br>
 	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param newValue
@@ -110,7 +110,7 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	 * 通过id查询对象，默认从slave中查询
 	 * 
 	 * 按照业务逻辑在服务实现体内<br>
-	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过DataSourceRouter.switch2("xxDataSourceId")接口支持分库机制<br>
 	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param id
@@ -130,7 +130,7 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	 * 通过id查询对象
 	 * 
 	 * 按照业务逻辑在服务实现体内<br>
-	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过DataSourceRouter.switch2("xxDataSourceId")接口支持分库机制<br>
 	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param id
@@ -154,7 +154,7 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	 * 通过map查询数据
 	 * 
 	 * 按照业务逻辑在服务实现体内<br>
-	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过DataSourceRouter.switch2("xxDataSourceId")接口支持分库机制<br>
 	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param params
@@ -166,7 +166,7 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	/**
 	 * 通过map查询数据
 	 
-	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过DataSourceRouter.switch2("xxDataSourceId")接口支持分库机制<br>
 	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param params
@@ -181,7 +181,7 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	 * 统计记录数
 	 *
 	 * 按照业务逻辑在服务实现体内<br>
-	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过DataSourceRouter.switch2("xxDataSourceId")接口支持分库机制<br>
 	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param params
@@ -194,7 +194,7 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	 * 统计记录数
 	 * 
 	 * 按照业务逻辑在服务实现体内<br>
-	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过DataSourceRouter.switch2("xxDataSourceId")接口支持分库机制<br>
 	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param params
@@ -208,7 +208,7 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	 * 分页查询数据
 	 * 
 	 * 按照业务逻辑在服务实现体内<br>
-	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过DataSourceRouter.switch2("xxDataSourceId")接口支持分库机制<br>
 	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param params
@@ -224,7 +224,7 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	 * 分页查询
 	 * 
 	 * 按照业务逻辑在服务实现体内<br>
-	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过DataSourceRouter.switch2("xxDataSourceId")接口支持分库机制<br>
 	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param params
@@ -243,7 +243,7 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	 * 分页查询数据
 	 * 
 	 * 按照业务逻辑在服务实现体内<br>
-	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过DataSourceRouter.switch2("xxDataSourceId")接口支持分库机制<br>
 	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param params
@@ -261,7 +261,7 @@ public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
 	 * 分页查询
 	 * 
 	 * 按照业务逻辑在服务实现体内<br>
-	 * 通过MultipleDataSource.setDataSourceKey("...")接口支持分库机制<br>
+	 * 通过DataSourceRouter.switch2("xxDataSourceId")接口支持分库机制<br>
 	 * 通过设置tabNameSuffix来实现分表机制实现<br>
 	 * 
 	 * @param params

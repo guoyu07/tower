@@ -2,11 +2,14 @@ package com.tower.service.datasource;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
-public class MultipleDataSource extends AbstractRoutingDataSource {
+public class DataSourceRouter extends AbstractRoutingDataSource {
 	
 	private static final ThreadLocal<String> dataSourceKey = new InheritableThreadLocal<String>();
-
-	public static void setDataSourceKey(String dataSource) {
+	/**
+	 * 切换到指定的数据源
+	 * @param dataSource
+	 */
+	public static void switch2(String dataSource) {
 		dataSourceKey.set(dataSource);
 	}
 
