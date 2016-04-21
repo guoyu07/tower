@@ -35,4 +35,5 @@ CREATE TABLE `cache_version` (
 #### 事务
 + 通过开启spring-dao.xml中transactionManager相关注释;
 
-#### [事务原理参考文档](JTA.MD)
+#### [传统分布式事务原理参考文档](JTA.MD)
+#### [创新分布式事务原理参考文档](JTA2.0.MD)
