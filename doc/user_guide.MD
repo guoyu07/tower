@@ -6,6 +6,8 @@
 	+ 创建sofa_db数据库
 	+ 修改tower-config/src/main/resource/META-INF/tower.properties内的数据库配置信息
 + 备注：个别java包可能需要在互联网上单独下载，公共的私服服务上可能没有；
+	+ dubbo 2.8.4.jar [dubbox]
+	+ memcached-2.0.1.jar
 + 配置maven配置文件settings.xml
 <p>详细配置信息</p>
 ```
