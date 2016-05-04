@@ -1,7 +1,16 @@
 ## 框架使用说明
 
 ### 搭建本地私服库（nexus）
-+ 本地私服库域名：maven.corp.tower.com
++ 本地私服库域名
+	+ 修改setting.xml，替换repositories中的url的内容为真实maven私服中的public
+		+ public url ![maven public url](maven/public_url.png)
+	+ 修改tower/pom.xml，替换release url及snapshot url
+		+ release url ![maven release url](maven/release_url.png)
+		+ snapshot url ![maven snapshot url](maven/snapshots_url.png)
+	+ 修改tower-config-maven-plugin/src/main/resources/META-INF/config/template/pom.xml.tpl，替换release url及snapshot url
+		+ release url ![maven release url](maven/release_url.png)
+		+ snapshot url ![maven snapshot url](maven/snapshots_url.png)
+
 + 本地开发数据库域名：db.corp.tower.com
 	+ 创建sofa_db数据库
 	+ 修改tower-config/src/main/resource/META-INF/tower.properties内的数据库配置信息
