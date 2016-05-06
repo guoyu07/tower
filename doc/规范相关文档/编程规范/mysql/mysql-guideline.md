@@ -84,8 +84,11 @@ SELECT id, title FROM xiaoqu WHERE areacode = "000100010001"
 > 原则：适用就好，越小越好
 > 
 > TINYINT< SMALLINT < MEDIUMINT < INT < BIGINT
+> 
 > 1 Byte/2 Bytes/3 Bytes/4 Bytes/8 Bytes
+> 
 > FLOAT（4B）/DOUBLE（8B）
+> 
 > DECIMAL（M,D） (M+2 B)
 
 ### 不使用浮点类型（FLOAT、DOUBLE）
