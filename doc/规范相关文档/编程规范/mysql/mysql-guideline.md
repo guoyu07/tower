@@ -162,6 +162,15 @@ SELECT id, title FROM xiaoqu WHERE areacode = "000100010001"
 > SELECT id FROM property WHERE title LIKE '%最%'
 > ```
 
+### 禁止SQL语句拼接
+> 应用程序不能有拼接语句出现
+
+### 禁止使用DELETE语句使用
+> 应用程序不能有DELETE语句出现
+
+### 禁止全表更新语句使用
+> 应用程序不能执行全表更新语句出现
+
 ### 不使用联表查询
 
 > OLTP 不使用 `JOIN` 联合查询。

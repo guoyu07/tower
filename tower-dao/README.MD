@@ -13,13 +13,22 @@ CREATE TABLE `cache_version` (
 
 在spring-dao.xml中新增一组cache_db配置
 
-#### 开关
+#### 缓存开关
 + 开启：-DX-Cached=true；
 + 关闭：-DX-Cached=false；但是会刷新缓存；
 + 查询时当master＝true时，查询不启用缓存，但是会刷新缓存；
 + 主键操作dao
 + 外键操作dao
 + 其它操作dao
+
+#### 禁止操作
++ 屏蔽不带where 条件的更新操作
++ 屏蔽delete操作
++ 参见 MySQL规范：<<mysql-guideline.md>>
+
+#### 数据访问层开关
++ 配置文件acc.xml
++ deletable，默认不允许执行，如果需要在应用程序中执行则需要开启
 
 #### [缓存算法](DAO2.0.md)
 

@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
+import javax.annotation.Resource;
+
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.Environment;
@@ -15,6 +17,8 @@ import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.Configuration;
 
+import com.tower.service.config.DynamicConfig;
+import com.tower.service.config.dict.ConfigComponent;
 import com.tower.service.exception.DataAccessException;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
@@ -41,6 +45,9 @@ public class StatementHandlerPlugin implements Interceptor {
 		pid=pid.replaceAll("localhost", ip);
 	}
 
+	@Resource(name = ConfigComponent.AccConfig)
+	protected DynamicConfig accConfig;
+	
 	public Object intercept(Invocation invocation) throws Throwable {
 
 		StatementHandler statementHandler = (StatementHandler) invocation
@@ -96,8 +103,13 @@ public class StatementHandlerPlugin implements Interceptor {
 			sql = sb.toString().replaceAll("\n", " ").replaceAll("\t", " ")
 					.replaceAll("[\\s]+", " ");//格式化sql语句
 			String tmp = sql.toLowerCase().trim();
-			if ((tmp.indexOf("update ") == 0 || tmp.indexOf("delete ") == 0)
-					&& tmp.indexOf(" where ") == -1) {//屏蔽不带where 条件的更新&删除操作
+			Boolean deletable = accConfig.getBoolean("deletable", false);
+			if(!deletable && tmp.indexOf("delete ") == 0){//屏蔽删除操作
+				throw new DataAccessException(IBatisDAOException.MSG_1_0014,
+						sql);
+			}
+			if (tmp.indexOf("update ") == 0
+					&& tmp.indexOf(" where ") == -1) {//屏蔽不带where 条件的更新操作
 				throw new DataAccessException(IBatisDAOException.MSG_1_0007,
 						sql);
 			}
