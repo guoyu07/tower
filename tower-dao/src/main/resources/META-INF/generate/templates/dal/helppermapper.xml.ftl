@@ -32,16 +32,16 @@
 	            <foreach collection="criteria.criteria" item="criterion">
 	              <choose>
 	                <when test="criterion.noValue">
-	                  and ${r"${criterion.condition}"}
+	                  AND ${r"${criterion.condition}"}
 	                </when>
 	                <when test="criterion.singleValue">
-	                  and ${r"${criterion.condition}"} ${r"#{criterion.value}"}
+	                  AND ${r"${criterion.condition}"} ${r"#{criterion.value}"}
 	                </when>
 	                <when test="criterion.betweenValue">
-	                  and ${r"${criterion.condition}"} ${r"#{criterion.value}"} and ${r"#{criterion.secondValue}"}
+	                  AND ${r"${criterion.condition}"} ${r"#{criterion.value}"} AND ${r"#{criterion.secondValue}"}
 	                </when>
 	                <when test="criterion.listValue">
-	                  and ${r"${criterion.condition}"}
+	                  AND ${r"${criterion.condition}"}
 	                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
 	                    ${r"#{listItem}"}
 	                  </foreach>
@@ -55,12 +55,12 @@
  	</sql>
   	
   	<select id="queryByHelpper" parameterType="${package}.dao.model.${name}Helpper" resultMap="BaseResultMap"  fetchSize="100">
-	    select
+	    SELECT
 	    	<if test="distinct">
 	      		distinct
 	    	</if>
 	    	<include refid="Base_Column_List" />
-	    from 
+	    FROM 
 	    	${r"${TowerTabName}"}
 	    	
 	      	<include refid="Helpper_Where_Clause" />
@@ -71,9 +71,9 @@
   	</select>
   	
   	<select id="countByHelpper" parameterType="${package}.dao.model.${name}Helpper" resultType="java.lang.Integer">
-    	select 
+    	SELECT 
     		count(*) 
-    	from 
+    	FROM 
     		${r"${TowerTabName}"}
 	     
 	     <include refid="Helpper_Where_Clause" />
@@ -81,8 +81,8 @@
   	</select>
   
   	<delete id="deleteByHelpper" parameterType="${package}.dao.model.${name}Helpper">
-	    delete 
-	    from 
+	    DELETE 
+	    FROM 
 	    	${r"${TowerTabName}"}
 		<include refid="Helpper_Where_Clause" />
   	</delete>
@@ -95,16 +95,16 @@
 	            <foreach collection="criteria.criteria" item="criterion">
 	              <choose>
 	                <when test="criterion.noValue">
-	                  and ${r"${criterion.condition}"}
+	                  AND ${r"${criterion.condition}"}
 	                </when>
 	                <when test="criterion.singleValue">
-	                  and ${r"${criterion.condition}"} ${r"#{criterion.value}"}
+	                  AND ${r"${criterion.condition}"} ${r"#{criterion.value}"}
 	                </when>
 	                <when test="criterion.betweenValue">
-	                  and ${r"${criterion.condition}"} ${r"#{criterion.value}"} and ${r"#{criterion.secondValue}"}
+	                  AND ${r"${criterion.condition}"} ${r"#{criterion.value}"} AND ${r"#{criterion.secondValue}"}
 	                </when>
 	                <when test="criterion.listValue">
-	                  and ${r"${criterion.condition}"}
+	                  AND ${r"${criterion.condition}"}
 	                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
 	                    ${r"#{listItem}"}
 	                  </foreach>
@@ -117,7 +117,7 @@
 	    </where>
   	</sql>
   	<update id="updateByHelpper" parameterType="java.util.Map">
-  		update 
+  		UPDATE 
   		${r"${TowerTabName}"}
 		<set>
 			<#if tab.pkFieldNum==1>

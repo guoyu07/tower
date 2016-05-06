@@ -41,14 +41,14 @@
 		<#if tab.pkFieldNum==1>
 		<#list colMaps as col>
 		<#if col.isPK="yes" &&   (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
-		and ${col.name}=${r"#{id}"}
+		AND ${col.name}=${r"#{id}"}
 		</#if>
 		</#list>
 		<#else>			
 		<#list colMaps as col>
 		<#if col.isPK="yes">
 		<if test="${col.fieldName} !=  null">			        
-			and ${col.name}=${r"#{"}${col.fieldName}${r"}"}
+			AND ${col.name}=${r"#{"}${col.fieldName}${r"}"}
 		</if>
 		</#if>
 		</#list>
@@ -60,14 +60,14 @@
 		<#list colMaps as col>
 		<#if tab.pkFieldNum==1 && col.isPK="yes" &&   (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
 		<if test="id !=  null">
-			and ${col.name}=${r"#{id}"}
+			AND ${col.name}=${r"#{id}"}
 		</if>
 		<if test="fromId !=  null">
-			and ${col.name}>${r"#{fromId"}${r"}"}
+			AND ${col.name}>${r"#{fromId"}${r"}"}
 		</if>
 		<#else>
 		<if test="${col.fieldName} !=  null">			        
-			and ${col.name}=${r"#{"}${col.fieldName}${r"}"}
+			AND ${col.name}=${r"#{"}${col.fieldName}${r"}"}
 		</if>
 		</#if>			
 		</#list>
@@ -75,7 +75,7 @@
 		<#list colMaps as col>
 		<#if col.isPK="yes">
 		<if test="${col.fieldName} !=  null">			        
-			and ${col.name}=${r"#{"}${col.fieldName}${r"}"}
+			AND ${col.name}=${r"#{"}${col.fieldName}${r"}"}
 		</if>
 		</#if>
 		</#list>
@@ -135,14 +135,14 @@
 		<#list colMaps as col>
 		<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
 		<if test="params.id !=  null">
-			and ${col.name}=${r"#{params.id"}${r"}"}
+			AND ${col.name}=${r"#{params.id"}${r"}"}
 		</if>
 		<if test="params.fromId !=  null">
-			and ${col.name}>${r"#{params.fromId"}${r"}"}
+			AND ${col.name}>${r"#{params.fromId"}${r"}"}
 		</if>
 		<#else>
 		<if test="${r"params."}${col.fieldName} !=  null">
-			and ${col.name}=${r"#{params."}${col.fieldName}${r"}"}
+			AND ${col.name}=${r"#{params."}${col.fieldName}${r"}"}
 		</if>
 		</#if>			
 		</#list>
@@ -150,7 +150,7 @@
 		<#list colMaps as col>
 		<#if col.isPK="yes">
 		<if test="${r"params."}${col.fieldName} !=  null">
-			and ${col.name}=${r"#{params."}${col.fieldName}${r"}"}
+			AND ${col.name}=${r"#{params."}${col.fieldName}${r"}"}
 		</if>
 		</#if>
 		</#list>
@@ -164,14 +164,14 @@
 				<#list colMaps as col>
 				<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
 				<if test="item.id !=  null">
-					and ${col.name} in 
+					AND ${col.name} in 
 					<foreach collection="list" item="element" index="index" open= "(" close =")" separator=",">
 						${r"#{element.id"}${r"}"}
 					</foreach>
 				</if>
 				<#else>
 				<if test="${r"item."}${col.fieldName} !=  null">
-					and ${col.name} in 
+					AND ${col.name} in 
 					<foreach collection="list" item="element" index="index" open= "(" close =")" separator=",">
 						${r"#{element."}${col.fieldName}${r"}"}
 					</foreach>
@@ -182,7 +182,7 @@
 				<#list colMaps as col>
 				<#if col.isPK="yes">
 				<if test="${r"item."}${col.fieldName} !=  null">
-					and ${col.name} in 
+					AND ${col.name} in 
 					<foreach collection="list" item="element" index="index" open= "(" close =")" separator=",">
 						${r"#{element."}${col.fieldName}${r"}"}
 					</foreach>
@@ -250,7 +250,7 @@
 				<#if tab.pkFieldNum==1>
 				<#list colMaps as col>
 				<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double"|| col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
-				and ${col.name} not in ( 
+				AND ${col.name} not in ( 
 				select 
 					top ((${r"${pageIndex}"} -1) * ${r"${pageSize}"}) ${col.name} 
 				FROM 
@@ -319,7 +319,7 @@
 	</insert>
 	
 	<update id="updateById" parameterType="java.util.Map">
-		update 
+		UPDATE 
 			${r"${TowerTabName}"}
 		<set>
 			<include refid="Update_Set_Normal_Gen" />
@@ -330,7 +330,7 @@
 	</update>
 	
 	<update id="cmplxUpdate" parameterType="java.util.Map">
-		update 
+		UPDATE 
 			${r"${TowerTabName}"}
 		<set>
 			<include refid="Update_Set_NewObj_Gen" />
@@ -350,7 +350,7 @@
 	</delete>
 	
 	<insert id="batchInsert" parameterType="java.util.Map" <#if tab.pkFieldType.javaType != "String">useGeneratedKeys="true" keyProperty="id"</#if>>
-		insert into 
+		INSERT INTO 
 			${r"${TowerTabName}"}  
 			( 
 		<foreach collection="batchInsertCols" item="batchInsertCol" index="index" separator=",">
@@ -391,7 +391,7 @@
 		       select @@identity as id  
 		</selectKey>
 		<#else>
-		values 
+		VALUES 
 		<foreach collection="list" item="item" index="index" separator=","> 
 		(
 			<trim suffix="" suffixOverrides=",">
@@ -428,7 +428,7 @@
 	</insert>
 	
 	<update id="batchUpdate" parameterType="java.util.Map">
-		update 
+		UPDATE 
 			${r"${TowerTabName}"}
 		<set>
 			<include refid="Update_Set_NewObj_Gen" />
@@ -439,8 +439,8 @@
 	</update>
 	
 	<delete id="batchDelete"  parameterType="java.util.Map">
-		delete 
-		from
+		DELETE 
+		FROM
 			${r"${TowerTabName}"}
 		<where>
 			<include refid="Where_Clause_Batch_Gen" />
@@ -448,9 +448,9 @@
 	</delete>
 	
 	<select id="batchQuery"  parameterType="java.util.Map" resultMap="BaseResultMap" fetchSize="100">
-		select 
+		SELECT 
 			<include refid="Column_List_Base_Gen" />
-		from
+		FROM
 			${r"${TowerTabName}"}<#if db.type="sqlserver"> WITH(NOLOCK)</#if>
 		<where>
 			<include refid="Where_Clause_Batch_Gen" />
@@ -459,13 +459,13 @@
 	
 	<!--所有Gen结尾的sql是公共的,其表达式都是等值判断表达式，含有Batch的是in值表达式-->
 	<sql id="Where_Clause_Id_Extend">
-		<!--id扩展表达式; eg: id字段名 between ${r"#{startId}"} and ${r"#{endId}"}-->
+		<!--id扩展表达式; eg: id字段名 between ${r"#{startId}"} AND ${r"#{endId}"}-->
 	</sql>
 	<sql id="Where_Clause_Normal_Extend">
-		<!--其他字段扩展表达式; eg: id字段名 between ${r"#{startId}"} and ${r"#{endId}"}-->
+		<!--其他字段扩展表达式; eg: id字段名 between ${r"#{startId}"} AND ${r"#{endId}"}-->
 	</sql>
 	<sql id="Where_Clause_Params_Extend">
-		<!--分页&复杂更新条件字段扩展表达式; eg: id字段名 between ${r"#{params.startId}"} and ${r"#{params.endId}"}-->
+		<!--分页&复杂更新条件字段扩展表达式; eg: id字段名 between ${r"#{params.startId}"} AND ${r"#{params.endId}"}-->
 	</sql>
 	
 	<!--扩展sql从备注处开始定义，id建议以'有意义的名字'-->

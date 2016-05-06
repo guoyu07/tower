@@ -76,7 +76,7 @@ public class DaoGenFromDB extends DaoGen {
   
   public static void generateSQLSvrDAO(String dbName, String[] tableNames, String springXml,
       String packageName, String targetJava, String resources) throws Exception{
-    DBSetting.setSetting("type","sqlserver");
+    DBSetting.setSetting("type",DBSetting.Type_SQLSvr);
     commonGen(dbName, tableNames, springXml, packageName, targetJava, resources);
   }
   
@@ -87,6 +87,51 @@ public class DaoGenFromDB extends DaoGen {
   }
 
   public static void generateSQLSvrDAOWithHelpper(String dbName, String[] tableNames, String springXml,
+      String packageName, String targetJava, String resources) throws Exception{
+    DBSetting.setGenHelp();
+    generateSQLSvrDAO(dbName, tableNames, springXml, packageName, targetJava, resources);
+  }
+  
+  /**
+   * Oracle database 生成dao文件
+   * 
+   * @param masterDataSourceBean
+   *          主数据源bean名称
+   * @param slaveDataSourceBean
+   *          从数据源bean名称
+   * @param dbName
+   *          db名称
+   * @param tableName
+   *          表名
+   * @param springXml
+   *          spring文件
+   * @param packageName
+   *          包名
+   * @param targetJava
+   *          存放产生java的目录
+   * @param resources
+   *          存放产生xml的目录
+   * @throws Exception
+   */
+  public static void generateOracleDAO(String dbName, String tableName, String springXml,
+      String packageName, String targetJava, String resources) throws Exception {
+      String[] tableNames = {tableName};
+      generateSQLSvrDAO(dbName, tableNames, springXml, packageName, targetJava, resources);
+  }
+  
+  public static void generateOracleDAO(String dbName, String[] tableNames, String springXml,
+      String packageName, String targetJava, String resources) throws Exception{
+    DBSetting.setSetting("type",DBSetting.Type_Oracle);
+    commonGen(dbName, tableNames, springXml, packageName, targetJava, resources);
+  }
+  
+  public static void generateOracleDAOWithHelpper(String dbName, String tableName,
+      String springXml, String packageName, String targetJava, String resources) throws Exception {
+    String[] tableNames = {tableName};
+    generateSQLSvrDAOWithHelpper(dbName, tableNames, springXml, packageName, targetJava, resources);
+  }
+
+  public static void generateOracleDAOWithHelpper(String dbName, String[] tableNames, String springXml,
       String packageName, String targetJava, String resources) throws Exception{
     DBSetting.setGenHelp();
     generateSQLSvrDAO(dbName, tableNames, springXml, packageName, targetJava, resources);
