@@ -309,8 +309,6 @@ root:xxx_db> select BrokerId from ajk_propertys where proid=101960736;
 > 复杂的运算移到程序端CPU
 > 尽可能简单的来使用Mysql
 
-
-
 ### 同数据类型的列值比较
 > 原则：数字对数字，字符对字符
 > 字符列与数值类型比较
@@ -391,10 +389,6 @@ sql
  -- 禁止
  SELECT id FROM property WHERE title LIKE '%最%'
 ```
-
-### 避免负向查询
-> NOT，！=，<>,!<,NOT EXISTS,NOT IN,NOT LIKE
-
 
 ### 禁止SQL语句拼接
 > 应用程序不能有拼接语句出现
