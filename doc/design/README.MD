@@ -149,6 +149,18 @@
 + job监控信息采集
 + 可以动态调整job调度策略
 + 可以通过status=pause的方式动态暂停job的执行（可以控制所有、一组及单独的某一个job）
++ 分页处理job必须继承实现com.tower.service.job.impl.AbsPageableJob,同时必须实现IPageableJob接口
+	+ 每页查询timeused及每页处理timeused
+	+ 每条处理时间timeused
+	+ 错误日志记录
+	+ 日志输出totalPage、pageProcessed、totalProcessed、successProcessed、failedProcessed、timeused
++ 循环处理（处理结果影响待处理数据范围）job必须继承实现com.tower.service.job.impl.AbsJob,同时必须实现INormalJob接口
+	+ 日志输出total、success、failed、timeused
+	+ 每条处理时间timeused
+	+ 错误日志记录
++ 应用配置必须放在对应项目的resources/META-INF/config/spring/spring-job.xml中
++ 运行时配置必须放在job.xml
++ 可以通过-DX-Cached=false机制进行查询cache的关闭，或者通过在job.xml中进行配置进行cache关闭,更新时缓存会同步，比如实时性要求较高的job(调用方)，其调用的所有service都不需要启用缓存,默认情况都是启用缓存；
 
 ###### tower－web
 + web框架模块
@@ -157,10 +169,12 @@
 	+ 拦截并读取head参数［X-Request-ID］情况来获取或者产生请求id（X-Request-ID为空时自动产生）,当没有设置时系统会自动产生一个reqid,并且一直往后传，直到db上执行的sql语句；
 	+ 拦截并读取head参数［X-Cached］缓存开关参赛，决定是否启用缓存［默认情况下启用缓存］
 
-+ 插件
-	+ 项目框架生成插件（tower-config-maven-plugin）
-	+ 测试框架代码生成器插件(tower-test-maven-plugin)
-		+ 默认是关闭的,可以通过-Dsoafw.tester.gen=true的方式开启
+##### 插件
++ 项目框架生成插件（tower-config-maven-plugin）
++ 测试框架代码生成器插件(tower-test-maven-plugin)
+	+ 默认是关闭的,可以通过-Dsoafw.tester.gen=true的方式开启
+	+ 不会覆盖原来的实现，可以做到增量实现
+	
 ##### 相关工具
 + 服务项目框架生成器
 	+ 项目生成工具
@@ -176,6 +190,15 @@
 		+ 在src/test/java中找到com.[company].service.hello.dao.DaoGen
 		+ 按照提示修改DaoGen.java内容
 		+ 运行DaoGen
+	+ service层代码生成器
+		+ import hello-service-impl as maven 项目
+		+ 在src/test/java中找到com.[company].service.hello.ServiceGen
+		+ 按照提示修改ServiceGen.java内容
+		+ 运行ServiceGen
+	+ 测试框架代码生成器
+		+ import hello-service-impl as maven 项目
+		+ 运行mvn -Dsoafw.tester.gen=true package，如果已有服务接口设计完成，则可以运行当前命令
+		
 	+ 代码发布脚步工具 publish目录下
 		+ 生成版本号
 			+ sh publish.sh hello 
