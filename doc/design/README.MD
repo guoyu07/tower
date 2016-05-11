@@ -76,7 +76,11 @@
 
 ###### tower－log
 + 日志处理相关类
-+ 每条日志信息都会自动输出当前请求ID(当当前请求没有请求ID时，框架会自动产生，并且一直跟着到最后：追加到sql语句的备注部分)
++ 每条日志信息都会自动输出当前请求ID(当当前请求没有请求ID时，框架会自动产生)
++ 拦截并且日志输出web服务被调用方的日志（X-Request-ID,ip,ClassName,method,params,time used）
++ 拦截并且日志输出服务调用方及被调用方的日志（X-Request-ID,ip,ClassName,method,params,time used）
++ 数据访问层的每个sql语句的备注部分都会追加请求id
+
 
 ###### tower－config
 + 配置文件存储目录：
@@ -124,6 +128,8 @@
 + 数据访问层框架模块
 + 关系型数据库访问层接口及默认实现机制（mybatis）
 + 数据访问层代码生成器目前支持mysql、sql server
++ 禁止不带where的更新语句执行(全表更新)
++ 开关控制delete语句的执行
 + 支持分表机制：在serviceImpl具体的方法体内使用tabNameSuffix进行分表支持
 + 支持分库机制：在serviceImpl具体的方法体内使用DataSourceRouter进行datasource切换
 + 支持读写分离：改变database.properties数据源xxxx_slave、xxxx_map_query的ip地址
