@@ -31,7 +31,7 @@ public class ${name} implements IModel{
 	 */
 	@JField(name="${col.name}")
  	<#if tab.pkFieldNum==1 && col.isPK="yes"> 
- 	<#if col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger">
+ 	<#if col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String">
  	protected ${col.type.javaType} id;
  	
   	public void setId(${col.type.javaType} id){
