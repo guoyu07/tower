@@ -379,17 +379,17 @@
 				</foreach>	
 			</trim>
 		</foreach>
-		<#if tab.pkFieldType.javaType != "String">
-			<#if tab.pkFieldType.javaType="Integer">
+			<#if tab.pkFieldType.javaType != "String">
+				<#if tab.pkFieldType.javaType="Integer">
 		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
-			<#elseif tab.pkFieldType.javaType="java.math.BigInteger">
+				<#elseif tab.pkFieldType.javaType="java.math.BigInteger">
 		<selectKey resultType="java.math.BigInteger" order="AFTER" keyProperty="id">
-			<#else>
+				<#else>
 		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
-			</#if>
-		</#if>
-		       select @@identity as id  
+				</#if>
+			select @@identity as id  
 		</selectKey>
+			</#if>
 		<#else>
 		VALUES 
 		<foreach collection="list" item="item" index="index" separator=","> 
@@ -413,17 +413,17 @@
 			</trim>
 		)
 		</foreach>
-		<#if tab.pkFieldType.javaType != "String">
-			<#if tab.pkFieldType.javaType="Integer">
+			<#if tab.pkFieldType.javaType != "String">
+				<#if tab.pkFieldType.javaType="Integer">
 		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
-			<#elseif tab.pkFieldType.javaType="java.math.BigInteger">
+				<#elseif tab.pkFieldType.javaType="java.math.BigInteger">
 		<selectKey resultType="java.math.BigInteger" order="AFTER" keyProperty="id">
-			<#else>
+				<#else>
 		<selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
-			</#if>
-		</#if>
+				</#if>
 			SELECT LAST_INSERT_ID() AS id
 		</selectKey>
+			</#if>
 		</#if>
 	</insert>
 	
