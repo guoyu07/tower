@@ -11,8 +11,7 @@ import com.tower.service.log.LoggerFactory;
 
 public abstract class AbsServiceImpl<T extends IResult> implements IService<T> {
     
-    @Resource(name=ConfigComponent.ServiceConfig)
-    protected ServiceConfig config;
+    protected static ServiceConfig config = new ServiceConfig();
     
 	/**
 	 * Logger for this class

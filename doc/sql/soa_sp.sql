@@ -36,7 +36,7 @@ CREATE TABLE `soa_sp` (
 --  Records of `soa_sp`
 -- ----------------------------
 BEGIN;
-INSERT INTO `soa_sp` VALUES ('1', 'b2b', '6080', '7080', '1', 'b2b');
+INSERT INTO `soa_sp` VALUES ('1', 'hello', '6080', '7080', '20880', 'hello');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
