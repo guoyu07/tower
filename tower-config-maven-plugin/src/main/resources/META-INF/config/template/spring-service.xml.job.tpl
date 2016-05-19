@@ -53,7 +53,7 @@
 	<dubbo:application name="#{company}-#{artifactId}-job#{moduleSuffix}"/>
 	 
 	 <!-- 协议 -->
-    <dubbo:protocol name="dubbo" serialization="kryo"/>
+    <dubbo:protocol name="dubbo" />
     
     <!-- 使用zookeeper发现服务地址 -->
     <!-- 多注册中心配置，竖号分隔表示同时连接多个不同注册中心，同一注册中心的多个集群地址用逗号分隔 -->
@@ -64,10 +64,6 @@
     
     <!-- 使用监控中心 -->
     <dubbo:monitor protocol="registry"/>
-    
-    <dubbo:registry id="monitorRegistry" protocol="zookeeper" address="${monitor.service.registry.address}" />
-    
-   	<dubbo:reference id="monitorService" interface="com.tower.service.monitor.IMonitorService" check="false" registry="monitorRegistry"/>
    	
     <!--框架配置：该设置请不要轻易改变-->
     <context:component-scan base-package="com.#{company}.service.#{artifactId}" />

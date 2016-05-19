@@ -1,10 +1,7 @@
 package com.tower.service.impl;
 
-import javax.annotation.Resource;
-
 import com.alibaba.dubbo.rpc.RpcContext;
 import com.tower.service.IService;
-import com.tower.service.config.dict.ConfigComponent;
 import com.tower.service.domain.IResult;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;

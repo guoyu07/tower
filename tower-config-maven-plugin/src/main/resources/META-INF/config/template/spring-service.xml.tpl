@@ -54,7 +54,7 @@
 	<dubbo:application name="#{company}-#{artifactId}-service"/>
 
     <!-- 用dubbo协议在20880端口暴露服务 -->
-    <dubbo:protocol name="dubbo" port="${#{artifactId}.service.protocol.dubbo.port}" serialization="kryo"/>
+    <dubbo:protocol name="dubbo" port="${#{artifactId}.service.protocol.dubbo.port}" />
     
     <!-- 使用multicast广播注册中心暴露服务地址 -->
     <!-- 多注册中心配置，竖号分隔表示同时连接多个不同注册中心，同一注册中心的多个集群地址用逗号分隔 -->
@@ -63,10 +63,6 @@
     <!-- 使用监控中心 -->
     <dubbo:monitor protocol="registry"/>
     
-    <dubbo:registry id="monitorRegistry" protocol="zookeeper" address="${monitor.service.registry.address}" />
-    
-   	<dubbo:reference id="monitorService" interface="com.tower.service.monitor.IMonitorService" check="false" registry="monitorRegistry"/>
-   	
     <!--服务注册信息请在该备注以下添加-->
     
     <!-- 声明需要暴露的服务接口 -->
