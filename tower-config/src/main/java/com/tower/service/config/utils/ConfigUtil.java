@@ -7,28 +7,40 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.configuration.Configuration;
 
+import com.tower.service.config.DynamicConfig;
 import com.tower.service.config.IConfigListener;
 import com.tower.service.config.dict.ConfigFileDict;
 import com.tower.service.util.StringUtil;
 
 public class ConfigUtil {
     
-    private static ConfigUtil configUtilsSingleton = new ConfigUtil();
+    private static Map<String,ConfigUtil> utils= new ConcurrentHashMap<String,ConfigUtil>();
 
-    private Map<String, ConfigWatchdog> watchs = new ConcurrentHashMap<String, ConfigWatchdog>();
+    private Map<String, FileWatchdog> watchs = new ConcurrentHashMap<String, FileWatchdog>();
     private Map<String, List<IConfigListener>> configListeners =
             new ConcurrentHashMap<String, List<IConfigListener>>();
+    private String storeType;
+    private ConfigUtil(String storeType) {
+    	this.storeType = storeType;
+    }
 
-    private ConfigUtil() {}
-
-    public static ConfigUtil getConfigUtilsInstance() {
-        return configUtilsSingleton;
+    public static ConfigUtil getConfigUtilsInstance(String storeType) {
+    	synchronized(utils){
+    		if(utils.containsKey(storeType)){
+    			return utils.get(storeType);
+    		}
+    		else{
+    			ConfigUtil util = new ConfigUtil(storeType);
+    			utils.put(storeType, util);
+    			return util;
+    		}
+    	}
     }
 
     // 启动通知 配置监听者线程
     public void addListener(IConfigListener configListener) {
 
-        synchronized (configUtilsSingleton) {
+        synchronized (this) {
             /**
              * 一个文件观察者可以观察多个不同的文件
              */
@@ -62,7 +74,14 @@ public class ConfigUtil {
     }
 
     private void addWatch(String configFilename) {
-        ConfigWatchdog watchDog = new ConfigWatchdog(configFilename);
+    	FileWatchdog watchDog = null;
+    	if(DynamicConfig.ST_FILE.equalsIgnoreCase(storeType)){
+    		watchDog = new ConfigWatchdog(configFilename);
+    	}
+    	else{
+    		throw new RuntimeException(storeType+"目前不支持，待实现。。。");
+    	}
+        
         watchDog.setDelay(1000);
         watchDog.start();
         watchs.put(configFilename, watchDog);
@@ -76,7 +95,7 @@ public class ConfigUtil {
 
         @Override
         protected void doOnChange() {
-            synchronized (configUtilsSingleton) {
+            synchronized (this) {
                 Configuration config = null;
 
                 List<IConfigListener> listeners = configListeners.get(this.getFilename());
