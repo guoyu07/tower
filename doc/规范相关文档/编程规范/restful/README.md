@@ -62,8 +62,8 @@
 + 只针对外部api
 + 所有输入参数都按照参数名（升序）排序方式拼接参数字符串
 + 通过密钥对机制进行签名(apikey+sharekey+)
-+ 密钥对通过邮件申请
-+ 签名算法md5(apikey＋sharekey＋URL＋sort(params{key1=valuex&key2=valueb,...,keyn=valued}))
++ 密钥对（apikey及sharekey）通过邮件申请
++ 签名算法md5(apikey＋sharekey＋EndpointURL＋sort(params{key1=valuex&key2=valueb,...,keyn=valued}))
 ### 接口规则
 + 接口数据类型定义要求：接口数据类型请勿用java的原始数据类型：如short->Short;float->Float;int->Integer;long->Long;double->Double;boolean->Boolean
 
@@ -72,50 +72,58 @@
 	
 ```
 正确
-{	status : 0,	message : "ok",	data : {		totla:20000,
-		xxx:"fdfdafd"	}}
+{	"status" : 200,	"message" : "ok",	"data" : {		"totla":20000,
+		"xxx":"fdfdafd"	}}
 
 错误
 {
-	"status":40013,
+	"status":403,
 	"message":"invalid appid"
 }
 ```
 
 ### Demo
 
-#### API功能名称
+#### 动物园详情api
 
 ##### 接口调用请求说明
 + 请求方式
-
+	+ GET
 + 请求协议
-
+	+ HTTP
 + 请求地址
-
+	+ /zoos/ID
 ##### 输入参数说明
 
-| 参数        | 是否必输       | 说明           | 
+| 参数        	| 是否必输       | 说明           | 
 | ------------- |:-------------:|:-------------:|
-| col 3 is      | 是            | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+| ID      		| 是            | 动物园id |
+
 
 ##### 输出参数说明
 
-| 参数        | 是否必输       | 说明           | 
-| ------------- |:-------------:|:-------------:|
-| col 3 is      | 是            | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+| 参数       	 | 是否为空       | 说明           | 
+| ---------------|:-------------:|:-------------:|
+| id      		 | 否         	 | 	动物园id 	  |
+| name   		 | 否      		 |   动物园名称 	  |
+| address		 | 否      		 |    联系地址     |
+| phone   		 | 否      		 |    联系电话     |
 
 ### 样例
 
 ```
- 请求代码
- 	略
- 响应结果
- 	略
+ 请求代码:
+ 
+ 	http://api.leya.com/zoos/1234
+ 	
+ 响应结果:
+ 
+{
+	"status" : 0,	"message" : "ok",	"data" : {		"id":20000,
+		"name":"fdfdafd",
+		"address":"上海。。。。。",
+		"phone":"021-8838399432"	}
+}
  
 ```
 ### [区域](api/district/README.md)
