@@ -4,6 +4,7 @@
 
 ```
 	REST是英文Representational State Transfer的缩写，中文翻译为“表述性状态转移”，他是由Roy Thomas Fielding博士在他的论文 《Architectural Styles and the Design of Network-based Software Architectures》中提出的一个术语。REST本身只是为分布式超媒体系统设计的一种架构风格，而不是标准。基于Web的架构，实际上就是各种规范的集合，这些规范共同组成了Web架构。比如Http协议，比如客户端服务器模式，这些都是规范。每当我们在原有规范的基础上增加新的规范，就会形成新的架构。而REST正是这样一种架构，他结合了一系列的规范，而形成了一种新的基于Web的架构风格。REST通过URL来进行Web Service的 调用，最大限度的减少了开发人员在配置方面的工作量，这也是我们采用REST风格的接口的初衷。
+	
 ```
 ### 地址格式
 
