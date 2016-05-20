@@ -127,10 +127,5 @@
 }
  
 ```
-### [区域](api/district/README.md)
-### [患者](api/patient/README.md)
-### [预约单](api/booking/README.md)
-### [诊所](api/clinic/README.md)
-### [医生](api/dentist/README.md)
-### [保单](api/policy/README.md)
+### api列表
 ### [微信](api/wechat/README.md)
