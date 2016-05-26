@@ -2,6 +2,7 @@ package com.tower.service.config;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -26,6 +27,18 @@ public class SecutiryCompositeConfiguration  extends CompositeConfiguration impl
         }else{
             return false;
         }
+    }
+    
+    public SecutiryCompositeConfiguration(){
+    	super();
+    }
+    
+    public SecutiryCompositeConfiguration(Configuration inMemoryConfiguration) {
+    	super(inMemoryConfiguration);
+    }
+    
+    public SecutiryCompositeConfiguration(Collection configurations){
+    	super(configurations);
     }
     
 	@Override
@@ -90,7 +103,7 @@ public class SecutiryCompositeConfiguration  extends CompositeConfiguration impl
 
 	@Override
 	public boolean getBoolean(String key, boolean defaultValue) {
-		return super.getBoolean(key);
+		return super.getBoolean(key,defaultValue);
 	}
 
 	@Override

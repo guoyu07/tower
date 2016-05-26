@@ -12,6 +12,9 @@ public class TowerConfig {
 	public synchronized static String getConfig(String key){
         return towerConfig.getProperty(key);
     }
+	public synchronized static String getConfig(String key,String defaultValue){
+        return towerConfig.getProperty(key)==null?defaultValue:towerConfig.getProperty(key);
+    }
     private static Properties loadProperties(){
     	towerConfig=new Properties();
         try {

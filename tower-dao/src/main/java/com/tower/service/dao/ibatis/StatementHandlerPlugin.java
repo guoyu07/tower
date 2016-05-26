@@ -45,9 +45,10 @@ public class StatementHandlerPlugin implements Interceptor {
 		pid=pid.replaceAll("localhost", ip);
 	}
 
-	@Resource(name = ConfigComponent.AccConfig)
-	protected DynamicConfig accConfig;
-	
+	protected DynamicConfig accConfig = new DynamicConfig("acc","xml");
+	public StatementHandlerPlugin(){
+		accConfig.init();
+	}
 	public Object intercept(Invocation invocation) throws Throwable {
 
 		StatementHandler statementHandler = (StatementHandler) invocation

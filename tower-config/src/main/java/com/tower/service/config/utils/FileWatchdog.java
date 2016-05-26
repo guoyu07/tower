@@ -2,7 +2,7 @@ package com.tower.service.config.utils;
 
 import java.io.File;
 
-public abstract class FileWatchdog extends Thread {
+public abstract class FileWatchdog extends Thread implements WatchDog {
 	// private static Logger logger = LoggerFactory.getLogger(FileWatchdog.class);
 
 	/**
@@ -74,8 +74,6 @@ public abstract class FileWatchdog extends Thread {
 			checkAndConfigure();
 		}
 	}
-
-	abstract protected void doOnChange();
 
 	public String getFilename() {
 		return filename;

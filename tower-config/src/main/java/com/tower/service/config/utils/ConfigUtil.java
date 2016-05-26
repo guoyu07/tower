@@ -44,7 +44,7 @@ public class ConfigUtil {
             /**
              * 一个文件观察者可以观察多个不同的文件
              */
-            String[] configFileName = configListener.getFileName();
+            String[] configFileName = null;//configListener.getFileName();
             int size = configFileName == null ? 0 : configFileName.length;
             for (int i = 0; i < size; i++) {
 
@@ -75,12 +75,7 @@ public class ConfigUtil {
 
     private void addWatch(String configFilename) {
     	FileWatchdog watchDog = null;
-    	if(DynamicConfig.ST_FILE.equalsIgnoreCase(storeType)){
-    		watchDog = new ConfigWatchdog(configFilename);
-    	}
-    	else{
-    		throw new RuntimeException(storeType+"目前不支持，待实现。。。");
-    	}
+    	watchDog = new ConfigWatchdog(configFilename);
         
         watchDog.setDelay(1000);
         watchDog.start();
@@ -94,7 +89,7 @@ public class ConfigUtil {
         }
 
         @Override
-        protected void doOnChange() {
+        public void doOnChange() {
             synchronized (this) {
                 Configuration config = null;
 
@@ -105,7 +100,7 @@ public class ConfigUtil {
                 for (int i = 0; i < listeners.size(); i++) {
                     IConfigListener listener = listeners.get(i);
                     if (config == null) {
-                        config = listener.build();
+                        config = null;//listener.build();
                         if (config == null) {
                             // LogUtil.trace("配置文件‘"+this.getFilename()+"’配置加载失败！");
                             return;

@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -16,12 +17,19 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.MapConfiguration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.XMLPropertiesConfiguration;
 
+import com.dangdang.config.service.GeneralConfigGroup;
+import com.dangdang.config.service.file.FileConfigGroup;
+import com.dangdang.config.service.file.FileConfigProfile;
+import com.dangdang.config.service.observer.IObserver;
+import com.dangdang.config.service.zookeeper.ZookeeperConfigGroup;
+import com.dangdang.config.service.zookeeper.ZookeeperConfigProfile;
 import com.tower.service.config.dict.ConfigFileDict;
 import com.tower.service.config.dict.ConfigFileTypeDict;
-import com.tower.service.config.utils.ConfigUtil;
+import com.tower.service.config.utils.TowerConfig;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 import com.tower.service.util.Constants;
@@ -45,7 +53,10 @@ import com.tower.service.util.StringUtil;
  * 
  */
 public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
-		IConfigListener {
+		IConfigListener, IObserver {
+
+	protected static Logger loggers = LoggerFactory
+			.getLogger(DynamicConfig.class);
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -65,179 +76,198 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 	private String encoding = "utf-8";
 	private boolean delimiterParsingDisabled;
 	private List<String> configFiles = new ArrayList<String>();
-	public static String ST_FILE = "file"; 
-	private String storeType = ST_FILE;
+	private GeneralConfigGroup group = null;
+	private FileConfigProfile profile = null;
+	private static ZookeeperConfigProfile zkProfile = null;
+	private static ZookeeperConfigProfile appZKProfile = null;
+	private String zkServers = null;
+
 	public DynamicConfig() {
-		this(ST_FILE);
+		logger = LoggerFactory.getLogger(getClass());
+		try {
+			if (zkProfile == null) {
+				zkProfile = createZookeeperProfile("/config");
+			}
+			if (!StringUtil.isEmpty(getAppHomeDir())) {
+				if (appZKProfile == null) {
+					appZKProfile = createZookeeperProfile(getAppHomeDir()
+							+ File.separator + "config");
+				}
+			}
+		} catch (Exception ex) {
+			logger.error(ex);
+		}
 	}
+
 	/**
 	 * 
-	 * @param fileStoreType file:本地,http:http服务,https:
+	 * @param fileStoreType
+	 *            file:本地,http:http服务,https:
 	 */
-	public DynamicConfig(String storeType) {
-		this.storeType = storeType;
+	public DynamicConfig(String fileName, String type) {
+		this.setFileName(fileName);
+		this.setType(type);
 	}
 
 	@PostConstruct
 	public void init() {
 
-		this.regist();
-
-		delegate = this.build();
-
-		ConfigUtil.getConfigUtilsInstance(storeType).addListener(this);
+		this.group = $build();
+		Map tmp = new HashMap(group);
+		MapConfiguration config = new MapConfiguration(tmp);
+		delegate = new SecutiryCompositeConfiguration(config);
+		group.register(this);
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	private void regist() {
+	// this.regist();
+	// delegate = this.build();
+	// ConfigUtil.getConfigUtilsInstance(storeType).addListener(this);
+	// }
 
-		String configFile = null;
+	public GeneralConfigGroup $build() {
+		GeneralConfigGroup group = null;
+		profile = createFileProfile(this.getType());
+		/**
+		 * 开发配置
+		 */
+		String file = null;
+		try {
+			file = this.getFullFileName("classpath:META-INF/config/local"
+					+ File.separator + "%s");
+			group = new FileConfigGroup(profile, file);
+		} catch (Exception ex) {
+			logger.info("配置文件'" + file + "'没有找到");
+		}
 		if (!StringUtil.isEmpty(getProfile())) {
-			configFile = System.getProperty(SYS_CONFIG_DIR, SYS_CONFIG_DIR_DEF)
-					+ File.separator + getProfile() + _settingFileName + "."
-					+ type;
-			/**
-			 * 全局外围配置不存在 配置文件位置存放在/config
-			 */
-			if (!configFiles.contains(configFile)) {
-				configFiles.add(configFile);
-			}
-		}
-
-		configFile = System.getProperty(SYS_CONFIG_DIR, SYS_CONFIG_DIR_DEF)
-				+ File.separator + _settingFileName + "." + type;
-		/**
-		 * 全局外围配置不存在 配置文件位置存放在/config
-		 */
-		if (!configFiles.contains(configFile)) {
-			configFiles.add(configFile);
-		}
-
-		/**
-		 * 本地可动态配置 项目本地配置文件位置通过启动参数-Dapp.home.dir=xxx进行设置
-		 * 配置文件全路径：xxx/config/yy.type或者xxx/config/profile.yy.type
-		 */
-		if (!StringUtil.isEmpty(getAppHomeDir())) {
-
-			if (!StringUtil.isEmpty(getProfile())) {
-				configFile = getAppHomeDir() + File.separator + "config"
-						+ File.separator + getProfile() + _settingFileName
-						+ "." + type;
-				if (!configFiles.contains(configFile)) {
-					configFiles.add(configFile);
-				}
-			} else {
-				configFile = getAppHomeDir() + File.separator + "config"
-						+ File.separator + _settingFileName + "." + type;
-				if (!configFiles.contains(configFile)) {
-					configFiles.add(configFile);
-				}
-			}
-		}
-	}
-
-	public Configuration build() {
-		return buildCompositeConfiguration();
-	}
-
-	/**
-	 * 配置优先级：appConfig（应用本地）>SysConfig（全局）>local（默认配置） 同级目录下的配置文件，对应profile配置优先
-	 * 
-	 * @return
-	 */
-	public CompositeConfiguration buildCompositeConfiguration() {
-
-		CompositeConfiguration compositeConfiguration = new SecutiryCompositeConfiguration();
-		compositeConfiguration
-				.setThrowExceptionOnMissing(_throwExceptionOnMissing);
-
-		if (!StringUtil.isEmpty(getAppHomeDir())) {
-
-			if (!StringUtil.isEmpty(getProfile())) {
-				addConfig(compositeConfiguration, getAppHomeDir()
-						+ File.separator + "config" + File.separator
+			try {
+				this.getFullFileName("classpath:META-INF/config/local/"
 						+ getProfile() + "%s");
+				group = new FileConfigGroup(group, profile, file);
+			} catch (Exception ex) {
+				logger.info("配置文件'" + file + "'没有找到");
 			}
-
-			addConfig(compositeConfiguration, getAppHomeDir() + File.separator
-					+ "config" + File.separator + "%s");
 		}
-
+		/**
+		 * 部署默认配置
+		 */
+		try {
+			file = this.getFullFileName("/config" + File.separator + "%s");
+			group = new FileConfigGroup(group, profile, file);
+		} catch (Exception ex) {
+			logger.info("配置文件'" + file + "'没有找到");
+		}
 		if (!StringUtil.isEmpty(getProfile())) {
-			addConfig(compositeConfiguration,
-					System.getProperty(SYS_CONFIG_DIR, SYS_CONFIG_DIR_DEF)
-							+ File.separator + getProfile() + "%s");
+			try {
+				file = this.getFullFileName("/config/" + getProfile() + "%s");
+				group = new FileConfigGroup(group, profile, file);
+			} catch (Exception ex) {
+				logger.info("配置文件'" + file + "'没有找到");
+			}
 		}
+		/**
+		 * 部署默认［zk配置］
+		 */
+		// if (ST_ZK.equalsIgnoreCase(storeType)) {
 
-		addConfig(compositeConfiguration,
-				System.getProperty(SYS_CONFIG_DIR, SYS_CONFIG_DIR_DEF)
-						+ File.separator + "%s");
-
-		if (!StringUtil.isEmpty(getProfile())) {
-			addConfig(compositeConfiguration,
-					"classpath:META-INF/config/local/" + getProfile() + "%s");
+		try {
+			group = new ZookeeperConfigGroup(group, zkProfile, _settingFileName);
+			if (!StringUtil.isEmpty(getProfile())) {
+				group = new ZookeeperConfigGroup(group, zkProfile, getProfile()
+						+ _settingFileName);
+			}
+		} catch (Exception ex) {
+			logger.info(zkServers + "/config/" + _settingFileName
+					+ " zookeeper配置没有找到");
 		}
-		addConfig(compositeConfiguration, "classpath:META-INF/config/local"
-				+ File.separator + "%s");
-
-		return compositeConfiguration;
+		// }
+		/**
+		 * 应用配置
+		 */
+		if (!StringUtil.isEmpty(getAppHomeDir())) {
+			/**
+			 * 文件配置
+			 */
+			try {
+				file = this.getFullFileName(getAppHomeDir() + File.separator
+						+ "config" + File.separator + "%s");
+				group = new FileConfigGroup(group, profile, file);
+			} catch (Exception ex) {
+				logger.info("配置文件'" + file + "'没有找到");
+			}
+			if (!StringUtil.isEmpty(getProfile())) {
+				try {
+					file = this.getFullFileName(getAppHomeDir()
+							+ File.separator + "config" + File.separator
+							+ getProfile() + "%s");
+					group = new FileConfigGroup(group, profile, file);
+				} catch (Exception ex) {
+					logger.info("配置文件'" + file + "'没有找到");
+				}
+			}
+			/**
+			 * zk配置
+			 */
+			// if (ST_ZK.equalsIgnoreCase(storeType)) {
+			try {
+				group = new ZookeeperConfigGroup(group, zkProfile,
+						_settingFileName);
+				if (!StringUtil.isEmpty(getProfile())) {
+					group = new ZookeeperConfigGroup(group, zkProfile,
+							getProfile() + _settingFileName);
+				}
+			} catch (Exception ex) {
+				logger.info(zkServers + getAppHomeDir() + File.separator
+						+ "config" + _settingFileName + " zookeeper配置没有找到");
+			}
+			// }
+		}
+		return group;
 	}
 
-	private static Map<String, Integer> files = new ConcurrentHashMap<String, Integer>();
-
-	private void addConfig(CompositeConfiguration compositeConfiguration,
-			String pattern) {
-
-		PropertiesConfiguration config = new PropertiesConfiguration();
-
+	private String getFullFileName(String pattern) {
 		if (this.getType() != null
 				&& this.getType().trim().equalsIgnoreCase("properties")) {
 			pattern = new StringBuffer(pattern).append(".properties")
 					.toString();
 		} else {
-			config = new XMLPropertiesConfiguration();
 			pattern = new StringBuffer(pattern).append(".xml").toString();
 		}
-
-		config.setDelimiterParsingDisabled(isDelimiterParsingDisabled());
-
-		String[] nameArray = _settingFileName.split(",");
-		for (String name : nameArray) {
-			String location = String.format(pattern, name);
-			InputStream resource = null;
-			try {
-				if (location.startsWith("classpath:")) {
-					location = location.substring(10);
-					resource = this.getClass().getClassLoader()
-							.getResourceAsStream(location);
-				} else {
-					resource = new FileInputStream(new File(location));
-				}
-
-				if (!StringUtil.isEmpty(this.getEncoding())) {
-
-					config.load(resource, this.getEncoding());
-				} else {
-					config.load(resource);
-				}
-
-				compositeConfiguration.addConfiguration(config);
-				if (logger.isInfoEnabled() && !files.containsKey(location)) {
-					logger.info("load config '{}'", location);
-					files.put(location, 0);
-				}
-			} catch (Exception e) {
-				if (logger.isInfoEnabled() && !files.containsKey(location)) {
-					logger.info("Skip config '{}'", e.getMessage());
-					files.put(location, 0);
-				}
-			}
-		}
+		String location = String.format(pattern, this._settingFileName);
+		return location;
 	}
 
+	private FileConfigProfile createFileProfile(String pattern) {
+		FileConfigProfile fileConfigProfile = null;
+		if (this.getType() != null
+				&& this.getType().trim().equalsIgnoreCase("properties")) {
+			pattern = new StringBuffer(pattern).append(".properties")
+					.toString();
+			fileConfigProfile = new FileConfigProfile("UTF8", "properties");
+		} else {
+			pattern = new StringBuffer(pattern).append(".xml").toString();
+			fileConfigProfile = new FileConfigProfile("UTF8", "xml");
+		}
+		return fileConfigProfile;
+	}
+
+	private static ZookeeperConfigProfile createZookeeperProfile(String pattern) {
+		ZookeeperConfigProfile configProfile = new ZookeeperConfigProfile(
+				TowerConfig.getConfig("config.store.type.zookeeper.addresses",
+						"127.0.0.0:2181"), pattern, "1.0.0");
+		return configProfile;
+	}
+
+	private long lastmodify = 0;
+
+	@Override
+	public void notified(String data, String value) {
+		if (lastmodify != group.getLastmodify()) {
+			Map tmp = new HashMap(group);
+			MapConfiguration config = new MapConfiguration(tmp);
+			this.onUpdate(new SecutiryCompositeConfiguration(config));
+		}
+	}
+	
 	/**
 	 * -Dprofile=yyy
 	 * 
@@ -273,11 +303,6 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 	 */
 	public void setFileName(String fileName) {
 		this._settingFileName = fileName;
-	}
-
-	public String[] getFileName() {
-		String[] files = new String[configFiles.size()];
-		return configFiles.toArray(files);
 	}
 
 	public String getType() {
@@ -380,6 +405,16 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 		if (!listeners.contains(listener)) {
 			listeners.add(listener);
 		}
+	}
+
+	private DynamicConfig root;
+
+	public DynamicConfig getRoot() {
+		return root;
+	}
+
+	public void setRoot(DynamicConfig root) {
+		this.root = root;
 	}
 
 	/**
