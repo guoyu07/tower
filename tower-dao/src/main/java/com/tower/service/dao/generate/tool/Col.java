@@ -90,7 +90,7 @@ public class Col {
   }
 
   private String format() {
-    String _name = this.getName();
+    String _name = this.getName().toLowerCase();
     int idx = -1;
     while ((idx = _name.indexOf("_")) != -1) {
       String pre = _name.substring(0, idx);

@@ -20,6 +20,10 @@
 			<groupId>com.tower.soafw</groupId>
 			<artifactId>tower-concurrent</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.tower.soafw</groupId>
+			<artifactId>tower-domain</artifactId>
+		</dependency>
 		<!-- 
 		<dependency>
 			<groupId>org.drools</groupId>
