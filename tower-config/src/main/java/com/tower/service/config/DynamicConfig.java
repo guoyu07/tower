@@ -261,7 +261,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 
 	@Override
 	public void notified(String data, String value) {
-		if (lastmodify != group.getLastmodify()) {
+		if (lastmodify != group.getLastLoadTime()) {
 			Map tmp = new HashMap(group);
 			MapConfiguration config = new MapConfiguration(tmp);
 			this.onUpdate(new SecutiryCompositeConfiguration(config));

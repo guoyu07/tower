@@ -12,7 +12,7 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<config-toolkit-easyzk.version>3.1.3-RELEASE</config-toolkit-easyzk.version>
+		<config-toolkit-easyzk.version>3.1.4-RELEASE</config-toolkit-easyzk.version>
 	</properties>
 	<dependencies>
 		<dependency>
