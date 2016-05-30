@@ -81,14 +81,15 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 	private static ZookeeperConfigProfile zkProfile = null;
 	private static ZookeeperConfigProfile appZKProfile = null;
 	private String zkServers = null;
+	private String ST_Type = "zookeeper";
 
 	public DynamicConfig() {
 		logger = LoggerFactory.getLogger(getClass());
 		try {
-			if (zkProfile == null) {
+			if (isZookeeper() && zkProfile == null) {
 				zkProfile = createZookeeperProfile("/config");
 			}
-			if (!StringUtil.isEmpty(getAppHomeDir())) {
+			if (isZookeeper() && !StringUtil.isEmpty(getAppHomeDir())) {
 				if (appZKProfile == null) {
 					appZKProfile = createZookeeperProfile(getAppHomeDir()
 							+ File.separator + "config");
@@ -97,6 +98,10 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 		} catch (Exception ex) {
 			logger.error(ex);
 		}
+	}
+	
+	public boolean isZookeeper(){
+		return Boolean.valueOf(System.getProperty("config.store.type", "false"));
 	}
 
 	/**
@@ -168,16 +173,17 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 		 * 部署默认［zk配置］
 		 */
 		// if (ST_ZK.equalsIgnoreCase(storeType)) {
-
-		try {
-			group = new ZookeeperConfigGroup(group, zkProfile, _settingFileName);
-			if (!StringUtil.isEmpty(getProfile())) {
-				group = new ZookeeperConfigGroup(group, zkProfile, getProfile()
-						+ _settingFileName);
+		if(isZookeeper()){
+			try {
+				group = new ZookeeperConfigGroup(group, zkProfile, _settingFileName);
+				if (!StringUtil.isEmpty(getProfile())) {
+					group = new ZookeeperConfigGroup(group, zkProfile, getProfile()
+							+ _settingFileName);
+				}
+			} catch (Exception ex) {
+				logger.info(zkServers + "/config/" + _settingFileName
+						+ " zookeeper配置没有找到");
 			}
-		} catch (Exception ex) {
-			logger.info(zkServers + "/config/" + _settingFileName
-					+ " zookeeper配置没有找到");
 		}
 		// }
 		/**
@@ -208,16 +214,18 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 			 * zk配置
 			 */
 			// if (ST_ZK.equalsIgnoreCase(storeType)) {
-			try {
-				group = new ZookeeperConfigGroup(group, zkProfile,
-						_settingFileName);
-				if (!StringUtil.isEmpty(getProfile())) {
-					group = new ZookeeperConfigGroup(group, zkProfile,
-							getProfile() + _settingFileName);
+			if(isZookeeper()){
+				try {
+					group = new ZookeeperConfigGroup(group, appZKProfile,
+							_settingFileName);
+					if (!StringUtil.isEmpty(getProfile())) {
+						group = new ZookeeperConfigGroup(group, appZKProfile,
+								getProfile() + _settingFileName);
+					}
+				} catch (Exception ex) {
+					logger.info(zkServers + getAppHomeDir() + File.separator
+							+ "config" + _settingFileName + " zookeeper配置没有找到");
 				}
-			} catch (Exception ex) {
-				logger.info(zkServers + getAppHomeDir() + File.separator
-						+ "config" + _settingFileName + " zookeeper配置没有找到");
 			}
 			// }
 		}
