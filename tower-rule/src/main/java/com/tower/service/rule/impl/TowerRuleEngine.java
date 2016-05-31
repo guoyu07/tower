@@ -38,6 +38,7 @@ public abstract class TowerRuleEngine<T extends TowerSession> implements IEngine
 	private KieResources resources;
 	private KieFileSystem fileSystem;
 	protected Logger logger = LoggerFactory.getLogger(getClass());
+	
 	public TowerRuleEngine() {
 		System.setProperty("drools.dateformat", "yyyy-MM-dd HH:mm:ss");
 	}
@@ -149,12 +150,5 @@ public abstract class TowerRuleEngine<T extends TowerSession> implements IEngine
 		}
 		kContainer = getKieService().newKieContainer(
 				getKieService().getRepository().getDefaultReleaseId());
-	}
-	
-	public void execute(T session){
-		if(session!=null){
-			session.fireAllRules();
-			session.dispose();
-		}
 	}
 }
