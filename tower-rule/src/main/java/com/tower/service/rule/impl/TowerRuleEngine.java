@@ -82,9 +82,7 @@ public abstract class TowerRuleEngine<T extends IFact> implements IEngine<T> {
 	
 	public abstract KieSession build();
 
-	public abstract List<Command<T>> getCmds();
-	
-	public void refreshKieModule() {
+	public void refresh() {
 		
 		KieResources resources = getKieService().getResources();
 		
@@ -137,10 +135,6 @@ public abstract class TowerRuleEngine<T extends IFact> implements IEngine<T> {
 		}
 		kContainer = getKieService().newKieContainer(
 				getKieService().getRepository().getDefaultReleaseId());
-	}
-	
-	public void refresh(){
-		
 	}
 	
 	public void execute(){
