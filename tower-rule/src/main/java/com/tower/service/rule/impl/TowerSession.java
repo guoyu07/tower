@@ -34,6 +34,9 @@ public class TowerSession implements ISession,KieSession {
 	
 	private KieSession delegate;
 	public TowerSession(KieSession delegate){
+		if(delegate==null){
+			throw new RuntimeException("KieSession 不能为空！");
+		}
 		this.delegate = delegate;
 	}
 	@Override

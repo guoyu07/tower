@@ -30,7 +30,8 @@ public abstract class TowerRuleEngine<T extends TowerSession> implements IEngine
 	private String kieBaseName = "FileSystemBase";
 	private String packages = "rules";
 	private String sessionName = "FileSystemKSession";
-	private String path;
+	private String fileBasePath=Thread.currentThread().getContextClassLoader()
+			.getResource("").getPath();
 	private static KieServices kieService = KieServices.Factory.get();
 	private KieContainer kContainer = kieService.getKieClasspathContainer();
 
@@ -38,20 +39,10 @@ public abstract class TowerRuleEngine<T extends TowerSession> implements IEngine
 	private KieFileSystem fileSystem;
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	public TowerRuleEngine() {
-		this(null);
 		System.setProperty("drools.dateformat", "yyyy-MM-dd HH:mm:ss");
 	}
 
-	public TowerRuleEngine(String sessionName) {
-		kContainer = kieService.getKieClasspathContainer();
-		
-	}
-
 	public KieContainer getContainer() {
-		return kContainer;
-	}
-
-	public KieContainer getkContainer() {
 		return kContainer;
 	}
 
@@ -59,16 +50,20 @@ public abstract class TowerRuleEngine<T extends TowerSession> implements IEngine
 		this.kContainer = kContainer;
 	}
 
+	public TowerSession getSession(String sessionName) {
+		return new TowerSession(kContainer.newKieSession(sessionName));
+	}
+	
 	public static KieServices getKieService() {
 		return kieService;
 	}
 	
-	public String getPath() {
-		return path;
+	public String getFileBasePath() {
+		return fileBasePath;
 	}
 
-	public void setPath(String path) {
-		this.path = path;
+	public void setFileBasePath(String fileBasePath) {
+		this.fileBasePath = fileBasePath;
 	}
 
 	public KieFileSystem getFileSystem() {
@@ -84,7 +79,7 @@ public abstract class TowerRuleEngine<T extends TowerSession> implements IEngine
 	}
 
 	public String getKieBaseName(){
-		return "FileSystemBase";
+		return kieBaseName;
 	}
 	
 	public void setPackages(String packages) {
@@ -122,8 +117,6 @@ public abstract class TowerRuleEngine<T extends TowerSession> implements IEngine
 		
 		fileSystem.writeKModuleXML(xml);// 5
 		
-		String fileBasePath = Thread.currentThread().getContextClassLoader()
-				.getResource("").getPath();
 		logger.info("FileBathPath: "+fileBasePath);
 		fileBasePath = fileBasePath.substring(0, fileBasePath.length());
 
@@ -148,7 +141,7 @@ public abstract class TowerRuleEngine<T extends TowerSession> implements IEngine
 
 	public void refreshRule(String ruleFile){
 		fileSystem.write(ruleFile,
-				resources.newFileSystemResource(path));// 6
+				resources.newFileSystemResource(this.getFileBasePath()));// 6
 		KieBuilder kb = getKieService().newKieBuilder(fileSystem);
 		kb.buildAll();// 7
 		if (kb.getResults().hasMessages(Level.ERROR)) {
@@ -158,16 +151,10 @@ public abstract class TowerRuleEngine<T extends TowerSession> implements IEngine
 				getKieService().getRepository().getDefaultReleaseId());
 	}
 	
-	public void execute(){
-		T session = this.build();
-		session.fireAllRules();
-		session.dispose();
-	}
-	
-	public void execute(T ksession){
-		if(ksession!=null){
-			ksession.fireAllRules();
-			ksession.dispose();
+	public void execute(T session){
+		if(session!=null){
+			session.fireAllRules();
+			session.dispose();
 		}
 	}
 }

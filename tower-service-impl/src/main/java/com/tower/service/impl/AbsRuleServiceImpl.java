@@ -19,7 +19,6 @@ public abstract class AbsRuleServiceImpl<T extends IResult,S extends TowerSessio
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public AbsRuleServiceImpl(){
-	    
 	}
 	
 	protected static RpcContext context = RpcContext.getContext();
