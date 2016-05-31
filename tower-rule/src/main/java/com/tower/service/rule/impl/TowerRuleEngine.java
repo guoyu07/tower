@@ -82,8 +82,6 @@ public abstract class TowerRuleEngine<T extends IFact> implements IEngine<T> {
 	
 	public abstract KieSession build();
 
-	public abstract void setSession(KieSession session);
-
 	public abstract List<Command<T>> getCmds();
 	
 	public void refreshKieModule() {
