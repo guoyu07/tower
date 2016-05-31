@@ -15,9 +15,10 @@ public abstract class ManualDynamicEngine<T extends IFact> extends
 
 	public ManualDynamicEngine() {
 		super();
+		init();
 	}
 
-	public void init() {
+	protected void init() {
 		try {
 			this.setkContainer(getKieService().newKieContainer(
 					getKieService().newReleaseId(this.getGroupId(),
@@ -28,6 +29,7 @@ public abstract class ManualDynamicEngine<T extends IFact> extends
 			sb.append(getGroupId()).append("] artifactId: [")
 					.append(getArtifactId()).append("] version: [")
 					.append(getVersion()).append("]");
+			this.logger.error(sb.toString());
 			// throw new NotExistsException(sb.toString());}
 		}
 	}
@@ -43,6 +45,7 @@ public abstract class ManualDynamicEngine<T extends IFact> extends
 			sb.append(getGroupId()).append("] artifactId: [")
 					.append(getArtifactId()).append("] version: [")
 					.append(getVersion()).append("]");
+			this.logger.error(sb.toString());
 			// throw new NotExistsException(sb.toString());  
 		}
 

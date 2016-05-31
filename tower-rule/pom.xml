@@ -24,13 +24,8 @@
 			<groupId>com.tower.soafw</groupId>
 			<artifactId>tower-domain</artifactId>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>org.drools</groupId>
-			<artifactId>drools-android</artifactId>
-			<version>${drools.version}</version>
-		</dependency>
-		 -->
+		<!-- <dependency> <groupId>org.drools</groupId> <artifactId>drools-android</artifactId> 
+			<version>${drools.version}</version> </dependency> -->
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-benchmark</artifactId>
@@ -57,12 +52,12 @@
 			<version>${drools.version}</version>
 		</dependency>
 		<!-- 
-		<dependency>
-			<groupId>org.drools</groupId>
-			<artifactId>drools-osgi</artifactId>
-			<version>${drools.version}</version>
-		</dependency>
-		 -->
+		<dependency> 
+			<groupId>org.drools</groupId> 
+			<artifactId>drools-osgi</artifactId> 
+			<version>${drools.version}</version> 
+		</dependency> 
+		-->
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-core</artifactId>
