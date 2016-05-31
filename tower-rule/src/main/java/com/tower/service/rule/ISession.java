@@ -1,5 +1,5 @@
 package com.tower.service.rule;
 
-public interface IResult {
+public interface ISession {
 
 }

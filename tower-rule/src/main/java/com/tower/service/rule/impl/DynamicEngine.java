@@ -4,13 +4,12 @@
 package com.tower.service.rule.impl;
 
 import com.tower.service.rule.IEngine;
-import com.tower.service.rule.IFact;
 
 /**
  * @author alexzhu
  * 
  */
-public abstract class DynamicEngine<T extends IFact> extends TowerRuleEngine<T> implements IEngine<T> {
+public abstract class DynamicEngine<T extends TowerSession> extends TowerRuleEngine<T> implements IEngine<T> {
 	
 	private String groupId;
 	private String artifactId;
@@ -43,7 +42,4 @@ public abstract class DynamicEngine<T extends IFact> extends TowerRuleEngine<T> 
 	public void setVersion(String version) {
 		this.version = version;
 	}
-	
-	abstract public void refresh();
-	
 }

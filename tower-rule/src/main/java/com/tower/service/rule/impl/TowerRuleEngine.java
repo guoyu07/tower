@@ -14,22 +14,22 @@ import org.kie.api.builder.KieFileSystem;
 import org.kie.api.builder.Message.Level;
 import org.kie.api.builder.model.KieBaseModel;
 import org.kie.api.builder.model.KieModuleModel;
-import org.kie.api.command.Command;
 import org.kie.api.io.KieResources;
 import org.kie.api.runtime.KieContainer;
-import org.kie.api.runtime.KieSession;
 
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 import com.tower.service.rule.IEngine;
-import com.tower.service.rule.IFact;
 
 /**
  * @author alexzhu
  * 
  */
-public abstract class TowerRuleEngine<T extends IFact> implements IEngine<T> {
+public abstract class TowerRuleEngine<T extends TowerSession> implements IEngine<T> {
 
+	private String kieBaseName = "FileSystemBase";
+	private String packages = "rules";
+	private String sessionName = "FileSystemKSession";
 	private String path;
 	private static KieServices kieService = KieServices.Factory.get();
 	private KieContainer kContainer = kieService.getKieClasspathContainer();
@@ -44,6 +44,7 @@ public abstract class TowerRuleEngine<T extends IFact> implements IEngine<T> {
 
 	public TowerRuleEngine(String sessionName) {
 		kContainer = kieService.getKieClasspathContainer();
+		
 	}
 
 	public KieContainer getContainer() {
@@ -58,30 +59,50 @@ public abstract class TowerRuleEngine<T extends IFact> implements IEngine<T> {
 		this.kContainer = kContainer;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	private String name;
-
 	public static KieServices getKieService() {
 		return kieService;
 	}
 	
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public KieFileSystem getFileSystem() {
+		return fileSystem;
+	}
+
+	public void setFileSystem(KieFileSystem fileSystem) {
+		this.fileSystem = fileSystem;
+	}
+
+	public void setKieBaseName(String kieBaseName) {
+		this.kieBaseName = kieBaseName;
+	}
+
 	public String getKieBaseName(){
 		return "FileSystemBase";
 	}
 	
-	public String getPackageName(){
-		return "rules";
+	public void setPackages(String packages) {
+		this.packages = packages;
 	}
 	
-	public String getSessionName(){
-		return "FileSystemKSession";
+	public String getPackages(){
+		return packages;
 	}
-	
-	public abstract KieSession build();
 
+	public void setSessionName(String sessionName) {
+		this.sessionName = sessionName;
+	}
+
+	public String getSessionName(){
+		return sessionName;
+	}
+	
 	public void refresh() {
 		
 		KieResources resources = getKieService().getResources();
@@ -89,7 +110,7 @@ public abstract class TowerRuleEngine<T extends IFact> implements IEngine<T> {
 		KieModuleModel kieModuleModel = getKieService().newKieModuleModel();// 1
 
 		KieBaseModel baseModel = kieModuleModel.newKieBaseModel(
-				this.getKieBaseName()).addPackage(getPackageName());// 2
+				this.getKieBaseName()).addPackage(getPackages());// 2
 		
 		baseModel.newKieSessionModel(getSessionName());// 3
 
@@ -138,8 +159,15 @@ public abstract class TowerRuleEngine<T extends IFact> implements IEngine<T> {
 	}
 	
 	public void execute(){
-		KieSession ksession = this.build();
-		ksession.fireAllRules();
-		ksession.dispose();
+		T session = this.build();
+		session.fireAllRules();
+		session.dispose();
+	}
+	
+	public void execute(T ksession){
+		if(ksession!=null){
+			ksession.fireAllRules();
+			ksession.dispose();
+		}
 	}
 }

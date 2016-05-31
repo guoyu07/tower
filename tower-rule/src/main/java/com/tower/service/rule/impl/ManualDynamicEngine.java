@@ -4,13 +4,12 @@
 package com.tower.service.rule.impl;
 
 import com.tower.service.rule.IEngine;
-import com.tower.service.rule.IFact;
 
 /**
  * @author alexzhu
  * 
  */
-public abstract class ManualDynamicEngine<T extends IFact> extends
+public abstract class ManualDynamicEngine<T extends TowerSession> extends
 		DynamicEngine<T> implements IEngine<T> {
 
 	public ManualDynamicEngine() {

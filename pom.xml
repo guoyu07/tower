@@ -138,6 +138,11 @@
 			</dependency>
 			<dependency>
 				<groupId>com.tower.soafw</groupId>
+				<artifactId>tower-rule</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.tower.soafw</groupId>
 				<artifactId>tower-service-impl</artifactId>
 				<version>${project.version}</version>
 			</dependency>

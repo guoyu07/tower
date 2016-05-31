@@ -9,13 +9,12 @@ import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.KieContainer;
 
 import com.tower.service.rule.IEngine;
-import com.tower.service.rule.IFact;
 
 /**
  * @author alexzhu
  * 
  */
-public abstract class TimeDynamicEngine<T extends IFact> extends DynamicEngine<T> implements IEngine<T> {
+public abstract class TimeDynamicEngine<T extends TowerSession> extends DynamicEngine<T> implements IEngine<T> {
 	
 	public TimeDynamicEngine(){
 		super();

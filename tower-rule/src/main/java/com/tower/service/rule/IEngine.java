@@ -1,12 +1,14 @@
 package com.tower.service.rule;
 
-import java.util.List;
-
-import com.tower.service.domain.IDTO;
-
-public interface IEngine<T extends IDTO> {
+public interface IEngine<T> {
 
 	public void refresh();
-	
-	public void execute(List<T> fact);
+
+	public abstract T build();
+
+	public abstract T build(String name);
+
+	public void execute();
+
+	public void execute(T session);
 }
