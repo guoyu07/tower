@@ -1,6 +1,6 @@
 package com.tower.service.rule;
 
-public interface IEngine<T> {
+public interface IEngine {
 
 	public void refresh();
 

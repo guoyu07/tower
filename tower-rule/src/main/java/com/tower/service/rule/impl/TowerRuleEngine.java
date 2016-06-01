@@ -15,7 +15,9 @@ import org.kie.api.builder.Message.Level;
 import org.kie.api.builder.model.KieBaseModel;
 import org.kie.api.builder.model.KieModuleModel;
 import org.kie.api.io.KieResources;
+import org.kie.api.runtime.Environment;
 import org.kie.api.runtime.KieContainer;
+import org.kie.api.runtime.KieSessionConfiguration;
 
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
@@ -25,7 +27,7 @@ import com.tower.service.rule.IEngine;
  * @author alexzhu
  * 
  */
-public abstract class TowerRuleEngine<T extends TowerSession> implements IEngine<T> {
+public abstract class TowerRuleEngine implements IEngine {
 
 	private String kieBaseName = "FileSystemBase";
 	private String packages = "rules";
@@ -53,6 +55,46 @@ public abstract class TowerRuleEngine<T extends TowerSession> implements IEngine
 
 	public TowerSession getSession(String sessionName) {
 		return new TowerSession(kContainer.newKieSession(sessionName));
+	}
+	
+	public TowerSession getSession(KieSessionConfiguration conf){
+		return new TowerSession(kContainer.newKieSession(conf));
+	}
+
+	public TowerSession getSession(Environment environment){
+		return new TowerSession(kContainer.newKieSession(environment));
+	}
+
+	public TowerSession getSession(Environment environment, KieSessionConfiguration conf){
+		return new TowerSession(kContainer.newKieSession(environment,conf));
+	}
+	
+	public TowerSession getSession(String kSessionName, Environment environment){
+		return new TowerSession(kContainer.newKieSession(kSessionName,environment));
+	}
+	
+	public TowerSession getSession(String kSessionName, KieSessionConfiguration conf){
+		return new TowerSession(kContainer.newKieSession(kSessionName,conf));
+	}
+	
+	public TowerSession getSession(String kSessionName, Environment environment, KieSessionConfiguration conf){
+		return new TowerSession(kContainer.newKieSession(kSessionName,environment,conf));
+	}
+	
+	public StatelessTowerSession getStatelessSession(){
+		return new StatelessTowerSession(kContainer.newStatelessKieSession());
+	}
+	
+	public StatelessTowerSession getStatelessSession(KieSessionConfiguration conf){
+		return new StatelessTowerSession(kContainer.newStatelessKieSession(conf));
+	}
+	
+	public StatelessTowerSession getStatelessSession(String kSessionName){
+		return new StatelessTowerSession(kContainer.newStatelessKieSession(kSessionName));
+	}
+
+	public StatelessTowerSession getStatelessSession(String kSessionName, KieSessionConfiguration conf){
+		return new StatelessTowerSession(kContainer.newStatelessKieSession(kSessionName,conf));
 	}
 	
 	public static KieServices getKieService() {

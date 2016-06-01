@@ -299,19 +299,19 @@ public class DynamicMemCache extends PrefixPriorityConfig
                 throw new IllegalArgumentException(String.format("%s has been created", poolName));
             }
 
-            pool.setInitConn(config.getInt(prefix_ + "memcached.initialConnections"));
-            pool.setMinConn(config.getInt(prefix_ + "memcached.minSpareConnections"));
-            pool.setMaxConn(config.getInt(prefix_ + "memcached.maxSpareConnections"));
-            pool.setMaxIdle(config.getInt(prefix_ + "memcached.maxIdleTime"));
-            pool.setMaxBusyTime(config.getInt(prefix_ + "memcached.maxBusyTime"));
-            pool.setMaintSleep(config.getInt(prefix_ + "memcached.maintThreadSleep"));
-            pool.setSocketTO(config.getInt(prefix_ + "memcached.socketTimeout"));
-            pool.setSocketConnectTO(this.getInt(prefix_ + "memcached.socketConnectTimeout"));
-            pool.setAliveCheck(config.getBoolean(prefix_ + "memcached.aliveCheck"));
-            pool.setFailover(config.getBoolean(prefix_ + "memcached.failover"));
-            pool.setFailback(config.getBoolean(prefix_ + "memcached.failback"));
-            pool.setNagle(config.getBoolean(prefix_ + "memcached.nagleAlgorithm"));
-            pool.setHashingAlg(config.getInt(prefix_ + "memcached.hashingAlgorithm"));
+            pool.setInitConn(config.getInt(prefix_ + "memcached.initialConnections",1));
+            pool.setMinConn(config.getInt(prefix_ + "memcached.minSpareConnections",1));
+            pool.setMaxConn(config.getInt(prefix_ + "memcached.maxSpareConnections",15));
+            pool.setMaxIdle(config.getInt(prefix_ + "memcached.maxIdleTime",300000));
+            pool.setMaxBusyTime(config.getInt(prefix_ + "memcached.maxBusyTime",30000));
+            pool.setMaintSleep(config.getInt(prefix_ + "memcached.maintThreadSleep",30000));
+            pool.setSocketTO(config.getInt(prefix_ + "memcached.socketTimeout",3000));
+            pool.setSocketConnectTO(this.getInt(prefix_ + "memcached.socketConnectTimeout",3000));
+            pool.setAliveCheck(config.getBoolean(prefix_ + "memcached.aliveCheck",false));
+            pool.setFailover(config.getBoolean(prefix_ + "memcached.failover",false));
+            pool.setFailback(config.getBoolean(prefix_ + "memcached.failback",true));
+            pool.setNagle(config.getBoolean(prefix_ + "memcached.nagleAlgorithm",true));
+            pool.setHashingAlg(config.getInt(prefix_ + "memcached.hashingAlgorithm",3));
 
             pool.setServers(config.getStringArray(prefix_ + "memcached.servers"));
             String[] weights = config.getStringArray(prefix_ + "memcached.weights");

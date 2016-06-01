@@ -117,8 +117,14 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 	@PostConstruct
 	public void init() {
 
+		Map tmp = null;
 		this.group = $build();
-		Map tmp = new HashMap(group);
+		if(group!=null){
+			tmp = new HashMap(group);
+		}
+		else{
+			tmp = new HashMap();
+		}
 		MapConfiguration config = new MapConfiguration(tmp);
 		delegate = new SecutiryCompositeConfiguration(config);
 		group.register(this);

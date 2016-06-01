@@ -7,9 +7,8 @@ import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 import com.tower.service.rule.IEngine;
 import com.tower.service.rule.impl.TowerRuleEngine;
-import com.tower.service.rule.impl.TowerSession;
 
-public abstract class AbsRuleServiceImpl<T extends IResult,S extends TowerSession> extends TowerRuleEngine<S> implements IService<T>,IEngine<S> {
+public abstract class AbsRuleServiceImpl<T extends IResult> extends TowerRuleEngine implements IService<T>,IEngine {
     
     protected static ServiceConfig config = new ServiceConfig();
     

@@ -16,6 +16,7 @@ import org.kie.api.runtime.Globals;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.KieSessionConfiguration;
 import org.kie.api.runtime.ObjectFilter;
+import org.kie.api.runtime.StatelessKieSession;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.runtime.process.WorkItemManager;
 import org.kie.api.runtime.rule.Agenda;
@@ -30,7 +31,7 @@ import org.kie.api.time.SessionClock;
 
 import com.tower.service.rule.ISession;
 
-public class TowerSession implements ISession,KieSession {
+public class TowerSession implements ISession,KieSession,StatelessKieSession {
 	
 	private KieSession delegate;
 	public TowerSession(KieSession delegate){
@@ -352,6 +353,16 @@ public class TowerSession implements ISession,KieSession {
 	@Override
 	public void destroy() {
 		delegate.destroy();
+	}
+	@Override
+	public void execute(Object object) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void execute(Iterable objects) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
