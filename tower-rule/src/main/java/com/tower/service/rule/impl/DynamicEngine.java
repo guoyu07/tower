@@ -9,7 +9,7 @@ import com.tower.service.rule.IEngine;
  * @author alexzhu
  * 
  */
-public abstract class DynamicEngine<T extends TowerSession> extends TowerRuleEngine<T> implements IEngine<T> {
+public abstract class DynamicEngine extends TowerRuleEngine implements IEngine {
 	
 	private String groupId;
 	private String artifactId;

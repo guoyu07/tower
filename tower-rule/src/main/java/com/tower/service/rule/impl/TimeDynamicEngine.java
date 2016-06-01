@@ -14,7 +14,7 @@ import com.tower.service.rule.IEngine;
  * @author alexzhu
  * 
  */
-public abstract class TimeDynamicEngine<T extends TowerSession> extends DynamicEngine<T> implements IEngine<T> {
+public abstract class TimeDynamicEngine extends DynamicEngine implements IEngine {
 	
 	public TimeDynamicEngine(){
 		super();

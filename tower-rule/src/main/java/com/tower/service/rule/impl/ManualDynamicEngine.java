@@ -10,7 +10,7 @@ import com.tower.service.rule.IEngine;
  * 
  */
 public abstract class ManualDynamicEngine<T extends TowerSession> extends
-		DynamicEngine<T> implements IEngine<T> {
+		DynamicEngine implements IEngine {
 
 	public ManualDynamicEngine() {
 		super();
