@@ -31,7 +31,7 @@ import org.kie.api.time.SessionClock;
 
 import com.tower.service.rule.ISession;
 
-public class TowerSession implements ISession,KieSession,StatelessKieSession {
+public class TowerSession implements ISession,KieSession {
 	
 	private KieSession delegate;
 	public TowerSession(KieSession delegate){
@@ -354,15 +354,4 @@ public class TowerSession implements ISession,KieSession,StatelessKieSession {
 	public void destroy() {
 		delegate.destroy();
 	}
-	@Override
-	public void execute(Object object) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void execute(Iterable objects) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

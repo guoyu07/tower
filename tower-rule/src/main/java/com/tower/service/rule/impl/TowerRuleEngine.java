@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.codehaus.plexus.util.FileUtils;
+import org.apache.commons.io.FileUtils;
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieBuilder;
 import org.kie.api.builder.KieFileSystem;
@@ -165,7 +165,7 @@ public abstract class TowerRuleEngine implements IEngine {
 
 		List<String> fileList=null;
 		try {
-			fileList = FileUtils.getDirectoryNames(new File(fileBasePath), ".drl", null, false);
+			fileList = null;//FileUtils.getDirectoryNames(new File(fileBasePath), ".drl", null, false);
 			for (String sfile : fileList) {
 				fileSystem.write("/config/rules/Rule.drl",
 						resources.newFileSystemResource(new File(sfile)));// 6
@@ -177,7 +177,7 @@ public abstract class TowerRuleEngine implements IEngine {
 			}
 			kContainer = getKieService().newKieContainer(
 					getKieService().getRepository().getDefaultReleaseId());
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error("Build Errors",e);
 		}
 	}
