@@ -31,10 +31,10 @@ import org.kie.api.time.SessionClock;
 
 import com.tower.service.rule.ISession;
 
-public class TowerSession implements ISession,KieSession {
+public class TowerDroolsSession implements ISession,KieSession {
 	
 	private KieSession delegate;
-	public TowerSession(KieSession delegate){
+	public TowerDroolsSession(KieSession delegate){
 		if(delegate==null){
 			throw new RuntimeException("KieSession 不能为空！");
 		}

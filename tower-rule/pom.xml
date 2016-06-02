@@ -67,11 +67,6 @@
 		</dependency>
 		<dependency>
 			<groupId>org.drools</groupId>
-			<artifactId>drools-jsr94</artifactId>
-			<version>${drools.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.drools</groupId>
 			<artifactId>drools-verifier</artifactId>
 			<version>${drools.version}</version>
 		</dependency>
@@ -120,6 +115,11 @@
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-decisiontables</artifactId>
+			<version>${drools.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.drools</groupId>
+			<artifactId>drools-jsr94</artifactId>
 			<version>${drools.version}</version>
 		</dependency>
 		<dependency>

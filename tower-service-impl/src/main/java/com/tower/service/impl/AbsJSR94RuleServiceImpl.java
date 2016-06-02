@@ -6,9 +6,9 @@ import com.tower.service.domain.IResult;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 import com.tower.service.rule.IEngine;
-import com.tower.service.rule.impl.TowerDroolsEngine;
+import com.tower.service.rule.impl.TowerJSR94Engine;
 
-public abstract class AbsRuleServiceImpl<T extends IResult> extends TowerDroolsEngine implements IService<T>,IEngine {
+public abstract class AbsJSR94RuleServiceImpl<T extends IResult> extends TowerJSR94Engine implements IService<T>,IEngine {
     
     protected static ServiceConfig config = new ServiceConfig();
     
@@ -17,7 +17,7 @@ public abstract class AbsRuleServiceImpl<T extends IResult> extends TowerDroolsE
 	 */
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public AbsRuleServiceImpl(){
+	public AbsJSR94RuleServiceImpl(){
 	}
 	
 	protected static RpcContext context = RpcContext.getContext();

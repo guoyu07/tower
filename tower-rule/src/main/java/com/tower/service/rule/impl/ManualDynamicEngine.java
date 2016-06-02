@@ -9,7 +9,7 @@ import com.tower.service.rule.IEngine;
  * @author alexzhu
  * 
  */
-public abstract class ManualDynamicEngine<T extends TowerSession> extends
+public abstract class ManualDynamicEngine<T extends TowerDroolsSession> extends
 		DynamicEngine implements IEngine {
 
 	public ManualDynamicEngine() {

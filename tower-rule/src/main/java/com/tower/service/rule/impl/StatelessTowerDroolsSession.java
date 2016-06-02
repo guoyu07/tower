@@ -15,10 +15,10 @@ import org.kie.api.runtime.StatelessKieSession;
 
 import com.tower.service.rule.ISession;
 
-public class StatelessTowerSession implements ISession,StatelessKieSession {
+public class StatelessTowerDroolsSession implements ISession,StatelessKieSession {
 	
 	private StatelessKieSession delegate;
-	public StatelessTowerSession(StatelessKieSession delegate){
+	public StatelessTowerDroolsSession(StatelessKieSession delegate){
 		if(delegate==null){
 			throw new RuntimeException("KieSession 不能为空！");
 		}
