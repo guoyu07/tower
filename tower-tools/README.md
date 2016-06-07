@@ -12,7 +12,7 @@
 
 + 安装发布脚本
 	+ mkdir -p /root/shell_bash
-	+ sip -rp tower-tools/publish/*.sh root@发布机器/root/shell_bash/
+	+ scp -rp tower-tools/publish/*.sh root@发布机器/root/shell_bash/
 	+ [设置keychain](publish/README.md)
 	
 + 发布代码
