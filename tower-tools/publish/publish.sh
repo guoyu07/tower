@@ -241,7 +241,7 @@ fi
 
 ###################################
 
-cd /root/apps/$1/
+cd $app_release_path
 
 rm -rf current
 
