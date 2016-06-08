@@ -74,6 +74,19 @@
 	</mirrors>
 
 	<profiles>
+		<!--class 编译 信息-->
+		<profile>
+      			<id>jdk-1.8</id>
+      			<activation>
+				<activeByDefault>true</activeByDefault>
+        			<jdk>1.8</jdk>
+      			</activation>
+      			<properties>  
+        			<maven.compiler.source>1.7</maven.compiler.source>  
+        			<maven.compiler.target>1.7</maven.compiler.target>  
+        			<maven.compiler.compilerVersion>1.7</maven.compiler.compilerVersion>  
+    			</properties>
+    	</profile>
 		<profile>
 			<id>nexus</id>
 			<repositories>
@@ -121,7 +134,8 @@
 			+ 登录到部署机器
 			+ mkdir -p /root/code/projects/workspace
 			+ /root/code/projects/workspace/${ITEM_FULL_NAME}
-		+ 构建记录根目录:${ITEM_ROOTDIR}/builds/${ITEM_FULL_NAME}
+		+ 构建记录根目录:
+			+ ${ITEM_ROOTDIR}/builds/${ITEM_FULL_NAME}
 
 ## 框架介绍
 
@@ -147,9 +161,10 @@
 ### tower－config
 + 配置文件存储目录：
 	+ 配置目录有三级，安优先级列表如下，序号最小优先级最高
+		+ 0,全局配置，存储在zookeeper中
 		+ 1,应用配置，位置在应用用安装目录下的config目录
-		+ 2,框架默认配置目录,默认在/config，可以通过-Dconfig.file.dir=iiii进行设置调整
-		+ 3,classpath:META-INF/config/local/
+		+ 2,框架默认配置,默认在/config，可以通过-Dconfig.file.dir=iiii进		行设置调整
+		+ 3,本地开发配置：classpath:META-INF/config/local/
 	+ 配置文件格式支持
 		+ xml
 		+ properties
