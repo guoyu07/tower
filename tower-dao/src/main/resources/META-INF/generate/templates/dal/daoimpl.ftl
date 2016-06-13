@@ -29,7 +29,7 @@ import ${package}.dao.model.${name};
 import com.tower.service.dao.ibatis.SqlmapUtils;
 import com.tower.service.exception.DataAccessException;
 
-@Repository("${name}")
+@Repository("${name}DAO")
 <#if tab.pkFieldNum==1>
 	<#if tab.pkFieldType.javaType="Integer">	
 public class ${name}IbatisDAOImpl extends AbsIntIDIBatisDAOImpl<${name}> implements I${name}DAO<${name}> {
