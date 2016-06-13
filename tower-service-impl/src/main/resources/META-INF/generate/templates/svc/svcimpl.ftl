@@ -31,7 +31,7 @@ import com.tower.service.impl.AbsServiceImpl;
 
 public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I${name}Service<${name}Dto> {
 
-	@Resource(name="${name}")
+	@Resource(name="${subName}DAO")
 	private I${name}DAO<${name}> ${subName}DAO;
 	
 	@Override
