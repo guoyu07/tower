@@ -58,6 +58,7 @@ public class Tab {
      * 第一行第二列为表名
      */
     name = (String) defs.get(0).get(1);
+    
     /**
      * 第一行第五列为默认数据源名
      */
@@ -134,7 +135,7 @@ public class Tab {
   public void setName(String name) {
     this.name = name;
   }
-
+  
   public String getDbName() {
     return dbName;
   }

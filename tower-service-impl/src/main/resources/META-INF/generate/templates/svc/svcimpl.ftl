@@ -32,7 +32,7 @@ import com.tower.service.impl.AbsServiceImpl;
 public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I${name}Service<${name}Dto> {
 
 	@Resource(name="${name}")
-	private I${name}DAO<${name}> i${name}DAO;
+	private I${name}DAO<${name}> ${subName}DAO;
 	
 	@Override
 	<#if pkType="Integer">	
@@ -41,7 +41,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 		${name} model = new ${name}();
 		try {
 			BeanUtilsBean2.getInstance().copyProperties(model, params);
-			Integer id = i${name}DAO.insert(model, null);
+			Integer id = ${subName}DAO.insert(model, null);
 			IntegerResult result = new IntegerResult(id);
 			response.setResult(result);
 		} catch (Exception e) {
@@ -56,7 +56,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 		${name} model = new ${name}();
 		try {
 			BeanUtilsBean2.getInstance().copyProperties(model, params);
-			BigInteger id = i${name}DAO.insert(model, null);
+			BigInteger id = ${subName}DAO.insert(model, null);
 			BigIntegerResult result = new BigIntegerResult(id);
 			response.setResult(result);
 		} catch (Exception e) {
@@ -71,7 +71,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 		${name} model = new ${name}();
 		try {
 			BeanUtilsBean2.getInstance().copyProperties(model, params);
-			String id = i${name}DAO.insert(model, null);
+			String id = ${subName}DAO.insert(model, null);
 			StringResult result = new StringResult(id);
 			response.setResult(result);
 		} catch (Exception e) {
@@ -86,7 +86,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 		${name} model = new ${name}();
 		try {
 			BeanUtilsBean2.getInstance().copyProperties(model, params);
-			Long id = i${name}DAO.insert(model, null);
+			Long id = ${subName}DAO.insert(model, null);
 			LongResult result = new LongResult(id);
 			response.setResult(result);
 		} catch (Exception e) {
@@ -110,7 +110,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	</#if>
 		ServiceResponse<IntegerResult> response = new ServiceResponse<IntegerResult>();
 		try {
-			Integer eft = i${name}DAO.deleteById(id, null);
+			Integer eft = ${subName}DAO.deleteById(id, null);
 			IntegerResult result = new IntegerResult(eft);
 			response.setResult(result);
 		} catch (Exception e) {
@@ -125,7 +125,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	public ServiceResponse<IntegerResult> deleteByMap(Map<String, Object> params) {
 		ServiceResponse<IntegerResult> response = new ServiceResponse<IntegerResult>();
 		try {
-			Integer eft = i${name}DAO.deleteByMap(params, null);
+			Integer eft = ${subName}DAO.deleteByMap(params, null);
 			IntegerResult result = new IntegerResult(eft);
 			response.setResult(result);
 		} catch (Exception e) {
@@ -148,7 +148,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	</#if>
 		ServiceResponse<IntegerResult> response = new ServiceResponse<IntegerResult>();
 		try {
-			Integer eft = i${name}DAO.updateById(id,newValue, null);
+			Integer eft = ${subName}DAO.updateById(id,newValue, null);
 			IntegerResult result = new IntegerResult(eft);
 			response.setResult(result);
 		} catch (Exception e) {
@@ -164,7 +164,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 			Map<String, Object> newValue, Map<String, Object> conds) {
 		ServiceResponse<IntegerResult> response = new ServiceResponse<IntegerResult>();
 		try {
-			Integer eft = i${name}DAO.updateByMap(newValue, conds, null);
+			Integer eft = ${subName}DAO.updateByMap(newValue, conds, null);
 			IntegerResult result = new IntegerResult(eft);
 			response.setResult(result);
 		} catch (Exception e) {
@@ -187,7 +187,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	</#if>
 		ServiceResponse<${name}Dto> response = new ServiceResponse<${name}Dto>();
 		try {
-			${name} result = i${name}DAO.queryById(id,null);
+			${name} result = ${subName}DAO.queryById(id,null);
 			if (result != null) {
 				${name}Dto dto = copy(result);
 				response.setResult(dto);
@@ -212,7 +212,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	</#if>
 		ServiceResponse<${name}Dto> response = new ServiceResponse<${name}Dto>();
 		try {
-			${name} result = i${name}DAO.queryById(id,master,null);
+			${name} result = ${subName}DAO.queryById(id,master,null);
 			if (result != null) {
 				${name}Dto dto = copy(result);
 				response.setResult(dto);
@@ -230,7 +230,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 			Map<String, Object> params) {
 		ServiceResponse<ListResult<${name}Dto>> response = new ServiceResponse<ListResult<${name}Dto>>();
 		try {
-			List<${name}> resultlist = i${name}DAO.queryByMap(params, null);
+			List<${name}> resultlist = ${subName}DAO.queryByMap(params, null);
 			List<${name}Dto> list = transfter(resultlist);
 			if(list!=null){
 				response.setResult(new ListResult<${name}Dto>(list));
@@ -248,7 +248,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 			Map<String, Object> params, Boolean master) {
 		ServiceResponse<ListResult<${name}Dto>> response = new ServiceResponse<ListResult<${name}Dto>>();
 		try {
-			List<${name}> resultlist = i${name}DAO.queryByMap(params, master, null);
+			List<${name}> resultlist = ${subName}DAO.queryByMap(params, master, null);
 			List<${name}Dto> list = transfter(resultlist);
 			if(list!=null){
 				response.setResult(new ListResult<${name}Dto>(list));
@@ -265,7 +265,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 	public ServiceResponse<IntegerResult> count(Map<String, Object> params) {
 		ServiceResponse<IntegerResult> response = new ServiceResponse<IntegerResult>();
 		try {
-			Integer cnt = i${name}DAO.countByMap(params,null);
+			Integer cnt = ${subName}DAO.countByMap(params,null);
 			IntegerResult result = new IntegerResult(cnt);
 			response.setResult(result);
 		} catch (Exception e) {
@@ -281,7 +281,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 			Boolean master) {
 		ServiceResponse<IntegerResult> response = new ServiceResponse<IntegerResult>();
 		try {
-			Integer cnt = i${name}DAO.countByMap(params,master,null);
+			Integer cnt = ${subName}DAO.countByMap(params,master,null);
 			IntegerResult result = new IntegerResult(cnt);
 			response.setResult(result);
 		} catch (Exception e) {
@@ -297,7 +297,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 			Map<String, Object> params, int pageIndex, int pageSize) {
 		ServiceResponse<PageResult<${name}Dto>> response = new ServiceResponse<PageResult<${name}Dto>>();
 		try {
-			List<${name}> resultlist = i${name}DAO.pageQuery(params, pageIndex,
+			List<${name}> resultlist = ${subName}DAO.pageQuery(params, pageIndex,
 					pageSize, null);
 			List<${name}Dto> list = transfter(resultlist);
 			if (list != null) {
@@ -319,7 +319,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 			String orders) {
 		ServiceResponse<PageResult<${name}Dto>> response = new ServiceResponse<PageResult<${name}Dto>>();
 		try {
-			List<${name}> resultlist = i${name}DAO.pageQuery(params, pageIndex,
+			List<${name}> resultlist = ${subName}DAO.pageQuery(params, pageIndex,
 					pageSize, orders, null);
 			List<${name}Dto> list = transfter(resultlist);
 			if (list != null) {
@@ -341,7 +341,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 			Boolean master) {
 		ServiceResponse<PageResult<${name}Dto>> response = new ServiceResponse<PageResult<${name}Dto>>();
 		try {
-			List<${name}> resultlist = i${name}DAO.pageQuery(params, pageIndex,
+			List<${name}> resultlist = ${subName}DAO.pageQuery(params, pageIndex,
 					pageSize, master, null);
 			List<${name}Dto> list = transfter(resultlist);
 			if (list != null) {
@@ -363,7 +363,7 @@ public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I$
 			String orders, Boolean master) {
 		ServiceResponse<PageResult<${name}Dto>> response = new ServiceResponse<PageResult<${name}Dto>>();
 		try {
-			List<${name}> resultlist = i${name}DAO.pageQuery(params, pageIndex,
+			List<${name}> resultlist = ${subName}DAO.pageQuery(params, pageIndex,
 					pageSize, orders, master, null);
 			List<${name}Dto> list = transfter(resultlist);
 			if (list != null) {

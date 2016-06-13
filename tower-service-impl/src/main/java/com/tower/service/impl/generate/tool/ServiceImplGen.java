@@ -34,6 +34,7 @@ public class ServiceImplGen extends AbsGen{
 		root.put("pkType", pkType);
 		root.put("package", package_);
 		root.put("name", name);
+		root.put("subName", (name.substring(0, 1).toLowerCase() + name.substring(1)));
 
 		String java = targetJava==null?"src/main/java/":targetJava;
 

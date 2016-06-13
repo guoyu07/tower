@@ -52,6 +52,7 @@ public abstract class DaoGen extends AbsGen {
     for (int i = 0; i < size; i++) {
 
       String name = format(tabs.get(i).getName());
+      String subName = name.substring(0, 1).toLowerCase() + name.substring(1);
       modelNames.add(name);
       String dbName = DBSetting.getName();
       int index = dbName.indexOf("_");
@@ -70,6 +71,7 @@ public abstract class DaoGen extends AbsGen {
       
       root.put("upperDataSource", masterDataSourceBean);
       root.put("name", name);
+      root.put("subName", subName);
       root.put("tab", tabs.get(i));
       root.put("dbs", tabs.get(i).getDbs());
       root.put("cols", tabs.get(i).getCols());
