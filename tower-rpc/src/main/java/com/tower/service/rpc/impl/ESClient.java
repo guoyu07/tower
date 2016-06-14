@@ -43,20 +43,17 @@ public class ESClient implements JestClient, IClient {
 		servers.add("http://192.168.0.158:9200");
 		clientConfig = new HttpClientConfig.Builder(servers)
 				.discoveryEnabled(discoveryEnabled)
-				.discoveryFrequency(time, unit).build();
+				.discoveryFrequency(time, unit).multiThreaded(true).build();
 		factory = new JestClientFactory();
 		factory.setHttpClientConfig(clientConfig);
+		client = factory.getObject();
 		inited = true;
 	}
 
 	@Override
 	public <T extends JestResult> T execute(Action<T> clientRequest)
 			throws IOException {
-		client = factory.getObject();
-		try {
-			return client.execute(clientRequest);
-		} finally {
-		}
+		return client.execute(clientRequest);
 	}
 
 	@Override
@@ -72,10 +69,7 @@ public class ESClient implements JestClient, IClient {
 	@Override
 	public <T extends JestResult> void executeAsync(Action<T> clientRequest,
 			JestResultHandler<? super T> jestResultHandler) {
-		try {
-			client.executeAsync(clientRequest, jestResultHandler);
-		} finally {
-		}
+		client.executeAsync(clientRequest, jestResultHandler);
 	}
 
 	@Override
@@ -139,14 +133,15 @@ public class ESClient implements JestClient, IClient {
 
 	@Override
 	public JestResult search(String idxName, String idxType, String id) {
-		JestResult result =null;
+		JestResult result = null;
 		Get get = new Get.Builder(idxName, id).type(idxType).build();
 		try {
 			result = execute(get);
-		} catch (IOException e) {
-			logger.error("search error with:idxName="+idxName+" ,idxType="+idxType+" ,id="+id, e);
+		} catch (Exception e) {
+			logger.error("search error with:idxName=" + idxName + " ,idxType="
+					+ idxType + " ,id=" + id, e);
 		}
-		
+
 		return result;
 	}
 
@@ -177,7 +172,7 @@ public class ESClient implements JestClient, IClient {
 		client.init();
 		JestResult result = client.search("megacorp", "employee", "1");
 		System.out.println(result.getJsonObject().toString());
-		for(int i=0;i<1;i++){
+		for (int i = 0; i < 1; i++) {
 		}
 	}
 }
