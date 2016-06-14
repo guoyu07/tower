@@ -25,7 +25,7 @@ import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 import com.tower.service.rpc.IClient;
 
-public class AbsESClient implements JestClient, IClient {
+public class ESClient implements JestClient, IClient {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	private HttpClientConfig clientConfig;
@@ -40,20 +40,23 @@ public class AbsESClient implements JestClient, IClient {
 	@PostConstruct
 	public void init() {
 		Set<String> servers = new LinkedHashSet<String>();
-		servers.add("http://localhost:9200");
+		servers.add("http://192.168.0.158:9200");
 		clientConfig = new HttpClientConfig.Builder(servers)
 				.discoveryEnabled(discoveryEnabled)
 				.discoveryFrequency(time, unit).build();
 		factory = new JestClientFactory();
 		factory.setHttpClientConfig(clientConfig);
-		client = factory.getObject();
 		inited = true;
 	}
 
 	@Override
 	public <T extends JestResult> T execute(Action<T> clientRequest)
 			throws IOException {
-		return client.execute(clientRequest);
+		client = factory.getObject();
+		try {
+			return client.execute(clientRequest);
+		} finally {
+		}
 	}
 
 	@Override
@@ -69,7 +72,10 @@ public class AbsESClient implements JestClient, IClient {
 	@Override
 	public <T extends JestResult> void executeAsync(Action<T> clientRequest,
 			JestResultHandler<? super T> jestResultHandler) {
-		client.executeAsync(clientRequest, jestResultHandler);
+		try {
+			client.executeAsync(clientRequest, jestResultHandler);
+		} finally {
+		}
 	}
 
 	@Override
@@ -77,7 +83,7 @@ public class AbsESClient implements JestClient, IClient {
 		try {
 			execute(new CreateIndex.Builder(idxName).build());
 		} catch (IOException e) {
-			logger.error("createIndex error with:idxName="+idxName, e);
+			logger.error("createIndex error with:idxName=" + idxName, e);
 		}
 	}
 
@@ -87,7 +93,8 @@ public class AbsESClient implements JestClient, IClient {
 			execute(new CreateIndex.Builder(idxName).settings(settingsJson)
 					.build());
 		} catch (IOException e) {
-			logger.error("createIndex error with:idxName="+idxName+" ,settingsJson="+settingsJson, e);
+			logger.error("createIndex error with:idxName=" + idxName
+					+ " ,settingsJson=" + settingsJson, e);
 		}
 	}
 
@@ -98,10 +105,12 @@ public class AbsESClient implements JestClient, IClient {
 		try {
 			client.execute(index);
 		} catch (IOException e) {
-			logger.error("createIndex error with:source="+source+" ,idxName="+idxName+" ,idxTypeName="+idxTypeName, e);
+			logger.error("createIndex error with:source=" + source
+					+ " ,idxName=" + idxName + " ,idxTypeName=" + idxTypeName,
+					e);
 		}
 	}
-	
+
 	@Override
 	public void createIdxMap(String idxName, String idxType, String mapDefine) {
 		PutMapping putMapping = new PutMapping.Builder(idxName, idxType,
@@ -109,7 +118,8 @@ public class AbsESClient implements JestClient, IClient {
 		try {
 			this.execute(putMapping);
 		} catch (IOException e) {
-			logger.error("createIdxMap error with:idxName="+idxName+" ,idxType="+idxType+" ,mapDefine="+mapDefine, e);
+			logger.error("createIdxMap error with:idxName=" + idxName
+					+ " ,idxType=" + idxType + " ,mapDefine=" + mapDefine, e);
 		}
 	}
 
@@ -121,19 +131,23 @@ public class AbsESClient implements JestClient, IClient {
 		try {
 			client.execute(index);
 		} catch (IOException e) {
-			logger.error("createIndex error with:source="+source+" ,id="+id+" ,idxName="+idxName+" ,idxTypeName="+idxTypeName, e);
+			logger.error("createIndex error with:source=" + source + " ,id="
+					+ id + " ,idxName=" + idxName + " ,idxTypeName="
+					+ idxTypeName, e);
 		}
 	}
 
 	@Override
 	public JestResult search(String idxName, String idxType, String id) {
+		JestResult result =null;
 		Get get = new Get.Builder(idxName, id).type(idxType).build();
 		try {
-			JestResult result = execute(get);
+			result = execute(get);
 		} catch (IOException e) {
 			logger.error("search error with:idxName="+idxName+" ,idxType="+idxType+" ,id="+id, e);
 		}
-		return null;
+		
+		return result;
 	}
 
 	@Override
@@ -142,7 +156,8 @@ public class AbsESClient implements JestClient, IClient {
 			execute(new Update.Builder(script).index(idxName).type(idxType)
 					.id(id).build());
 		} catch (IOException e) {
-			logger.error("update error with:idxName="+idxName+" ,idxType="+idxType+" ,id="+id+",script="+script, e);
+			logger.error("update error with:idxName=" + idxName + " ,idxType="
+					+ idxType + " ,id=" + id + ",script=" + script, e);
 		}
 	}
 
@@ -152,7 +167,17 @@ public class AbsESClient implements JestClient, IClient {
 			client.execute(new Delete.Builder(id).index(idxName).type(idxType)
 					.build());
 		} catch (IOException e) {
-			logger.error("delete error with:idxName="+idxName+" ,idxType="+idxType+" ,id="+id, e);
+			logger.error("delete error with:idxName=" + idxName + " ,idxType="
+					+ idxType + " ,id=" + id, e);
+		}
+	}
+
+	public static void main(String args[]) {
+		ESClient client = new ESClient();
+		client.init();
+		JestResult result = client.search("megacorp", "employee", "1");
+		System.out.println(result.getJsonObject().toString());
+		for(int i=0;i<1;i++){
 		}
 	}
 }
