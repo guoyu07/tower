@@ -9,30 +9,33 @@ import io.searchbox.client.config.HttpClientConfig;
 import io.searchbox.core.Delete;
 import io.searchbox.core.Get;
 import io.searchbox.core.Index;
+import io.searchbox.core.Search;
+import io.searchbox.core.SearchResult;
 import io.searchbox.core.Update;
 import io.searchbox.indices.CreateIndex;
 import io.searchbox.indices.mapping.PutMapping;
 
 import java.io.IOException;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.poi.hssf.record.formula.functions.T;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import com.tower.service.domain.IDTO;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 import com.tower.service.rpc.IClient;
 
-public class ESClient implements JestClient, IClient {
+public class EsAdvancedService implements JestClient, IClient {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	private HttpClientConfig clientConfig;
 	private JestClient client;
-	private JestClientFactory factory;
 	private boolean discoveryEnabled = true;
 	private long time = 1l;
 	private TimeUnit unit = TimeUnit.SECONDS;
@@ -46,7 +49,7 @@ public class ESClient implements JestClient, IClient {
 		clientConfig = new HttpClientConfig.Builder(servers)
 				.discoveryEnabled(discoveryEnabled)
 				.discoveryFrequency(time, unit).multiThreaded(true).build();
-		factory = new JestClientFactory();
+		JestClientFactory factory = new JestClientFactory();
 		factory.setHttpClientConfig(clientConfig);
 		client = factory.getObject();
 		inited = true;
@@ -133,7 +136,77 @@ public class ESClient implements JestClient, IClient {
 
 		return result;
 	}
-	
+
+	public SearchResult searchByQueryString(String idxName, String idxType,
+			String queryString) {
+		SearchResult result = null;
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		searchSourceBuilder.query(queryString);
+		Search search = new Search.Builder(searchSourceBuilder.toString())
+				.addIndex(idxName).addType(idxType).build();
+		try {
+			result = execute(search);
+		} catch (Exception e) {
+			logger.error("search error with:idxName=" + idxName + " ,idxType="
+					+ idxType + " ,queryString=" + queryString, e);
+		}
+
+		return result;
+	}
+
+	public SearchResult searchByQueryString(String idxName, String idxType,
+			Map<String, Object> params) {
+		SearchResult result = null;
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		searchSourceBuilder.query(params);
+		Search search = new Search.Builder(searchSourceBuilder.toString())
+				.addIndex(idxName).addType(idxType).build();
+		try {
+			result = execute(search);
+		} catch (Exception e) {
+			logger.error("search error with:idxName=" + idxName + " ,idxType="
+					+ idxType + " ,params=" + params, e);
+		}
+
+		return result;
+	}
+
+	public SearchResult searchByQueryString(String idxName, String idxType,
+			QueryBuilder query) {
+		SearchResult result = null;
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		searchSourceBuilder.query(query);
+		Search search = new Search.Builder(searchSourceBuilder.toString())
+				.addIndex(idxName).addType(idxType).build();
+		try {
+			result = execute(search);
+		} catch (Exception e) {
+			logger.error("search error with:idxName=" + idxName + " ,idxType="
+					+ idxType + " ,query=" + query, e);
+		}
+
+		return result;
+	}
+	/**
+	 * 使用DSL语句查询
+	 * 
+	 * @return
+	 */
+	public SearchResult searchByDSL(String idxName, String idxType,
+			String dslJson) {
+		SearchResult result = null;
+		Search search = new Search.Builder(dslJson).addIndex(idxName)
+				.addType(idxType).build();
+		try {
+			result = execute(search);
+		} catch (Exception e) {
+			logger.error("search error with:idxName=" + idxName + " ,idxType="
+					+ idxType + " ,dslJson=" + dslJson, e);
+		}
+
+		return result;
+	}
+
 	@Override
 	public void update(String idxName, String idxType, String id, String script) {
 		try {
@@ -170,10 +243,11 @@ public class ESClient implements JestClient, IClient {
 	}
 
 	public static void main(String args[]) {
-		ESClient client = new ESClient();
+		EsAdvancedService client = new EsAdvancedService();
 		client.init();
 		JestResult result = client.search("megacorp", "employee", "1");
-		//Employee result = client.search("megacorp", "employee", "1",Employee.class);
+		// Employee result = client.search("megacorp", "employee",
+		// "1",Employee.class);
 		System.out.println(result.getJsonString());
 		for (int i = 0; i < 1; i++) {
 		}
