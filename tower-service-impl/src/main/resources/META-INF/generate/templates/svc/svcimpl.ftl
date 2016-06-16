@@ -29,7 +29,7 @@ import com.tower.service.domain.PageResult;
 import com.tower.service.domain.ServiceResponse;
 import com.tower.service.impl.AbsServiceImpl;
 
-public class ${name}ServiceImpl extends AbsServiceImpl<${name}Dto> implements I${name}Service<${name}Dto> {
+public class ${name}ServiceImpl extends AbsServiceImpl implements I${name}Service<${name}Dto> {
 
 	@Resource(name="${subName}DAO")
 	private I${name}DAO<${name}> ${subName}DAO;

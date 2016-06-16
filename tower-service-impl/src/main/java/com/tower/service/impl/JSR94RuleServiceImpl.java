@@ -7,8 +7,10 @@ import com.tower.service.IService;
 import com.tower.service.config.IConfigChangeListener;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
+import com.tower.service.rule.IEngine;
+import com.tower.service.rule.impl.TowerJSR94Engine;
 
-public abstract class AbsServiceImpl implements IService,IConfigChangeListener, InitializingBean {
+public class JSR94RuleServiceImpl extends TowerJSR94Engine implements IService,IEngine,IConfigChangeListener, InitializingBean {
     
     protected static ServiceConfig config;
     
@@ -17,8 +19,7 @@ public abstract class AbsServiceImpl implements IService,IConfigChangeListener, 
 	 */
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public AbsServiceImpl(){
-	    
+	public JSR94RuleServiceImpl(){
 	}
 	
 	protected static RpcContext context = RpcContext.getContext();
@@ -27,19 +28,6 @@ public abstract class AbsServiceImpl implements IService,IConfigChangeListener, 
         return context.getRemoteHost();
     }
 
-	public String hello(String name){
-		if (logger.isInfoEnabled()) {
-			logger.info("hello(String name={}) - start", name); //$NON-NLS-1$
-		}
-
-		String returnString = "hello," + name;
-
-		if (logger.isInfoEnabled()) {
-			logger.info("hello(String name={}) - end - return value={}", name, returnString); //$NON-NLS-1$
-		}
-		return returnString;
-	}
-	
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if(config!=null){
@@ -59,5 +47,4 @@ public abstract class AbsServiceImpl implements IService,IConfigChangeListener, 
 	public void configChanged() {
 		
 	}
-
 }

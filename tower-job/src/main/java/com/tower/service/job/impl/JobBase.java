@@ -13,6 +13,7 @@ import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.TriggerKey;
 import org.quartz.impl.triggers.CronTriggerImpl;
+import org.springframework.beans.factory.InitializingBean;
 
 import com.tower.service.TowerServiceContainer;
 import com.tower.service.cache.CacheSwitcher;
@@ -26,10 +27,11 @@ import com.tower.service.reflection.MetaObject;
 import com.tower.service.reflection.factory.DefaultObjectFactory;
 import com.tower.service.util.Request;
 
-public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigChangeListener{
+public abstract class JobBase<T> implements IJob<T>,IConfigChangeListener,InitializingBean{
     
 	private static Thread monitor = null;
 	private static AtomicInteger runningCnt = new AtomicInteger(0);
+	private JobConfig config;
 	
     /**
      * Logger for this class
@@ -50,11 +52,8 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
         this.id = id;
     }
     
-    @PostConstruct
+	@PostConstruct
     public void init(){
-        this.setPrefix(id);
-        addChangeListener(this);
-        super.init();
         if(monitor==null){
         	monitor = new Thread() {
         		Logger logger = LoggerFactory.getLogger("monitor");
@@ -112,7 +111,7 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
      * @return
      */
     protected String getStatus(){
-    	return this.getString(TowerServiceContainer.SERVICE_ID,"status",defStatus);//优先job
+    	return config.getString(TowerServiceContainer.SERVICE_ID,"status",defStatus);//优先job
     }
     
     protected String defStatus = "start";
@@ -146,7 +145,7 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
 
 	public final void start() {
         
-		CacheSwitcher.set(Boolean.valueOf(this.getString(this.getPrefix()+"X-Cached", System.getProperty("X-Cached","true"))));
+		CacheSwitcher.set(Boolean.valueOf(config.getString(config.getPrefix()+"X-Cached", System.getProperty("X-Cached","true"))));
     	Request.setId(null);
     	this.setNewStart(true);
     	
@@ -246,7 +245,7 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
     public synchronized void configChanged() {
     	if(trigger!=null){
     		String cronExpression = trigger.getCronExpression();
-            String currentCronExpression = getString("CronExpression");
+            String currentCronExpression = config.getString("CronExpression");
             if (currentCronExpression != null && currentCronExpression.trim().length() > 0
                     && !currentCronExpression.equalsIgnoreCase(cronExpression)) {
                 boolean settingNull = false;
@@ -301,7 +300,7 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
 
         try {
             // 触发器
-            ((CronTriggerImpl) trigger).setCronExpression(getString("CronExpression"));// 触发器时间设定
+            ((CronTriggerImpl) trigger).setCronExpression(config.getString("CronExpression"));// 触发器时间设定
             scheduler.scheduleJob(jobDetail, trigger);
             // 启动
             if (!scheduler.isShutdown()) {
@@ -382,4 +381,20 @@ public abstract class JobBase<T> extends JobConfig implements IJob<T>,IConfigCha
 	public void setListeners(List<IListener> listeners) {
 		this.listeners = listeners;
 	}
+	
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		if(config!=null){
+			config.addChangeListener(this);
+		}
+	}
+	
+	public JobConfig getConfig() {
+		return config;
+	}
+
+	public void setConfig(JobConfig config) {
+		this.config = config;
+	}
+	
 }

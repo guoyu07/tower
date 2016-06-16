@@ -24,7 +24,6 @@ import redis.clients.jedis.ShardedJedis;
 import redis.clients.jedis.ShardedJedisPool;
 
 import com.tower.service.cache.ICache;
-import com.tower.service.config.IConfigListener;
 import com.tower.service.config.PrefixPriorityConfig;
 import com.tower.service.config.dict.ConfigFileTypeDict;
 import com.tower.service.util.DateUtil;
@@ -32,8 +31,7 @@ import com.tower.service.util.DateUtil;
 public class DynamicRedisCache extends PrefixPriorityConfig
         implements
             Cache,
-            ICache,
-            IConfigListener {
+            ICache {
 	/**
 	 * Logger for this class
 	 */

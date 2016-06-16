@@ -4,13 +4,13 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Component;
 
-import com.tower.service.config.DynamicConfig;
+import com.tower.service.config.PrefixPriorityConfig;
 import com.tower.service.config.dict.ConfigComponent;
 import com.tower.service.config.dict.ConfigFileDict;
 import com.tower.service.config.dict.ConfigFileTypeDict;
 
 @Component(ConfigComponent.ServiceConfig)
-public class ServiceConfig extends DynamicConfig {
+public class ServiceConfig extends PrefixPriorityConfig {
     
     public ServiceConfig() {}
 

@@ -23,18 +23,19 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.PostConstruct;
-
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.springframework.beans.factory.InitializingBean;
 
+import com.tower.service.config.IConfigChangeListener;
 import com.tower.service.config.PrefixPriorityConfig;
 import com.tower.service.domain.IDTO;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 import com.tower.service.rpc.IClient;
 
-public class EsAdvancedService implements JestClient, IClient {
+public class EsAdvancedService implements JestClient, IClient,
+		IConfigChangeListener, InitializingBean {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 	private HttpClientConfig clientConfig;
@@ -46,12 +47,12 @@ public class EsAdvancedService implements JestClient, IClient {
 	private boolean inited;
 	private static String defaultServer = "http://192.168.0.158:9200";
 	private PrefixPriorityConfig config;
-	
-	@PostConstruct
-	public void init() {
+
+	private void init() {
 		List<String> servers = new ArrayList<String>();
 		servers.add(defaultServer);
-		if(config!=null){
+		if (config != null) {
+			config.addChangeListener(this);
 			servers = config.getList("servers", servers);
 		}
 		servers.add(defaultServer);
@@ -72,6 +73,11 @@ public class EsAdvancedService implements JestClient, IClient {
 	@Override
 	public void setServers(Set<String> servers) {
 		client.setServers(servers);
+	}
+
+	@Override
+	public void configChanged() {
+		setServers(new LinkedHashSet<String>(config.getList("servers")));
 	}
 
 	@Override
@@ -196,6 +202,7 @@ public class EsAdvancedService implements JestClient, IClient {
 
 		return result;
 	}
+
 	/**
 	 * 使用DSL语句查询
 	 * 
@@ -249,6 +256,11 @@ public class EsAdvancedService implements JestClient, IClient {
 					+ " ,idxName=" + idxName + " ,idxTypeName=" + idxTypeName,
 					e);
 		}
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		init();
 	}
 
 	public static void main(String args[]) {

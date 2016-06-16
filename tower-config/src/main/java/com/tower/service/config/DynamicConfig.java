@@ -1,8 +1,6 @@
 package com.tower.service.config;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -11,15 +9,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.MapConfiguration;
-import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.configuration.XMLPropertiesConfiguration;
 
 import com.dangdang.config.service.GeneralConfigGroup;
 import com.dangdang.config.service.file.FileConfigGroup;
@@ -53,7 +47,7 @@ import com.tower.service.util.StringUtil;
  * 
  */
 public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
-		IConfigListener, IObserver {
+		IObserver,IConfigListener {
 
 	protected static Logger loggers = LoggerFactory
 			.getLogger(DynamicConfig.class);
@@ -84,26 +78,8 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 	private String ST_Type = "zookeeper";
 
 	public DynamicConfig() {
-		logger = LoggerFactory.getLogger(getClass());
-		try {
-			if (isZookeeper() && zkProfile == null) {
-				zkProfile = createZookeeperProfile("/config");
-			}
-			if (isZookeeper() && !StringUtil.isEmpty(getAppHomeDir())) {
-				if (appZKProfile == null) {
-					appZKProfile = createZookeeperProfile(getAppHomeDir()
-							+ File.separator + "config");
-				}
-			}
-		} catch (Exception ex) {
-			logger.error(ex);
-		}
 	}
 	
-	public boolean isZookeeper(){
-		return Boolean.valueOf(System.getProperty("config.store.type", "false"));
-	}
-
 	/**
 	 * 
 	 * @param fileStoreType
@@ -130,12 +106,12 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 		group.register(this);
 	}
 
-	// this.regist();
-	// delegate = this.build();
-	// ConfigUtil.getConfigUtilsInstance(storeType).addListener(this);
-	// }
-
+	public boolean isZookeeper(){
+		return Boolean.valueOf(System.getProperty("config.store.type", "false"));
+	}
+	
 	public GeneralConfigGroup $build() {
+		
 		GeneralConfigGroup group = null;
 		profile = createFileProfile(this.getType());
 		/**
@@ -181,6 +157,9 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 		// if (ST_ZK.equalsIgnoreCase(storeType)) {
 		if(isZookeeper()){
 			try {
+				if (zkProfile == null) {
+					zkProfile = createZookeeperProfile("/config");
+				}
 				group = new ZookeeperConfigGroup(group, zkProfile, _settingFileName);
 				if (!StringUtil.isEmpty(getProfile())) {
 					group = new ZookeeperConfigGroup(group, zkProfile, getProfile()
@@ -221,7 +200,14 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 			 */
 			// if (ST_ZK.equalsIgnoreCase(storeType)) {
 			if(isZookeeper()){
+				
 				try {
+					
+					if (appZKProfile == null && !StringUtil.isEmpty(getAppHomeDir())) {
+						appZKProfile = createZookeeperProfile(getAppHomeDir()
+								+ File.separator + "config");
+					}
+					
 					group = new ZookeeperConfigGroup(group, appZKProfile,
 							_settingFileName);
 					if (!StringUtil.isEmpty(getProfile())) {
@@ -271,16 +257,6 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 		return configProfile;
 	}
 
-	private long lastmodify = 0;
-
-	@Override
-	public void notified(String data, String value) {
-		if (lastmodify != group.getLastLoadTime()) {
-			Map tmp = new HashMap(group);
-			MapConfiguration config = new MapConfiguration(tmp);
-			this.onUpdate(new SecutiryCompositeConfiguration(config));
-		}
-	}
 	
 	/**
 	 * -Dprofile=yyy
@@ -348,6 +324,42 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 		this.delimiterParsingDisabled = delimiterParsingDisabled;
 	}
 
+	private long lastmodify = 0;
+
+	@Override
+	public void notified(String data, String value) {
+		if (lastmodify != group.getLastLoadTime()) {
+			Map tmp = new HashMap(group);
+			MapConfiguration config = new MapConfiguration(tmp);
+			this.onUpdate(new SecutiryCompositeConfiguration(config));
+		}
+	}
+	
+	
+	protected String configToString(Configuration config) {
+		if (config == null) {
+			return "";
+		}
+		Iterator<String> it = config.getKeys();
+		if (it == null) {
+			return "";
+		}
+		StringBuilder sb = new StringBuilder();
+		while (it.hasNext()) {
+			String key = it.next();
+			sb.append(key + "=" + config.getString(key) + "\n");
+		}
+		return sb.toString();
+	}
+
+	/**
+	 * 构造新的对象：datasource、memcache
+	 * 
+	 * @param config
+	 */
+	protected void build(Configuration config) {
+	}
+	
 	@Override
 	public final synchronized void onUpdate(Configuration config) {
 
@@ -389,30 +401,6 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 		}
 	}
 
-	protected String configToString(Configuration config) {
-		if (config == null) {
-			return "";
-		}
-		Iterator<String> it = config.getKeys();
-		if (it == null) {
-			return "";
-		}
-		StringBuilder sb = new StringBuilder();
-		while (it.hasNext()) {
-			String key = it.next();
-			sb.append(key + "=" + config.getString(key) + "\n");
-		}
-		return sb.toString();
-	}
-
-	/**
-	 * 构造新的对象：datasource、memcache
-	 * 
-	 * @param config
-	 */
-	protected void build(Configuration config) {
-	}
-
 	private List<IConfigChangeListener> listeners = new ArrayList<IConfigChangeListener>();
 
 	public synchronized void addChangeListener(IConfigChangeListener listener) {
@@ -420,17 +408,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 			listeners.add(listener);
 		}
 	}
-
-	private DynamicConfig root;
-
-	public DynamicConfig getRoot() {
-		return root;
-	}
-
-	public void setRoot(DynamicConfig root) {
-		this.root = root;
-	}
-
+	
 	/**
 	 * 事件
 	 */
@@ -439,6 +417,16 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 		for (int i = 0; i < size; i++) {
 			listeners.get(i).configChanged();
 		}
+	}
+	
+	private DynamicConfig root;
+
+	public DynamicConfig getRoot() {
+		return root;
+	}
+
+	public void setRoot(DynamicConfig root) {
+		this.root = root;
 	}
 
 	private boolean _throwExceptionOnMissing = false;
@@ -614,4 +602,5 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 	protected Configuration getConfig() {
 		return delegate;
 	}
+	
 }

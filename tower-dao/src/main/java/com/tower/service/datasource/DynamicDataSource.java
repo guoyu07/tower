@@ -15,7 +15,6 @@ import javax.sql.DataSource;
 import org.apache.commons.configuration.Configuration;
 
 import com.tower.service.concurrent.AsynBizExecutor;
-import com.tower.service.config.IConfigListener;
 import com.tower.service.config.PrefixPriorityConfig;
 import com.tower.service.config.dict.ConfigFileTypeDict;
 import com.tower.service.config.utils.ConfigReloadEvent;
@@ -35,7 +34,7 @@ import com.tower.service.util.StringUtil;
  *
  */
 public class DynamicDataSource extends PrefixPriorityConfig implements
-		IDataSource, IConfigListener {
+		IDataSource {
 
 	private IDataSource delegate;
 	private String hostName;

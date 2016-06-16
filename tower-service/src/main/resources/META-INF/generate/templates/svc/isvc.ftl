@@ -18,7 +18,7 @@ import com.tower.service.domain.ListResult;
 import com.tower.service.domain.PageResult;
 import com.tower.service.domain.ServiceResponse;
 
-public interface I${name}Service<T extends ${name}Dto> extends IService<T> {
+public interface I${name}Service<T extends ${name}Dto> extends IService {
 	
 	/**
 	 * 新增SoaSp对象

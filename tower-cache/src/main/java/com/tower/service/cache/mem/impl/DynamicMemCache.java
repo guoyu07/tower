@@ -16,7 +16,6 @@ import com.danga.MemCached.SockIOPool;
 import com.tower.service.cache.CacheOpParamsContext;
 import com.tower.service.cache.ICache;
 import com.tower.service.cache.annotation.CacheOpParams;
-import com.tower.service.config.IConfigListener;
 import com.tower.service.config.PrefixPriorityConfig;
 import com.tower.service.config.dict.ConfigFileTypeDict;
 import com.tower.service.util.DateUtil;
@@ -24,8 +23,7 @@ import com.tower.service.util.DateUtil;
 public class DynamicMemCache extends PrefixPriorityConfig
         implements
             Cache,
-            ICache,
-            IConfigListener {
+            ICache {
 	/**
 	 * Logger for this class
 	 */
