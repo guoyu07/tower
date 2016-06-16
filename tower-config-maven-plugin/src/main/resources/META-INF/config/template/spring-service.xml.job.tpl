@@ -64,7 +64,24 @@
     
     <!-- 使用监控中心 -->
     <dubbo:monitor protocol="registry"/>
-   	
+    <!--取消下列备注，开启elastic search 服务-->
+   	<!--
+    <bean id="rpcConfig" class="com.tower.service.rpc.impl.RpcConfig">
+    	<property name="prefix" value="#{artifactId}" />
+    </bean>
+    <bean id="esAdvancedService" class="com.tower.service.rpc.impl.EsAdvancedService">
+    	<property name="config" ref="rpcConfig" />
+    </bean>
+    -->
+    <!--取消下列备注，开启 rule 服务-->
+    <!--
+    <bean id="serviceConfig" class="com.tower.service.impl.ServiceConfig">
+    	<property name="prefix" value="#{artifactId}" />
+    </bean>
+    <bean id="ruleService" class="com.tower.service.impl.RuleServiceImpl">
+    	<property name="config" ref="serviceConfig" />
+    </bean>
+    -->
     <!--框架配置：该设置请不要轻易改变-->
     <context:component-scan base-package="com.#{company}.service.#{artifactId}" />
     

@@ -62,7 +62,24 @@
     
     <!-- 使用监控中心 -->
     <dubbo:monitor protocol="registry"/>
-    
+    <!--取消下列备注，开启elastic search 服务-->
+   	<!--
+    <bean id="rpcConfig" class="com.tower.service.rpc.impl.RpcConfig">
+    	<property name="prefix" value="#{artifactId}" />
+    </bean>
+    <bean id="esAdvancedService" class="com.tower.service.rpc.impl.EsAdvancedService">
+    	<property name="config" ref="rpcConfig" />
+    </bean>
+    -->
+    <!--取消下列备注，开启 rule 服务-->
+    <!--
+    <bean id="serviceConfig" class="com.tower.service.impl.ServiceConfig">
+    	<property name="prefix" value="#{artifactId}" />
+    </bean>
+    <bean id="ruleService" class="com.tower.service.impl.RuleServiceImpl">
+    	<property name="config" ref="serviceConfig" />
+    </bean>
+    -->
     <!--服务注册信息请在该备注以下添加-->
     
     <!-- 声明需要暴露的服务接口 -->

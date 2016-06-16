@@ -28,7 +28,6 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.InitializingBean;
 
 import com.tower.service.config.IConfigChangeListener;
-import com.tower.service.config.PrefixPriorityConfig;
 import com.tower.service.domain.IDTO;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
@@ -46,7 +45,7 @@ public class EsAdvancedService implements JestClient, IClient,
 	private String filter;
 	private boolean inited;
 	private static String defaultServer = "http://192.168.0.158:9200";
-	private PrefixPriorityConfig config;
+	private RpcConfig config;
 
 	private void init() {
 		List<String> servers = new ArrayList<String>();
