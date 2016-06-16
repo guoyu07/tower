@@ -138,6 +138,19 @@ public class EsAdvancedService implements JestClient, IClient,
 	}
 
 	@Override
+	public void createIndex(IDTO source, String idxName, String idxTypeName) {
+		Index index = new Index.Builder(source).index(idxName)
+				.type(idxTypeName).build();
+		try {
+			client.execute(index);
+		} catch (IOException e) {
+			logger.error("createIndex error with:source=" + source
+					+ " ,idxName=" + idxName + " ,idxTypeName=" + idxTypeName,
+					e);
+		}
+	}
+	
+	@Override
 	public JestResult search(String idxName, String idxType, String id) {
 		JestResult result = null;
 		Get get = new Get.Builder(idxName, id).type(idxType).build();
@@ -168,7 +181,7 @@ public class EsAdvancedService implements JestClient, IClient,
 		return result;
 	}
 
-	public SearchResult searchByQueryString(String idxName, String idxType,
+	public SearchResult searchByMap(String idxName, String idxType,
 			Map<String, Object> params) {
 		SearchResult result = null;
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -185,7 +198,7 @@ public class EsAdvancedService implements JestClient, IClient,
 		return result;
 	}
 
-	public SearchResult searchByQueryString(String idxName, String idxType,
+	public SearchResult searchByQuery(String idxName, String idxType,
 			QueryBuilder query) {
 		SearchResult result = null;
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
@@ -241,19 +254,6 @@ public class EsAdvancedService implements JestClient, IClient,
 		} catch (IOException e) {
 			logger.error("delete error with:idxName=" + idxName + " ,idxType="
 					+ idxType + " ,id=" + id, e);
-		}
-	}
-
-	@Override
-	public void createIndex(IDTO source, String idxName, String idxTypeName) {
-		Index index = new Index.Builder(source).index(idxName)
-				.type(idxTypeName).build();
-		try {
-			client.execute(index);
-		} catch (IOException e) {
-			logger.error("createIndex error with:source=" + source
-					+ " ,idxName=" + idxName + " ,idxTypeName=" + idxTypeName,
-					e);
 		}
 	}
 
