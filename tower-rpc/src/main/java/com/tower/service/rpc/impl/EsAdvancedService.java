@@ -16,7 +16,9 @@ import io.searchbox.indices.CreateIndex;
 import io.searchbox.indices.mapping.PutMapping;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -26,6 +28,7 @@ import javax.annotation.PostConstruct;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
+import com.tower.service.config.PrefixPriorityConfig;
 import com.tower.service.domain.IDTO;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
@@ -41,11 +44,17 @@ public class EsAdvancedService implements JestClient, IClient {
 	private TimeUnit unit = TimeUnit.SECONDS;
 	private String filter;
 	private boolean inited;
-
+	private static String defaultServer = "http://192.168.0.158:9200";
+	private PrefixPriorityConfig config;
+	
 	@PostConstruct
 	public void init() {
-		Set<String> servers = new LinkedHashSet<String>();
-		servers.add("http://192.168.0.158:9200");
+		List<String> servers = new ArrayList<String>();
+		servers.add(defaultServer);
+		if(config!=null){
+			servers = config.getList("servers", servers);
+		}
+		servers.add(defaultServer);
 		clientConfig = new HttpClientConfig.Builder(servers)
 				.discoveryEnabled(discoveryEnabled)
 				.discoveryFrequency(time, unit).multiThreaded(true).build();

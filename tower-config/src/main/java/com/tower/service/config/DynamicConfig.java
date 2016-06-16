@@ -75,7 +75,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 	private Configuration delegate;
 	private String encoding = "utf-8";
 	private boolean delimiterParsingDisabled;
-	private List<String> configFiles = new ArrayList<String>();
+	//private List<String> configFiles = new ArrayList<String>();
 	private GeneralConfigGroup group = null;
 	private FileConfigProfile profile = null;
 	private static ZookeeperConfigProfile zkProfile = null;
