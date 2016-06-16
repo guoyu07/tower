@@ -164,6 +164,13 @@ public class EsAdvancedService implements JestClient, IClient,
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param idxName 索引名
+	 * @param idxType 索引类型
+	 * @param queryString 查询条件字符串
+	 * @return
+	 */
 	public SearchResult searchByQueryString(String idxName, String idxType,
 			String queryString) {
 		SearchResult result = null;
