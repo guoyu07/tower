@@ -20,6 +20,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.poi.hssf.record.formula.functions.T;
+
 import com.tower.service.domain.IDTO;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
@@ -51,12 +53,6 @@ public class ESClient implements JestClient, IClient {
 	}
 
 	@Override
-	public <T extends JestResult> T execute(Action<T> clientRequest)
-			throws IOException {
-		return client.execute(clientRequest);
-	}
-
-	@Override
 	public void shutdownClient() {
 		client.shutdownClient();
 	}
@@ -67,9 +63,27 @@ public class ESClient implements JestClient, IClient {
 	}
 
 	@Override
+	public <T extends JestResult> T execute(Action<T> clientRequest)
+			throws IOException {
+		return client.execute(clientRequest);
+	}
+
+	@Override
 	public <T extends JestResult> void executeAsync(Action<T> clientRequest,
 			JestResultHandler<? super T> jestResultHandler) {
 		client.executeAsync(clientRequest, jestResultHandler);
+	}
+
+	@Override
+	public void createIdxMap(String idxName, String idxType, String mapDefine) {
+		PutMapping putMapping = new PutMapping.Builder(idxName, idxType,
+				mapDefine).build();
+		try {
+			this.execute(putMapping);
+		} catch (IOException e) {
+			logger.error("createIdxMap error with:idxName=" + idxName
+					+ " ,idxType=" + idxType + " ,mapDefine=" + mapDefine, e);
+		}
 	}
 
 	@Override
@@ -89,31 +103,6 @@ public class ESClient implements JestClient, IClient {
 		} catch (IOException e) {
 			logger.error("createIndex error with:idxName=" + idxName
 					+ " ,settingsJson=" + settingsJson, e);
-		}
-	}
-
-	@Override
-	public void createIndex(IDTO source, String idxName, String idxTypeName) {
-		Index index = new Index.Builder(source).index(idxName)
-				.type(idxTypeName).build();
-		try {
-			client.execute(index);
-		} catch (IOException e) {
-			logger.error("createIndex error with:source=" + source
-					+ " ,idxName=" + idxName + " ,idxTypeName=" + idxTypeName,
-					e);
-		}
-	}
-
-	@Override
-	public void createIdxMap(String idxName, String idxType, String mapDefine) {
-		PutMapping putMapping = new PutMapping.Builder(idxName, idxType,
-				mapDefine).build();
-		try {
-			this.execute(putMapping);
-		} catch (IOException e) {
-			logger.error("createIdxMap error with:idxName=" + idxName
-					+ " ,idxType=" + idxType + " ,mapDefine=" + mapDefine, e);
 		}
 	}
 
@@ -144,7 +133,7 @@ public class ESClient implements JestClient, IClient {
 
 		return result;
 	}
-
+	
 	@Override
 	public void update(String idxName, String idxType, String id, String script) {
 		try {
@@ -167,11 +156,25 @@ public class ESClient implements JestClient, IClient {
 		}
 	}
 
+	@Override
+	public void createIndex(IDTO source, String idxName, String idxTypeName) {
+		Index index = new Index.Builder(source).index(idxName)
+				.type(idxTypeName).build();
+		try {
+			client.execute(index);
+		} catch (IOException e) {
+			logger.error("createIndex error with:source=" + source
+					+ " ,idxName=" + idxName + " ,idxTypeName=" + idxTypeName,
+					e);
+		}
+	}
+
 	public static void main(String args[]) {
 		ESClient client = new ESClient();
 		client.init();
 		JestResult result = client.search("megacorp", "employee", "1");
-		System.out.println(result.getJsonObject().toString());
+		//Employee result = client.search("megacorp", "employee", "1",Employee.class);
+		System.out.println(result.getJsonString());
 		for (int i = 0; i < 1; i++) {
 		}
 	}

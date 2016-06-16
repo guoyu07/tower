@@ -3,6 +3,7 @@ wget https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/
 ### 参考文档
 + http://www.searchtech.pro
 + https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html
+
 ### 安装
 + 备注：不能在root用户下运行
 + 新增一个用户
@@ -14,6 +15,44 @@ wget https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/
 + vim ../config/elasticsearch.yml 找到network.host，打开备注同时设置network.host=0.0.0.0,不然不能远程访问，默认只能本地（curl http://127.0.0.1:9200）,保存退出
 + 启动 nohup ./elasticsearch >/dev/null &
 
+### 分词插件安装
++ 1、到github网站下载源代码，网站地址为：https://github.com/medcl/elasticsearch-analysis-ik
+
+	右侧下方有一个按钮“Download ZIP"，点击下载源代码elasticsearch-analysis-ik-master.zip。
+
++ 2、解压文件elasticsearch-analysis-ik-master.zip，进入下载目录，执行命令：
+	
+	unzip elasticsearch-analysis-ik-master.zip
++ 3、将解压目录文件中config/ik文件夹复制到ES安装目录config文件夹下。
++ 4、因为是源代码，此处需要使用maven打包，进入解压文件夹中，执行命令：
+
+	mvn clean package
++ 5、将打包得到的jar文件elasticsearch-analysis-ik-1.2.8-sources.jar复制到ES安装目录的lib目录下。
+
++ 6、在ES的配置文件config/elasticsearch.yml中增加ik的配置，在最后增加：
+### marvel安装
+
+> Step 1: Install Marvel into Elasticsearch
+
+	/path/to/elasticsearch/bin/./plugin install license
+
+	/path/to/elasticsearch/bin/./plugin install marvel-agent
+
+> Step 2: Install Marvel into Kibana
+
+	/path/to/kibana/bin/./kibana plugin --install elasticsearch/marvel/latest
+
+> Step 3: Start Elasticsearch and Kibana
+
+	/path/to/elasticsearch/bin/./elasticsearch
+
+	/path/to/kibana/bin/./kibana
+
+> Step 4: Navigate to http://localhost:5601/app/marvel
+
+> Step 5: For installing Sense into Kibana
+
+	/path/to/kibana/bin/./kibana plugin --install elastic/sense	
 ### 配置
 #### elasticsearch.yml
 > es的基本配置文件
