@@ -181,6 +181,13 @@ public class EsAdvancedService implements JestClient, IClient,
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param idxName 索引名
+	 * @param idxType 索引类型
+	 * @param params 查询条件
+	 * @return
+	 */
 	public SearchResult searchByMap(String idxName, String idxType,
 			Map<String, Object> params) {
 		SearchResult result = null;
@@ -197,7 +204,14 @@ public class EsAdvancedService implements JestClient, IClient,
 
 		return result;
 	}
-
+	
+	/**
+	 * 
+	 * @param idxName 索引名
+	 * @param idxType 索引类型
+	 * @param query queryBuilder
+	 * @return
+	 */
 	public SearchResult searchByQuery(String idxName, String idxType,
 			QueryBuilder query) {
 		SearchResult result = null;
@@ -210,6 +224,27 @@ public class EsAdvancedService implements JestClient, IClient,
 		} catch (Exception e) {
 			logger.error("search error with:idxName=" + idxName + " ,idxType="
 					+ idxType + " ,query=" + query, e);
+		}
+
+		return result;
+	}
+	/**
+	 * 
+	 * @param idxName 索引名
+	 * @param idxType 索引类型
+	 * @param searchSourceBuilder 查询source builder
+	 * @return
+	 */
+	public SearchResult searchByQuery(String idxName, String idxType,
+			SearchSourceBuilder searchSourceBuilder) {
+		SearchResult result = null;
+		Search search = new Search.Builder(searchSourceBuilder.toString())
+				.addIndex(idxName).addType(idxType).build();
+		try {
+			result = execute(search);
+		} catch (Exception e) {
+			logger.error("search error with:idxName=" + idxName + " ,idxType="
+					+ idxType + " ,searchSourceBuilder=" + searchSourceBuilder.toString(), e);
 		}
 
 		return result;
