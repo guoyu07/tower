@@ -127,7 +127,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 		}
 		if (!StringUtil.isEmpty(getProfile())) {
 			try {
-				this.getFullFileName("classpath:META-INF/config/local/"
+				file = this.getFullFileName("classpath:META-INF/config/local/"
 						+ getProfile() + "%s");
 				group = new FileConfigGroup(group, profile, file);
 			} catch (Exception ex) {
@@ -236,15 +236,11 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 		return location;
 	}
 
-	private FileConfigProfile createFileProfile(String pattern) {
+	private FileConfigProfile createFileProfile(String type) {
 		FileConfigProfile fileConfigProfile = null;
-		if (this.getType() != null
-				&& this.getType().trim().equalsIgnoreCase("properties")) {
-			pattern = new StringBuffer(pattern).append(".properties")
-					.toString();
+		if ("properties".equalsIgnoreCase(type)) {
 			fileConfigProfile = new FileConfigProfile("UTF8", "properties");
 		} else {
-			pattern = new StringBuffer(pattern).append(".xml").toString();
 			fileConfigProfile = new FileConfigProfile("UTF8", "xml");
 		}
 		return fileConfigProfile;
