@@ -4,6 +4,11 @@ wget https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/
 + http://www.searchtech.pro
 + https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html
 
+### elasticsearch 与 RDBMS的关系
+
+Relational DB -> Databases -> Tables -> Rows -> Columns
+Elasticsearch -> Indices   -> Types  -> Documents -> Fields
+
 ### 安装
 + 备注：不能在root用户下运行
 + 新增一个用户
