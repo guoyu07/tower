@@ -13,6 +13,7 @@ import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 import io.searchbox.core.Update;
 import io.searchbox.indices.CreateIndex;
+import io.searchbox.indices.mapping.DeleteMapping;
 import io.searchbox.indices.mapping.PutMapping;
 
 import java.io.IOException;
@@ -57,7 +58,7 @@ public class EsAdvancedService implements JestClient, IClient,
 		servers.add(defaultServer);
 		clientConfig = new HttpClientConfig.Builder(servers)
 				.discoveryEnabled(discoveryEnabled)
-				.discoveryFrequency(time, unit).multiThreaded(true).build();
+				.discoveryFrequency(time, unit).multiThreaded(true).connTimeout(1000).readTimeout(20000).build();
 		JestClientFactory factory = new JestClientFactory();
 		factory.setHttpClientConfig(clientConfig);
 		client = factory.getObject();
@@ -82,7 +83,13 @@ public class EsAdvancedService implements JestClient, IClient,
 	@Override
 	public <T extends JestResult> T execute(Action<T> clientRequest)
 			throws IOException {
-		return client.execute(clientRequest);
+		T result = client.execute(clientRequest);
+		int responseCode = result.getResponseCode();
+		logger.info("ResponseCode:"+responseCode);
+		if(responseCode==200){
+			return result;
+		}
+		throw new RuntimeException(result.getErrorMessage());
 	}
 
 	@Override
@@ -94,12 +101,23 @@ public class EsAdvancedService implements JestClient, IClient,
 	@Override
 	public void createIdxMap(String idxName, String idxType, String mapDefine) {
 		PutMapping putMapping = new PutMapping.Builder(idxName, idxType,
-				mapDefine).build();
+				mapDefine).setParameter("update_all_types", "true").build();
 		try {
 			this.execute(putMapping);
 		} catch (IOException e) {
 			logger.error("createIdxMap error with:idxName=" + idxName
 					+ " ,idxType=" + idxType + " ,mapDefine=" + mapDefine, e);
+		}
+	}
+	
+	public void deleteIdxMap(String idxName,String idxType) {
+		DeleteMapping delMapping = new DeleteMapping.Builder(idxName, idxType).build();
+		try{
+			this.execute(delMapping);
+		}
+		catch (IOException e) {
+			logger.error("createIdxMap error with:idxName=" + idxName
+					+ " ,idxType=" + idxType , e);
 		}
 	}
 
@@ -129,7 +147,8 @@ public class EsAdvancedService implements JestClient, IClient,
 		Index index = new Index.Builder(source).index(idxName)
 				.type(idxTypeName).id(id).build();
 		try {
-			client.execute(index);
+			JestResult result = execute(index);
+			
 		} catch (IOException e) {
 			logger.error("createIndex error with:source=" + source + " ,id="
 					+ id + " ,idxName=" + idxName + " ,idxTypeName="
@@ -142,7 +161,7 @@ public class EsAdvancedService implements JestClient, IClient,
 		Index index = new Index.Builder(source).index(idxName)
 				.type(idxTypeName).build();
 		try {
-			client.execute(index);
+			execute(index);
 		} catch (IOException e) {
 			logger.error("createIndex error with:source=" + source
 					+ " ,idxName=" + idxName + " ,idxTypeName=" + idxTypeName,
@@ -291,7 +310,7 @@ public class EsAdvancedService implements JestClient, IClient,
 	@Override
 	public void delete(String idxName, String idxType, String id) {
 		try {
-			client.execute(new Delete.Builder(id).index(idxName).type(idxType)
+			execute(new Delete.Builder(id).index(idxName).type(idxType)
 					.build());
 		} catch (IOException e) {
 			logger.error("delete error with:idxName=" + idxName + " ,idxType="
@@ -307,11 +326,17 @@ public class EsAdvancedService implements JestClient, IClient,
 	public static void main(String args[]) {
 		EsAdvancedService client = new EsAdvancedService();
 		client.init();
-		JestResult result = client.search("megacorp", "employee", "1");
+		//JestResult result = client.search("megacorp", "employee", "1");
+		client.deleteIdxMap("index", "test");
+		/*
+		String mapDef = "{\"properties\":{\"content\":{\"type\":\"string\",\"index\": \"analyzed\",\"analyzer\":\"ik\"}}}";
+		System.out.println(mapDef);
+		client.createIdxMap("index", "test", mapDef);
 		// Employee result = client.search("megacorp", "employee",
 		// "1",Employee.class);
-		System.out.println(result.getJsonString());
+		//System.out.println(result.getJsonString());
 		for (int i = 0; i < 1; i++) {
 		}
+		*/
 	}
 }

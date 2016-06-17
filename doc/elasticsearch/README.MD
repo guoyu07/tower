@@ -3,6 +3,7 @@ wget https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/
 ### 参考文档
 + http://www.searchtech.pro
 + https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html
++ http://es.xiaoleilu.com/010_Intro/10_Installing_ES.html
 
 ### elasticsearch 与 RDBMS的关系
 
@@ -126,6 +127,8 @@ Elasticsearch -> Indices   -> Types  -> Documents -> Fields
 > 设置是否打开多播发现节点，默认是true。
 + discovery.zen.ping.unicast.hosts: ["host1", "host2:port", "host3[portX-portY]"]
 > 设置集群中master节点的初始列表，可以通过这些节点来自动发现新加入集群的节点。
+
+### [数据类型](数据类型.MD)
 
 #### logging.yml
 > 日志配置文件
