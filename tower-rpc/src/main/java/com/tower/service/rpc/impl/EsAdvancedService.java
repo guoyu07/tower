@@ -54,12 +54,13 @@ public class EsAdvancedService implements JestClient, IClient,
 
 	private void init() {
 		List<String> servers = new ArrayList<String>();
-		servers.add(defaultServer);
 		if (config != null) {
 			config.addChangeListener(this);
 			servers = config.getList("servers", servers);
 		}
-		servers.add(defaultServer);
+		else{
+			servers.add(defaultServer);
+		}
 		clientConfig = new HttpClientConfig.Builder(servers)
 				.discoveryEnabled(discoveryEnabled)
 				.discoveryFrequency(time, unit).multiThreaded(true).connTimeout(1000).readTimeout(20000).build();
