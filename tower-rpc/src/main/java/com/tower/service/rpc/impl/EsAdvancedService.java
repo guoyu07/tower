@@ -48,6 +48,10 @@ public class EsAdvancedService implements JestClient, IClient,
 	private static String defaultServer = "http://192.168.0.158:9200";
 	private RpcConfig config;
 
+	public void setConfig(RpcConfig config) {
+		this.config = config;
+	}
+
 	private void init() {
 		List<String> servers = new ArrayList<String>();
 		servers.add(defaultServer);
