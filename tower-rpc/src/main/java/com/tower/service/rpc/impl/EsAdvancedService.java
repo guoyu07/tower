@@ -91,7 +91,7 @@ public class EsAdvancedService implements JestClient, IClient,
 		T result = client.execute(clientRequest);
 		int responseCode = result.getResponseCode();
 		logger.info("ResponseCode:"+responseCode);
-		if(responseCode==200){
+		if(responseCode>=200 && responseCode<=206){
 			return result;
 		}
 		throw new RuntimeException(result.getErrorMessage());
