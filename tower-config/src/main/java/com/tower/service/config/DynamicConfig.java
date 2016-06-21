@@ -259,7 +259,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 	 * 
 	 * @return
 	 */
-	private static String getProfile() {
+	protected String getProfile() {
 		String profile = System.getProperty("profile", "");
 		if (profile.trim().length() > 0) {
 			profile = profile + ".";
