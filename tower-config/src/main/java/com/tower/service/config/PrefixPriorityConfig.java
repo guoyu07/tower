@@ -313,8 +313,10 @@ public class PrefixPriorityConfig extends DynamicConfig {
 
 	protected String configToString(Configuration config) {
 		StringBuilder sb = new StringBuilder();
-		String globalSetting = global(config);
-		sb.append(globalSetting);
+		if(!StringUtil.isEmpty(this.prefix)){
+			String globalSetting = global(config);
+			sb.append(globalSetting);
+		}
 		String instanceSetting = instance(config);
 		sb.append(instanceSetting);
 		return sb.toString();
