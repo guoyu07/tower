@@ -138,14 +138,14 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 		 * 部署默认配置
 		 */
 		try {
-			file = this.getFullFileName("/config" + File.separator + "%s");
+			file = this.getFullFileName(System.getProperty(SYS_CONFIG_DIR, SYS_CONFIG_DIR_DEF) + File.separator + "%s");
 			group = new FileConfigGroup(group, profile, file);
 		} catch (Exception ex) {
 			logger.info("配置文件'" + file + "'没有找到");
 		}
 		if (!StringUtil.isEmpty(getProfile())) {
 			try {
-				file = this.getFullFileName("/config/" + getProfile() + "%s");
+				file = this.getFullFileName(System.getProperty(SYS_CONFIG_DIR, SYS_CONFIG_DIR_DEF)+File.separator + getProfile() + "%s");
 				group = new FileConfigGroup(group, profile, file);
 			} catch (Exception ex) {
 				logger.info("配置文件'" + file + "'没有找到");
@@ -158,7 +158,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 		if(isZookeeper()){
 			try {
 				if (zkProfile == null) {
-					zkProfile = createZookeeperProfile("/config");
+					zkProfile = createZookeeperProfile(System.getProperty(SYS_CONFIG_DIR, SYS_CONFIG_DIR_DEF));
 				}
 				group = new ZookeeperConfigGroup(group, zkProfile, _settingFileName);
 				if (!StringUtil.isEmpty(getProfile())) {
