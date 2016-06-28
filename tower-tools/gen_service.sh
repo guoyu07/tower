@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z $1 ];then
-	echo "请重新输入项目名称"
+	echo "请重新输入： 项目名 公司名"
   	exit
 fi
 company=$2

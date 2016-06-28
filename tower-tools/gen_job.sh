@@ -1,14 +1,19 @@
 #!/bin/bash
 
 if [ -z $1 ];then
-    echo "请重新输入项目名称"
+    echo "请重新输入： 项目名 公司名 job名称"
     exit
 fi
-company=$3
-if [ -z $3 ];then
-    company="siling"
+
+company="siling"
+if [ -n "$2" ];then
+	company=$2
 fi
 
+suffix=""
+if [ -n "$3" ]; then
+	suffix="-"$3
+fi
 
 mkdir -p ../../projects/
 
@@ -30,12 +35,6 @@ if [ ! -d "$app_home_dir/$1" ]; then
 fi
 
 cd $projectid
-
-suffix=""
-
-if [ -n "$2" ]; then
-	suffix="-"$2
-fi
 
 if [ ! -d "$app_home_dir/$1/$1-util" ]; then
 	projectcommon=$projectid-util
@@ -69,4 +68,4 @@ echo $projectjob build success
 cd ../tower/tower-config-maven-plugin
 
 ##config
-mvn -B tower-config:config -DartifactId=$projectid -DdestDir=../../projects -Dmodel=AllIn -DgenModule=job -DmoduleSuffix=$3 -Dcompany=$company -X
+mvn -B tower-config:config -DartifactId=$projectid -DdestDir=../../projects -Dmodel=AllIn -DgenModule=job -DmoduleSuffix=$suffix -Dcompany=$company -X
