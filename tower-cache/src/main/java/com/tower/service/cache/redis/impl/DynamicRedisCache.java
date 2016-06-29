@@ -258,41 +258,33 @@ public class DynamicRedisCache extends PrefixPriorityConfig
 
     @Override
     public boolean add(String key, Object item) {
-		if (logger.isDebugEnabled()) {
-			logger.debug("add(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).append("Object item", item).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+    	if (logger.isDebugEnabled()) {
+			logger.debug("add(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		}
 
-		boolean returnboolean = set(key, item);
-		if (logger.isDebugEnabled()) {
-			logger.debug("add(String, Object) - end"); //$NON-NLS-1$
-		}
-        return returnboolean;
+        ShardedJedis _jedis = null;
+        try {
+            _jedis = delegate.getResource();
+			long returnlong = _jedis.append(toBytes(key),toBytes(item));
+			if (logger.isDebugEnabled()) {
+				logger.debug("addOrIncr(String, long) - end"); //$NON-NLS-1$
+			}
+            return true;
+        } finally {
+            if (_jedis != null) {
+                delegate.returnResource(_jedis);
+            }
+        }
     }
 
-    @Override
+    @Deprecated
     public boolean add(String key, Object item, int seconds) {
-		if (logger.isDebugEnabled()) {
-			logger.debug("add(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).append("Object item", item).append("int seconds", seconds).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-		}
-
-		boolean returnboolean = set(key, item, seconds);
-		if (logger.isDebugEnabled()) {
-			logger.debug("add(String, Object, int) - end"); //$NON-NLS-1$
-		}
-        return returnboolean;
+    	return add(key,item);
     }
 
-    @Override
+    @Deprecated
     public boolean add(String key, Object item, Date expiry) {
-		if (logger.isDebugEnabled()) {
-			logger.debug("add(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).append("Object item", item).append("Date expiry", expiry).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
-		}
-
-		boolean returnboolean = set(key, item, expiry);
-		if (logger.isDebugEnabled()) {
-			logger.debug("add(String, Object, Date) - end"); //$NON-NLS-1$
-		}
-        return returnboolean;
+    	return add(key,item);
     }
 
     @Override
