@@ -465,7 +465,7 @@ public class DynamicRedisCache extends PrefixPriorityConfig
     }
 
     @Override
-    public String get(String key) {
+    public Object get(String key) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("get(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		}
@@ -473,7 +473,7 @@ public class DynamicRedisCache extends PrefixPriorityConfig
         ShardedJedis _jedis = null;
         try {
             _jedis = delegate.getResource();
-			String returnString = _jedis.get(key);
+			Object returnString = toObject(_jedis.get(toBytes(key)));
 			if (logger.isDebugEnabled()) {
 				logger.debug("get(String) - end"); //$NON-NLS-1$
 			}
