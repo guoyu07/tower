@@ -1,7 +1,7 @@
 package com.tower.service.domain;
 
 
-public class LongResult implements IResult {
+public class LongResult extends AbsResult implements IResult {
 	
 	private Long data;
 	/**

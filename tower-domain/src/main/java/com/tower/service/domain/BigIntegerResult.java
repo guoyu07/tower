@@ -3,7 +3,7 @@ package com.tower.service.domain;
 import java.math.BigInteger;
 
 
-public class BigIntegerResult implements IResult {
+public class BigIntegerResult extends AbsResult implements IResult {
 	
 	private BigInteger data;
 	/**

@@ -2,7 +2,7 @@ package com.tower.service.domain;
 
 import java.util.List;
 
-public class PageResult<T> implements IResult{
+public class PageResult<T> extends AbsResult implements IResult{
 	
 	/**
 	 * 

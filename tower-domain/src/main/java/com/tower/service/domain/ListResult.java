@@ -3,7 +3,7 @@ package com.tower.service.domain;
 import java.util.List;
 
 
-public class ListResult<T> implements IResult {
+public class ListResult<T> extends AbsResult implements IResult {
 	private List<T> data;
 	/**
 	 * 

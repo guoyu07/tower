@@ -1,10 +1,11 @@
 package ${package}.dto;
 
+import com.tower.service.domain.AbsDTO;
 import com.tower.service.domain.IResult;
 
-public class ${name}Dto implements IResult {
+
+public class ${name}Dto extends AbsDTO implements IResult {
 	
-	private static final long serialVersionUID = 1L;
 <#list fields as field>
 
 	private ${field.y.type.name} ${field.y.name};
@@ -18,13 +19,4 @@ public class ${name}Dto implements IResult {
 	
 </#list>	
 	
-	/**
-	 * 
-	 * 通过拷贝粘土相关model对象的属性,
-	 * 其相关属性直接从${name}拷贝
-	 */
-	
-	public String toString(){
-		throw new RuntimeException("必须重新实现");
-	}
 }

@@ -9,7 +9,7 @@ import java.util.List;
  * @author
  * @deprecated replace by PageResult
  */
-public class Pager<T extends IResult> implements IResult {
+public class Pager<T extends IResult> extends AbsResult implements IResult {
 
     /**
      * 
@@ -149,7 +149,4 @@ public class Pager<T extends IResult> implements IResult {
     public void setList(List<T> list) {
         this.list = list;
     }
-
-
-
 }

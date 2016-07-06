@@ -1,6 +1,6 @@
 package com.tower.service.domain;
 
-public class ServiceResponse<T extends IResult> implements IResult {
+public class ServiceResponse<T extends IResult> extends AbsResult implements IResult {
 
 	public static String SUCCESS = "0000";
 

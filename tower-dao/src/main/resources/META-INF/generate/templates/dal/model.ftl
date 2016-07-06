@@ -4,11 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.tower.service.annotation.JField;
+import com.tower.service.cache.AbsModel;
 import com.tower.service.cache.IModel;
 
-public class ${name} implements IModel{
-	
-	private static final long serialVersionUID = 1L;
+public class ${name} extends AbsModel implements IModel{
 	
 	static Map<String,Integer> fks = new HashMap<String,Integer>();
 	

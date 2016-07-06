@@ -1,7 +1,7 @@
 package com.tower.service.domain;
 
 
-public class StringResult implements IResult {
+public class StringResult extends AbsResult implements IResult {
 	private String data;
 	/**
 	 * 
