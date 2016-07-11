@@ -44,7 +44,8 @@
 		<jedis.version>2.6.2</jedis.version>
 		<junit.version>4.11</junit.version>
 		<json-lib.version>2.2.3</json-lib.version>
-		<spring.version>4.1.6.RELEASE</spring.version>
+		<spring.version>4.2.4.RELEASE</spring.version>
+		<springsecurity.version>3.2.9.RELEASE</springsecurity.version>
 		<hessian.version>4.0.7</hessian.version>
 		<sqljdbc4.version>3.0</sqljdbc4.version>
 		<slf4j.version>1.7.5</slf4j.version>
@@ -63,7 +64,6 @@
 		<quartz.version>2.2.1</quartz.version>
 		<jackson-databind.version>2.4.2</jackson-databind.version>
 		<poi.version>3.5-FINAL</poi.version>
-		<springsecurity.version>3.2.3.RELEASE</springsecurity.version>
 		<!-- 异常代码生成公共定义 -->
 		<!-- plugins version -->
 		<maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
@@ -417,6 +417,11 @@
 			<dependency>
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-taglibs</artifactId>
+				<version>${springsecurity.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-openid</artifactId>
 				<version>${springsecurity.version}</version>
 			</dependency>
 			<dependency>

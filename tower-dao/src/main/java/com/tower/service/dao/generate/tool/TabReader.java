@@ -8,7 +8,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
+import org.springframework.jdbc.core.RowMapper;
 
 public class TabReader {
   private JdbcTemplate jdbcTemplate;
@@ -124,7 +124,7 @@ public class TabReader {
     return nullable == null ? "yes" : "no".equals(nullable) ? "no" : "yes";
   }
 
-  class ColMapper implements ParameterizedRowMapper<Col> {
+  class ColMapper implements RowMapper<Col> {
     @Override
     public Col mapRow(ResultSet rs, int arg1) throws SQLException {
       return new Col(rs);
