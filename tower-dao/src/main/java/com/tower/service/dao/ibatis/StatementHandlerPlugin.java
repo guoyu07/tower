@@ -5,8 +5,6 @@ import java.sql.Connection;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
-import javax.annotation.Resource;
-
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.Environment;
@@ -18,7 +16,6 @@ import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.Configuration;
 
 import com.tower.service.config.DynamicConfig;
-import com.tower.service.config.dict.ConfigComponent;
 import com.tower.service.exception.DataAccessException;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
