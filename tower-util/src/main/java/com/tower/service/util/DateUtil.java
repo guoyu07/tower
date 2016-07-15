@@ -1832,5 +1832,17 @@ public class DateUtil {
     public static boolean gtByDay(String startTime, String endTime) {
         return gt(startTime, endTime, yyyy_MM_dd);
     }
-
+    /**
+     * 从当天零点零分零秒到当前过去了多少秒
+     * @return
+     */
+    public static Long secondsDay(){
+    	Calendar current = Calendar.getInstance();
+    	Calendar start = Calendar.getInstance();
+    	start.set(Calendar.HOUR, 0);
+    	start.set(Calendar.MINUTE, 0);
+    	start.set(Calendar.SECOND, 0);
+    	Long time = DateUtil.toSecond(current.getTime())-DateUtil.toSecond(start.getTime());
+    	return time;
+    }
 }
