@@ -45,7 +45,7 @@
 		<junit.version>4.11</junit.version>
 		<json-lib.version>2.2.3</json-lib.version>
 		<spring.version>4.2.4.RELEASE</spring.version>
-		<springsecurity.version>3.2.9.RELEASE</springsecurity.version>
+		<springsecurity.version>3.2.3.RELEASE</springsecurity.version>
 		<hessian.version>4.0.7</hessian.version>
 		<sqljdbc4.version>3.0</sqljdbc4.version>
 		<slf4j.version>1.7.5</slf4j.version>
