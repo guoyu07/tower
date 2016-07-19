@@ -19,21 +19,21 @@ import org.kie.api.runtime.KieSessionConfiguration;
 
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
-import com.tower.service.rule.IEngine;
 
 /**
  * @author alexzhu
  * 
  */
-public abstract class TowerDroolsEngine implements IEngine {
+public abstract class TowerDroolsEngine implements IDroolsEngine {
 
 	private String kieBaseName = "FileSystemBase";
 	private String packages = "rules";
 	private String sessionName = "FileSystemKSession";
 	private String fileBasePath=Thread.currentThread().getContextClassLoader()
 			.getResource("").getPath();
-	private static KieServices kieService = KieServices.Factory.get();
-	private KieContainer kContainer = kieService.getKieClasspathContainer();
+	public static KieServices defaultKieService = KieServices.Factory.get();
+	public KieServices kieService;
+	private KieContainer defaultContainer = defaultKieService.getKieClasspathContainer();
 
 	private KieResources resources;
 	private KieFileSystem fileSystem;
@@ -42,103 +42,205 @@ public abstract class TowerDroolsEngine implements IEngine {
 	public TowerDroolsEngine() {
 		System.setProperty("drools.dateformat", "yyyy-MM-dd HH:mm:ss");
 	}
-
+	
+	@Override
+	public void setKieService(KieServices kieService) {
+		this.kieService = kieService;
+	}
+	
+	private KieContainer kContainer;
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#getContainer()
+	 */
+	@Override
 	public KieContainer getContainer() {
-		return kContainer;
+		return kContainer==null?defaultContainer:kContainer;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#setkContainer(org.kie.api.runtime.KieContainer)
+	 */
+	@Override
 	public void setkContainer(KieContainer kContainer) {
 		this.kContainer = kContainer;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#getSession(java.lang.String)
+	 */
+	@Override
 	public TowerDroolsSession getSession(String sessionName) {
-		return new TowerDroolsSession(kContainer.newKieSession(sessionName));
+		return new TowerDroolsSession(getContainer().newKieSession(sessionName));
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#getSession(org.kie.api.runtime.KieSessionConfiguration)
+	 */
+	@Override
 	public TowerDroolsSession getSession(KieSessionConfiguration conf){
-		return new TowerDroolsSession(kContainer.newKieSession(conf));
+		return new TowerDroolsSession(getContainer().newKieSession(conf));
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#getSession(org.kie.api.runtime.Environment)
+	 */
+	@Override
 	public TowerDroolsSession getSession(Environment environment){
-		return new TowerDroolsSession(kContainer.newKieSession(environment));
+		return new TowerDroolsSession(getContainer().newKieSession(environment));
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#getSession(org.kie.api.runtime.Environment, org.kie.api.runtime.KieSessionConfiguration)
+	 */
+	@Override
 	public TowerDroolsSession getSession(Environment environment, KieSessionConfiguration conf){
-		return new TowerDroolsSession(kContainer.newKieSession(environment,conf));
+		return new TowerDroolsSession(getContainer().newKieSession(environment,conf));
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#getSession(java.lang.String, org.kie.api.runtime.Environment)
+	 */
+	@Override
 	public TowerDroolsSession getSession(String kSessionName, Environment environment){
-		return new TowerDroolsSession(kContainer.newKieSession(kSessionName,environment));
+		return new TowerDroolsSession(getContainer().newKieSession(kSessionName,environment));
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#getSession(java.lang.String, org.kie.api.runtime.KieSessionConfiguration)
+	 */
+	@Override
 	public TowerDroolsSession getSession(String kSessionName, KieSessionConfiguration conf){
-		return new TowerDroolsSession(kContainer.newKieSession(kSessionName,conf));
+		return new TowerDroolsSession(getContainer().newKieSession(kSessionName,conf));
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#getSession(java.lang.String, org.kie.api.runtime.Environment, org.kie.api.runtime.KieSessionConfiguration)
+	 */
+	@Override
 	public TowerDroolsSession getSession(String kSessionName, Environment environment, KieSessionConfiguration conf){
-		return new TowerDroolsSession(kContainer.newKieSession(kSessionName,environment,conf));
+		return new TowerDroolsSession(getContainer().newKieSession(kSessionName,environment,conf));
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#getStatelessSession()
+	 */
+	@Override
 	public StatelessTowerDroolsSession getStatelessSession(){
-		return new StatelessTowerDroolsSession(kContainer.newStatelessKieSession());
+		return new StatelessTowerDroolsSession(getContainer().newStatelessKieSession());
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#getStatelessSession(org.kie.api.runtime.KieSessionConfiguration)
+	 */
+	@Override
 	public StatelessTowerDroolsSession getStatelessSession(KieSessionConfiguration conf){
-		return new StatelessTowerDroolsSession(kContainer.newStatelessKieSession(conf));
+		return new StatelessTowerDroolsSession(getContainer().newStatelessKieSession(conf));
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#getStatelessSession(java.lang.String)
+	 */
+	@Override
 	public StatelessTowerDroolsSession getStatelessSession(String kSessionName){
-		return new StatelessTowerDroolsSession(kContainer.newStatelessKieSession(kSessionName));
+		return new StatelessTowerDroolsSession(getContainer().newStatelessKieSession(kSessionName));
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#getStatelessSession(java.lang.String, org.kie.api.runtime.KieSessionConfiguration)
+	 */
+	@Override
 	public StatelessTowerDroolsSession getStatelessSession(String kSessionName, KieSessionConfiguration conf){
-		return new StatelessTowerDroolsSession(kContainer.newStatelessKieSession(kSessionName,conf));
+		return new StatelessTowerDroolsSession(getContainer().newStatelessKieSession(kSessionName,conf));
 	}
 	
-	public static KieServices getKieService() {
-		return kieService;
+	public KieServices getKieService() {
+		return kieService==null?defaultKieService:kieService;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#getFileBasePath()
+	 */
+	@Override
 	public String getFileBasePath() {
 		return fileBasePath;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#setFileBasePath(java.lang.String)
+	 */
+	@Override
 	public void setFileBasePath(String fileBasePath) {
 		this.fileBasePath = fileBasePath;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#getFileSystem()
+	 */
+	@Override
 	public KieFileSystem getFileSystem() {
 		return fileSystem;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#setFileSystem(org.kie.api.builder.KieFileSystem)
+	 */
+	@Override
 	public void setFileSystem(KieFileSystem fileSystem) {
 		this.fileSystem = fileSystem;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#setKieBaseName(java.lang.String)
+	 */
+	@Override
 	public void setKieBaseName(String kieBaseName) {
 		this.kieBaseName = kieBaseName;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#getKieBaseName()
+	 */
+	@Override
 	public String getKieBaseName(){
 		return kieBaseName;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#setPackages(java.lang.String)
+	 */
+	@Override
 	public void setPackages(String packages) {
 		this.packages = packages;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#getPackages()
+	 */
+	@Override
 	public String getPackages(){
 		return packages;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#setSessionName(java.lang.String)
+	 */
+	@Override
 	public void setSessionName(String sessionName) {
 		this.sessionName = sessionName;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#getSessionName()
+	 */
+	@Override
 	public String getSessionName(){
 		return sessionName;
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#refresh()
+	 */
+	@Override
 	public void refresh() {
 		
 		KieResources resources = getKieService().getResources();
@@ -173,13 +275,18 @@ public abstract class TowerDroolsEngine implements IEngine {
 			if (kb.getResults().hasMessages(Level.ERROR)) {
 				logger.error("Build Errors:\n"+kb.getResults().toString());
 			}
-			kContainer = getKieService().newKieContainer(
+			KieContainer kContainer = getKieService().newKieContainer(
 					getKieService().getRepository().getDefaultReleaseId());
+			this.setkContainer(kContainer);
 		} catch (Exception e) {
 			logger.error("Build Errors",e);
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IDroolsEngine#refreshRule(java.lang.String)
+	 */
+	@Override
 	public void refreshRule(String ruleFile){
 		fileSystem.write(ruleFile,
 				resources.newFileSystemResource(this.getFileBasePath()));// 6
@@ -188,7 +295,8 @@ public abstract class TowerDroolsEngine implements IEngine {
 		if (kb.getResults().hasMessages(Level.ERROR)) {
 			logger.error("Build Errors:\n"+kb.getResults().toString());
 		}
-		kContainer = getKieService().newKieContainer(
+		KieContainer kContainer = getKieService().newKieContainer(
 				getKieService().getRepository().getDefaultReleaseId());
+		this.setkContainer(kContainer);
 	}
 }

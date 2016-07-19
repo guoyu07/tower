@@ -3,6 +3,8 @@
  */
 package com.tower.service.rule.impl;
 
+import org.kie.api.runtime.KieContainer;
+
 import com.tower.service.rule.IEngine;
 
 /**
@@ -42,4 +44,5 @@ public abstract class DynamicEngine extends TowerDroolsEngine implements IEngine
 	public void setVersion(String version) {
 		this.version = version;
 	}
+	
 }
