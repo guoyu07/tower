@@ -24,7 +24,7 @@ import com.tower.service.log.LoggerFactory;
  * @author alexzhu
  * 
  */
-public abstract class TowerDroolsEngine implements IDroolsEngine {
+public class TowerDroolsEngine implements IDroolsEngine {
 
 	private String kieBaseName = "FileSystemBase";
 	private String packages = "rules";
@@ -33,12 +33,21 @@ public abstract class TowerDroolsEngine implements IDroolsEngine {
 			.getResource("").getPath();
 	public static KieServices defaultKieService = KieServices.Factory.get();
 	public KieServices kieService;
-	private KieContainer defaultContainer = defaultKieService.getKieClasspathContainer();
+	protected KieContainer defaultContainer = defaultKieService.getKieClasspathContainer();
 
 	private KieResources resources;
 	private KieFileSystem fileSystem;
+    protected KieContainer kContainer;
+
+    protected String groupId;
+    protected String artifactId;
+    protected String version;
+
+    protected long pollingInterval=10000L;
+
 	protected Logger logger = LoggerFactory.getLogger(getClass());
-	
+
+
 	public TowerDroolsEngine() {
 		System.setProperty("drools.dateformat", "yyyy-MM-dd HH:mm:ss");
 	}
@@ -48,7 +57,7 @@ public abstract class TowerDroolsEngine implements IDroolsEngine {
 		this.kieService = kieService;
 	}
 	
-	private KieContainer kContainer;
+
 	/* (non-Javadoc)
 	 * @see com.tower.service.rule.impl.IDroolsEngine#getContainer()
 	 */
@@ -236,6 +245,40 @@ public abstract class TowerDroolsEngine implements IDroolsEngine {
 	public String getSessionName(){
 		return sessionName;
 	}
+
+
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    public String getArtifactId() {
+        return artifactId;
+    }
+
+    public void setArtifactId(String artifactId) {
+        this.artifactId = artifactId;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public long getPollingInterval() {
+        return pollingInterval;
+    }
+
+    public void setPollingInterval(long pollingInterval) {
+        this.pollingInterval = pollingInterval;
+    }
 	
 	/* (non-Javadoc)
 	 * @see com.tower.service.rule.impl.IDroolsEngine#refresh()
@@ -286,17 +329,17 @@ public abstract class TowerDroolsEngine implements IDroolsEngine {
 	/* (non-Javadoc)
 	 * @see com.tower.service.rule.impl.IDroolsEngine#refreshRule(java.lang.String)
 	 */
-	@Override
-	public void refreshRule(String ruleFile){
-		fileSystem.write(ruleFile,
-				resources.newFileSystemResource(this.getFileBasePath()));// 6
-		KieBuilder kb = getKieService().newKieBuilder(fileSystem);
-		kb.buildAll();// 7
-		if (kb.getResults().hasMessages(Level.ERROR)) {
-			logger.error("Build Errors:\n"+kb.getResults().toString());
-		}
-		KieContainer kContainer = getKieService().newKieContainer(
-				getKieService().getRepository().getDefaultReleaseId());
-		this.setkContainer(kContainer);
-	}
+//	@Override
+//	public void refreshRule(String ruleFile){
+//		fileSystem.write(ruleFile,
+//				resources.newFileSystemResource(this.getFileBasePath()));// 6
+//		KieBuilder kb = getKieService().newKieBuilder(fileSystem);
+//		kb.buildAll();// 7
+//		if (kb.getResults().hasMessages(Level.ERROR)) {
+//			logger.error("Build Errors:\n"+kb.getResults().toString());
+//		}
+//		KieContainer kContainer = getKieService().newKieContainer(
+//				getKieService().getRepository().getDefaultReleaseId());
+//		this.setkContainer(kContainer);
+//	}
 }

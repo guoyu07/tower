@@ -10,63 +10,79 @@ import com.tower.service.rule.IEngine;
 
 public interface IDroolsEngine extends IEngine {
 
-	public abstract void setKieService(KieServices kieService);
+	public void setKieService(KieServices kieService);
 
-	public abstract KieServices getKieService();
+	public KieServices getKieService();
 
-	public abstract KieContainer getContainer();
+	public KieContainer getContainer();
 
-	public abstract void setkContainer(KieContainer kContainer);
+	public void setkContainer(KieContainer kContainer);
 
-	public abstract TowerDroolsSession getSession(String sessionName);
+	public TowerDroolsSession getSession(String sessionName);
 
-	public abstract TowerDroolsSession getSession(KieSessionConfiguration conf);
+	public TowerDroolsSession getSession(KieSessionConfiguration conf);
 
-	public abstract TowerDroolsSession getSession(Environment environment);
+	public TowerDroolsSession getSession(Environment environment);
 
-	public abstract TowerDroolsSession getSession(Environment environment,
+	public TowerDroolsSession getSession(Environment environment,
 			KieSessionConfiguration conf);
 
-	public abstract TowerDroolsSession getSession(String kSessionName,
+	public TowerDroolsSession getSession(String kSessionName,
 			Environment environment);
 
-	public abstract TowerDroolsSession getSession(String kSessionName,
+	public TowerDroolsSession getSession(String kSessionName,
 			KieSessionConfiguration conf);
 
-	public abstract TowerDroolsSession getSession(String kSessionName,
+	public TowerDroolsSession getSession(String kSessionName,
 			Environment environment, KieSessionConfiguration conf);
 
-	public abstract StatelessTowerDroolsSession getStatelessSession();
+	public StatelessTowerDroolsSession getStatelessSession();
 
-	public abstract StatelessTowerDroolsSession getStatelessSession(
+	public StatelessTowerDroolsSession getStatelessSession(
 			KieSessionConfiguration conf);
 
-	public abstract StatelessTowerDroolsSession getStatelessSession(
+	public StatelessTowerDroolsSession getStatelessSession(
 			String kSessionName);
 
-	public abstract StatelessTowerDroolsSession getStatelessSession(
+	public StatelessTowerDroolsSession getStatelessSession(
 			String kSessionName, KieSessionConfiguration conf);
 
-	public abstract String getFileBasePath();
+	public String getFileBasePath();
 
-	public abstract void setFileBasePath(String fileBasePath);
+	public void setFileBasePath(String fileBasePath);
 
-	public abstract KieFileSystem getFileSystem();
+	public KieFileSystem getFileSystem();
 
-	public abstract void setFileSystem(KieFileSystem fileSystem);
+	public void setFileSystem(KieFileSystem fileSystem);
 
-	public abstract void setKieBaseName(String kieBaseName);
+	public void setKieBaseName(String kieBaseName);
 
-	public abstract String getKieBaseName();
+	public String getKieBaseName();
 
-	public abstract void setPackages(String packages);
+	public void setPackages(String packages);
 
-	public abstract String getPackages();
+	public String getPackages();
 
-	public abstract void setSessionName(String sessionName);
+	public void setSessionName(String sessionName);
 
-	public abstract String getSessionName();
+	public String getSessionName();
 
-	public abstract void refreshRule(String ruleFile);
+	public void refresh();
+
+    public String getGroupId();
+
+    public void setGroupId(String groupId);
+
+    public String getArtifactId();
+
+    public void setArtifactId(String artifactId);
+
+    public String getVersion();
+
+    public void setVersion(String version);
+
+    public long getPollingInterval();
+
+    public void setPollingInterval(long pollingInterval);
 
 }

@@ -3,6 +3,7 @@ package com.tower.service.impl;
 import org.kie.api.builder.KieFileSystem;
 import org.kie.api.runtime.Environment;
 import org.kie.api.runtime.KieContainer;
+import org.kie.api.KieServices;
 import org.kie.api.runtime.KieSessionConfiguration;
 import org.springframework.beans.factory.InitializingBean;
 
@@ -16,10 +17,9 @@ import com.tower.service.rule.impl.StatelessTowerDroolsSession;
 import com.tower.service.rule.impl.TowerDroolsEngine;
 import com.tower.service.rule.impl.TowerDroolsSession;
 
-public class RuleServiceImpl extends TowerDroolsEngine implements IService,IDroolsEngine,IConfigChangeListener, InitializingBean {
-    
-	
-	private IDroolsEngine delegate;
+public class RuleServiceImpl implements IService,IDroolsEngine,IConfigChangeListener, InitializingBean {
+
+    private IDroolsEngine delegate = new TowerDroolsEngine();
     protected ServiceConfig config;
     
 	/**
@@ -51,12 +51,27 @@ public class RuleServiceImpl extends TowerDroolsEngine implements IService,IDroo
 		this.config = config;
 	}
 
+    public IDroolsEngine getDelegate() {
+        return delegate;
+    }
+
+    public void setDelegate(IDroolsEngine delegate) {
+        this.delegate = delegate;
+    }
+
 	@Override
 	public void configChanged() {
 		
 	}
-	
-	
+
+    public void setKieService(KieServices kieService) {
+        delegate.setKieService(kieService);
+    }
+
+    public KieServices getKieService() {
+        return delegate.getKieService();
+    }
+
 	public KieContainer getContainer(){
 		return delegate.getContainer();
 	}
@@ -116,6 +131,46 @@ public class RuleServiceImpl extends TowerDroolsEngine implements IService,IDroo
 		return delegate.getStatelessSession(kSessionName, conf);
 	}
 
+    @Override
+    public String getGroupId() {
+        return delegate.getGroupId();
+    }
+
+    @Override
+    public void setGroupId(String groupId) {
+        delegate.setGroupId(groupId);
+    }
+
+    @Override
+    public String getArtifactId() {
+        return delegate.getArtifactId();
+    }
+
+    @Override
+    public void setArtifactId(String artifactId) {
+        delegate.setArtifactId(artifactId);
+    }
+
+    @Override
+    public String getVersion() {
+        return delegate.getVersion();
+    }
+
+    @Override
+    public void setVersion(String version) {
+        delegate.setVersion(version);
+    }
+
+    @Override
+    public long getPollingInterval() {
+        return delegate.getPollingInterval();
+    }
+
+    @Override
+    public void setPollingInterval(long pollingInterval) {
+        delegate.setPollingInterval(pollingInterval);
+	}
+
 	public String getFileBasePath(){
 		return delegate.getFileBasePath();
 	}
@@ -160,7 +215,4 @@ public class RuleServiceImpl extends TowerDroolsEngine implements IService,IDroo
 		delegate.refresh();
 	}
 
-	public void refreshRule(String ruleFile){
-		delegate.refreshRule(ruleFile);
-	}
 }
