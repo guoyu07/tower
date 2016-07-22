@@ -38,5 +38,6 @@ memcached.hashingAlgorithm     = ${CONSISTENT_HASH}
 #{artifactId}.memcached.nagleAlgorithm       = ${memcached.nagleAlgorithm}
 #{artifactId}.memcached.hashingAlgorithm     = ${memcached.hashingAlgorithm}
 
+##use comma split diff instance  
 #{artifactId}.memcached.weights = 1,2,2
 #{artifactId}.memcached.servers = 192.168.1.111:11211,192.168.1.111:11211,192.168.1.111:11211
