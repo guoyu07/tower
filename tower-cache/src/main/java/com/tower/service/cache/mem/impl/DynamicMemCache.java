@@ -310,9 +310,10 @@ public class DynamicMemCache extends PrefixPriorityConfig
             pool.setFailback(config.getBoolean(prefix_ + "memcached.failback",true));
             pool.setNagle(config.getBoolean(prefix_ + "memcached.nagleAlgorithm",true));
             pool.setHashingAlg(config.getInt(prefix_ + "memcached.hashingAlgorithm",3));
-
-            pool.setServers(config.getStringArray(prefix_ + "memcached.servers"));
+            
+            String[] servers = config.getStringArray(prefix_ + "memcached.servers");
             String[] weights = config.getStringArray(prefix_ + "memcached.weights");
+            pool.setServers(servers);
             int len = weights == null ? 0 : weights.length;
             if (len > 0) {
                 Integer[] weights_ = new Integer[len];

@@ -29,5 +29,5 @@ redis.timeBetweenEvictionRunsMillis           = 30000
 #{artifactId}.redis.testWhileIdle             = ${redis.testWhileIdle}
 #{artifactId}.redis.timeBetweenEvictionRunsMillis       = ${redis.timeBetweenEvictionRunsMillis}
 
-#{artifactId}.redis.servers = 192.168.1.111
-#{artifactId}.redis.ports = 6379
+#{artifactId}.redis.servers = 192.168.1.111,192.168.1.112
+#{artifactId}.redis.ports = 6379,6379

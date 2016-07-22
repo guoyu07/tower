@@ -41,7 +41,7 @@
 		<mybatis.version>3.2.8</mybatis.version>
 		<mysql.version>5.1.26</mysql.version>
 		<mail.version>1.4.1</mail.version>
-		<jedis.version>2.6.2</jedis.version>
+		<jedis.version>3.0.0</jedis.version>
 		<junit.version>4.11</junit.version>
 		<json-lib.version>2.2.3</json-lib.version>
 		<spring.version>4.2.4.RELEASE</spring.version>
@@ -55,6 +55,7 @@
 		<jsp-tag-api.version>1.2.1</jsp-tag-api.version>
 		<commons-lang.version>2.5</commons-lang.version>
 		<commons-pool.version>1.5.4</commons-pool.version>
+		<commons-pool2.version>2.0</commons-pool2.version>
 		<commons-dbcp.version>1.4</commons-dbcp.version>
 		<commons-configuration.version>1.6</commons-configuration.version>
 		<curator-framework.version>2.4.0</curator-framework.version>
@@ -208,7 +209,6 @@
 				<groupId>redis.clients</groupId>
 				<artifactId>jedis</artifactId>
 				<version>${jedis.version}</version>
-				<type>jar</type>
 			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
@@ -257,6 +257,13 @@
 				<artifactId>commons-pool</artifactId>
 				<version>${commons-pool.version}</version>
 			</dependency>
+			
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-pool2</artifactId>
+				<version>${commons-pool2.version}</version>
+			</dependency>
+			
 			<dependency>
 				<groupId>commons-dbcp</groupId>
 				<artifactId>commons-dbcp</artifactId>
