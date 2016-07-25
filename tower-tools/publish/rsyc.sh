@@ -9,14 +9,12 @@ else
 fi
 
 echo "$user"
+#######该目录调整为 publish.sh release_base 目录值 eg:/disk1/apps#######
+release_base="/disk1/apps"
 
-release_base="/root/apps"
+app_base_path="$release_base/$1/$2"
 
-app_release_path="$release_base/$1/$2"
-
-user_home="/home/$user"
-
-apps_path="$user_home/apps/$1/$2/$3"
+app_release_path="$release_base/$1/$2/$3"
 
 #######log_path######
 
@@ -32,12 +30,12 @@ global_config_path="/config"
 
 ###########pro_config_path####
 
-pro_config_path="$user_home"/"apps"/"$1"/"$2"/"config"
+pro_config_path="$release_base/"$1"/"$2"/"config"
 #############################
 
 
 ################
-soft_link_path="$app_release_path/current"
+soft_link_path="$app_base_path/current"
 
 
 if [ $# > 6 ];then
@@ -59,7 +57,7 @@ fi
 
 
 
-ssh $user@$4  "test -d $apps_path||mkdir -p $apps_path"
+ssh $user@$4  "test -d $app_release_path||mkdir -p $app_release_path"
 
 ssh $user@$4  "test -d $log_path||mkdir -p $log_path"
 
@@ -67,11 +65,11 @@ ssh $user@$4  "test -d $global_config_path||mkdir -p $global_config_path"
 
 ssh $user@$4  "test -d $pro_config_path||mkdir -p $pro_config_path"
 
-ssh $user@$4  "test ! -d $apps_path||(cd $user_home/apps/$1;rm -rf current)"
+ssh $user@$4  "test ! -d $app_release_path||(cd $release_base/$1;rm -rf current)"
 
-rsync -aou -vzrtopg --delete --progress $app_release_path/$3/*  $user@"$4":/$user_home/apps/$1/$2/$3/
+rsync -aou -vzrtopg --delete --progress $app_base_path/$3/*  $user@"$4":/$release_base/$1/$2/$3/
 
-rsync -aou -vzrtopg --delete --progress $app_release_path/current  $user@"$4":/$user_home/apps/$1/$2/
+rsync -aou -vzrtopg --delete --progress $app_base_path/current  $user@"$4":/$release_base/$1/$2/
 
 rsync -aou -vzrtopg --delete --progress "$global_config_path"/*  root@"$4":$global_config_path
 

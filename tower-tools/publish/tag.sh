@@ -1,14 +1,6 @@
 #!/bin/bash
 
-######## 参数1表示项目名称
-
-if [ "$1" != "oft" ]&&[ "$1" != "b2b" ]&&[ "$1" != "ftis" ];then
-
-echo "不是有效的项目名称oft|b2b||ftis请重新输入"
-
-exit
-
-fi
+######## 参数 sh tag.sh app、branch、version、source_base、app_source_path
 
 if [ -z $2 ]; then
     branch="master"
@@ -16,9 +8,10 @@ else
     branch=$2
 fi
 
-source_base="/root/code/projects/workspace"
+#######该目录调整到你特定java代码工作空间；eg：/disk1/jenkins/jobs#######
+source_base="$4"
 
-app_source_path="$source_base/$1_$branch"
+app_source_path="$5"
 
 cd $app_source_path
 echo $(dirname $(pwd))

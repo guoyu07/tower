@@ -253,10 +253,18 @@
 		+ 运行ServiceGen.java
 	+ 代码发布脚步工具 publish目录下
 		+ 生成版本号
+			+ 修改 publish.sh 内的source_base、release_base
 			+ sh publish.sh hello 分支名
 		+ 发布代码到服务器
+			+ 在远程targetIp上创建用户userId
+			+ 修改 rsyc.sh 内的release_base,并且创建release_base
 			+ sh rsyc.sh hello 分支名 yyyy-MM-dd_xxx targetIp userId
-
+		+ 运行程序
+			+ ssh userId@targetIp #登录到远程机器
+			+ cd $release_base/$app/$branch/current
+			+ sh ./startService.sh #启动service:
+			+ sh ./startWeb.sh #启动web
+			+ sh ./start-job.sh #启动job
 + exception管理工具
 + checkstyle
 

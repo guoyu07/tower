@@ -16,11 +16,12 @@ else
     branch=$2
 fi
 
-source_base="/root/code/projects/workspace"
+#######该目录调整到你特定java代码工作空间；eg：/disk1/jenkins/jobs#######
+source_base="/disk1/jenkins/jobs"
+#######该目录调整为程序发布目录；eg：/disk1/apps#######
+release_base="/disk1/apps"
 
 app_source_path="$source_base/$1_$branch"
-
-release_base="/root/apps"
 
 app_release_path="$release_base/$1/$branch"
 
@@ -32,20 +33,12 @@ mkdir -p "$shell_gen_base"
 #next_seq_no="2"
 date_time=`date +%Y-%m-%d`
 
-#######log_path######
+#######log_path#######
 log_path="/data1/logs/service/$1"
 
 global_config_path="/config"
 
-####################
-
-##########app service name #######
-
-app_name="root"
-
-################################
-
-###########初始化版本序号####
+#######初始化版本序号#######
 tpl_file=$app_release_path"/"$1"_"$2"_seq.txt"
 
 date_file=$app_release_path"/"$1"_"$2"_date_version.txt"
@@ -63,7 +56,7 @@ touch $tpl_file
 echo 1 > $tpl_file
 
 fi
-##########读取最后版本#####
+#######读取最后版本#######
 while read old_date
 do
 echo "发布前的最后日期:"$old_date
@@ -106,26 +99,23 @@ web_target_path="$web_path"/"target"
 
 current_path="$app_release_path"/"$date_time""_""$seq_no"/"bin"
 
-############增加脚本版本文件###########
+#######增加脚本版本文件#######
 
 webPort_xml_file="$app_source_path/$1-web/pom.xml"
 
 pom_xml_file="$app_source_path/pom.xml"
-###################################
 
-###################项目级别的config############
+#######项目级别的config#######
 
 pro_config_path="$app_release_path"/"config"
 
-###############################################
-
-############加入软连接########
+#######加入软连接#######
 
 echo "web_path:"$web_path
 echo "job_path:"$job_path
 echo "service_impl_path:"$service_impl_path
 
-######################生成可执行脚本##########
+#######生成可执行脚本#######
 if [ -d "$app_source_path/$1-service-impl" ];then
 sed '1,$s/$prefix/'"$1"'/g'  startService_tpl.sh > $shell_gen_base/startService.sh
 chmod 755 "$shell_gen_base/startService".sh
@@ -151,7 +141,7 @@ fi
 
 sh switch.sh $release_base $1 $branch $current_version
 
-###########################动态生成job脚本
+#######动态生成job脚本#######
 declare -a array
 i=0
 pro_str="$1"
@@ -174,7 +164,7 @@ done < $pom_xml_file
 
 for var in ${array[@]};do
 
-echo "测试数据##########################$var:"  $var
+echo "测试数据#######$var:"  $var
 param1="$1"
 strlen=${#param1}
 start_shell=${var:$strlen:200}
@@ -184,17 +174,17 @@ echo "start_shell=========="$start_shell
 rm -rf "$start_shell".sh
 sed -e '1,$s/$3/'"$1"'/g' -e '1,$s/$prefix/'"$var"'/g' startJob_tpl.sh > "$shell_gen_base/$start_shell".sh
 chmod 755 "$shell_gen_base/$start_shell".sh
-###########创建路径
+#######创建路径#######
 if [ ! -d "$job_path$var" ]; then
 mkdir -p  "$job_path$var"
 fi
-###############打包job############
+#######打包job#######
 done
 for var in ${array[@]};do
 cd $app_source_path/$var
 mvn -U clean assembly:assembly  ### >  /dev/null
 done
-################## if apps dir not exists then create #######
+####### if apps dir not exists then create #######
 if [ ! -d "$release_base" ]; then
 mkdir -p "$release_base"
 fi
@@ -228,18 +218,18 @@ if [ ! -d "$pro_config_path" ]; then
 mkdir -p "$pro_config_path"
 fi
 
-###########打包 service ##############
+#######打包 service #######
 
 if [ -d "$app_source_path/$1-service-impl" ]; then
 cd $app_source_path/$1-service-impl
 mvn -U clean assembly:assembly
 fi
-########新增配置文件config#########
+#######新增配置文件config#######
 if [ -d "$app_source_path/config" ]; then
 cp -Rpf $app_source_path/config  $pro_config_path
 fi
 
-###################################
+#######构建程序发布目录#######
 
 cd $app_release_path
 
@@ -283,6 +273,6 @@ fi
 
 echo "publish project execute over!!!"
 
-sh tag.sh $1 $2 "$date_time""_"$seq_no
+sh tag.sh $1 $2 "$date_time""_"$seq_no $source_base $app_source_path
 
 echo "当前版本号请记录:"$1/$2/"$date_time""_"$seq_no
