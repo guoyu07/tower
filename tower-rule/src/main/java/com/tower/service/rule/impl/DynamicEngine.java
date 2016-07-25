@@ -3,8 +3,6 @@
  */
 package com.tower.service.rule.impl;
 
-import org.kie.api.runtime.KieContainer;
-
 import com.tower.service.rule.IEngine;
 
 /**

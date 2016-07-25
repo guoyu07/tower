@@ -20,7 +20,7 @@ import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 import com.tower.service.rule.IEngine;
 
-public abstract class TowerJSR94Engine implements IEngine {
+public class TowerJSR94Engine implements IEngine, IJSR94Engine {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -57,6 +57,10 @@ public abstract class TowerJSR94Engine implements IEngine {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IJSR94Engine#getRuleExecutionSetProvider()
+	 */
+	@Override
 	public LocalRuleExecutionSetProvider getRuleExecutionSetProvider() {
 		if(!inited){
 			init();
@@ -64,6 +68,10 @@ public abstract class TowerJSR94Engine implements IEngine {
 		return ruleExecutionSetProvider;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IJSR94Engine#getProvider()
+	 */
+	@Override
 	public RuleServiceProvider getProvider() {
 		if(!inited){
 			init();
@@ -74,6 +82,10 @@ public abstract class TowerJSR94Engine implements IEngine {
 	private HashMap<String, String> properties = new HashMap<String, String>();
 	private RuleAdministrator admin = null;
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IJSR94Engine#getAdmin()
+	 */
+	@Override
 	public RuleAdministrator getAdmin() {
 		if(!inited){
 			init();
@@ -81,38 +93,74 @@ public abstract class TowerJSR94Engine implements IEngine {
 		return admin;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IJSR94Engine#getProperties()
+	 */
+	@Override
 	public HashMap<String, String> getProperties() {
 		return properties;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IJSR94Engine#setProperties(java.util.HashMap)
+	 */
+	@Override
 	public void setProperties(HashMap<String, String> properties) {
 		this.properties = properties;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IJSR94Engine#getUri()
+	 */
+	@Override
 	public String getUri() {
 		return uri;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IJSR94Engine#setUri(java.lang.String)
+	 */
+	@Override
 	public void setUri(String uri) {
 		this.uri = uri;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IJSR94Engine#getRuleProvider()
+	 */
+	@Override
 	public String getRuleProvider() {
 		return ruleProvider;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IJSR94Engine#setRuleProvider(java.lang.String)
+	 */
+	@Override
 	public void setRuleProvider(String ruleProvider) {
 		this.ruleProvider = ruleProvider;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IJSR94Engine#getBasePath()
+	 */
+	@Override
 	public String getBasePath() {
 		return basePath;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IJSR94Engine#setBasePath(java.lang.String)
+	 */
+	@Override
 	public void setBasePath(String basePath) {
 		this.basePath = basePath;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IJSR94Engine#addRule(java.lang.String, java.lang.String)
+	 */
+	@Override
 	public void addRule(String bindUrl, String ruleFileName) {
 		// 3.创建RuleExecutionSet
 		if(!inited){
@@ -130,6 +178,10 @@ public abstract class TowerJSR94Engine implements IEngine {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IJSR94Engine#getStatelessSession(java.lang.String)
+	 */
+	@Override
 	public StatelessTowerJSR94Session getStatelessSession(String bindUrl) {
 		try {
 			return new StatelessTowerJSR94Session(
@@ -141,6 +193,10 @@ public abstract class TowerJSR94Engine implements IEngine {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IJSR94Engine#getSession(java.lang.String)
+	 */
+	@Override
 	public TowerJSR94Session getSession(String bindUrl) {
 		try {
 			return new TowerJSR94Session(
@@ -152,6 +208,9 @@ public abstract class TowerJSR94Engine implements IEngine {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.tower.service.rule.impl.IJSR94Engine#refresh()
+	 */
 	@Override
 	public void refresh() {
 		

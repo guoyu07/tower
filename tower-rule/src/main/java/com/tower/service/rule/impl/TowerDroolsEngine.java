@@ -39,11 +39,11 @@ public class TowerDroolsEngine implements IDroolsEngine {
 	private KieFileSystem fileSystem;
     protected KieContainer kContainer;
 
-    protected String groupId;
-    protected String artifactId;
-    protected String version;
+    private String groupId;
+    private String artifactId;
+    private String version;
 
-    protected long pollingInterval=10000L;
+    private long pollingInterval=10000L;
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
