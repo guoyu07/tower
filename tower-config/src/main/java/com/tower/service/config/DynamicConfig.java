@@ -109,7 +109,16 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 	public boolean isZookeeper(){
 		return Boolean.valueOf(System.getProperty("config.store.type", "false"));
 	}
+	private String classpath="META-INF/config/local";
 	
+	public String getClasspath() {
+		return classpath;
+	}
+
+	public void setClasspath(String classpath) {
+		this.classpath = classpath;
+	}
+
 	public GeneralConfigGroup $build() {
 		
 		GeneralConfigGroup group = null;
@@ -119,7 +128,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 		 */
 		String file = null;
 		try {
-			file = this.getFullFileName("classpath:META-INF/config/local"
+			file = this.getFullFileName("classpath:"+classpath
 					+ File.separator + "%s");
 			group = new FileConfigGroup(profile, file);
 		} catch (Exception ex) {
@@ -127,7 +136,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 		}
 		if (!StringUtil.isEmpty(getProfile())) {
 			try {
-				file = this.getFullFileName("classpath:META-INF/config/local/"
+				file = this.getFullFileName("classpath:"+classpath
 						+ getProfile() + "%s");
 				group = new FileConfigGroup(group, profile, file);
 			} catch (Exception ex) {

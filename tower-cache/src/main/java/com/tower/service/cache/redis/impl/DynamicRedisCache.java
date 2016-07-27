@@ -7,6 +7,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -20,6 +23,9 @@ import org.springframework.cache.support.SimpleValueWrapper;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.JedisShardInfo;
+import redis.clients.jedis.ShardedJedis;
+import redis.clients.jedis.ShardedJedisPool;
 import redis.clients.jedis.params.set.SetParams;
 
 import com.tower.service.cache.ICache;
@@ -33,7 +39,9 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 	 * Logger for this class
 	 */
 
-	private JedisCluster delegate;
+	private JedisCluster cluster;
+	private ShardedJedisPool single;
+	private boolean singled;
 
 	public static final String DEFAULT_CACHE_NAME = "defaultRedisCache";
 
@@ -147,21 +155,42 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		String ports[] = config.getStringArray(prefix_ + "redis.ports");
 
 		int ssize = servers.length;
-		Set<HostAndPort> jedisClusterNodes = new HashSet<HostAndPort>();
-		for (int i = 0; i < ssize; i++) {
-			String server = (String) servers[i];
-			String port = (String) ports[i];
-			jedisClusterNodes.add(new HostAndPort(server, Integer
-					.parseInt(port)));
-		}
-		JedisCluster jc = new JedisCluster(jedisClusterNodes, redisCfg);
+		if (ssize == 1) {
+			List<JedisShardInfo> list = new LinkedList<JedisShardInfo>();
+			String server = (String) servers[0];
+			String port = (String) ports[0];
+			JedisShardInfo jedisShardInfo = new JedisShardInfo(server, port);
+			jedisShardInfo.setSoTimeout(config
+					.getInt(prefix_ + "redis.timeout"));
+			list.add(jedisShardInfo);
 
-		if (delegate == null) {
-			delegate = jc;
+			ShardedJedisPool jedis = new ShardedJedisPool(redisCfg, list);
+			if (single == null) {
+				single = jedis;
+				singled = true;
+			} else {
+				ShardedJedisPool old = single;
+				single = jedis;
+				old.destroy();
+			}
 		} else {
-			JedisCluster old = delegate;
-			delegate = jc;
-			old.close();
+			Set<HostAndPort> jedisClusterNodes = new HashSet<HostAndPort>();
+			for (int i = 0; i < ssize; i++) {
+				String server = (String) servers[i];
+				String port = (String) ports[i];
+				jedisClusterNodes.add(new HostAndPort(server, Integer
+						.parseInt(port)));
+			}
+			JedisCluster jc = new JedisCluster(jedisClusterNodes, redisCfg);
+
+			if (cluster == null) {
+				cluster = jc;
+				singled = false;
+			} else {
+				JedisCluster old = cluster;
+				cluster = jc;
+				old.close();
+			}
 		}
 
 		if (logger.isDebugEnabled()) {
@@ -176,7 +205,14 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		}
 
 		try {
-			delegate.set(toBytes(key), toBytes(item));
+			if (singled) {
+				ShardedJedis _jedis = null;
+				_jedis = single.getResource();
+				_jedis.set(toBytes(key), toBytes(item));
+
+			} else {
+				cluster.set(toBytes(key), toBytes(item));
+			}
 
 			if (logger.isDebugEnabled()) {
 				logger.debug("set(String, Object) - end"); //$NON-NLS-1$
@@ -192,7 +228,13 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		}
 
 		try {
-			delegate.set(key, item);
+			if (singled) {
+				ShardedJedis _jedis = null;
+				_jedis = single.getResource();
+				_jedis.set(toBytes(key), toBytes(item));
+			} else {
+				cluster.set(key, item);
+			}
 
 			if (logger.isDebugEnabled()) {
 				logger.debug("set(String, String) - end"); //$NON-NLS-1$
@@ -209,15 +251,23 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		}
 
 		try {
-			SetParams params = SetParams.setParams();
-			params.ex(seconds);
-			delegate.set(toBytes(key), toBytes(item), params);
+			if (singled) {
+				ShardedJedis _jedis = null;
+				_jedis = single.getResource();
+				_jedis.set(toBytes(key), toBytes(item));
+				_jedis.expire(toBytes(key), seconds);
+			} else {
+				SetParams params = SetParams.setParams();
+				params.ex(seconds);
+				cluster.set(toBytes(key), toBytes(item), params);
+			}
 
 			if (logger.isDebugEnabled()) {
 				logger.debug("set(String, Object, int) - end"); //$NON-NLS-1$
 			}
 			return true;
 		} finally {
+
 		}
 	}
 
@@ -235,9 +285,17 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 			return returnboolean;
 		} else {
 			try {
-				SetParams params = SetParams.setParams();
-				params.ex(Long.valueOf(DateUtil.toSecond(expiry)).intValue());
-				delegate.set(toBytes(key), toBytes(item), params);
+				if (singled) {
+					ShardedJedis _jedis = null;
+					_jedis = single.getResource();
+					_jedis.set(toBytes(key), toBytes(item));
+					_jedis.expireAt(toBytes(key), DateUtil.toSecond(expiry));
+				} else {
+					SetParams params = SetParams.setParams();
+					params.ex(Long.valueOf(DateUtil.toSecond(expiry))
+							.intValue());
+					cluster.set(toBytes(key), toBytes(item), params);
+				}
 				if (logger.isDebugEnabled()) {
 					logger.debug("set(String, Object, Date) - end"); //$NON-NLS-1$
 				}
@@ -254,7 +312,13 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		}
 
 		try {
-			delegate.append(toBytes(key), toBytes(item));
+			if (singled) {
+				ShardedJedis _jedis = null;
+				_jedis = single.getResource();
+				_jedis.append(toBytes(key), toBytes(item));
+			} else {
+				cluster.append(toBytes(key), toBytes(item));
+			}
 			if (logger.isDebugEnabled()) {
 				logger.debug("addOrIncr(String, long) - end"); //$NON-NLS-1$
 			}
@@ -291,9 +355,15 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		if (logger.isDebugEnabled()) {
 			logger.debug("addOrIncr(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).append("long incr", incr).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		}
-
+		long returnlong = 0l;
 		try {
-			long returnlong = delegate.incrBy(toBytes(key), incr);
+			if (singled) {
+				ShardedJedis _jedis = null;
+				_jedis = single.getResource();
+				returnlong = _jedis.incrBy(key, incr);
+			} else {
+				returnlong = cluster.incrBy(toBytes(key), incr);
+			}
 			if (logger.isDebugEnabled()) {
 				logger.debug("addOrIncr(String, long) - end"); //$NON-NLS-1$
 			}
@@ -307,7 +377,12 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		if (logger.isDebugEnabled()) {
 			logger.debug("incr(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).append("long incr", incr).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		}
-		long returnlong = delegate.incrBy(toBytes(key), incr);
+		long returnlong = 0l;
+		if (singled) {
+			returnlong = addOrIncr(key, incr);
+		} else {
+			returnlong = cluster.incrBy(toBytes(key), incr);
+		}
 		if (logger.isDebugEnabled()) {
 			logger.debug("incr(String, long) - end"); //$NON-NLS-1$
 		}
@@ -320,6 +395,7 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 			logger.debug("replace(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).append("Object item", item).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		}
 		boolean returnboolean = this.set(key, item);
+
 		if (logger.isDebugEnabled()) {
 			logger.debug("replace(String, Object) - end"); //$NON-NLS-1$
 		}
@@ -345,7 +421,13 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		}
 
 		try {
-			delegate.sadd(key, val);
+			if (singled) {
+				ShardedJedis _jedis = null;
+				_jedis = single.getResource();
+				_jedis.sadd(key, val);
+			} else {
+				cluster.sadd(key, val);
+			}
 		} finally {
 		}
 
@@ -360,7 +442,14 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		}
 
 		try {
-			delegate.sadd(key, val);
+			if (singled) {
+				ShardedJedis _jedis = null;
+				_jedis = single.getResource();
+				_jedis.sadd(key, val);
+				_jedis.expire(key, expire);
+			} else {
+				cluster.sadd(key, val);
+			}
 		} finally {
 		}
 
@@ -373,7 +462,25 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		if (logger.isDebugEnabled()) {
 			logger.debug("sget(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		}
-		throw new RuntimeException("待实现");
+		if (singled) {
+			ShardedJedis _jedis = null;
+			_jedis = single.getResource();
+			Set<byte[]> returnSet = _jedis.smembers(toBytes(key));
+			int size = returnSet == null ? 0 : returnSet.size();
+			if (size > 0) {
+				Set<String> results = new HashSet<String>();
+				Iterator<byte[]> iterator = returnSet.iterator();
+				while (iterator.hasNext()) {
+					results.add(new String(iterator.next()));
+				}
+				return results;
+			} else {
+				return null;
+			}
+
+		} else {
+			throw new RuntimeException("待实现");
+		}
 	}
 
 	@Override
@@ -396,7 +503,13 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		}
 
 		try {
-			delegate.del(toBytes(key));
+			if (singled) {
+				ShardedJedis _jedis = null;
+				_jedis = single.getResource();
+				_jedis.del(toBytes(key));
+			} else {
+				cluster.del(toBytes(key));
+			}
 
 			if (logger.isDebugEnabled()) {
 				logger.debug("delete(String) - end"); //$NON-NLS-1$
@@ -411,9 +524,15 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		if (logger.isDebugEnabled()) {
 			logger.debug("get(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("String key", key).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		}
-
+		Object obj = null;
 		try {
-			Object obj = toObject(delegate.get(toBytes(key)));
+			if (singled) {
+				ShardedJedis _jedis = null;
+				_jedis = single.getResource();
+				obj = toObject(_jedis.get(toBytes(key)));
+			} else {
+				obj = toObject(cluster.get(toBytes(key)));
+			}
 			if (logger.isDebugEnabled()) {
 				logger.debug("get(String) - end"); //$NON-NLS-1$
 			}
@@ -452,17 +571,28 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 
 	@Override
 	public Object getNativeCache() {
-		return delegate;
+		if (singled) {
+			return single;
+		} else {
+			return cluster;
+		}
 	}
 
 	public Object llen(Object key) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("llen(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("Object key", key).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		}
-
+		Object returnObject = null;
 		try {
-			long length = delegate.hlen(toBytes(key));
-			Object returnObject = new SimpleValueWrapper(Long.valueOf(length));
+			if (singled) {
+				ShardedJedis _jedis = null;
+				_jedis = single.getResource();
+				long length = _jedis.llen(toBytes(key));
+				returnObject = new SimpleValueWrapper(Long.valueOf(length));
+			} else {
+				long length = cluster.hlen(toBytes(key));
+				returnObject = new SimpleValueWrapper(Long.valueOf(length));
+			}
 			if (logger.isDebugEnabled()) {
 				logger.debug("llen(Object) - end"); //$NON-NLS-1$
 			}
@@ -476,9 +606,15 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		if (logger.isDebugEnabled()) {
 			logger.debug("get(" + new ToStringBuilder("", StandardToStringStyle.SIMPLE_STYLE).append("Object key", key).toString() + ") - start"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		}
-
+		byte[] datas = null;
 		try {
-			byte[] datas = delegate.get(toBytes(key));
+			if (singled) {
+				ShardedJedis _jedis = null;
+				_jedis = single.getResource();
+				datas = _jedis.get(toBytes(key));
+			} else {
+				datas = cluster.get(toBytes(key));
+			}
 			if (datas == null) {
 				if (logger.isDebugEnabled()) {
 					logger.debug("get(Object) - end"); //$NON-NLS-1$
@@ -502,7 +638,17 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		}
 
 		try {
-			byte[] datas = delegate.get(toBytes(key));
+			byte[] datas = null;
+
+			if (singled) {
+				ShardedJedis _jedis = null;
+				datas = cluster.get(toBytes(key));
+				_jedis = single.getResource();
+				datas = _jedis.get(toBytes(key));
+
+			} else {
+				datas = cluster.get(toBytes(key));
+			}
 			if (datas == null) {
 				if (logger.isDebugEnabled()) {
 					logger.debug("get(Object, Class<T>) - end"); //$NON-NLS-1$
@@ -532,7 +678,14 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		}
 
 		try {
-			delegate.set(toBytes(key), toBytes(value));
+			if(singled){
+				ShardedJedis _jedis = null;
+				_jedis = single.getResource();
+	            _jedis.set(toBytes(key), toBytes(value));
+			}
+			else{
+				cluster.set(toBytes(key), toBytes(value));
+			}
 		} finally {
 		}
 
@@ -548,7 +701,14 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		}
 
 		try {
-			delegate.del(toBytes(key));
+			if(singled){
+				ShardedJedis _jedis = null;
+				_jedis = single.getResource();
+	            _jedis.del(toBytes(key));
+			}
+			else{
+				cluster.del(toBytes(key));
+			}
 		} finally {
 		}
 
@@ -638,10 +798,18 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		}
 
 		try {
-			byte[] datas = delegate.get(toBytes(key));
+			byte[] datas = null;
+			if(singled){
+				ShardedJedis _jedis = null;
+				_jedis = single.getResource();
+	            datas = _jedis.get(toBytes(key));
+			}
+			else{
+				datas = cluster.get(toBytes(key));
+			}
 			Object result = toObject(datas);
 			if (result == null) {
-				delegate.set(toBytes(key), toBytes(value));
+				cluster.set(toBytes(key), toBytes(value));
 				ValueWrapper returnValueWrapper = new SimpleValueWrapper(value);
 				if (logger.isDebugEnabled()) {
 					logger.debug("putIfAbsent(Object, Object) - end"); //$NON-NLS-1$
