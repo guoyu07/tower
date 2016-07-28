@@ -5,7 +5,6 @@ import java.util.List;
 import com.tower.service.domain.AbsResult;
 import com.tower.service.domain.IResult;
 import com.tower.service.domain.PageResult;
-import com.tower.service.domain.Pager;
 
 public class AuthResponse<T extends IResult> extends AbsResult implements
 		IResult {
