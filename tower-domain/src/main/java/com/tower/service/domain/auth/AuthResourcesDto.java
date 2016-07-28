@@ -2,9 +2,10 @@ package com.tower.service.domain.auth;
 
 import java.util.List;
 
+import com.tower.service.domain.AbsDTO;
 import com.tower.service.domain.IResult;
 
-public class AuthResourcesDto implements IResult {
+public class AuthResourcesDto extends AbsDTO implements IResult {
 
 	/**
 	 * 

@@ -4,9 +4,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.tower.service.domain.AbsDTO;
 import com.tower.service.domain.IResult;
 
-public class AuthUserDto implements IResult {
+public class AuthUserDto extends AbsDTO implements IResult {
 
 	/**
 	 * 

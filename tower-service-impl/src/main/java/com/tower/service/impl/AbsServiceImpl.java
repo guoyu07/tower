@@ -10,7 +10,7 @@ import com.tower.service.log.LoggerFactory;
 
 public abstract class AbsServiceImpl implements IService,IConfigChangeListener, InitializingBean {
     
-    protected static ServiceConfig config;
+    protected ServiceConfig config;
     
 	/**
 	 * Logger for this class

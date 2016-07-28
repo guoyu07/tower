@@ -1,8 +1,9 @@
 package com.tower.service.domain.auth;
 
+import com.tower.service.domain.AbsDTO;
 import com.tower.service.domain.IResult;
 
-public class AuthRoleDto implements IResult {
+public class AuthRoleDto extends AbsDTO implements IResult {
 	
 	
 	/**

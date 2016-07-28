@@ -10,7 +10,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.tower.service.domain.Pager;
+import com.tower.service.domain.PageResult;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 
@@ -32,14 +32,10 @@ public class PagerTag extends TagSupport {
     public int doEndTag() throws JspException {
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.
                 getRequestAttributes()).getRequest();
-        /*nCount = (Integer)request.getAttribute("nCount");
-        nPageSize = (Integer)request.getAttribute("nPageSize");
-        nPageNum = (Integer)request.getAttribute("nPageNum");*/
-
-        Pager pager = (Pager)request.getAttribute("pager");
+        PageResult pager = (PageResult)request.getAttribute("pager");
         nCount = pager.getTotal();
         nPageSize = pager.getPageSize();
-        nPageNum = pager.getOffset();
+        nPageNum = pager.getPageIndex();
 
         JspWriter out = this.pageContext.getOut();
 

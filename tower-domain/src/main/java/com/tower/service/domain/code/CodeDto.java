@@ -1,8 +1,9 @@
 package com.tower.service.domain.code;
 
+import com.tower.service.domain.AbsDTO;
 import com.tower.service.domain.IResult;
 
-public class CodeDto implements IResult {
+public class CodeDto extends AbsDTO implements IResult {
 
 	/**
 	 * 
