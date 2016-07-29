@@ -84,8 +84,8 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
+			<groupId>org.javassist</groupId>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
