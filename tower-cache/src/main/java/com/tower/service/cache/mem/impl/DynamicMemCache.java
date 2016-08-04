@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.builder.StandardToStringStyle;
@@ -16,6 +17,7 @@ import com.danga.MemCached.SockIOPool;
 import com.tower.service.cache.CacheOpParamsContext;
 import com.tower.service.cache.ICache;
 import com.tower.service.cache.annotation.CacheOpParams;
+import com.tower.service.cache.impl.CacheConfig;
 import com.tower.service.config.PrefixPriorityConfig;
 import com.tower.service.config.dict.ConfigFileTypeDict;
 import com.tower.service.util.DateUtil;
@@ -46,7 +48,9 @@ public class DynamicMemCache extends PrefixPriorityConfig
     public static final boolean DEFAULT_FAILBACK = true;
     public static final boolean DEFAULT_NAGLE_ALGORITHM = true;
     public static final int DEFAULT_HASHING_ALGORITHM = SockIOPool.CONSISTENT_HASH;
-
+    
+    @Resource(name="CacheConfig")
+    private CacheConfig cacheConfig;
     @Override
     public boolean set(String key, Object item) {
 		if (logger.isDebugEnabled()) {
@@ -289,7 +293,10 @@ public class DynamicMemCache extends PrefixPriorityConfig
         String prefix_ = this.getPrefix();
 
         try {
-
+        	boolean X$Cached = cacheConfig.getBoolean(prefix_+"X-Cached", false);
+        	if(!X$Cached){
+        		return;
+        	}
             String _sufix = DateUtil.format(new Date(), "yyyyMMddHHmmss");
             String poolName = prefix_ + _sufix;
             SockIOPool pool = SockIOPool.getInstance(poolName);

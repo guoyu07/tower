@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.builder.StandardToStringStyle;
@@ -29,6 +30,7 @@ import redis.clients.jedis.ShardedJedisPool;
 import redis.clients.jedis.params.set.SetParams;
 
 import com.tower.service.cache.ICache;
+import com.tower.service.cache.impl.CacheConfig;
 import com.tower.service.config.PrefixPriorityConfig;
 import com.tower.service.config.dict.ConfigFileTypeDict;
 import com.tower.service.util.DateUtil;
@@ -44,7 +46,9 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 	private boolean singled;
 
 	public static final String DEFAULT_CACHE_NAME = "defaultRedisCache";
-
+	@Resource(name="CacheConfig")
+	private CacheConfig cacheConfig;
+	
 	@Override
 	@PostConstruct
 	public void init() {
@@ -132,7 +136,10 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		}
 
 		String prefix_ = this.getPrefix();
-
+		boolean X$Cached = cacheConfig.getBoolean(prefix_+"X-Cached", false);
+    	if(!X$Cached){
+    		return;
+    	}
 		JedisPoolConfig redisCfg = new JedisPoolConfig();
 		redisCfg.setMaxTotal(config.getInt(prefix_ + "redis.maxTotal"));
 		redisCfg.setMinIdle(config.getInt(prefix_ + "redis.minIdle"));

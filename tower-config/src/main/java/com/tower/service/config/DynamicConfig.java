@@ -103,12 +103,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 		}
 		MapConfiguration config = new MapConfiguration(tmp);
 		delegate = new SecutiryCompositeConfiguration(config);
-		if(group!=null){
-			group.register(this);
-		}
-		else{
-			logger.info("没有找到有效的配置文件："+this._settingFileName+"."+this.getType());
-		}
+		group.register(this);
 	}
 
 	public boolean isZookeeper(){
@@ -138,6 +133,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 			GeneralConfigGroup classGroup = new FileConfigGroup(profile, file);
 			if(classGroup!=null){
 				group = classGroup;
+				logger.info("成功加载file配置："+file);
 			}
 		} catch (Exception ex) {
 			logger.info("配置文件'" + file + "'没有找到");
@@ -149,6 +145,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 				GeneralConfigGroup profielGroup = new FileConfigGroup(group, profile, file);
 				if(profielGroup!=null){
 					group = profielGroup;
+					logger.info("成功加载file配置："+file);
 				}
 			} catch (Exception ex) {
 				logger.info("配置文件'" + file + "'没有找到");
@@ -162,6 +159,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 			GeneralConfigGroup systemGroup = new FileConfigGroup(group, profile, file);
 			if(systemGroup!=null){
 				group = systemGroup;
+				logger.info("成功加载file配置："+file);
 			}
 		} catch (Exception ex) {
 			logger.info("配置文件'" + file + "'没有找到");
@@ -172,6 +170,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 				GeneralConfigGroup systemProfileGroup = new FileConfigGroup(group, profile, file);
 				if(systemProfileGroup!=null){
 					group = systemProfileGroup;
+					logger.info("成功加载file配置："+file);
 				}
 			} catch (Exception ex) {
 				logger.info("配置文件'" + file + "'没有找到");
@@ -189,17 +188,23 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 				GeneralConfigGroup systemZookeeperGroup = new ZookeeperConfigGroup(group, zkProfile, _settingFileName);
 				if(systemZookeeperGroup!=null){
 					group = systemZookeeperGroup;
+					logger.info("成功加载zookeeper配置："+zkServers + File.separator + "config" + File.separator+_settingFileName );
 				}
+			}
+			catch(Exception ex){
+				logger.info(zkServers + File.separator + "config" + File.separator+_settingFileName+ " zookeeper配置没有找到");
+			}
+			try{
 				if (!StringUtil.isEmpty(getProfile())) {
 					GeneralConfigGroup systemProfileZookeeperGroup = new ZookeeperConfigGroup(group, zkProfile, getProfile()
 							+ _settingFileName);
 					if(systemProfileZookeeperGroup!=null){
 						group = systemProfileZookeeperGroup;
+						logger.info("成功加载zookeeper配置："+zkServers + File.separator + "config" + File.separator+this.getProfile()+_settingFileName );
 					}
 				}
 			} catch (Exception ex) {
-				logger.info(zkServers + "/config/" + _settingFileName
-						+ " zookeeper配置没有找到");
+				logger.info(zkServers + "/config/" + getProfile()+_settingFileName+ " zookeeper配置没有找到");
 			}
 		}
 		// }
@@ -216,6 +221,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 				GeneralConfigGroup appHomeGroup = new FileConfigGroup(group, profile, file);
 				if(appHomeGroup!=null){
 					group = appHomeGroup;
+					logger.info("成功加载file配置："+file);
 				}
 			} catch (Exception ex) {
 				logger.info("配置文件'" + file + "'没有找到");
@@ -228,6 +234,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 					GeneralConfigGroup appHomeProfileGroup = new FileConfigGroup(group, profile, file);
 					if(appHomeProfileGroup!=null){
 						group = appHomeProfileGroup;
+						logger.info("成功加载file配置："+file);
 					}
 					
 				} catch (Exception ex) {
@@ -251,18 +258,24 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 							_settingFileName);
 					if(appHomeZookeeperGroup!=null){
 						group = appHomeZookeeperGroup;
+						logger.info("成功加载zookeeper配置："+zkServers + getAppHomeDir() + File.separator + "config" + File.separator+_settingFileName );
 					}
+				}
+				catch(Exception ex){
+					logger.info(zkServers + getAppHomeDir() + File.separator + "config" +File.separator+ _settingFileName + " zookeeper配置没有找到");
+				}
+				try{
 					if (!StringUtil.isEmpty(getProfile())) {
 						GeneralConfigGroup appHomeZookeeperProfileGroup = new ZookeeperConfigGroup(group, appZKProfile,
 								getProfile() + _settingFileName);
 						
 						if(appHomeZookeeperProfileGroup!=null){
 							group = appHomeZookeeperProfileGroup;
+							logger.info("成功加载zookeeper配置："+zkServers + getAppHomeDir() + File.separator + "config"+File.separator + getProfile()+_settingFileName );
 						}
 					}
 				} catch (Exception ex) {
-					logger.info(zkServers + getAppHomeDir() + File.separator
-							+ "config" + _settingFileName + " zookeeper配置没有找到");
+					logger.info(zkServers + getAppHomeDir() + File.separator + "config" + File.separator+getProfile()+_settingFileName + " zookeeper配置没有找到");
 				}
 			}
 			// }
@@ -644,5 +657,4 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 	protected Configuration getConfig() {
 		return delegate;
 	}
-	
 }
