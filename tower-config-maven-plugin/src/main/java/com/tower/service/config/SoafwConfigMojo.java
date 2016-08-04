@@ -58,11 +58,16 @@ public class SoafwConfigMojo extends AbstractMojo {
 	private String moduleSuffix = "";
 	private String company = "tower";
 	private PluginDescriptor desc = null;
-	private String dburl = TowerConfig.getConfig("db.url");
-	private String dbuser = TowerConfig.getConfig("db.user");
-	private String dbpwd = TowerConfig.getConfig("db.pwd");
+	private String dburl;
+	private String dbuser;
+	private String dbpwd;
 
 	public void execute() throws MojoExecutionException {
+		
+		dburl = TowerConfig.getConfig("db.url");
+		dbuser = TowerConfig.getConfig("db.user");
+		dbpwd = TowerConfig.getConfig("db.pwd");
+		
 		groupId = System.getProperty("groupId");
 		artifactId = System.getProperty("artifactId");
 		destDir = System.getProperty("destDir", destDir);
