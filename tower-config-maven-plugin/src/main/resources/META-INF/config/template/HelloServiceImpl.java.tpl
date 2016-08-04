@@ -8,9 +8,9 @@ import org.kie.api.event.rule.DebugRuleRuntimeEventListener;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.#{company}.service.#{artifactId}.IHelloService;
-import com.tower.service.domain.StringResult;
-import com.tower.service.impl.AbsRuleServiceImpl;
-import com.tower.service.rule.impl.TowerSession;
+import com.tower.service.impl.RuleServiceImpl;
+import com.tower.service.rule.impl.TowerDroolsSession;
+import com.tower.service.rule.impl.TowerReleaseIdDroolsEngine;
 
 public class HelloServiceImpl extends AbsServiceImpl implements IHelloService {
 	
@@ -23,7 +23,9 @@ public class HelloServiceImpl extends AbsServiceImpl implements IHelloService {
 	public void sayHello(String sessionName) {
 		long start = System.currentTimeMillis();
 
-		TowerSession session = this.getSession(sessionName);
+		RuleServiceImpl ruleService = new RuleServiceImpl();
+
+		TowerDroolsSession session = ruleService.getSession(sessionName);
 
 		System.out.println("session get timeused: "
 				+ (System.currentTimeMillis() - start));

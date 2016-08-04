@@ -148,6 +148,11 @@
 	        </dependency>
 	        <dependency>
 	            <groupId>com.tower.soafw</groupId>
+	            <artifactId>tower-rule</artifactId>
+	            <version>${soafw-common.version}</version>
+	        </dependency>
+	        <dependency>
+	            <groupId>com.tower.soafw</groupId>
 	            <artifactId>tower-job</artifactId>
 	            <version>${soafw-common.version}</version>
 	        </dependency>
