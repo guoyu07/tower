@@ -8,6 +8,7 @@ import org.kie.api.event.rule.DebugRuleRuntimeEventListener;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.#{company}.service.#{artifactId}.IHelloService;
+import com.tower.service.impl.AbsServiceImpl;
 import com.tower.service.impl.RuleServiceImpl;
 import com.tower.service.rule.impl.TowerDroolsSession;
 import com.tower.service.rule.impl.TowerReleaseIdDroolsEngine;
