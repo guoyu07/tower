@@ -20,6 +20,8 @@ fi
 source_base="/disk1/jenkins/jobs"
 #######该目录调整为程序发布目录；eg：/disk1/apps#######
 release_base="/disk1/apps"
+#######maven 配置文件#######
+mvn_config="/disk1/apache-maven-3.3.3/conf/settings_leya.xml"
 
 app_source_path="$source_base/$1_$branch"
 
@@ -182,7 +184,7 @@ fi
 done
 for var in ${array[@]};do
 cd $app_source_path/$var
-mvn -U clean assembly:assembly  ### >  /dev/null
+mvn -gs $mvn_config -U clean assembly:assembly  ### >  /dev/null
 done
 ####### if apps dir not exists then create #######
 if [ ! -d "$release_base" ]; then
@@ -222,7 +224,7 @@ fi
 
 if [ -d "$app_source_path/$1-service-impl" ]; then
 cd $app_source_path/$1-service-impl
-mvn -U clean assembly:assembly
+mvn -gs $mvn_config clean assembly:assembly
 fi
 #######新增配置文件config#######
 if [ -d "$app_source_path/config" ]; then
