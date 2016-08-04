@@ -56,7 +56,7 @@ public class EsAdvancedService implements JestClient, IClient,
 		List<String> servers = new ArrayList<String>();
 		if (config != null) {
 			config.addChangeListener(this);
-			servers = config.getList("servers", servers);
+			servers = config.getList("es.servers", servers);
 		}
 		else{
 			servers.add(defaultServer);
@@ -82,7 +82,7 @@ public class EsAdvancedService implements JestClient, IClient,
 
 	@Override
 	public void configChanged() {
-		setServers(new LinkedHashSet<String>(config.getList("servers")));
+		setServers(new LinkedHashSet<String>(config.getList("es.servers")));
 	}
 
 	@Override

@@ -136,7 +136,7 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		}
 
 		String prefix_ = this.getPrefix();
-		boolean X$Cached = cacheConfig.getBoolean(prefix_+"X-Cached", false);
+		boolean X$Cached = cacheConfig.getBoolean(prefix_+"X-Cached", true);
     	if(!X$Cached){
     		return;
     	}

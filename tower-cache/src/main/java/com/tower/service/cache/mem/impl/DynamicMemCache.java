@@ -293,7 +293,7 @@ public class DynamicMemCache extends PrefixPriorityConfig
         String prefix_ = this.getPrefix();
 
         try {
-        	boolean X$Cached = cacheConfig.getBoolean(prefix_+"X-Cached", false);
+        	boolean X$Cached = cacheConfig.getBoolean(prefix_+"X-Cached", true);
         	if(!X$Cached){
         		return;
         	}
