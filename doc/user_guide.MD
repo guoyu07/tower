@@ -12,7 +12,7 @@
 		+ snapshot url ![maven snapshot url](maven/snapshots_url.png)
 
 + 本地开发数据库域名：db.corp.tower.com
-	+ 创建sofa_db数据库
+	+ 创建soafw_db数据库
 	+ 修改tower-config/src/main/resource/META-INF/tower.properties内的数据库配置信息
 + 备注：个别java包可能需要在互联网上单独下载，公共的私服服务上可能没有；
 	+ dubbo 2.8.4.jar [dubbox]
