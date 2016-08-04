@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.InitializingBean;
@@ -329,6 +330,7 @@ public class EsAdvancedService implements JestClient, IClient,
 	}
 
 	public static void main(String args[]) {
+		LayeredConnectionSocketFactory a;
 		EsAdvancedService client = new EsAdvancedService();
 		client.init();
 		//JestResult result = client.search("megacorp", "employee", "1");

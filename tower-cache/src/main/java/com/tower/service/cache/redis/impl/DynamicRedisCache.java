@@ -160,8 +160,8 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 			String server = (String) servers[0];
 			String port = (String) ports[0];
 			JedisShardInfo jedisShardInfo = new JedisShardInfo(server, port);
-			jedisShardInfo.setSoTimeout(config
-					.getInt(prefix_ + "redis.timeout"));
+			//int soTimeout = config.getInt(prefix_ + "redis.timeout",1000);
+			//jedisShardInfo.setSoTimeout(soTimeout);
 			list.add(jedisShardInfo);
 
 			ShardedJedisPool jedis = new ShardedJedisPool(redisCfg, list);
