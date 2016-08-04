@@ -21,6 +21,7 @@ public class TowerConfig {
         	InputStream is = TowerConfig.class.getResourceAsStream("/META-INF/tower.properties");
         	towerConfig.load(is);
         } catch (IOException e) {
+        	e.printStackTrace();
         }
         return towerConfig;
     }
