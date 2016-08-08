@@ -29,21 +29,23 @@ public class CacheVersionStack {
     public static void setTabInc(String id) {
     	Map<String,Integer> tabInc = tabIncs.get();
     	Map<String,CacheVersion> tabv = tabvs.get();
-    	if(tabInc.containsKey(id)){
+    	if(tabInc!=null && tabInc.containsKey(id)){
     		Integer cnt = tabInc.get(id);
     		tabInc.put(id, cnt++);
-    		if(tabv!=null){
-    			tabv.remove(id);
-    		}
     	}
+    	if(tabv!=null){
+			tabv.remove(id);
+		}
     }
     
     public static void setRecInc(String id) {
     	Map<String,Integer> recInc = recIncs.get();
     	Map<String,CacheVersion> tabv = tabvs.get();
-    	if(recInc.containsKey(id)){
+    	if(recInc!=null && recInc.containsKey(id)){
     		Integer cnt = recInc.get(id);
     		recInc.put(id, cnt++);
+    	}
+    	if(tabv!=null){
     		tabv.remove(id);
     	}
     }
