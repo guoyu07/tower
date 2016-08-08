@@ -235,8 +235,11 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 
 			long eft = cacheVersionDAO.incrObjTabVersion(
 					this.get$TowerTabName(tabNameSuffix), null);
-
-			CacheVersionStack.getTabvs().remove(key);
+			
+			Map<String,CacheVersion> tabvs = CacheVersionStack.getTabvs();
+			if(tabvs!=null){
+				tabvs.remove(key);
+			}
 
 			if (logger.isDebugEnabled()) {
 				logger.debug(
@@ -266,7 +269,11 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 		}
 		String key = this.get$TowerTabName(tabNameSuffix);
 		
-		CacheVersion tabv = CacheVersionStack.getTabvs().get(key);
+		CacheVersion tabv = null;
+		Map<String,CacheVersion> tabvs = CacheVersionStack.getTabvs();
+		if(tabvs!=null){
+			tabv = tabvs.get(key);
+		}
 		
 		if (tabv != null) {
 			return tabv.getTabVersion().longValue();
@@ -308,8 +315,10 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 		try {
 			long eft = cacheVersionDAO.incrObjRecVersion(
 					this.get$TowerTabName(tabNameSuffix), null);
-
-			CacheVersionStack.getTabvs().remove(key);
+			Map<String,CacheVersion> tabvs = CacheVersionStack.getTabvs();
+			if(tabvs!=null){
+				tabvs.remove(key);
+			}
 
 			if (logger.isDebugEnabled()) {
 				logger.debug(
@@ -337,8 +346,11 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 					"getRecVersion(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
 		}
 		String key = this.get$TowerTabName(tabNameSuffix);
-		
-		CacheVersion tabv = CacheVersionStack.getTabvs().get(key);
+		CacheVersion tabv = null;
+		Map<String,CacheVersion> tabvs = CacheVersionStack.getTabvs();
+		if(tabvs!=null){
+			tabv = tabvs.get(key);
+		}
 		
 		if (tabv != null) {
 			return tabv.getRecVersion().longValue();

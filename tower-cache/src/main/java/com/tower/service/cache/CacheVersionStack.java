@@ -27,24 +27,31 @@ public class CacheVersionStack {
     }
     
     public static void setTabInc(String id) {
-    	if(tabIncs.get().containsKey(id)){
-    		Integer cnt = tabIncs.get().get(id);
-    		tabIncs.get().put(id, cnt++);
-    		tabvs.get().remove(id);
+    	Map<String,Integer> tabInc = tabIncs.get();
+    	Map<String,CacheVersion> tabv = tabvs.get();
+    	if(tabInc.containsKey(id)){
+    		Integer cnt = tabInc.get(id);
+    		tabInc.put(id, cnt++);
+    		if(tabv!=null){
+    			tabv.remove(id);
+    		}
     	}
     }
     
     public static void setRecInc(String id) {
-    	if(recIncs.get().containsKey(id)){
-    		Integer cnt = recIncs.get().get(id);
-    		recIncs.get().put(id, cnt++);
-    		tabvs.get().remove(id);
+    	Map<String,Integer> recInc = recIncs.get();
+    	Map<String,CacheVersion> tabv = tabvs.get();
+    	if(recInc.containsKey(id)){
+    		Integer cnt = recInc.get(id);
+    		recInc.put(id, cnt++);
+    		tabv.remove(id);
     	}
     }
     
     public static void setTabv(String id,CacheVersion version) {
-    	if(!tabvs.get().containsKey(id)){
-    		tabvs.get().put(id, version);
+    	Map<String,CacheVersion> tabv = tabvs.get();
+    	if(tabv!=null && !tabv.containsKey(id)){
+    		tabv.put(id, version);
     	}
     }
     
