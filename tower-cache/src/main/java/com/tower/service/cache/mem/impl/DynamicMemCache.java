@@ -51,6 +51,11 @@ public class DynamicMemCache extends PrefixPriorityConfig
     
     @Resource(name="CacheConfig")
     private CacheConfig cacheConfig;
+	
+	public void setCacheConfig(CacheConfig cacheConfig) {
+		this.cacheConfig = cacheConfig;
+	}
+	
     @Override
     public boolean set(String key, Object item) {
 		if (logger.isDebugEnabled()) {

@@ -49,6 +49,10 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 	@Resource(name="CacheConfig")
 	private CacheConfig cacheConfig;
 	
+	public void setCacheConfig(CacheConfig cacheConfig) {
+		this.cacheConfig = cacheConfig;
+	}
+
 	@Override
 	@PostConstruct
 	public void init() {
