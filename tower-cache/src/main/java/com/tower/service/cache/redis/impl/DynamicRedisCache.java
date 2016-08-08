@@ -46,12 +46,6 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 	private boolean singled;
 
 	public static final String DEFAULT_CACHE_NAME = "defaultRedisCache";
-	@Resource(name="CacheConfig")
-	private CacheConfig cacheConfig;
-	
-	public void setCacheConfig(CacheConfig cacheConfig) {
-		this.cacheConfig = cacheConfig;
-	}
 
 	@Override
 	@PostConstruct
@@ -140,10 +134,7 @@ public class DynamicRedisCache extends PrefixPriorityConfig implements Cache,
 		}
 
 		String prefix_ = this.getPrefix();
-		boolean X$Cached = cacheConfig==null?true:cacheConfig.getBoolean(prefix_+"X-Cached", true);
-    	if(!X$Cached){
-    		return;
-    	}
+		
 		JedisPoolConfig redisCfg = new JedisPoolConfig();
 		redisCfg.setMaxTotal(config.getInt(prefix_ + "redis.maxTotal"));
 		redisCfg.setMinIdle(config.getInt(prefix_ + "redis.minIdle"));

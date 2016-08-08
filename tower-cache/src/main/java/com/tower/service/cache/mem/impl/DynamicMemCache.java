@@ -48,14 +48,7 @@ public class DynamicMemCache extends PrefixPriorityConfig
     public static final boolean DEFAULT_FAILBACK = true;
     public static final boolean DEFAULT_NAGLE_ALGORITHM = true;
     public static final int DEFAULT_HASHING_ALGORITHM = SockIOPool.CONSISTENT_HASH;
-    
-    @Resource(name="CacheConfig")
-    private CacheConfig cacheConfig;
-	
-	public void setCacheConfig(CacheConfig cacheConfig) {
-		this.cacheConfig = cacheConfig;
-	}
-	
+   
     @Override
     public boolean set(String key, Object item) {
 		if (logger.isDebugEnabled()) {
@@ -298,10 +291,7 @@ public class DynamicMemCache extends PrefixPriorityConfig
         String prefix_ = this.getPrefix();
 
         try {
-        	boolean X$Cached = cacheConfig==null?true:cacheConfig.getBoolean(prefix_+"X-Cached", true);
-        	if(!X$Cached){
-        		return;
-        	}
+        	
             String _sufix = DateUtil.format(new Date(), "yyyyMMddHHmmss");
             String poolName = prefix_ + _sufix;
             SockIOPool pool = SockIOPool.getInstance(poolName);
