@@ -165,6 +165,14 @@
  		<property name="dataSource" ref="#{artifactId}_db_map_query" />
  	</bean>
  	
+ 	<bean id="StatementHandlerPlugin" class="com.tower.service.dao.ibatis.StatementHandlerPlugin">
+ 		<property name="properties">
+            <props>
+                <prop key="prefix">#{artifactId}</prop>
+            </props>
+        </property>
+ 	</bean>
+ 	
  	<!-- enable the configuration of transactional behavior based on annotations -->
  	<!--
  	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

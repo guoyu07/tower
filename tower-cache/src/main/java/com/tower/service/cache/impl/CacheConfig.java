@@ -2,13 +2,13 @@ package com.tower.service.cache.impl;
 
 import org.springframework.stereotype.Component;
 
-import com.tower.service.config.DynamicConfig;
+import com.tower.service.config.PrefixPriorityConfig;
 import com.tower.service.config.dict.ConfigComponent;
 import com.tower.service.config.dict.ConfigFileDict;
 import com.tower.service.config.dict.ConfigFileTypeDict;
 
 @Component(ConfigComponent.CacheConfig)
-public class CacheConfig extends DynamicConfig{
+public class CacheConfig extends PrefixPriorityConfig{
     public CacheConfig(){
     }
     

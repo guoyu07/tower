@@ -101,7 +101,7 @@ public class StatementHandlerPlugin implements Interceptor {
 			sql = sb.toString().replaceAll("\n", " ").replaceAll("\t", " ")
 					.replaceAll("[\\s]+", " ");//格式化sql语句
 			String tmp = sql.toLowerCase().trim();
-			Boolean deletable = accConfig.getBoolean("deletable", false);
+			Boolean deletable = accConfig.getBoolean(properties==null?"deletable":properties.get("prefix")+".deletable", false);
 			if(!deletable && tmp.indexOf("delete ") == 0){//屏蔽删除操作
 				throw new DataAccessException(IBatisDAOException.MSG_1_0014,
 						sql);
@@ -118,8 +118,9 @@ public class StatementHandlerPlugin implements Interceptor {
 	public Object plugin(Object target) {
 		return Plugin.wrap(target, this);
 	}
-
+	private Properties properties;
 	public void setProperties(Properties properties) {
+		this.properties = properties;
 	}
 
 }
