@@ -94,7 +94,7 @@ public interface ICacheable<T> {
    * 新增纪录版本号：主键缓存&外键缓存失效
    * @param tabNameSuffix
    */
-  public long incrRecVersion(String tabNameSuffix);
+  public long incrRecVersion(int callFrom,String tabNameSuffix);
 
   /**
    * 主键缓存(pk)<br>
@@ -136,7 +136,7 @@ public interface ICacheable<T> {
    * 
    * @return 记录缓存版本号
    */
-  Long getRecVersion(String tabNameSuffix);
+  Long getRecVersion(int callFrom,String tabNameSuffix);
 
   /**
    * 新增表级版本号:当前表的外键缓存&表级缓存失效；
@@ -167,7 +167,7 @@ public interface ICacheable<T> {
    * 
    * @return 表缓存版本号
    */
-  Long getTabVersion(String tabNameSuffix);
+  Long getTabVersion(int callFrom,String tabNameSuffix);
 
   /**
    * threshold_for_delete_pk_by_where

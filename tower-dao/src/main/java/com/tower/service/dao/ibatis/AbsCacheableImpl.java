@@ -79,7 +79,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 		}
 
 		String returns = getTabVersionKey(tabNameSuffix) + "@TV"
-				+ this.getTabVersion(tabNameSuffix);
+				+ this.getTabVersion(ICacheable.CallFrom_TB,tabNameSuffix);
 
 		if (logger.isDebugEnabled()) {
 			logger.debug(
@@ -123,7 +123,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 		}
 
 		String returns = getRecVersionKey(tabNameSuffix) + "@RV"
-				+ this.getRecVersion(tabNameSuffix);
+				+ this.getRecVersion(ICacheable.CallFrom_PK,tabNameSuffix);
 
 		if (logger.isDebugEnabled()) {
 			logger.debug(
@@ -142,8 +142,8 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 		}
 
 		String returns = getRecVersionKey(tabNameSuffix) + "@RV"
-				+ this.getRecVersion(tabNameSuffix) + "@TV"
-				+ getTabVersion(tabNameSuffix);
+				+ this.getRecVersion(ICacheable.CallFrom_FK,tabNameSuffix) + "@TV"
+				+ getTabVersion(ICacheable.CallFrom_FK,tabNameSuffix);
 
 		if (logger.isDebugEnabled()) {
 			logger.debug(
@@ -207,7 +207,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 		/**
 		 * 改变记录版本号：主键缓存、外键缓存实效
 		 */
-		this.incrRecVersion(tabNameSuffix);
+		this.incrRecVersion(callFrom,tabNameSuffix);
 
 		if (logger.isDebugEnabled()) {
 			logger.debug(
@@ -223,11 +223,11 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 
 		if (callFrom == 1) {// 主键操作
 			if (!fkCacheable() && !tabCacheable()) {
-				return 0;
+				return 0l;
 			}
 		} else if (callFrom == 2 || callFrom == 3) {// 外键或者表级操作
 			if (!tabCacheable()) {
-				return 0;
+				return 0l;
 			}
 		}
 		String key = this.get$TowerTabName(tabNameSuffix);
@@ -262,7 +262,14 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 	 * 集合级缓存［表级、外键］版本号
 	 */
 	@Override
-	public Long getTabVersion(String tabNameSuffix) {
+	public Long getTabVersion(int callFrom,String tabNameSuffix) {
+		
+		if (callFrom == 2 && !fkCacheable()) {// 主键操作
+			return 0l;
+		} else if (callFrom == 3 && !tabCacheable()) {// 外键或者表级操作
+			return 0l;
+		}
+		
 		if (logger.isDebugEnabled()) {
 			logger.debug(
 					"getTabVersion(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
@@ -306,11 +313,16 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 	 * ［主键、外键］缓存版本号升级
 	 */
 	@Override
-	public long incrRecVersion(String tabNameSuffix) {
-
-		if (!fkCacheable() && !pkCacheable()) {
-			return 0;
+	public long incrRecVersion(int callFrom,String tabNameSuffix) {
+		
+		if (callFrom == 1 && !pkCacheable()) {// 主键操作
+			return 0l;
 		}
+		
+		if (callFrom == 2 && !fkCacheable()) {
+			return 0l;
+		}
+		
 		String key = this.get$TowerTabName(tabNameSuffix);
 		try {
 			long eft = cacheVersionDAO.incrObjRecVersion(
@@ -340,11 +352,21 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 	 * 记录［主键、外键］级缓存版本号
 	 */
 	@Override
-	public Long getRecVersion(String tabNameSuffix) {
+	public Long getRecVersion(int callFrom,String tabNameSuffix) {
+		
+		if (callFrom == 1 && !pkCacheable()) {// 主键操作
+			return 0l;
+		}
+		
+		if (callFrom == 2 && !fkCacheable()) {
+			return 0l;
+		}
+		
 		if (logger.isDebugEnabled()) {
 			logger.debug(
 					"getRecVersion(String tabNameSuffix={}) - start", tabNameSuffix); //$NON-NLS-1$
 		}
+		
 		String key = this.get$TowerTabName(tabNameSuffix);
 		CacheVersion tabv = null;
 		Map<String,CacheVersion> tabvs = CacheVersionStack.getTabvs();
@@ -400,7 +422,7 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 			 * >主键缓存数量超过threshold_for_delete_pk_by_where＝100值时， 更新recVersion版本号<br>
 			 * 当前表主键缓存、外键缓存实效
 			 */
-			incrRecVersion(tabNameSuffix);
+			incrRecVersion(callFrom,tabNameSuffix);
 		} else {
 			List<String> ids = queryIdsByMap(params, tabNameSuffix);
 			this.pkCacheEvict(ids, tabNameSuffix);
@@ -440,11 +462,13 @@ public abstract class AbsCacheableImpl<T extends IModel> implements
 	protected void addKey2FKGroupCache(String property, Object value,
 			final Map<String, Object> attchParams, final List<T> result,
 			String tabNameSuffix) {
+		if(!fkCacheable()){
+			return;
+		}
 		if (logger.isDebugEnabled()) {
 			logger.debug(
 					"addKey2FKGroupCache(String property={}, Object value={}, Map<String,Object> attchParams={}, List<T> result={}, String tabNameSuffix={}) - start", property, value, attchParams, result, tabNameSuffix); //$NON-NLS-1$
 		}
-
 		/**
 		 * 外键缓存keyPrefix TowerTabName+tabNameSuffix@Rn@RecVersion@TabVersion
 		 */
