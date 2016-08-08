@@ -60,7 +60,8 @@
 	     
 	  pubic void aa(Map param,String tabNameSuffix){
 	    
-	    SqlSession session = SqlmapUtils.openSession(getMapQueryDataSource());
+	    SqlSessionFactory sessionFactory = getSlaveSessionFactory();
+	    SqlSession session = SqlmapUtils.openSession(sessionFactory);
 	    try{
     	    IMapper<EccOrderinfo> mapper = session.getMapper(getMapperClass());
     	    Map params = new HashMap();
