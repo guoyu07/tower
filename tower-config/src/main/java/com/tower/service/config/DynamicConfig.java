@@ -102,7 +102,9 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 			tmp = new HashMap();
 		}
 		MapConfiguration config = new MapConfiguration(tmp);
+		config.setDelimiterParsingDisabled(isDelimiterParsingDisabled());
 		delegate = new SecutiryCompositeConfiguration(config);
+		((SecutiryCompositeConfiguration)delegate).setDelimiterParsingDisabled(isDelimiterParsingDisabled());
 		group.register(this);
 	}
 
