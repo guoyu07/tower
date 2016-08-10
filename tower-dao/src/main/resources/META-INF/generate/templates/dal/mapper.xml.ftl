@@ -158,40 +158,43 @@
 		<include refid="Where_Clause_Params_Extend" />
 	</sql>
 	<sql id="Where_Clause_Batch_Gen">
-		<foreach collection="list" item="item" index="index">
-			<if test="index == 0">
-				<#if tab.pkFieldNum==1>
-				<#list colMaps as col>
-				<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
-				<if test="item.id !=  null">
-					AND ${col.name} in 
-					<foreach collection="list" item="element" index="index" open= "(" close =")" separator=",">
+		
+			<#if tab.pkFieldNum==1>
+			<#list colMaps as col>
+			<#if tab.pkFieldNum==1 && col.isPK="yes" &&  (col.type.javaType="Integer" || col.type.javaType="Long" || col.type.javaType="Float" || col.type.javaType="Double" || col.type.javaType="java.math.BigInteger" || col.type.javaType="String")>
+			<if test="fields.id !=  null">
+				AND ${col.name} in 
+				<foreach collection="list" item="element" index="index" open= "(" close =")" separator=",">
+					<if test="element.id !=null">
 						${r"#{element.id"}${r"}"}
-					</foreach>
-				</if>
-				<#else>
-				<if test="${r"item."}${col.fieldName} !=  null">
-					AND ${col.name} in 
-					<foreach collection="list" item="element" index="index" open= "(" close =")" separator=",">
-						${r"#{element."}${col.fieldName}${r"}"}
-					</foreach>
-				</if>
-				</#if>			
-				</#list>
-				<#else>			
-				<#list colMaps as col>
-				<#if col.isPK="yes">
-				<if test="${r"item."}${col.fieldName} !=  null">
-					AND ${col.name} in 
-					<foreach collection="list" item="element" index="index" open= "(" close =")" separator=",">
-						${r"#{element."}${col.fieldName}${r"}"}
-					</foreach>
-				</if>
-				</#if>
-				</#list>
-				</#if>
+					</if>
+				</foreach>
 			</if>
-		</foreach>
+			<#else>
+			<if test="${r"fields."}${col.fieldName} !=  null">
+				AND ${col.name} in 
+				<foreach collection="list" item="element" index="index" open= "(" close =")" separator=",">
+					<if test="element.${col.fieldName} !=null">
+						${r"#{element."}${col.fieldName}${r"}"}
+					</if>
+				</foreach>
+			</if>
+			</#if>			
+			</#list>
+			<#else>			
+			<#list colMaps as col>
+			<#if col.isPK="yes">
+			<if test="${r"fields."}${col.fieldName} !=  null">
+				AND ${col.name} in 
+				<foreach collection="list" item="element" index="index" open= "(" close =")" separator=",">
+					<if test="element.${col.fieldName} !=null">
+						${r"#{element."}${col.fieldName}${r"}"}
+					</if>
+				</foreach>
+			</if>
+			</#if>
+			</#list>
+			</#if>
 	</sql>
 	
 	<select id="queryById" parameterType="java.util.Map" resultMap="BaseResultMap">

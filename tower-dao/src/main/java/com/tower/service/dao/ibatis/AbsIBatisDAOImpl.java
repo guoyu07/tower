@@ -934,7 +934,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		validate(datas);
 
 		Map<String, Object> params = new HashMap<String, Object>();
-
+		params.put("fields", merge(datas));
 		params.put("list", datas);
 		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 
@@ -972,7 +972,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		validate(datas);
 
 		Map<String, Object> params = new HashMap<String, Object>();
-
+		params.put("fields", merge(datas));
 		params.put("list", datas);
 		params.put("newObj", new_);
 		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
@@ -1016,7 +1016,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		validate(datas);
 
 		Map<String, Object> params = new HashMap<String, Object>();
-
+		params.put("fields", merge(datas));
 		params.put("list", datas);
 		params.put("TowerTabName", this.get$TowerTabName(tabNameSuffix));
 		
@@ -1092,4 +1092,24 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	public String serializable(Map<String,Object> params){
 		return new TreeMap<String,Object>(params).toString();
 	}
+	
+	protected Map<String,Object> merge(List<Map<String,Object>> list){
+    	Map<String,Object> map = new HashMap<String,Object>();
+    	int size = list.size();
+    	for(int i=0;i<size;i++){
+    		Map<String,Object> tmp = list.get(i);
+    		int tsize = tmp.size();
+    		if(tsize>0){
+    			String[] tarray = new String[tsize];
+        		tmp.keySet().toArray(tarray);
+        		for(int j=0;j<tsize;j++){
+        			String tmpKey = tarray[j];
+        			if(tmp.get(tmpKey)!=null && !map.containsKey(tmpKey)){
+        				map.put(tmpKey, 0);
+        			}
+        		}
+    		}
+    	}
+    	return map;
+    }
 }
