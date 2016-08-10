@@ -92,7 +92,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	}
 
 	@CacheEvict(value = "defaultCache", key = TabCacheKeyPrefixExpress
-			+ ".concat('@').concat(#root.target.serializable(#params))", condition = "#root.target.cacheable()")
+			+ ".concat('@').concat(#root.target.serializable(#params))", condition = "#root.target.tabCacheable()")
 	@Override
 	public Integer deleteByMap(Map<String, Object> params, String tabNameSuffix) {
 		if (logger.isDebugEnabled()) {
@@ -128,7 +128,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	}
 
 	@CacheEvict(value = "defaultCache", key = TabCacheKeyPrefixExpress
-			+ ".concat('@').concat(#root.target.serializable(#cond))", condition = "#root.target.cacheable()")
+			+ ".concat('@').concat(#root.target.serializable(#cond))", condition = "#root.target.tabCacheable()")
 	@Override
 	public Integer updateByMap(Map<String, Object> newValue,
 			Map<String, Object> cond, String tabNameSuffix) {
@@ -174,7 +174,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 	@CacheOpParams(time = ONE_DAY)
 	@Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
-			+ ".concat('@').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "#root.target.tabCacheable() and #root.target.enable()")
+			+ ".concat('@').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "#root.target.tabCacheable()")
 	@Override
 	public List<T> queryByMap(Map<String, Object> params, String tabNameSuffix) {
 		if (logger.isDebugEnabled()) {
@@ -209,7 +209,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 	@CacheOpParams(time = ONE_DAY)
 	@Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
-			+ ".concat('@').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "#root.target.tabCacheable() and #root.target.enable()")
+			+ ".concat('@').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "#root.target.tabCacheable()")
 	@Override
 	public List<T> queryByMap(Map<String, Object> params, String orders,
 			String tabNameSuffix) {
@@ -247,7 +247,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 	@CacheOpParams(time = ONE_DAY)
 	@Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
-			+ ".concat('@').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "#root.target.tabCacheable() and #root.target.enable()")
+			+ ".concat('@').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "#root.target.tabCacheable()")
 	@Override
 	public List<String> queryIdsByMap(Map<String, Object> params,
 			String tabNameSuffix) {
@@ -281,7 +281,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 	@CacheOpParams(time = ONE_DAY)
 	@Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
-			+ ".concat('@').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "#root.target.tabCacheable() and #root.target.enable()")
+			+ ".concat('@').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "#root.target.tabCacheable()")
 	@Override
 	public List<String> queryIdsByMap(Map<String, Object> params,
 			String orders, String tabNameSuffix) {
@@ -317,7 +317,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 	@CacheOpParams(time = ONE_DAY)
 	@Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
-			+ ".concat('@').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "!#master and #root.target.tabCacheable() and #root.target.enable()")
+			+ ".concat('@').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "!#master and #root.target.tabCacheable()")
 	@Override
 	public List queryIdsByMap(Map<String, Object> params, Boolean master,
 			String tabNameSuffix) {
@@ -353,7 +353,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 	@CacheOpParams(time = ONE_DAY)
 	@Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
-			+ ".concat('@').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "!#master and #root.target.tabCacheable() and #root.target.enable()")
+			+ ".concat('@').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "!#master and #root.target.tabCacheable()")
 	@Override
 	public List queryIdsByMap(Map<String, Object> params, String orders,
 			Boolean master, String tabNameSuffix) {
@@ -391,7 +391,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 	@CacheOpParams(time = ONE_DAY)
 	@Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
-			+ ".concat('@').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "!#master and #root.target.tabCacheable() and #root.target.enable()")
+			+ ".concat('@').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "!#master and #root.target.tabCacheable()")
 	@Override
 	public List<T> queryByMap(Map<String, Object> params, Boolean master,
 			String tabNameSuffix) {
@@ -428,7 +428,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 	@CacheOpParams(time = ONE_DAY)
 	@Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
-			+ ".concat('@').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "!#master and #root.target.tabCacheable() and #root.target.enable()")
+			+ ".concat('@').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "!#master and #root.target.tabCacheable()")
 	@Override
 	public List<T> queryByMap(Map<String, Object> params, String orders,
 			Boolean master, String tabNameSuffix) {
@@ -468,7 +468,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 	@CacheOpParams(time = ONE_DAY)
 	@Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
-			+ ".concat('@').concat('cnt:').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "#root.target.tabCacheable() and #root.target.enable()")
+			+ ".concat('@').concat('cnt:').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "#root.target.tabCacheable()")
 	@Override
 	public Integer countByMap(Map<String, Object> params, String tabNameSuffix) {
 		if (logger.isDebugEnabled()) {
@@ -502,7 +502,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 	@CacheOpParams(time = ONE_DAY)
 	@Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
-			+ ".concat('@').concat('cnt:').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "!#master and #root.target.tabCacheable() and #root.target.enable()")
+			+ ".concat('@').concat('cnt:').concat(#root.target.serializable(#params))", unless = "#result == null", condition = "!#master and #root.target.tabCacheable()")
 	@Override
 	public Integer countByMap(Map<String, Object> params, Boolean master,
 			String tabNameSuffix) {
@@ -538,7 +538,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 	@CacheOpParams(time = ONE_DAY)
 	@Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
-			+ ".concat('@').concat('page:').concat(#root.target.serializable(#params)).concat('@').concat(#page).concat('@').concat(#size)", unless = "#result == null", condition = "#root.target.tabCacheable() and #root.target.enable()")
+			+ ".concat('@').concat('page:').concat(#root.target.serializable(#params)).concat('@').concat(#page).concat('@').concat(#size)", unless = "#result == null", condition = "#root.target.tabCacheable()")
 	@Override
 	public List<T> pageQuery(Map<String, Object> params, int page, int size,
 			String tabNameSuffix) {
@@ -577,7 +577,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 	@CacheOpParams(time = ONE_DAY)
 	@Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
-			+ ".concat('@').concat('page:').concat(#root.target.serializable(#params)).concat('@').concat(#page).concat('@').concat(#size)", unless = "#result == null", condition = "!#master and #root.target.tabCacheable() and #root.target.enable()")
+			+ ".concat('@').concat('page:').concat(#root.target.serializable(#params)).concat('@').concat(#page).concat('@').concat(#size)", unless = "#result == null", condition = "!#master and #root.target.tabCacheable()")
 	public List<T> pageQuery(Map<String, Object> params, int page, int size,
 			Boolean master, String tabNameSuffix) {
 		if (logger.isDebugEnabled()) {
@@ -617,7 +617,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 	@CacheOpParams(time = ONE_DAY)
 	@Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
-			+ ".concat('@').concat('page:').concat(#root.target.serializable(#params)).concat('@').concat(#page).concat('@').concat(#size).concat('@').concat(#orders)", unless = "#result == null", condition = "#root.target.tabCacheable() and #root.target.enable()")
+			+ ".concat('@').concat('page:').concat(#root.target.serializable(#params)).concat('@').concat(#page).concat('@').concat(#size).concat('@').concat(#orders)", unless = "#result == null", condition = "#root.target.tabCacheable()")
 	@Override
 	public List<T> pageQuery(Map<String, Object> params, int page, int size,
 			String orders, String tabNameSuffix) {
@@ -658,7 +658,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 
 	@CacheOpParams(time = ONE_DAY)
 	@Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
-			+ ".concat('@').concat('page:').concat(#root.target.serializable(#params)).concat('@').concat(#page).concat('@').concat(#size).concat('@').concat(#orders)", unless = "#result == null", condition = "!#master and #root.target.tabCacheable() and #root.target.enable()")
+			+ ".concat('@').concat('page:').concat(#root.target.serializable(#params)).concat('@').concat(#page).concat('@').concat(#size).concat('@').concat(#orders)", unless = "#result == null", condition = "!#master and #root.target.tabCacheable()")
 	@Override
 	public List<T> pageQuery(Map<String, Object> params, int page, int size,
 			String orders, Boolean master, String tabNameSuffix) {

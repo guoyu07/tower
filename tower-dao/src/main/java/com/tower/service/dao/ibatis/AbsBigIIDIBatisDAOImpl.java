@@ -105,7 +105,7 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 		}
 	}
 
-	@Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.pkCacheable() and #root.target.enable()")
+	@Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "#root.target.pkCacheable()")
 	@Override
 	public T queryById(BigInteger id, String tabNameSuffix) {
 		if (logger.isDebugEnabled()) {
@@ -123,7 +123,7 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 
 	}
 
-	@Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.pkCacheable() and #root.target.enable()")
+	@Cacheable(value = "defaultCache", key = PkCacheKeyPrefixExpress + "", unless = "#result == null", condition = "!#master and #root.target.pkCacheable()")
 	@Override
 	public T queryById(BigInteger id, Boolean master, String tabNameSuffix) {
 		if (logger.isDebugEnabled()) {
