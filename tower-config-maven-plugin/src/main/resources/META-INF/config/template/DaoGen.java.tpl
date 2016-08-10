@@ -16,6 +16,7 @@ public class DaoGen {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        System.exit(1);//建议不要修改
     }
 
 }

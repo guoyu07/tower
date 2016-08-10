@@ -56,6 +56,7 @@ public class ServiceGen {
         	new IDtoGen(genPair(model),pkgName, model,Domain_Project_Path);//生成dto，建议不要修改
         	new IServiceGen(pkType, pkgName, model,Service_Project_Path);//生成iservice，建议不要修改
         	new ServiceImplGen(pkType, pkgName, model,Service_Impl_Project_Path);//生成serviceimpl，建议不要修改
+        	System.exit(1);//建议不要修改
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
