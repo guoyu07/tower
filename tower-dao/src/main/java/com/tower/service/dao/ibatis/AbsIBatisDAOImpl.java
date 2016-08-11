@@ -878,7 +878,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 			logger.debug("validateCols(List<String>) - start"); //$NON-NLS-1$
 		}
 
-		if (cols == null) {
+		if (cols == null||cols.size()==0) {
 			throw new DataAccessException(IBatisDAOException.MSG_1_0012);
 		}
 		int len = cols == null ? 0 : cols.size();
@@ -1114,10 +1114,7 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
         			if(tmp.get(tmpKey)!=null && !map.containsKey(tmpKey)){
         				map.put(tmpKey, 0);
         			}
-        			if(!map.containsKey(tmpKey)){
-        				map.put(tmpKey, 0);
-        			}
-        			else{
+        			else if(tmp.get(tmpKey)!=null && map.containsKey(tmpKey)){
         				map.put(tmpKey, ((Integer)map.get(tmpKey))+1);
         			}
         		}
@@ -1125,4 +1122,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
     	}
     	return map;
     }
+	
+	protected void validate(String[] cols){
+		if (cols == null || cols.length==0) {
+			throw new DataAccessException(IBatisDAOException.MSG_1_0012);
+		}
+	}
 }

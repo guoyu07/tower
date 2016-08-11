@@ -1,6 +1,7 @@
 package com.tower.service.dao.ibatis;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,14 +44,21 @@ public abstract class AbsIntIDIBatisDAOImpl<T extends IModel> extends
 		if (logger.isDebugEnabled()) {
 			logger.debug("batchInsert(List<Map<String,Object>>, String) - start"); //$NON-NLS-1$
 		}
-
-		Integer[] returnIntegerArray = batchInsert(null, datas, tabNameSuffix);
+		validate(datas);
+		Map<String,Object> cols = this.merge(datas);
+		Integer[] returnIntegerArray = batchInsert(new ArrayList(cols.keySet()), datas, tabNameSuffix);
 		if (logger.isDebugEnabled()) {
 			logger.debug("batchInsert(List<Map<String,Object>>, String) - end"); //$NON-NLS-1$
 		}
 		return returnIntegerArray;
 	}
 
+	@Override
+	public Integer[] batchInsert(String[] cols,List<Map<String,Object>> datas, String tabNameSuffix){
+		validate(cols);
+		return batchInsert(Arrays.asList(cols), datas, tabNameSuffix);
+	}
+	
 	@Override
 	public Integer[] batchInsert(List<String> cols,
 			List<Map<String, Object>> datas, String tabNameSuffix) {

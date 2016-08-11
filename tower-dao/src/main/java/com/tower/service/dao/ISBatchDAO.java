@@ -1,5 +1,6 @@
 package com.tower.service.dao;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
@@ -30,5 +31,14 @@ public interface ISBatchDAO<T> extends IBatchDAO<T>{
 	   * @return
 	   */
 	  public Integer batchInsert(List<String> cols,List<Map<String,Object>> datas, String tabNameSuffix);
+	  
+	  /**
+	   * 
+	   * @param cols
+	   * @param datas
+	   * @param tabNameSuffix
+	   * @return
+	   */
+	  public Integer batchInsert(String[] cols,List<Map<String,Object>> datas, String tabNameSuffix);
   
 }

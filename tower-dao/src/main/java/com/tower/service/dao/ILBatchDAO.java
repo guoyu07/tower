@@ -30,5 +30,14 @@ public interface ILBatchDAO<T> extends IBatchDAO<T>{
 	   * @return
 	   */
 	  public Long[] batchInsert(List<String> cols,List<Map<String,Object>> datas, String tabNameSuffix);
+	  
+	  /**
+	   * 
+	   * @param cols
+	   * @param datas
+	   * @param tabNameSuffix
+	   * @return
+	   */
+	  public Long[] batchInsert(String[] cols,List<Map<String,Object>> datas, String tabNameSuffix);
   
 }

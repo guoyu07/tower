@@ -2,6 +2,7 @@ package com.tower.service.dao.ibatis;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,15 +46,22 @@ public abstract class AbsBigIIDIBatisDAOImpl<T extends IModel> extends
 		if (logger.isDebugEnabled()) {
 			logger.debug("batchInsert(List<Map<String,Object>>, String) - start"); //$NON-NLS-1$
 		}
-
-		BigInteger[] returnBigIntegerArray = batchInsert(null, datas,
+		validate(datas);
+		Map<String,Object> cols = this.merge(datas);
+		BigInteger[] returnBigIntegerArray = batchInsert(new ArrayList(cols.keySet()), datas,
 				tabNameSuffix);
 		if (logger.isDebugEnabled()) {
 			logger.debug("batchInsert(List<Map<String,Object>>, String) - end"); //$NON-NLS-1$
 		}
 		return returnBigIntegerArray;
 	}
-
+	
+	@Override
+	public BigInteger[] batchInsert(String[] cols,List<Map<String,Object>> datas, String tabNameSuffix){
+		validate(cols);
+		return batchInsert(Arrays.asList(cols), datas, tabNameSuffix);
+	}
+	
 	@Override
 	public BigInteger[] batchInsert(List<String> cols,
 			List<Map<String, Object>> datas, String tabNameSuffix) {

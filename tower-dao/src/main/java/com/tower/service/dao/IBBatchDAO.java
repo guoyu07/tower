@@ -31,5 +31,14 @@ public interface IBBatchDAO<T> extends IBatchDAO<T>{
 	   * @return
 	   */
 	  public BigInteger[] batchInsert(List<String> cols,List<Map<String,Object>> datas, String tabNameSuffix);
+	  
+	  /**
+	   * 
+	   * @param cols
+	   * @param datas
+	   * @param tabNameSuffix
+	   * @return
+	   */
+	  public BigInteger[] batchInsert(String[] cols,List<Map<String,Object>> datas, String tabNameSuffix);
   
 }
