@@ -23,8 +23,9 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `soa_cache_version`;
 CREATE TABLE `soa_cache_version` (
   `obj_name` varchar(32) DEFAULT NULL,
-  `rec_version` bigint(20) NOT NULL,
-  `tab_version` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `rec_version` bigint(20) NOT NULL DEFAULT '0',
+  `tab_version` bigint(20) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`obj_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 SET FOREIGN_KEY_CHECKS = 1;

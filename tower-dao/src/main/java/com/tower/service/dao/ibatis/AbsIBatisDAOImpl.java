@@ -923,7 +923,10 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 		}
 		return cols;
 	}
-
+	
+//	@CacheOpParams(time = ONE_DAY)
+//	@Cacheable(value = "defaultCache", key = TabCacheKeyPrefixExpress
+//			+ ".concat('@').concat('batch:').concat(#root.target.serializable(#datas))", unless = "#result == null", condition = "!#master and #root.target.tabCacheable()")
 	@Override
 	public List<T> batchQuery(List<Map<String, Object>> datas,
 			String tabNameSuffix) {
@@ -1092,7 +1095,11 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
 	public String serializable(Map<String,Object> params){
 		return new TreeMap<String,Object>(params).toString();
 	}
-	
+	/**
+	 * 合并list 中的非空字段［其对应value曾经有非空的字段］列表
+	 * @param list
+	 * @return
+	 */
 	protected Map<String,Object> merge(List<Map<String,Object>> list){
     	Map<String,Object> map = new HashMap<String,Object>();
     	int size = list.size();
@@ -1106,6 +1113,12 @@ public abstract class AbsIBatisDAOImpl<T extends IModel> extends
         			String tmpKey = tarray[j];
         			if(tmp.get(tmpKey)!=null && !map.containsKey(tmpKey)){
         				map.put(tmpKey, 0);
+        			}
+        			if(!map.containsKey(tmpKey)){
+        				map.put(tmpKey, 0);
+        			}
+        			else{
+        				map.put(tmpKey, ((Integer)map.get(tmpKey))+1);
         			}
         		}
     		}
