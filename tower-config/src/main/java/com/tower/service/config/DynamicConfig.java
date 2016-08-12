@@ -110,7 +110,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
 	public boolean isZookeeper(){
 		return Boolean.valueOf(System.getProperty("config.store.type", "false"));
 	}
-	private String classpath="META-INF/config/local";
+	private String classpath="META-INF"+File.separator+"config"+File.separator+"local";
 	
 	public String getClasspath() {
 		return classpath;
