@@ -134,7 +134,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
                 logger.info("成功加载file配置：" + file);
             }
         } catch (Exception ex) {
-            logger.info("配置文件'" + file + "'没有找到");
+            logger.info("加载配置文件'" + file + "'出错："+ex.getMessage());
         }
         if (!StringUtil.isEmpty(getProfile())) {
             try {
@@ -146,7 +146,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
                     logger.info("成功加载file配置：" + file);
                 }
             } catch (Exception ex) {
-                logger.info("配置文件'" + file + "'没有找到");
+                logger.info("加载配置文件'" + file + "'出错："+ex.getMessage());
             }
         }
         /**
@@ -160,7 +160,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
                 logger.info("成功加载file配置：" + file);
             }
         } catch (Exception ex) {
-            logger.info("配置文件'" + file + "'没有找到");
+            logger.info("加载配置文件'" + file + "'出错："+ex.getMessage());
         }
         if (!StringUtil.isEmpty(getProfile())) {
             try {
@@ -171,7 +171,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
                     logger.info("成功加载file配置：" + file);
                 }
             } catch (Exception ex) {
-                logger.info("配置文件'" + file + "'没有找到");
+                logger.info("加载配置文件'" + file + "'出错："+ex.getMessage());
             }
         }
         /**
@@ -221,7 +221,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
                     logger.info("成功加载file配置：" + file);
                 }
             } catch (Exception ex) {
-                logger.info("配置文件'" + file + "'没有找到");
+                logger.info("加载配置文件'" + file + "'出错："+ex.getMessage());
             }
             if (!StringUtil.isEmpty(getProfile())) {
                 try {
@@ -235,7 +235,7 @@ public class DynamicConfig implements ConfigFileDict, Constants, Configuration,
                     }
 
                 } catch (Exception ex) {
-                    logger.info("配置文件'" + file + "'没有找到");
+                    logger.info("加载配置文件'" + file + "'出错："+ex.getMessage());
                 }
             }
             /**
