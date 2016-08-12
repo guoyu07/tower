@@ -45,11 +45,16 @@ public class ConfigurationFactoryBean implements InitializingBean, FactoryBean<C
         config.setFileName(_name);
         config.setType(type);
         config.setEncoding(encoding);
+        config.setClasspath(classpath);
         config.init();
         configuration = config;
     }
-    
-   
+
+    private String classpath = "META-INF/config/local/";
+
+    public void setClasspath(String classpath) {
+        this.classpath = classpath;
+    }
 
     public void setName(String value) {
         _name = value;
