@@ -20,14 +20,13 @@
 + 配置maven配置文件settings.xml
 <p>详细配置信息</p>
 ```
-	<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
 	<!-- <localRepository>D:\.m2\repository</localRepository> -->
 
 	<pluginGroups>
-		<pluginGroup>com.kjt.service.common</pluginGroup>
 		<pluginGroup>com.tower.soafw</pluginGroup>
 	</pluginGroups>
 
@@ -54,46 +53,67 @@
 
 	<mirrors>
 		<mirror>
-	  		<id>CN</id>
-	  	  	<name>OSChina Central</name>
-	  	  	<url>http://maven.oschina.net/content/groups/public/</url>
-	  	  	<mirrorOf>central</mirrorOf>
-	  	</mirror>
-		<mirror>
 			<id>UK</id>
 			<name>UK Center</name>
 			<url>http://uk.maven.org/maven2</url>
-			<mirrorOf>center</mirrorOf>
+			<mirrorOf>central</mirrorOf>
 		</mirror>
 		<mirror>
 			<id>US Central</id>
-			<name>Center</name>
+			<name>US Center</name>
 			<url>http://repo1.maven.org/maven2</url>
-			<mirrorOf>center</mirrorOf>
+			<mirrorOf>central</mirrorOf>
+		</mirror>
+		<mirror>
+			<id>maven2</id>
+			<name>maven2 Center</name>
+			<url>http://central.maven.org/maven2</url>
+			<mirrorOf>central</mirrorOf>
 		</mirror>
 	</mirrors>
 
 	<profiles>
-		<!--class 编译 信息-->
 		<profile>
-      			<id>jdk-1.8</id>
-      			<activation>
+				<id>jdk-1.7</id>
+				<activation>
 				<activeByDefault>true</activeByDefault>
-        			<jdk>1.8</jdk>
-      			</activation>
-      			<properties>  
-        			<maven.compiler.source>1.7</maven.compiler.source>  
-        			<maven.compiler.target>1.7</maven.compiler.target>  
-        			<maven.compiler.compilerVersion>1.7</maven.compiler.compilerVersion>  
-    			</properties>
-    	</profile>
+					<jdk>1.7</jdk>
+				</activation>
+				<properties>
+					<maven.compiler.source>1.7</maven.compiler.source>
+					<maven.compiler.target>1.7</maven.compiler.target>
+					<maven.compiler.compilerVersion>1.7</maven.compiler.compilerVersion>
+				</properties>
+			</profile>
 		<profile>
 			<id>nexus</id>
 			<repositories>
 				<repository>
-					<id>nexus</id>
-					<name>Nexus</name>
-					<url>http://maven.corp.tower.com:8081/nexus/content/groups/public/</url>
+					<id>central</id>
+					<name>central</name>
+					<url>http://mvn.leya.com/content/repositories/central/</url>
+					<releases>
+							<enabled>true</enabled>
+					</releases>
+					<snapshots>
+							<enabled>true</enabled>
+					</snapshots>
+				</repository>
+				<repository>
+					<id>releases</id>
+					<name>releases</name>
+					<url>http://mvn.leya.com/content/repositories/releases</url>
+					<releases>
+							<enabled>true</enabled>
+					</releases>
+					<snapshots>
+							<enabled>true</enabled>
+					</snapshots>
+				</repository>
+				<repository>
+					<id>public</id>
+					<name>public</name>
+					<url>http://mvn.leya.com/content/groups/public/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
@@ -101,17 +121,50 @@
 						<enabled>true</enabled>
 					</snapshots>
 				</repository>
+				<repository>
+					<id>thirdparty</id>
+					<name>thirdparty</name>
+					<url>http://mvn.leya.com/content/repositories/thirdparty/</url>
+					<releases>
+							<enabled>true</enabled>
+					</releases>
+					<snapshots>
+							<enabled>true</enabled>
+					</snapshots>
+				</repository>
+				<repository>
+					<id>snapshots</id>
+					<name>snapshots</name>
+					<url>http://mvn.leya.com/content/repositories/snapshots/</url>
+					<releases>
+							<enabled>true</enabled>
+					</releases>
+					<snapshots>
+							<enabled>true</enabled>
+					</snapshots>
+				</repository>
 			</repositories>
 			<pluginRepositories>
 				<pluginRepository>
 					<id>nexus</id>
 					<name>Nexus</name>
-					<url>http://maven.corp.tower.com:8081/nexus/content/groups/public/</url>
+					<url>http://mvn.leya.com/content/groups/public/</url>
 					<releases>
 						<enabled>true</enabled>
 					</releases>
 					<snapshots>
 						<enabled>true</enabled>
+					</snapshots>
+				</pluginRepository>
+				<pluginRepository>
+					<id>thirdparty</id>
+					<name>thirdparty</name>
+					<url>http://mvn.leya.com/content/repositories/thirdparty/</url>
+					<releases>
+							<enabled>true</enabled>
+					</releases>
+					<snapshots>
+							<enabled>true</enabled>
 					</snapshots>
 				</pluginRepository>
 			</pluginRepositories>
