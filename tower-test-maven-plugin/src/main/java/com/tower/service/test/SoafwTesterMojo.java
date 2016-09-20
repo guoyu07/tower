@@ -66,9 +66,25 @@ public class SoafwTesterMojo extends AbstractMojo {
 	private ClassLoader cl = null;
 	private String basedPath = null;
 
+	/**
+     * 开启／关闭单元测试类生成
+     * @parameter property="test.gen.skip"
+     */
+    private String test_gen_skip="false";
+    /**
+     * 配置文件开关
+     * @parameter property="config"
+     */
+    private boolean config=false;
+    /**
+     * 配置文件
+     * @parameter property="configFileLocations"
+     */
+    private String configFileLocations="classpath*:/META-INF/config/spring/spring-service.xml";
+    
 	public void execute() throws MojoExecutionException {
 
-		String flg = System.getProperty("soafw.tester.gen", "false");
+		String flg = test_gen_skip;
 
 		this.getLog().info("" + this.getPluginContext());
 		project = (MavenProject) getPluginContext().get("project");
@@ -78,8 +94,8 @@ public class SoafwTesterMojo extends AbstractMojo {
 		basedPath = basedir.getAbsolutePath();
 		artifactId = project.getArtifactId();
 
-		if ("false".equalsIgnoreCase(flg)) {
-			this.getLog().info("soafw.tester.gen: " + artifactId);
+		if ("true".equalsIgnoreCase(flg)) {
+			this.getLog().info("test.gen.skip: " + artifactId);
 			return;
 		}
 
@@ -573,30 +589,35 @@ public class SoafwTesterMojo extends AbstractMojo {
 		jHeadBuf.append("import com.tower.service.annotation.SoaFwTest;\n");
 		jHeadBuf.append("@RunWith(SpringJUnit4ClassRunner.class)\n");
 		String name = project.getName();
-		String suffix = "dao";
-		if (name.endsWith("-common")) {
-			suffix = "common";
-		} else if (name.endsWith("-config")) {
-			suffix = "config";
-		} else if (name.endsWith("-cache")) {
-			suffix = "cache";
-		} else if (name.endsWith("-dao")) {
-			suffix = "dao";
-		} else if (name.endsWith("-mq")) {
-			suffix = "mq";
-		} else if (name.endsWith("-rpc")) {
-			suffix = "rpc";
-		} else if (name.endsWith("-job")) {
-			suffix = "job";
-		} else if (name.endsWith("-web")) {
-			suffix = "dubbo";
-		} else if (name.endsWith("-domain") || name.endsWith("-service")
-				|| name.endsWith("-service-impl")) {
-			suffix = "service";
+		
+		if(config){
+			jHeadBuf.append("@ContextConfiguration( locations = { \""+configFileLocations+"\"})\n");
 		}
-
-		jHeadBuf.append("@ContextConfiguration( locations = { \"classpath*:/META-INF/config/spring/spring-"
-				+ suffix + ".xml\"})\n");
+		else{
+			String suffix = "dao";
+			if (name.endsWith("-common")) {
+				suffix = "common";
+			} else if (name.endsWith("-config")) {
+				suffix = "config";
+			} else if (name.endsWith("-cache")) {
+				suffix = "cache";
+			} else if (name.endsWith("-dao")) {
+				suffix = "dao";
+			} else if (name.endsWith("-mq")) {
+				suffix = "mq";
+			} else if (name.endsWith("-rpc")) {
+				suffix = "rpc";
+			} else if (name.endsWith("-job")) {
+				suffix = "job";
+			} else if (name.endsWith("-web")) {
+				suffix = "dubbo";
+			} else if (name.endsWith("-domain") || name.endsWith("-service")
+					|| name.endsWith("-service-impl")) {
+				suffix = "service";
+			}
+			jHeadBuf.append("@ContextConfiguration( locations = { \"classpath*:/META-INF/config/spring/spring-"
+	                + suffix + ".xml\"})\n");
+		}
 
 		jHeadBuf.append("public class " + cls.getSimpleName() + "Test {\n");
 		return jHeadBuf;

@@ -78,6 +78,7 @@
 	</properties>
 
 	<modules>
+		<module>tower-annotation</module>
 		<module>tower-util</module>
 		<module>tower-log</module>
 		<module>tower-config</module>
@@ -101,6 +102,11 @@
 	<dependencyManagement>
 		<dependencies>
 			<!-- -->
+			<dependency>
+				<groupId>com.tower.soafw</groupId>
+				<artifactId>tower-annotation</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>com.tower.soafw</groupId>
 				<artifactId>tower-util</artifactId>
@@ -491,12 +497,12 @@
 	<distributionManagement>
 		<repository>
 			<id>nexus-releases</id>
-			<url>http://mvn.leya.com/content/repositories/releases</url>
+			<url>http://maven.corp.tower.com:8082/nexus/content/repositories/releases</url>
 		</repository>
 
 		<snapshotRepository>
 			<id>nexus-snapshots</id>
-			<url>http://mvn.leya.com/content/repositories/snapshots</url>
+			<url>http://maven.corp.tower.com:8082/nexus/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 	<name>tower</name>

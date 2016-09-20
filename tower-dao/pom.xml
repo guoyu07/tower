@@ -18,6 +18,10 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.tower.soafw</groupId>
+			<artifactId>tower-annotation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.tower.soafw</groupId>
 			<artifactId>tower-cache</artifactId>
 		</dependency>
 
