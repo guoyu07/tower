@@ -526,7 +526,7 @@
 						<goals>
 							<goal>gen</goal>
 						</goals>
-						<phase>generate-sources</phase>
+						<phase>process-test-classes</phase>
 					</execution>
 				</executions>
 			</plugin>

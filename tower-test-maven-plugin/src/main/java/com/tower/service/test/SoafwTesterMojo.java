@@ -81,7 +81,16 @@ public class SoafwTesterMojo extends AbstractMojo {
      * @parameter property="configFileLocations"
      */
     private String configFileLocations="classpath*:/META-INF/config/spring/spring-service.xml";
-    
+    /**
+     * 配置文件
+     * @parameter property="classpath"
+     */
+    private String classpath="target" + File.separator + "classes";
+    /**
+     * 配置文件
+     * @parameter property="testClasspath"
+     */
+    private String testClasspath="target" + File.separator + "test-classes";
 	public void execute() throws MojoExecutionException {
 
 		String flg = test_gen_skip;
@@ -93,7 +102,7 @@ public class SoafwTesterMojo extends AbstractMojo {
 		File basedir = project.getBasedir();
 		basedPath = basedir.getAbsolutePath();
 		artifactId = project.getArtifactId();
-
+		this.getLog().info("basedPath:"+basedPath);
 		if ("true".equalsIgnoreCase(flg)) {
 			this.getLog().info("test.gen.skip: " + artifactId);
 			return;
@@ -103,35 +112,37 @@ public class SoafwTesterMojo extends AbstractMojo {
 
 		try {
 			List<String> classpaths = project.getCompileClasspathElements();
-			URL[] runtimeUrls = new URL[classpaths.size() + 1];
+			List<String> testClasspaths = project.getTestClasspathElements();
+			URL[] runtimeUrls = new URL[classpaths.size() + testClasspaths.size()];
 			for (int i = 0; i < classpaths.size(); i++) {
 				String classpath = (String) classpaths.get(i);
 				runtimeUrls[i] = new File(classpath).toURI().toURL();
 			}
+			for(int i=0;i<testClasspaths.size();i++){
+				String classpath = (String) testClasspaths.get(i);
+				runtimeUrls[classpaths.size()+i] = new File(classpath).toURI().toURL();
+			}
 			// 单元测试用例classpath
 			runtimeUrls[classpaths.size()] = new File(basedPath
-					+ File.separator + "target" + File.separator
-					+ "test-classes").toURI().toURL();
-
+					+ File.separator + testClasspath).toURI().toURL();
+			
 			this.cl = new URLClassLoader(runtimeUrls, Thread.currentThread()
 					.getContextClassLoader());
 		} catch (Exception e2) {
 		}
 
-		String classesDir = basedPath + File.separator + "target"
-				+ File.separator + "classes";
-
+		String classesDir = basedPath + File.separator + classpath;
+		this.getLog().info("类实现目录存在: "+new File(classesDir).exists());
 		int length = classesDir.length() + 1;
-
+		//加载正常类
 		load(classesDir, new File(classesDir), length);// 得到三个map
 		/**
          * 
          */
-		String testClassesDir = basedPath + File.separator + "target"
-				+ File.separator + "test-classes";
-
+		String testClassesDir = basedPath + File.separator + testClasspath;
+		this.getLog().info("单元测试类目录存在: "+new File(testClassesDir).exists());
 		length = testClassesDir.length() + 1;
-
+		//加载测试类
 		load(testClassesDir, new File(testClassesDir), length);// 得到三个map
 
 		int size = defines.size();
@@ -141,10 +152,11 @@ public class SoafwTesterMojo extends AbstractMojo {
 		if (size == 0) {
 			this.getLog().info("未发现实现接口类");
 		}
-
+		
 		for (int i = 0; i < size; i++) {
 			boolean hasmethod = false;
 			if (!testImpl.containsKey(definesArray[i] + "Test")) {
+				this.getLog().info("完全生成"+definesArray[i]+"Test");
 				genTest(basedPath, definesArray[i]);
 			} else {// 已经有实现过的测试类
 				appendTest(definesArray[i]);
@@ -366,7 +378,6 @@ public class SoafwTesterMojo extends AbstractMojo {
 			String[] methodImpls = new String[len];
 			methodDefs.keySet().toArray(methodImpls);
 			// TODO 加载 单元测试源代码
-			this.getLog().info("加载单元测试源代码");
 
 			StringBuilder src = new StringBuilder();
 
@@ -374,14 +385,15 @@ public class SoafwTesterMojo extends AbstractMojo {
 
 			int index = srcs.lastIndexOf("}");
 
-			this.getLog().info(srcs);
-			this.getLog().info("lastIndexOf(}):" + index);
+			// this.getLog().info(srcs);
+			//this.getLog().info("lastIndexOf(}):" + index);
+			
 			String impls = srcs.substring(0, index - 1);
 
 			src.append(impls);
 
 			src.append("\n");
-
+			this.getLog().info("追加测试框架代码: "+className+"Test");
 			StringBuilder appends = new StringBuilder();
 			this.getLog().info("开始追加测试框架代码");
 			for (int i = 0; i < len; i++) {
@@ -451,7 +463,6 @@ public class SoafwTesterMojo extends AbstractMojo {
 				} catch (IOException e) {
 				}
 			}
-			this.getLog().info(testSrc);
 			return testSrc.toString();
 		}
 
@@ -463,7 +474,7 @@ public class SoafwTesterMojo extends AbstractMojo {
 	 * @param file
 	 * @return
 	 */
-	private Map<String, Integer> load(String classesDir, File file, int length) {
+	private void load(String classesDir, File file, int length) {
 
 		if (file.isDirectory()) {
 			File[] files = file.listFiles();
@@ -481,23 +492,25 @@ public class SoafwTesterMojo extends AbstractMojo {
 					if (os.toLowerCase().indexOf("window") >= 0) {
 						exp = "\\\\";
 					}
-					String tmpFile = pkgPath.replaceAll(exp, ".");
+					String tmpFile = null;
+					if(pkgPath.endsWith(".class")){
+						tmpFile = pkgPath.replaceAll(exp, ".");
+						if (tmpFile.endsWith(".class")
+								&& !tmpFile.endsWith("Mapper.class")) {
 
-					if (tmpFile.endsWith(".class")
-							&& !tmpFile.endsWith("Mapper.class")) {
+							String clsName = tmpFile.replaceAll(".class", "");
 
-						String clsName = tmpFile.replaceAll(".class", "");
+							Class cls = cl.loadClass(clsName);
 
-						Class cls = cl.loadClass(clsName);
-
-						int modf = cls.getModifiers();
-						if (modf != 1537 && modf != 1025) {// 非接口 && 抽象类
-							if (clsName.endsWith("ImplTest")) {
-								testImpl.put(clsName, 1);
-							} else if (clsName.endsWith("Impl")) {
-								defines.put(clsName, 1);
-							} else {// 异常命名的类
-								errorImpl.put(clsName, 1);
+							int modf = cls.getModifiers();
+							if (modf != 1537 && modf != 1025) {// 非接口 && 抽象类
+								if (clsName.endsWith("ImplTest")) {
+									testImpl.put(clsName, 1);
+								} else if (clsName.endsWith("Impl")) {
+									defines.put(clsName, 1);
+								} else {// 异常命名的类
+									errorImpl.put(clsName, 1);
+								}
 							}
 						}
 					}
@@ -508,7 +521,6 @@ public class SoafwTesterMojo extends AbstractMojo {
 				}
 			}
 		}
-		return defines;
 	}
 
 	private void write(String dest, String template, String tpl)
