@@ -20,6 +20,19 @@
 ```
 	HTTP 定义了与服务器交互的不同方法，最基本的方法是 GET 和POST。事实上HTTP协议里还定义了其他很多请求方式，如下：	1. GET(SELECT)： 从服务器取出资源（一项或多项）。	2. HEAD： 获取资源的元数据。	3. POST(CREATE)：在服务器新建一个资源	4. PUT(UPDATE)： 在服务器更新资源（客户端提供改变后的完整资源）	5. DELETE(DELETE)： 从服务器删除资源。	6. OPTIONS： 获取信息，关于资源的哪些属性是客户端可以改变的。	7. TRACE： 请求服务器在响应中的实体主体部分返回所得到的内容。	8. PATCH(UPDATE)： 在服务器更新资源（客户端提供改变的属性）
 ```
+
+### HEAD
+```
+AppId: appid
+DeId: 设备ID，iOS是 device-id，Android是 imei
+uuid={唯一id}
+token={会话id}
+chl=渠道来源
+sign=签名
+timestamp=时间戳
+user-agen={os=osname,osv=osversion, model =iphone 5s}
+app={m=hostname,v=version} 可选项,服务端设置
+```
 ### 样例
 + GET /zoos：列出所有动物园
 + POST /zoos：新建一个动物园
@@ -65,6 +78,7 @@
 + 通过密钥对机制进行签名(apikey+sharekey+)
 + 密钥对（apikey及sharekey）通过邮件申请
 + 签名算法md5(apikey＋sharekey＋EndpointURL＋sort(params{key1=valuex&key2=valueb,...,keyn=valued}))
+
 ### 接口规则
 + 接口数据类型定义要求：接口数据类型请勿用java的原始数据类型：如short->Short;float->Float;int->Integer;long->Long;double->Double;boolean->Boolean
 
@@ -94,6 +108,7 @@
 	+ HTTP
 + 请求地址
 	+ /zoos/ID
+
 ##### 输入参数说明
 
 | 参数        	| 是否必输       | 说明           | 
@@ -115,7 +130,7 @@
 ```
  请求代码:
  
- 	http://api.leya.com/zoos/1234
+ 	http://api.mgzf.com/zoos/1234
  	
  响应结果:
  
@@ -127,5 +142,3 @@
 }
  
 ```
-### api列表
-### [微信](api/wechat/README.md)
