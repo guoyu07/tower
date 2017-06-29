@@ -16,7 +16,7 @@ import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.Configuration;
 
 import com.tower.service.config.DynamicConfig;
-import com.tower.service.exception.DataAccessException;
+import com.tower.service.dao.util.SqlFireWall;
 import com.tower.service.log.Logger;
 import com.tower.service.log.LoggerFactory;
 import com.tower.service.reflection.MetaObject;
@@ -35,11 +35,12 @@ public class StatementHandlerPlugin implements Interceptor {
 
 	private static String ip;
 	private static String pid = "unknow";
-
+	private static SqlFireWall fireWall = null;
 	static {
 		pid = ManagementFactory.getRuntimeMXBean().getName();
 		ip = NetUtils.getLocalAddress().getHostAddress();
 		pid=pid.replaceAll("localhost", ip);
+		fireWall = SqlFireWall.getInstance();
 	}
 
 	protected DynamicConfig accConfig = new DynamicConfig("acc","xml");
@@ -72,10 +73,8 @@ public class StatementHandlerPlugin implements Interceptor {
 	}
 
 	private String buildSql(String sql, Configuration configuration) {
-
-		if (sql.indexOf(" /*from_api:") != -1) {
-			return sql;
-		} else {
+		String tempSql = sql;
+		if (tempSql.indexOf(" /*from_api:") == -1) {
 			String db = null;
 			Environment env = null;
 			if (configuration != null) {
@@ -101,18 +100,22 @@ public class StatementHandlerPlugin implements Interceptor {
 			sql = sb.toString().replaceAll("\n", " ").replaceAll("\t", " ")
 					.replaceAll("[\\s]+", " ");//格式化sql语句
 			String tmp = sql.toLowerCase().trim();
-			Boolean deletable = accConfig.getBoolean(properties==null?"deletable":properties.get("prefix")+".deletable", false);
-			if(!deletable && tmp.indexOf("delete ") == 0){//屏蔽删除操作
-				throw new DataAccessException(IBatisDAOException.MSG_1_0014,
-						sql);
-			}
-			if (tmp.indexOf("update ") == 0
-					&& tmp.indexOf(" where ") == -1) {//屏蔽不带where 条件的更新操作
-				throw new DataAccessException(IBatisDAOException.MSG_1_0007,
-						sql);
-			}
-			return sql;
+			
+//			Boolean deletable = accConfig.getBoolean(properties==null?"deletable":properties.get("prefix")+".deletable", false);
+//			if(!deletable && tmp.indexOf("delete ") == 0){//屏蔽删除操作
+//				throw new DataAccessException(IBatisDAOException.MSG_1_0014,
+//						sql);
+//			}
+//			if (tmp.indexOf("update ") == 0
+//					&& tmp.indexOf(" where ") == -1) {//屏蔽不带where 条件的更新操作
+//				throw new DataAccessException(IBatisDAOException.MSG_1_0007,
+//						sql);
+//			}
+			
+			tempSql = tmp;
 		}
+		fireWall.check(tempSql);
+		return tempSql;
 	}
 
 	public Object plugin(Object target) {
