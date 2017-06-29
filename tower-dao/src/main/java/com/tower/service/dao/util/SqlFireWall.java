@@ -6,6 +6,7 @@ import com.alibaba.druid.wall.WallCheckResult;
 import com.alibaba.druid.wall.WallConfig;
 import com.alibaba.druid.wall.WallProvider;
 import com.alibaba.druid.wall.spi.MySqlWallProvider;
+import com.tower.service.config.DynamicConfig;
 import com.tower.service.dao.ibatis.IBatisDAOException;
 import com.tower.service.exception.DataAccessException;
 import com.tower.service.log.Logger;
@@ -29,12 +30,11 @@ public class SqlFireWall {
 	public static synchronized SqlFireWall getInstance() {
 		if (instance == null) {
 			instance = new SqlFireWall();
-			instance.init();
 		}
 		return instance;
 	}
 
-	public void init() {
+	public void init(DynamicConfig accConfig) {
 		wallConfig = new WallConfig();
 		wallConfig.setDeleteWhereNoneCheck(true);
 		// wallConfig.setDeleteWhereAlwayTrueCheck(true);

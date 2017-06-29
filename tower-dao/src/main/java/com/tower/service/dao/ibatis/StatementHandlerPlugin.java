@@ -46,6 +46,7 @@ public class StatementHandlerPlugin implements Interceptor {
 	protected DynamicConfig accConfig = new DynamicConfig("acc","xml");
 	public StatementHandlerPlugin(){
 		accConfig.init();
+		fireWall.init(accConfig);
 	}
 	public Object intercept(Invocation invocation) throws Throwable {
 
