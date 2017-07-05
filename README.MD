@@ -13,7 +13,7 @@
 ### [框架代码生成器插件－使用向导](tower-config-maven-plugin/README.md)
 ### [数据访问层－使用向导](tower-dao/README.MD)
 ### [领域对象－使用向导](tower-domain/README.md)
-### [例外（异常）插件－使用向导](tower-exception-gen-maven-plugin/README.MD)
+### [例外（异常）插件－使用向导](tower-exception-gen-maven-plugin/README.md)
 ### [job模块－使用向导](tower-job/README.md)
 ### [log模块－使用向导](tower-log/README.MD)
 ### [MQ模块－使用向导](tower-mq/README.MD)
