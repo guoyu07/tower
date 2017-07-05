@@ -10,7 +10,7 @@
 ### [缓存模块－使用向导](tower-cache/README.MD)
 ### [多线程模块－使用向导](tower-concurrent/README.MD)
 ### [配置模块－使用向导](tower-config/README.MD)
-### [框架代码生成器插件－使用向导](tower-config-maven-plugin/README.MD)
+### [框架代码生成器插件－使用向导](tower-config-maven-plugin/README.md)
 ### [数据访问层－使用向导](tower-dao/README.MD)
 ### [领域对象－使用向导](tower-domain/README.md)
 ### [例外（异常）插件－使用向导](tower-exception-gen-maven-plugin/README.MD)
