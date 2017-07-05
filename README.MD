@@ -20,7 +20,7 @@
 ### [RPC模块－使用向导](tower-rpc/README.md)
 ### [service接口模块－使用向导](tower-service/README.md)
 ### [servie-impl模块－使用向导](tower-service-impl/README.MD)
-### [测试框架代码生成器插件－使用向导](tower-test-maven-plgin/README.md)
+### [测试框架代码生成器插件－使用向导](tower-test-maven-plugin/README.md)
 ### [框架工具(项目框架生成脚本、项目发布脚本)－使用向导](tower-tools/README.md)
 ### [框架utils－使用向导](tower-util/README.MD)
 ### [框架web－使用向导](tower-util/README.MD)
