@@ -19,6 +19,7 @@
 	+ memcached-2.0.1.jar
 + 配置maven配置文件settings.xml
 <p>详细配置信息</p>
+
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
@@ -175,7 +176,9 @@
 	</activeProfiles>
 </settings>
 ```
+
 ### 安装Jenkins（构件）
+
 + 安装jenkins	
 	+ 安装gitlab插件
 	+ 创建gitlab用户
@@ -189,6 +192,7 @@
 			+ /root/code/projects/workspace/${ITEM_FULL_NAME}
 		+ 构建记录根目录:
 			+ ${ITEM_ROOTDIR}/builds/${ITEM_FULL_NAME}
+			
 
 ## 框架介绍
 
@@ -197,21 +201,26 @@
 ![soa服务框架包图](design/tower-package.png)
 
 ### tower-framwork
+
 + 统一的java框架
 + j2ee、spring、mybatis、springmvc、freemarker、memchecache、redis、mysql等
 
 ### tower－util
+
 + 框架中的公共类，eg：工具类 
 
 ### tower－concurrent
+
 + 框架中多线程处理模版类
 + 同步锁处理类
 
 ### tower－log
+
 + 日志处理相关类
 + 每条日志信息都会自动输出当前请求ID(当当前请求没有请求ID时，框架会自动产生，并且一直跟着到最后：追加到sql语句的备注部分)
 
 ### tower－config
+
 + 配置文件存储目录：
 	+ 配置目录有三级，安优先级列表如下，序号最小优先级最高
 		+ 0,全局配置，存储在zookeeper中
@@ -240,41 +249,49 @@
 			+ rpc.xml（rpc层）
 			+ job.xml（job层）
 ### tower－mq
+
 + 负责消息中间件通信的模块
 
 ### tower－rpc
+
 + rpc通信模块（第三方通信）
 	+ http
 	+ rmi
 	+ hessian
 
 ### tower－cache
+
 + 缓存机制模块
 	+ mem cache
 	+ redis
 	+ 。。。no sql
 
 ### tower－dao
+
 + 数据访问层框架模块
 + 关系型数据库访问层接口及默认实现机制（mybatis）
 + 数据访问层代码生成器目前支持mysql、sql server
 
 ### tower－model
+
 + 业务模型对象模块
 	+ DTO 建议其子类实现toString()方法
 	+ BO 建议其子类实现toString()方法
 
 ### tower－service
+
 + service框架模块
 + service服务监控信息采集
 
 ### tower－job
+
 + job框架模块
 + job监控信息采集
 + 可以动态调整job调度策略
 + 可以通过status=pause的方式动态暂停job的执行（可以控制所有、一组及单独的某一个job）
 
 ### tower－web
+
 + web框架模块
 + web监控信息采集
 + 通过RequestInterceptor
@@ -286,6 +303,7 @@
 	+ 测试框架代码生成器插件(tower-test-maven-plugin)
 		+ 默认是关闭的,可以通过-Dsoafw.tester.gen=true的方式开启
 ### 相关工具
+
 + 服务项目框架生成器
 	+ 项目生成工具
 		+ tower-tools
@@ -322,12 +340,14 @@
 + checkstyle
 
 ### 相关标准
+
 + 编程规范
 + 测试规范
 + RESTful
 + dubbo
 
 ### deploy
+
 + mvn deploy
 
 ### 安装git
