@@ -135,7 +135,7 @@
 + 支持读写分离：改变database.properties数据源xxxx_slave、xxxx_map_query的ip地址
 
 
-###### tower－model
+###### tower-domain
 + 业务模型对象模块
 	+ DTO 建议其子类实现toString()方法
 	+ BO 建议其子类实现toString()方法
