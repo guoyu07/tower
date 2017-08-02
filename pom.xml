@@ -87,7 +87,9 @@
 		<module>tower-concurrent</module>
 		<module>tower-mq</module>
 		<module>tower-rpc</module>
+		<!-- 
 		<module>tower-rule</module>
+		 -->
 		<module>tower-domain</module>
 		<module>tower-service</module>
 		<module>tower-service-impl</module>

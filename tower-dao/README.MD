@@ -5,9 +5,10 @@
 新建一张表 
 
 CREATE TABLE `cache_version` (
-  `obj_name` varchar(32) DEFAULT NULL,
+  `obj_name` varchar(32) NOT NULL,
   `rec_version` bigint(20) NOT NULL,
-  `tab_version` bigint(20) NOT NULL
+  `tab_version` bigint(20) NOT NULL,
+  PRIMARY KEY (`obj_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 

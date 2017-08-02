@@ -96,6 +96,7 @@
 			<version>${drools.version}</version>
 		</dependency>
 		-->
+		<!-- 
 		<dependency>
 			<groupId>org.drools</groupId>
 			<artifactId>drools-core</artifactId>
@@ -131,5 +132,6 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+		 -->
 	</dependencies>
 </project>

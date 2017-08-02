@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang.builder.StandardToStringStyle;
@@ -17,7 +16,6 @@ import com.danga.MemCached.SockIOPool;
 import com.tower.service.cache.CacheOpParamsContext;
 import com.tower.service.cache.ICache;
 import com.tower.service.cache.annotation.CacheOpParams;
-import com.tower.service.cache.impl.CacheConfig;
 import com.tower.service.config.PrefixPriorityConfig;
 import com.tower.service.config.dict.ConfigFileTypeDict;
 import com.tower.service.util.DateUtil;
