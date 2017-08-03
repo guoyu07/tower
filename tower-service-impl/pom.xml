@@ -22,12 +22,10 @@
 			<groupId>com.tower.soafw</groupId>
 			<artifactId>tower-service</artifactId>
 		</dependency>
-		<!-- 
 		<dependency>
 			<groupId>com.tower.soafw</groupId>
 			<artifactId>tower-rule</artifactId>
 		</dependency>
-		 -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
