@@ -82,9 +82,12 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 
-
-	<!-- <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" 
-		p:defaultEncoding="utf-8" /> -->
+	<!-- 文件上传配置 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 指定所上传文件的总大小不能超过5000KB。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->
+		<property name="maxUploadSize" value="300000000" />
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
 
 	<!-- 静态资源映射 -->
 	<mvc:resources mapping="/css/**" location="/css/" />

@@ -11,7 +11,7 @@ public class TowerServiceContainer {
 	private SpringContainer container = null;
 	public static String SERVICE_ID;
 	static ClassPathXmlApplicationContext context;
-	Logger logger = LoggerFactory.getLogger(getClass());
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	public TowerServiceContainer(String id,String location) {
 		SERVICE_ID = id;

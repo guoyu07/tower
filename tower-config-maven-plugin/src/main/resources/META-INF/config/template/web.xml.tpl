@@ -34,6 +34,17 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	<filter>
+		<filter-name>XssSqlFilter</filter-name>
+		<filter-class>com.tower.service.web.filter.XssFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>XssSqlFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+	
 	<!--打开下面备注，同时开启spring-dubbo的authenticationFilter，即可开启权限服务-->
 	<!--
 	<filter>
