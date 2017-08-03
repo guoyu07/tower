@@ -9,6 +9,8 @@
 		+ 实现类 com.tower.service.datasource.DynamicDataSource
 			+ 可以通过设置datasourceImpl属性来改变数据库连接池的实现，默认:com.tower.service.datasource.DBCPDataSource[DBCP实现的封装]
 			+ 其他实现:com.tower.service.datasource.StatsDataSource［DruidDataSource实现的封装］
+	+ 带慢事务监控的事务管理器
+		+ TowerDataSourceTransactionManager 默认 1000ms为慢事务
 + ... 
 
 + 配置
@@ -23,6 +25,67 @@
 		+ 资源文件默认保存在/config目录,当没有找到时，程序会从tsl-dao/src/main/resource/META-INF/config/local中读取配置信息
 		+ database.properties
 		+ acc.xml
+			+ sql 防火墙配置
+				+ doSqlFireWall 默认开启 true
+				+ noneBaseStatementAllow 默认 true
+				+ callAllow 默认 false
+				+ selelctAllow 默认 true
+				+ selectIntoAllow 默认 flase
+				+ selectIntoOutfileAllow 默认 false
+				+ selectWhereAlwayTrueCheck 默认 true
+				+ selectHavingAlwayTrueCheck 默认 true
+				+ selectUnionCheck 默认 true
+				+ selectMinusCheck 默认 true
+				+ selectExceptCheck 默认 true
+				+ selectIntersectCheck 默认 true
+				+ createTableAllow 默认 false
+				+ dropTableAllow 默认 false
+				+ alterTableAllow 默认 false
+				+ renameTableAllow 默认 false
+				+ hintAllow 默认 true
+				+ lockTableAllow 默认 false
+				+ startTransactionAllow 默认 true
+				+ conditionAndAlwayTrueAllow 默认 false
+				+ conditionAndAlwayFalseAllow 默认 false
+				+ conditionDoubleConstAllow 默认 false
+				+ conditionLikeTrueAllow 默认 false
+				+ selectAllColumnAllow 默认 false
+				+ deleteAllow 默认 false
+				+ deleteWhereAlwayTrueCheck 默认 true
+				+ deleteWhereNoneCheck 默认 true
+				+ updateAllow 默认 true
+				+ UpdateWhereAlayTrueCheck 默认 true
+				+ UpdateWhereNoneCheck 默认 true
+				+ insertAllow 默认 true
+				+ mergeAllow 默认 true
+				+ intersectAllow 默认 true
+				+ replaceAllow 默认 true
+				+ setAllow 默认 true
+				+ commitAllow 默认 true
+				+ rollbackAllow 默认 true
+				+ useAllow 默认 true
+				+ multiStatementAllow 默认 true
+				+ truncateAllow 默认 false
+				+ commentAllow 默认 true
+				+ strictSyntaxCheck 默认 true
+				+ constArithmeticAllow 默认 true
+				+ limitZeroAllow 默认 false
+				+ describeAllow 默认 false
+				+ showAllow 默认 false
+				+ schemaCheck 默认 true
+				+ tableCheck 默认 true
+				+ functionCheck 默认 true
+				+ objectCheck 默认 true
+				+ variantCheck 默认 true
+				+ mustParameterized 默认 false
+				+ doPrivilegedAllow 默认 true
+				+ wrapAllow 默认 true
+				+ metadataAllow 默认 true
+				+ conditionOpXorAllow 默认 false
+				+ caseConditionConstAllow 默认 true
+				+ completeInsertValuesCheck 默认 true
+				+ insertValuesCheckSize 默认 3
+			+ slowTTime 慢事务执行时长监控 默认 1000ms
 	+ 分库
 		+ 通过DataSourceRouter在serviceImpl相关业务中实现
 	+ 分表

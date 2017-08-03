@@ -175,7 +175,7 @@
  	
  	<!-- enable the configuration of transactional behavior based on annotations -->
  	<!--
- 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+ 	<bean id="transactionManager" class="com.tower.service.datasource.TowerDataSourceTransactionManager">
 	    <property name="dataSource" ref="#{artifactId}_db"/>
 	</bean>
 	

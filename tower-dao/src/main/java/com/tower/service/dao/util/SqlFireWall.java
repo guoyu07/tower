@@ -1,7 +1,5 @@
 package com.tower.service.dao.util;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.configuration.Configuration;
@@ -19,14 +17,14 @@ import com.tower.service.log.LoggerFactory;
 
 public class SqlFireWall extends PrefixPriorityConfig {
 
-	private static WallProvider provider;
-	private static Boolean check = true;
+	private Boolean check = true;
+	
+	private WallConfig wallConfig = new WallConfig();
+	
+	private WallProvider provider = new MySqlWallProvider(wallConfig);
 
 	public static String WALL_CODE = "BlackWall";
 
-	private static AtomicBoolean wallCheck = new AtomicBoolean(true);
-
-	private static Logger logger = LoggerFactory.getLogger(SqlFireWall.class);
 	private static final Logger minitorLogger = LoggerFactory
 			.getLogger(SqlFireWall.class);
 	private static SqlFireWall instance;
@@ -51,8 +49,6 @@ public class SqlFireWall extends PrefixPriorityConfig {
 	protected void build(Configuration config) {
 
 		String prefix_ = this.getPrefix();
-
-		WallConfig wallConfig = new WallConfig();
 
 		check = config.getBoolean(prefix_
 				+ "doSqlFireWall", true);
@@ -149,7 +145,7 @@ public class SqlFireWall extends PrefixPriorityConfig {
 		wallConfig.setTruncateAllow(config.getBoolean(
 				prefix_ + "truncateAllow", false));
 
-		wallConfig.setCommentAllow(config.getBoolean(prefix_ + "CommentAllow",
+		wallConfig.setCommentAllow(config.getBoolean(prefix_ + "commentAllow",
 				true));
 		wallConfig.setStrictSyntaxCheck(config.getBoolean(prefix_
 				+ "strictSyntaxCheck", true));
@@ -192,11 +188,8 @@ public class SqlFireWall extends PrefixPriorityConfig {
 		wallConfig.setInsertValuesCheckSize(config.getInt(prefix_
 				+ "insertValuesCheckSize", 3));
 
-		if (check) {
-			provider = new MySqlWallProvider(wallConfig);
-			provider.setBlackListEnable(config.getBoolean(prefix_
-					+ "BlackListEnable", true));
-		}
+		provider.setBlackListEnable(check);
+
 	}
 
 	public boolean check(String sql) {
