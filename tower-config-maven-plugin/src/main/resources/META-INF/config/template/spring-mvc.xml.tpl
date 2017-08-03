@@ -64,8 +64,10 @@
 				static-field="com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL" />
 		</property>
 	</bean>
+	
 	<mvc:interceptors>
 		<bean class="com.tower.service.web.interceptor.RequestInterceptor" />
+		<bean class="com.tower.service.web.interceptor.CORSInterceptor"/>
 	</mvc:interceptors>
 
 
